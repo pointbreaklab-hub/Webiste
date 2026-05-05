@@ -1,0 +1,45 @@
+---
+export interface Props {
+  name: string;
+  tagline: string;
+  description: string;
+  icon: string;
+  href?: string;
+  active?: boolean;
+}
+const { name, tagline, description, icon, href = '#', active = false } = Astro.props;
+---
+
+{active ? (
+  <a
+    href={href}
+    class="group relative flex flex-col p-6 rounded-2xl bg-surface border border-accent/30 glow-border transition-all duration-300 hover:-translate-y-1"
+  >
+    <div class="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono">LIVE</div>
+    <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-4 text-2xl">{icon}</div>
+    <h3 class="text-lg font-bold text-primary mb-1">{name}</h3>
+    <p class="text-accent text-xs font-mono mb-3 tracking-wide">{tagline}</p>
+    <p class="text-secondary text-sm leading-relaxed flex-1">{description}</p>
+    <div class="mt-5 flex items-center gap-1.5 text-accent text-sm font-semibold group-hover:gap-3 transition-all">
+      Explore <span>→</span>
+    </div>
+  </a>
+) : (
+  <div class="relative flex flex-col p-6 rounded-2xl bg-surface border border-border opacity-60 cursor-not-allowed select-none">
+    <div class="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-coming-soon border border-border text-hint text-xs font-mono">SOON</div>
+    <!-- Lock overlay -->
+    <div class="absolute inset-0 rounded-2xl flex items-end justify-center pb-6 pointer-events-none">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-hint opacity-50">
+        <rect x="3" y="8" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M6 8V6a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="w-14 h-14 rounded-2xl bg-coming-soon border border-border flex items-center justify-center mb-4 text-2xl grayscale">{icon}</div>
+    <h3 class="text-lg font-bold text-hint mb-1">{name}</h3>
+    <p class="text-hint text-xs font-mono mb-3 tracking-wide">{tagline}</p>
+    <p class="text-hint text-sm leading-relaxed flex-1">{description}</p>
+    <div class="mt-5 px-4 py-2 rounded-lg border border-border text-hint text-xs text-center font-mono">
+      Coming Soon
+    </div>
+  </div>
+)}

@@ -1,0 +1,172 @@
+---
+import Base   from '../layouts/Base.astro';
+import Nav    from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+const lastUpdated = 'May 2026';
+const contactEmail = 'mail.roshankumargupta@gmail.com';
+
+const sections = [
+  {
+    n: '1',
+    title: 'Who We Are',
+    body: `Whispr is developed and maintained under the name PointBreakLab (pointbreaklab.com), a privacy-first independent software project based in Würzburg, Germany. The operator is the data controller for the purposes of applicable privacy law (GDPR / DSGVO).\n\nContact: ${contactEmail}`,
+  },
+  {
+    n: '2',
+    title: 'What Data We Collect',
+    body: `We collect nothing.\n\nWhispr has no backend servers, no registration system, no accounts in the cloud, and no analytics SDK. The app never connects to a PointBreakLab server.`,
+  },
+  {
+    n: '3',
+    title: 'How the App Works (and Why It Is Private)',
+    body: `Whispr is a serverless, peer-to-peer messaging application. Messages travel directly between devices over three channels:\n\n• Local Wi-Fi (LAN) — direct HTTP between devices on the same network, with every message wrapped in ECIES application-layer encryption so contents are invisible to other devices on the same network.\n\n• Bluetooth LE mesh — multi-hop relay between nearby devices for offline messaging. Payloads are end-to-end encrypted before entering the mesh.\n\n• Tor hidden services — over the internet via the Tor anonymity network. Your IP address is not revealed to your contact.\n\nAll three channels apply end-to-end encryption using the Signal Protocol (X3DH key agreement + Double Ratchet algorithm) before any data leaves your device. PointBreakLab cannot decrypt your messages even if compelled by law.`,
+  },
+  {
+    n: '4',
+    title: 'Local Data Storage',
+    body: `All app data is stored exclusively on your device:\n\n• Messages, contacts, and settings are stored in an SQLite database encrypted with SQLCipher (AES-256-CBC full-file encryption) on Android and iOS.\n\n• Cryptographic private keys are stored in your device's secure hardware enclave: Android Keystore on Android, iOS Keychain on iPhone.\n\n• The database encryption key is derived from your password using PBKDF2-SHA512 (200,000 iterations) and is never stored in plaintext.\n\n• Whispr does not use iCloud, Google Drive, or any cloud backup for message data. If you use the built-in encrypted backup feature, the backup file is saved to your local device storage — you control where it goes.`,
+  },
+  {
+    n: '5',
+    title: 'Third-Party Services',
+    body: `Whispr contains no advertising SDKs, no social login, and no third-party analytics.\n\nThe only third-party component that may contact an external server is the embedded Tor daemon, which connects to the Tor network for routing — not to any PointBreakLab server. The Tor Project's privacy policy applies to that connection (torproject.org).\n\nThe QR-code scanning library (Google ML Kit via mobile_scanner) includes Firebase Transport Runtime as a transitive dependency. This component is bundled but does not transmit data; it is used only for local barcode detection. No Firebase project is configured in Whispr.`,
+  },
+  {
+    n: '6',
+    title: 'Device Permissions',
+    body: `Whispr requests the following device permissions and explains exactly why:`,
+    table: [
+      ['Bluetooth',     'Discover nearby Whispr contacts and exchange messages over BLE mesh without internet.'],
+      ['Camera',        'Scan QR codes to add contacts or restore your account. No photos are taken or stored.'],
+      ['Microphone',    'Record encrypted voice messages. Audio is encrypted locally before sending and never transmitted to us.'],
+      ['Local Network', 'Discover Whispr peers on the same Wi-Fi network for direct LAN messaging.'],
+      ['Notifications', 'Display incoming message alerts locally. No notification content passes through any external server.'],
+      ['Battery opt.',  'Prevent Android from throttling the Tor service when the screen is off.'],
+    ],
+  },
+  {
+    n: '7',
+    title: 'Data Retention & Deletion',
+    body: `Because all data exists only on your device, you are in full control of deletion:\n\n• Uninstalling the app removes all stored data.\n\n• The "Data Burn" feature (Settings → Security → Panic Button) performs a 3-pass cryptographic wipe: the database encryption key is destroyed first (making all stored data permanently unreadable), all table rows are deleted, and the database file is overwritten three times before unlinking.\n\n• Disappearing messages are automatically deleted from your device after the timer you set expires.\n\nThere is no data stored with PointBreakLab to delete.`,
+  },
+  {
+    n: '8',
+    title: "Children's Privacy",
+    body: `Whispr is not directed at children under 13 (or under 16 in the European Economic Area). We do not knowingly collect information from children. Because Whispr collects no data from any user, no special handling of children's data is required.`,
+  },
+  {
+    n: '9',
+    title: 'Your Rights (GDPR / CCPA)',
+    body: `Under GDPR, CCPA, and similar laws you have rights including access, rectification, erasure, and portability of your personal data.\n\nBecause PointBreakLab holds no personal data about you, there is nothing for us to access, correct, export, or delete on our end. All such data exists only on your device and is entirely under your control.\n\nIf you have questions, contact us at ${contactEmail}.`,
+  },
+  {
+    n: '10',
+    title: 'Security',
+    body: `Whispr is designed from the ground up for security:\n\n• End-to-end encryption: X3DH + Double Ratchet (Signal Protocol), AES-256-GCM per message.\n\n• At-rest encryption: SQLCipher AES-256 full-database encryption on mobile.\n\n• Key protection: private keys stored in Android Keystore / iOS Keychain with hardware-backed protection.\n\n• Transport: ECIES application-layer encryption on LAN; Tor hidden services for internet transport.\n\nNo security system is perfect. Whispr is provided as-is without warranty. See the in-app Security Guide for best practices.`,
+  },
+  {
+    n: '11',
+    title: 'Changes to This Policy',
+    body: `We may update this Privacy Policy when we release a new version of the app. The updated policy will be included in the new version and available at pointbreaklab.com. The date at the top of this document reflects the most recent revision.`,
+  },
+  {
+    n: '12',
+    title: 'Contact',
+    body: `Questions about this Privacy Policy:\n\nPointBreakLab\n${contactEmail}\npointbreaklab.com`,
+  },
+];
+
+const dataTable = [
+  ['Messages',       'Stored encrypted on your device only (AES-256-GCM). Never transmitted to us.'],
+  ['Contacts',       'Stored encrypted on your device only. Never uploaded anywhere.'],
+  ['Identity key',   'Generated on your device, stored in your device keychain. We never see it.'],
+  ['Display name',   'Stored locally. Shared only with contacts you explicitly message.'],
+  ['IP address',     'Used transiently for LAN peer discovery. Never logged or sent to us.'],
+  ['Crash reports',  'None. No crash reporting SDK is included.'],
+  ['Analytics',      'None. No analytics SDK is included.'],
+  ['Advertising ID', 'Never accessed.'],
+];
+---
+
+<Base
+  title="Privacy Policy — Whispr"
+  description="Whispr collects zero personal data. Messages, contacts, and identity keys live only on your device. No analytics, no servers, no tracking."
+>
+  <Nav />
+
+  <main class="pt-32 pb-24 px-6">
+    <article class="max-w-3xl mx-auto">
+
+      <!-- Header -->
+      <header class="section-reveal mb-12 text-center">
+        <span class="inline-block px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono tracking-wider mb-5">
+          Last updated: {lastUpdated}
+        </span>
+        <h1 class="text-4xl md:text-5xl font-black text-primary mb-5">Whispr Privacy Policy</h1>
+        <p class="text-secondary leading-relaxed max-w-xl mx-auto">
+          Whispr is built on one principle: your conversations belong only to you. We have no servers, collect no data, and have no ability to read your messages.
+        </p>
+      </header>
+
+      <!-- Highlight banner -->
+      <div class="section-reveal flex items-start gap-3 p-5 rounded-2xl bg-accent/5 border border-accent/30 mb-16">
+        <svg class="shrink-0 mt-0.5 text-accent" width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M11 2L4 5v6c0 4 3 7.5 7 9 4-1.5 7-5 7-9V5l-7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M8 11l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p class="text-secondary text-sm leading-relaxed">
+          Whispr collects zero personal data. Nothing is transmitted to PointBreakLab or any third party. Everything stays on your device.
+        </p>
+      </div>
+
+      <!-- Sections -->
+      {sections.map(({ n, title, body, table }) => (
+        <section class="section-reveal mb-12">
+          <div class="flex items-baseline gap-3 mb-4">
+            <span class="shrink-0 w-7 h-7 rounded-full bg-accent text-bg flex items-center justify-center text-xs font-bold font-mono">{n}</span>
+            <h2 class="text-xl md:text-2xl font-bold text-primary">{title}</h2>
+          </div>
+          <div class="text-secondary text-sm md:text-[0.95rem] leading-relaxed whitespace-pre-line pl-10">
+            {body}
+          </div>
+
+          {n === '2' && (
+            <div class="pl-10 mt-5">
+              <div class="rounded-xl border border-border bg-surface overflow-hidden text-sm">
+                {dataTable.map(([k, v], i) => (
+                  <div class={`flex gap-4 px-4 py-3 ${i < dataTable.length - 1 ? 'border-b border-border' : ''}`}>
+                    <span class="shrink-0 w-32 text-hint font-mono text-xs">{k}</span>
+                    <span class="text-secondary text-xs md:text-sm leading-relaxed">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {table && (
+            <div class="pl-10 mt-5">
+              <div class="rounded-xl border border-border bg-surface overflow-hidden text-sm">
+                {table.map(([k, v], i) => (
+                  <div class={`flex gap-4 px-4 py-3 ${i < table.length - 1 ? 'border-b border-border' : ''}`}>
+                    <span class="shrink-0 w-32 text-hint font-mono text-xs">{k}</span>
+                    <span class="text-secondary text-xs md:text-sm leading-relaxed">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      ))}
+
+      <!-- Footer note -->
+      <div class="section-reveal text-center pt-10 border-t border-border">
+        <p class="text-hint text-xs">© 2024–2026 PointBreakLab. All rights reserved.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <Footer />
+</Base>

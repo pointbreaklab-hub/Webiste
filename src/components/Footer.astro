@@ -1,0 +1,59 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="border-t border-border bg-surface mt-32">
+  <div class="max-w-7xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+
+      <!-- Brand -->
+      <div class="col-span-2 md:col-span-1">
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-7 h-7 rounded-md bg-accent flex items-center justify-center">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M7 1L13 4V10L7 13L1 10V4L7 1Z" stroke="black" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M7 4L10 5.5V8.5L7 10L4 8.5V5.5L7 4Z" fill="black"/>
+            </svg>
+          </div>
+          <span class="font-bold text-sm text-primary">PointBreak<span class="text-accent">Lab</span></span>
+        </div>
+        <p class="text-secondary text-sm leading-relaxed">
+          Privacy-first applications for a world that is watching.
+        </p>
+      </div>
+
+      <!-- Apps -->
+      <div>
+        <h4 class="text-xs font-semibold text-hint uppercase tracking-widest mb-4">Apps</h4>
+        <ul class="space-y-3 text-sm text-secondary">
+          <li><a href="#whispr" class="hover:text-primary transition-colors">Whispr</a></li>
+          <li><span class="text-hint">Knot <span class="text-xs">(Soon)</span></span></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h4 class="text-xs font-semibold text-hint uppercase tracking-widest mb-4">Resources</h4>
+        <ul class="space-y-3 text-sm text-secondary">
+          <li><a href="#security" class="hover:text-primary transition-colors">Security</a></li>
+          <li><a href="#updates"  class="hover:text-primary transition-colors">Updates</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h4 class="text-xs font-semibold text-hint uppercase tracking-widest mb-4">Legal</h4>
+        <ul class="space-y-3 text-sm text-secondary">
+          <li><a href="/privacy" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+          <li><a href="/terms"   class="hover:text-primary transition-colors">Terms</a></li>
+          <li><a href="#about"   class="hover:text-primary transition-colors">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-hint">
+      <span>© {year} PointBreakLab. All rights reserved.</span>
+      <span class="font-mono">🇩🇪 Made in Würzburg, Germany</span>
+      <span class="font-mono">No trackers · No cookies · No compromise</span>
+    </div>
+  </div>
+</footer>

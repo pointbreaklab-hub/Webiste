@@ -1,0 +1,44 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  theme: {
+    extend: {
+      colors: {
+        bg:        '#0a0a0a',
+        surface:   '#111111',
+        border:    '#1f1f1f',
+        primary:   '#f0f0f0',
+        secondary: '#888888',
+        hint:      '#444444',
+        accent:    '#00d4aa',
+        'accent-glow': 'rgba(0,212,170,0.12)',
+        error:     '#ff4444',
+        'coming-soon': '#333333',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      animation: {
+        'fade-up':   'fadeUp 0.7s ease forwards',
+        'fade-in':   'fadeIn 0.5s ease forwards',
+        'glow-pulse': 'glowPulse 3s ease-in-out infinite',
+      },
+      keyframes: {
+        fadeUp: {
+          from: { opacity: '0', transform: 'translateY(24px)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeIn: {
+          from: { opacity: '0' },
+          to:   { opacity: '1' },
+        },
+        glowPulse: {
+          '0%, 100%': { boxShadow: '0 0 12px rgba(0,212,170,0.3)' },
+          '50%':      { boxShadow: '0 0 28px rgba(0,212,170,0.6)' },
+        },
+      },
+    },
+  },
+  plugins: [],
+};
