@@ -58,15 +58,17 @@
 </nav>
 
 <script>
-  // Scroll background
+  // Scroll background — passive listener, only updates class when state actually changes.
+  // Uses solid bg instead of backdrop-blur (backdrop-filter is the #1 cause of scroll jank on macOS).
   const nav = document.getElementById('nav')!;
+  let scrolled = false;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      nav.classList.add('bg-bg/90', 'backdrop-blur-md', 'border-b', 'border-border');
-    } else {
-      nav.classList.remove('bg-bg/90', 'backdrop-blur-md', 'border-b', 'border-border');
+    const next = window.scrollY > 40;
+    if (next !== scrolled) {
+      scrolled = next;
+      nav.classList.toggle('nav-scrolled', next);
     }
-  });
+  }, { passive: true });
 
   // Mobile menu
   const btn   = document.getElementById('menu-btn')!;
@@ -85,3 +87,12 @@
     close.classList.add('hidden');
   }));
 </script>
+
+<style>
+  /* Solid background instead of backdrop-blur — backdrop-filter is GPU-expensive
+     and the #1 cause of scroll stutter on macOS / MBP. */
+  #nav.nav-scrolled {
+    background-color: rgba(10, 10, 10, 0.92);
+    border-bottom: 1px solid rgb(38, 38, 38);
+  }
+</style>

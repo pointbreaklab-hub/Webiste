@@ -15,7 +15,7 @@ export function initHero() {
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 5;
 
-  const NODE_COUNT = 60;
+  const NODE_COUNT = 30;
   const positions  = [];
   const nodeGeo    = new THREE.SphereGeometry(0.03, 8, 8);
   const nodeMat    = new THREE.MeshBasicMaterial({ color: 0x00d4aa });
@@ -94,10 +94,14 @@ export function initHero() {
     tabVisible = !document.hidden;
   });
 
-  // Render once if reduced-motion is set, then stop. Otherwise loop.
+  // Cap at 30 FPS — visually identical for slow rotation, half the work.
+  const FRAME_INTERVAL = 1000 / 30;
+  let lastFrame = 0;
   const clock = new THREE.Clock();
-  function frame() {
-    if (visibleOnScreen && tabVisible) {
+
+  function frame(now) {
+    if (visibleOnScreen && tabVisible && now - lastFrame >= FRAME_INTERVAL) {
+      lastFrame = now;
       const t = clock.getElapsedTime();
       scene.rotation.y = t * 0.04 + mouseX;
       scene.rotation.x = mouseY * 0.5;
@@ -109,7 +113,6 @@ export function initHero() {
   }
 
   if (reduced) {
-    // Render a single static frame and exit — no animation
     renderer.render(scene, camera);
   } else {
     requestAnimationFrame(frame);
