@@ -13,7 +13,7 @@ const { name, tagline, description, icon, href = '#', active = false } = Astro.p
 {active ? (
   <a
     href={href}
-    class="group relative flex flex-col p-6 rounded-2xl bg-surface border border-accent/30 glow-border transition-all duration-300 hover:-translate-y-1"
+    class="group relative flex flex-col p-6 rounded-2xl bg-surface border border-accent/30 glow-border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_32px_-8px_rgba(0,212,170,0.35)]"
   >
     <div class="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono">LIVE</div>
     <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-4 text-2xl">{icon}</div>

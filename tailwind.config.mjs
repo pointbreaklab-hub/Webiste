@@ -4,9 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg:        '#0a0a0a',
-        surface:   '#111111',
-        border:    '#1f1f1f',
+        // Slightly warmer than pure #0a0a0a — adds subliminal warmth without
+        // sacrificing contrast. Surface follows the same shift.
+        bg:        '#0b0b0d',
+        surface:   '#131316',
+        border:    '#23232a',
         primary:   '#f0f0f0',
         secondary: '#888888',
         // Bumped from #444 → #737373 to clear WCAG AA contrast on the

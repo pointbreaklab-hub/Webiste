@@ -1,11 +1,12 @@
 ---
-import Base        from '../layouts/Base.astro';
-import Nav         from '../components/Nav.astro';
-import Hero        from '../components/Hero.astro';
-import AppCard     from '../components/AppCard.astro';
-import FeatureBlock from '../components/FeatureBlock.astro';
+import Base           from '../layouts/Base.astro';
+import Nav            from '../components/Nav.astro';
+import Hero           from '../components/Hero.astro';
+import AppCard        from '../components/AppCard.astro';
+import FeatureBlock   from '../components/FeatureBlock.astro';
 import DownloadButton from '../components/DownloadButton.astro';
-import Footer      from '../components/Footer.astro';
+import Footer         from '../components/Footer.astro';
+import SectionEyebrow from '../components/SectionEyebrow.astro';
 import '../styles/global.css';
 ---
 
@@ -14,9 +15,10 @@ import '../styles/global.css';
   <Hero />
 
   <!-- ── APPS ──────────────────────────────────────────────────────────── -->
-  <section id="apps" class="py-32 px-6 max-w-7xl mx-auto">
+  <section id="apps" class="relative py-32 px-6 max-w-7xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-16">
-      <p class="text-accent text-xs font-mono tracking-widest mb-3">THE LAB</p>
+      <SectionEyebrow num="01" label="THE LAB" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What We Build</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
         Every application from PointBreakLab is built on the same principle — your data belongs to you.
@@ -47,11 +49,13 @@ import '../styles/global.css';
   </section>
 
   <!-- ── WHISPR ─────────────────────────────────────────────────────────── -->
-  <section id="whispr" class="py-32 px-6 max-w-7xl mx-auto">
+  <section id="whispr" class="relative py-32 px-6 max-w-7xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+    <div aria-hidden="true" class="absolute top-1/3 right-0 w-72 h-72 bg-blue-500/[0.04] blur-3xl pointer-events-none"></div>
 
     <!-- What it is -->
     <div class="section-reveal text-center mb-20">
-      <p class="text-accent text-xs font-mono tracking-widest mb-3">WHISPR</p>
+      <SectionEyebrow num="02" label="WHISPR" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-6 leading-tight">
         Your messages,<br class="hidden md:block"/> only yours.
       </h2>
@@ -137,11 +141,12 @@ import '../styles/global.css';
   </section>
 
   <!-- ── SECURITY ───────────────────────────────────────────────────────── -->
-  <section id="security" class="py-32 px-6 bg-surface border-y border-border">
-    <div class="max-w-4xl mx-auto">
+  <section id="security" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-4xl mx-auto">
       <div class="section-reveal text-center mb-16">
-        <p class="text-accent text-xs font-mono tracking-widest mb-3">ARCHITECTURE</p>
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Built right, by default.</h2>
+        <SectionEyebrow num="03" label="ARCHITECTURE" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Built right, by default.</h2>
         <p class="text-secondary max-w-xl mx-auto">
           Whispr uses the same cryptography Signal uses, with one difference: there's no server in the middle. Even we couldn't read your messages if we wanted to.
         </p>
@@ -178,9 +183,10 @@ import '../styles/global.css';
   </section>
 
   <!-- ── UPDATES ───────────────────────────────────────────────────────── -->
-  <section id="updates" class="py-32 px-6 max-w-4xl mx-auto">
+  <section id="updates" class="relative py-32 px-6 max-w-4xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-16">
-      <p class="text-accent text-xs font-mono tracking-widest mb-3">WHAT'S COMING</p>
+      <SectionEyebrow num="04" label="WHAT'S COMING" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Updates</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
         PointBreakLab ships continuously. Here's what's in the pipeline.
@@ -250,10 +256,11 @@ import '../styles/global.css';
   </section>
 
   <!-- ── DOWNLOAD ───────────────────────────────────────────────────────── -->
-  <section id="download" class="py-32 px-6 bg-surface border-y border-border">
-    <div class="max-w-2xl mx-auto text-center">
+  <section id="download" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-2xl mx-auto text-center">
       <div class="section-reveal">
-        <p class="text-accent text-xs font-mono tracking-widest mb-3">GET WHISPR</p>
+        <SectionEyebrow num="05" label="GET WHISPR" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Whispr</h2>
         <p class="text-secondary mb-10">Available for Android. iOS coming soon. No account. No tracking. Just install and go.</p>
 
@@ -282,11 +289,12 @@ import '../styles/global.css';
   </section>
 
   <!-- ── ABOUT ──────────────────────────────────────────────────────────── -->
-  <section id="about" class="py-32 px-6 max-w-5xl mx-auto">
+  <section id="about" class="relative py-32 px-6 max-w-5xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-0 w-[40%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
     <div class="section-reveal grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
       <div>
-        <p class="text-accent text-xs font-mono tracking-widest mb-3">THE STUDIO</p>
+        <div class="mb-3"><SectionEyebrow num="06" label="THE STUDIO" align="left" /></div>
         <h2 class="text-3xl md:text-4xl font-black text-primary mb-6">About PointBreakLab</h2>
         <p class="text-secondary leading-relaxed mb-5">
           PointBreakLab is a studio building privacy-first applications. Every app ships free, with zero access to your data — by design, not by policy.
