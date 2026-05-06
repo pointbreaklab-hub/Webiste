@@ -8,8 +8,47 @@ export interface Props {
 const {
   title = 'PointBreakLab — Privacy-First Applications',
   description = 'PointBreakLab builds privacy-first applications for a world that is watching. No servers. No surveillance. No compromise.',
-  ogImage = '/og-image.png',
+  ogImage = '/og-image.svg',
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageUrl = new URL(ogImage, Astro.site).toString();
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'PointBreakLab',
+  url: 'https://pointbreaklab.com',
+  logo: 'https://pointbreaklab.com/favicon.svg',
+  description: 'Privacy-first software studio building applications that cannot be surveilled.',
+  founder: {
+    '@type': 'Person',
+    name: 'Roshan Kumar Gupta',
+    jobTitle: 'Software Engineer',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Würzburg',
+    addressCountry: 'DE',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'mail.roshankumargupta@gmail.com',
+    contactType: 'general',
+  },
+};
+
+const appJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Whispr',
+  applicationCategory: 'CommunicationApplication',
+  operatingSystem: 'Android',
+  description: 'Serverless, P2P encrypted messenger. No accounts, no servers, no metadata.',
+  downloadUrl: 'https://pointbreaklab.com/downloads/whispr-android.apk',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  publisher: { '@type': 'Organization', name: 'PointBreakLab' },
+};
 ---
 
 <!doctype html>
@@ -18,20 +57,26 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
 
     <!-- OG / Twitter -->
-    <meta property="og:title"       content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image"       content={ogImage} />
-    <meta property="og:type"        content="website" />
-    <meta property="og:site_name"   content="PointBreakLab" />
-    <meta name="twitter:card"       content="summary_large_image" />
-    <meta name="twitter:title"      content={title} />
+    <meta property="og:title"        content={title} />
+    <meta property="og:description"  content={description} />
+    <meta property="og:image"        content={ogImageUrl} />
+    <meta property="og:url"          content={canonical} />
+    <meta property="og:type"         content="website" />
+    <meta property="og:site_name"    content="PointBreakLab" />
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image"      content={ogImage} />
+    <meta name="twitter:image"       content={ogImageUrl} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+
+    <!-- Structured data for Google rich snippets -->
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(appJsonLd)} />
   </head>
   <body class="bg-bg text-primary font-sans antialiased overflow-x-hidden">
     <slot />
