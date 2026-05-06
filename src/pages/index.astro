@@ -257,10 +257,19 @@ import '../styles/global.css';
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Whispr</h2>
         <p class="text-secondary mb-10">Available for Android. iOS coming soon. No account. No tracking. Just install and go.</p>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-          <DownloadButton platform="android" href="/downloads/whispr-android.apk" label="Android APK" />
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+          <DownloadButton
+            platform="android"
+            href="https://github.com/pointbreaklab-byte/Webiste/releases/latest/download/whispr-android.apk"
+            label="Android APK"
+          />
           <DownloadButton platform="ios"     href="#" label="iOS — Coming Soon" />
         </div>
+
+        <!-- Download counter — fetched client-side from the GitHub Releases
+             API. Hidden by default; revealed only once total downloads >= 1000.
+             No analytics script, just a single fetch to a public endpoint. -->
+        <div id="download-count" class="hidden text-xs font-mono text-hint mb-7"></div>
 
         <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
           <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.0.0</span></div>
@@ -312,3 +321,60 @@ import '../styles/global.css';
 
   <Footer />
 </Base>
+
+<script>
+  // Fetch GitHub Releases download count and reveal the counter only once
+  // total downloads cross 1000. Cached for an hour in localStorage so we
+  // don't hammer the public API on every page view.
+  const REPO    = 'pointbreaklab-byte/Webiste';
+  const KEY     = 'pbl_dl_count_v1';
+  const TTL_MS  = 60 * 60 * 1000;          // 1 hour
+  const REVEAL  = 1000;                    // counter hidden below this
+
+  function readCache(): number | null {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      const { count, ts } = JSON.parse(raw);
+      if (typeof count !== 'number' || typeof ts !== 'number') return null;
+      if (Date.now() - ts > TTL_MS) return null;
+      return count;
+    } catch {
+      return null;
+    }
+  }
+
+  function writeCache(count: number) {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ count, ts: Date.now() }));
+    } catch { /* private mode / disabled — silently skip */ }
+  }
+
+  async function fetchTotalDownloads(): Promise<number> {
+    const res = await fetch(`https://api.github.com/repos/${REPO}/releases`);
+    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+    const releases = await res.json() as Array<{ assets: Array<{ download_count: number }> }>;
+    return releases.reduce(
+      (sum, r) => sum + r.assets.reduce((s, a) => s + (a.download_count || 0), 0),
+      0,
+    );
+  }
+
+  function reveal(count: number) {
+    if (count < REVEAL) return;
+    const el = document.getElementById('download-count');
+    if (!el) return;
+    el.textContent = `${count.toLocaleString()} downloads`;
+    el.classList.remove('hidden');
+  }
+
+  (async () => {
+    const cached = readCache();
+    if (cached != null) reveal(cached);
+    try {
+      const fresh = await fetchTotalDownloads();
+      writeCache(fresh);
+      reveal(fresh);
+    } catch { /* offline or rate-limited — leave the cache value (or hidden) */ }
+  })();
+</script>
