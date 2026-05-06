@@ -40,9 +40,39 @@ git push         # auto-deploys via GitHub Actions
 - **Never use `backdrop-filter: blur()`** on scroll-fixed elements. It's the #1 cause of scroll jank on macOS — repaints every frame. The Nav uses solid `rgba(10,10,10,0.92)` instead. (Fixed 2026-05-05 after MBP 16 scroll lag report.)
 - **All scroll listeners must be `{ passive: true }`** — anything else blocks the scroll thread.
 - **Toggle classes only when state changes** — don't classList.add/remove on every scroll event.
-- **Three.js hero** is capped at **30fps**, **30 nodes**, paused when off-screen (IntersectionObserver) and when tab is hidden (`visibilitychange`). Don't bump these back up without testing on a low-end device.
 - **`prefers-reduced-motion: reduce`** is respected — single static frame, no animation loop, all transitions disabled.
-- **The Three.js bundle is 468KB**. If perf becomes an issue again, replacing the hero with a CSS-only animated background (no JS) is the next move.
+
+## Hero animation — CSS/SVG only, NO Three.js
+
+**Don't reintroduce Three.js or any other JS-driven hero animation.**
+The hero originally used Three.js (468 KB bundle, continuous WebGL render
+loop). After it was reported still laggy on a MacBook Pro 16 — even with
+the loop paused-when-off-screen, capped at 30 FPS, and node count
+reduced — we dropped Three.js entirely and replaced it with a CSS/SVG-
+only animated network. (2026-05-06.)
+
+How the current hero works:
+
+- `Hero.astro` frontmatter generates **42 nodes** with deterministic
+  pseudo-random positions (mulberry32 PRNG, fixed seed `424242`). Edges
+  are drawn between any two nodes whose Euclidean distance is < 18% of
+  the viewBox.
+- The whole network is rendered as inline `<svg>` at build time — zero
+  client JS.
+- ~22% of nodes have a CSS `nodePulse` keyframe (opacity + radius oscillation, 6s cycle, randomised per-node delays so they don't pulse in sync).
+- The whole `.hero-network` container has a slow 24s `networkDrift`
+  transform animation (translate + scale) that gives the impression of
+  3D motion the old Three.js scene rotation provided. Single transform
+  on a single element = GPU-cheap.
+- Soft accent orbs (`bg-accent` and `bg-blue-500` blurred circles) and
+  the grid overlay are kept — they're free and add depth.
+
+Total client JS for the whole site after this change: **~1.5 KB**
+(down from ~471 KB). Don't regress this without a strong reason.
+
+If you genuinely need an interactive 3D hero in the future, do it as
+an Astro **island** loaded only on the largest desktop breakpoint, and
+benchmark it on a low-end Android Chrome before shipping.
 
 ## DNS records at Porkbun (don't delete these)
 
@@ -69,15 +99,39 @@ GitHub Pages auto-managed (don't touch):
 ## Layout / sections
 
 `src/pages/index.astro` is one long page with these sections:
-- Hero (Three.js canvas)
-- Apps (Whispr + Knot + ?? cards)
+- Hero (Three.js canvas) — copy is **"Your messages, only yours" + "Built right, by default"**, NOT "cannot be surveilled / adversarial conditions" (toned down 2026-05-06 after user feedback that the original framing read as "drug lord app")
+- Apps (Whispr + Knot + ?? cards) — Whispr tagline is `PRIVATE BY DEFAULT`
 - Whispr (features, how-it-works, transports)
-- Security (architecture details)
+- Security (architecture details — full crypto stack panel kept; this is competence proof for recruiters)
 - Updates (roadmap cards)
 - Download (APK button + download box with SHA-256)
 - About (RG monogram + studio framing)
 
 `src/pages/privacy.astro` is the privacy policy. Mirrors the in-app version at `securechat/lib/ui/screens/privacy_policy_screen.dart` — keep them in sync if either changes.
+
+`src/pages/whispr/add.astro` is the **deep-link landing page** for invite links shared from the app.
+
+## Invite link contract — `/whispr/add`
+
+The Whispr app's "Share invite link" button generates URLs like:
+
+```
+https://pointbreaklab.com/whispr/add?k=<keyhex64>&n=<urlencoded_name>&t=<unix_ms_expiry>
+```
+
+Behaviour, all driven by inline JS in `add.astro`:
+
+| Condition | Page behaviour |
+|---|---|
+| `k` is a 64-char hex AND (`t` is missing OR `t` is in the future) | Build `whispr://add?k=...&n=...&t=...`, show "Open in Whispr" button, auto-redirect after 250 ms (browser silently no-ops if scheme isn't registered) |
+| `t` exists and `now > t` | Hide install/auto-redirect CTAs. Show yellow "⏱ Link expired — ask the person who sent it for a fresh one" pill. |
+| `k` missing/malformed | Show generic install CTA only. |
+
+**Don't:**
+- Add server-side state to track link redemption — there's no server, and "single-use receiver-side dedup" was deliberately rejected (see `securechat/CLAUDE.md` "Deep links & invites").
+- Tighten the "no `t` = always valid" rule; older app builds don't send `t` and we accept them for backward compat.
+- Strip the `t` param when building the `whispr://` URL — the app reads it too and shows its own "Invite link expired" dialog.
+- Move the redirect into a server redirect (page must work as static HTML; GitHub Pages can't run server logic).
 
 ## APK distribution
 
