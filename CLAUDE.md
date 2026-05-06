@@ -20,6 +20,10 @@ npm run build    # → dist/
 git push         # auto-deploys via GitHub Actions
 ```
 
+## Pinned versions — DO NOT auto-upgrade
+
+- **`@astrojs/sitemap@3.2.1`** — pinned. Versions 3.7.x crash with `Cannot read properties of undefined (reading 'reduce')` against Astro 4.16. If you bump Astro, re-test sitemap before bumping it.
+
 ## Project context (don't drift on these)
 
 - **Goal**: portfolio project to land a software engineering job (NOT a business). Solo developer, student in Würzburg, no money to spend on infra.
@@ -70,10 +74,70 @@ GitHub Pages auto-managed (don't touch):
 - Whispr (features, how-it-works, transports)
 - Security (architecture details)
 - Updates (roadmap cards)
-- Download (APK button + download box)
+- Download (APK button + download box with SHA-256)
 - About (RG monogram + studio framing)
 
 `src/pages/privacy.astro` is the privacy policy. Mirrors the in-app version at `securechat/lib/ui/screens/privacy_policy_screen.dart` — keep them in sync if either changes.
+
+## APK distribution
+
+- **Live download URL**: `https://pointbreaklab.com/downloads/whispr-android.apk`
+- The APK file (~39 MB) is **committed to the repo** at `public/downloads/whispr-android.apk`. GitHub Pages serves it as a static asset.
+- **Signing**: release keystore (`CN=Whispr, OU=Mobile, O=Whispr`), NOT debug. The keystore lives at `securechat/android/keystore.properties` (gitignored — never commit).
+- **Build command**: `cd securechat && flutter build apk --release --split-per-abi`. Use the `arm64-v8a` variant for the website (covers ~98% of Android devices).
+- **Verify signature** before uploading:
+  ```bash
+  ~/Library/Android/sdk/build-tools/35.0.0/apksigner verify --verbose --print-certs <apk>
+  ```
+  Should print "Verifies" and show `CN=Whispr` (not `CN=Android Debug`).
+- **SHA-256** in the download box must match the live APK. Recompute on every release:
+  ```bash
+  shasum -a 256 public/downloads/whispr-android.apk
+  ```
+  Then update [src/pages/index.astro](src/pages/index.astro) (the row with `SHA-256 (APK)`).
+
+### Migrate to GitHub Releases for v1.1+
+
+Committing 39 MB binaries to git history is fine for v1.0 but bloats the repo over time. For v1.1 onward, switch to GitHub Releases:
+
+```bash
+gh release create v1.1.0 path/to/app-arm64-v8a-release.apk \
+  --title "Whispr v1.1.0" \
+  --notes "Release notes here"
+```
+
+Then change the website's download button URL to:
+```
+https://github.com/pointbreaklab-byte/Webiste/releases/latest/download/whispr-android.apk
+```
+
+That URL auto-redirects to whatever the latest release's asset is. Repo stays lean, releases get version tags and download counts visible on the GitHub profile.
+
+## SEO setup (live)
+
+Configured 2026-05-06. All foundational files are generated/served:
+
+| Asset | Path | Source |
+|---|---|---|
+| `sitemap-index.xml` + `sitemap-0.xml` | served at root | `@astrojs/sitemap@3.2.1` integration in `astro.config.mjs` |
+| `robots.txt` | served at root | `public/robots.txt` (committed) |
+| Organization JSON-LD | embedded in every page `<head>` | `src/layouts/Base.astro` |
+| SoftwareApplication JSON-LD (Whispr) | embedded in every page `<head>` | `src/layouts/Base.astro` |
+| `og-image.svg` | served at root | `public/og-image.svg` (1200×630, brand-matching) |
+| Canonical link tag | every page | `src/layouts/Base.astro` |
+| OG / Twitter Card tags | every page | `src/layouts/Base.astro` |
+
+### Search Console state
+
+- **Domain ownership verified** via DNS TXT record: `google-site-verification=zy-h-Q9WbZUMKieFQ5kUbzC9YgqUB6RHxO0pIRyAQo0` (lives at Porkbun, apex). Don't delete this row.
+- **Sitemap submitted**: `sitemap-index.xml`
+- **Indexing requested** for `/` (manual via URL Inspection tool)
+
+### Things that look like SEO but aren't worth touching now
+
+- **Generating a PNG version of `og-image.svg`** — most platforms render SVG fine. Only relevant if a specific platform's preview is broken.
+- **Per-page `<title>` and `<meta description>`** for `/privacy` — not implemented; privacy page falls back to default. Add only if it ever ranks for queries you care about.
+- **Translating to German** for local SEO — overkill for a portfolio.
 
 ## What's intentionally *not* on the site
 
