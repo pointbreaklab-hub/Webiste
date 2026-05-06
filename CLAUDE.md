@@ -4,12 +4,13 @@ The marketing/portfolio site for PointBreakLab (pointbreaklab.com). Hosts the Wh
 
 ## Stack & deploy
 
-- **Astro 4** + **Tailwind CSS** + **Three.js** (lazy-loaded for the hero)
+- **Astro 4** + **Tailwind CSS** (no client-side framework). Total client JS ~1.5 KB.
 - Static output (`output: 'static'` in `astro.config.mjs`)
 - Hosted on **GitHub Pages** with custom domain `pointbreaklab.com`
 - Repo: `https://github.com/pointbreaklab-byte/Webiste` (yes, "Webiste" — typo in repo name, harmless)
 - Deploy: pushes to `main` trigger `.github/workflows/deploy.yml` → builds → uploads to Pages
 - Domain registered at **Porkbun**
+- Discussion notes for context: stay with Astro. React/Svelte would ship more JS for *zero* functional benefit on a static marketing site. If a future page genuinely needs reactivity, add it as an Astro **island** — don't migrate the site framework.
 
 ## Build / deploy commands
 
@@ -41,6 +42,46 @@ git push         # auto-deploys via GitHub Actions
 - **All scroll listeners must be `{ passive: true }`** — anything else blocks the scroll thread.
 - **Toggle classes only when state changes** — don't classList.add/remove on every scroll event.
 - **`prefers-reduced-motion: reduce`** is respected — single static frame, no animation loop, all transitions disabled.
+
+## Editorial theme system (2026-05-06 redesign)
+
+The site went through a "design-forward editorial" upgrade. **Do not
+revert these patterns** — they're what differentiates the site from
+the standard "dark + teal + monospace" privacy-app template.
+
+- **Numbered chapter eyebrows.** Every top-level homepage section uses
+  the `<SectionEyebrow num="0X" label="...">` component, which renders
+  `0X ─── LABEL ─── ●` with hairline dividers and a trailing dot. Six
+  chapters total: 01 THE LAB · 02 WHISPR · 03 ARCHITECTURE · 04 WHAT'S
+  COMING · 05 GET WHISPR · 06 THE STUDIO. **Don't replace these with
+  plain `<p>` eyebrows again.** This is the single most distinctive
+  visual element on the site.
+
+- **Per-section atmospheric glow.** Every section has an `aria-hidden`
+  `<div>` with a subtle accent (or blue) radial gradient behind the
+  content (`bg-accent/[0.05]` to `[0.10]` + `blur-3xl`). Adds
+  cinematic depth at zero JS / GPU cost. Position varies per section
+  for visual rhythm. Pattern:
+  ```html
+  <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
+  ```
+
+- **Headline weight contrast.** Most section h2s are `font-black`. The
+  Architecture section h2 is intentionally `font-light` with tight
+  tracking — editorial counterpoint. Don't normalise it back.
+
+- **Card hover refinement.** AppCard and FeatureBlock use accent
+  box-shadow + tiny lift on hover (`hover:-translate-y-1` +
+  `shadow-[0_8px_32px_-8px_rgba(0,212,170,0.35)]`). Don't downgrade
+  back to "border color change only".
+
+- **Palette warmth.** `bg` is `#0b0b0d` (not `#0a0a0a`), `surface` is
+  `#131316` (not `#111`), `border` is `#23232a` (not `#1f1f1f`). The
+  bg/surface/border were warmed up by ~1 step on the gray scale. Don't
+  cool them back to pure black.
+
+- **WCAG AA contrast.** `hint` is `#737373` (was `#444444`). Bumped to
+  clear 4.5:1 on the dark bg. Don't darken back.
 
 ## Hero animation — CSS/SVG only, NO Three.js
 
@@ -98,18 +139,72 @@ GitHub Pages auto-managed (don't touch):
 
 ## Layout / sections
 
-`src/pages/index.astro` is one long page with these sections:
-- Hero (Three.js canvas) — copy is **"Your messages, only yours" + "Built right, by default"**, NOT "cannot be surveilled / adversarial conditions" (toned down 2026-05-06 after user feedback that the original framing read as "drug lord app")
-- Apps (Whispr + Knot + ?? cards) — Whispr tagline is `PRIVATE BY DEFAULT`
-- Whispr (features, how-it-works, transports)
-- Security (architecture details — full crypto stack panel kept; this is competence proof for recruiters)
-- Updates (roadmap cards)
-- Download (APK button + download box with SHA-256)
-- About (RG monogram + studio framing)
+`src/pages/index.astro` is one long page with six chapter-numbered top-level sections:
+
+- **Hero** — H1 is **"Apps that don't watch back."** (NOT the brand name "PointBreakLab" — that goes in the Nav and the subhead). Subhead: studio context + apps preview. Mono coda: "Free · encrypted · never on a server." (2026-05-06 reframing after "drug lord" feedback.)
+- **01 ─ THE LAB** — three AppCards: Whispr (live, `PRIVATE BY DEFAULT`), Knot (soon, encrypted notes), **Elixir (coming later, 🧪 offline secrets vault)**. The third card was previously `????` with a mystery tagline — that read as half-finished and was renamed to Elixir.
+- **02 ─ WHISPR** — features, how-it-works, transport layer
+- **03 ─ ARCHITECTURE** — terminal-style `security-architecture.txt` panel (full crypto stack — strongest single element; keep). h2 uses `font-light` for editorial contrast.
+- **04 ─ WHAT'S COMING** — roadmap cards with status-driven visual treatment: `building` cards have accent border + glow, `soon` cards have amber border, `planned` cards stay muted.
+- **05 ─ GET WHISPR** — download button + download counter (see below)
+- **06 ─ THE STUDIO** — RG monogram + studio framing. (User has not yet provided a real photo to replace the monogram.)
 
 `src/pages/privacy.astro` is the privacy policy. Mirrors the in-app version at `securechat/lib/ui/screens/privacy_policy_screen.dart` — keep them in sync if either changes.
 
 `src/pages/whispr/add.astro` is the **deep-link landing page** for invite links shared from the app.
+
+## APK distribution — GitHub Releases (NOT in repo)
+
+The APK lives in **GitHub Releases**, not in `public/downloads/`.
+Live download URL on the site:
+
+```
+https://github.com/pointbreaklab-byte/Webiste/releases/latest/download/whispr-android.apk
+```
+
+`releases/latest/download/<filename>` auto-resolves to the most recent
+release. Filename is **always** `whispr-android.apk` (don't include
+the version in the filename, it would break the auto-resolve).
+
+To ship a new release:
+
+```bash
+# Build + sign the APK in securechat/, then:
+cp securechat/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk /tmp/whispr-android.apk
+gh release create vX.Y.Z /tmp/whispr-android.apk \
+  --title "Whispr vX.Y.Z — <theme>" \
+  --notes "<changelog>"
+```
+
+The website auto-points at the latest release — no website code change
+needed for new APK versions. SHA-256 in the download box still has to
+be updated manually in `src/pages/index.astro` since it's static text.
+
+**Don't add the APK back to `public/downloads/`.** The repo is
+deliberately kept lean and out of git LFS territory by hosting the
+binary in Releases instead.
+
+## Download counter — fetched, soft-revealed at 1000+
+
+The Download section has a hidden `<div id="download-count">`. An inline
+script in `index.astro` fetches `api.github.com/repos/<owner>/<repo>/releases`,
+sums `download_count` across all assets in all releases, and reveals
+the counter only if total ≥ 1000.
+
+Rules of the thing (don't regress):
+
+- **No analytics scripts, no third-party trackers.** A single fetch to
+  the public GitHub API is the entire telemetry surface. Aligned with
+  the privacy ethos.
+- **Soft-revealed.** Below 1000 the page shows nothing. Don't change
+  this to "show whatever the count is" — "23 downloads" is worse than
+  no number.
+- **Cached 1 hour in localStorage** to be polite to the API rate limit
+  (60 req/hr per IP unauthenticated).
+- **Graceful degradation.** Network/rate-limit/private-mode failures
+  silently leave the counter hidden. No error UI.
+- The `REVEAL` constant in the script (currently `1000`) is the only
+  knob — change it if needed but keep it round.
 
 ## Invite link contract — `/whispr/add`
 
