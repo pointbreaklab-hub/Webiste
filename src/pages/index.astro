@@ -38,10 +38,10 @@ import '../styles/global.css';
         icon="📝"
       />
       <AppCard
-        name="????"
-        tagline="IN DEVELOPMENT"
-        description="The next tool from PointBreakLab. Privacy-first, as always."
-        icon="⬡"
+        name="Elixir"
+        tagline="OFFLINE VAULT · COMING LATER"
+        description="An encrypted secrets vault — passwords, recovery codes, anything you'd lose sleep over leaking. Lives only on your device."
+        icon="🧪"
       />
     </div>
   </section>
@@ -213,19 +213,39 @@ import '../styles/global.css';
           body: 'Per-message timers. Messages evaporate from both devices after the set duration — no trace left.',
           status: 'planned',
         },
-      ].map(({ tag, title, body, status }) => (
-        <div class="section-reveal flex gap-5 p-6 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">
-          <div class={`mt-1 w-2 h-2 rounded-full shrink-0 ${status === 'building' ? 'bg-accent animate-pulse' : status === 'soon' ? 'bg-yellow-500/70' : 'bg-hint'}`}></div>
-          <div>
-            <p class="text-hint text-xs font-mono mb-1">{tag}</p>
-            <h3 class="text-base font-bold text-primary mb-1.5">{title}</h3>
-            <p class="text-secondary text-sm leading-relaxed">{body}</p>
+      ].map(({ tag, title, body, status }) => {
+        // Status-driven visual treatment so the eye gets variety along the
+        // roadmap: in-progress glows, soon is amber, planned is muted.
+        const cardBorder =
+          status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]'
+          : status === 'soon'   ? 'border-yellow-500/30 hover:border-yellow-500/50'
+          :                       'border-border hover:border-accent/20';
+        const dot =
+          status === 'building' ? 'bg-accent animate-pulse'
+          : status === 'soon'   ? 'bg-yellow-500/70'
+          :                       'bg-hint';
+        const pill =
+          status === 'building' ? 'bg-accent/10 text-accent border border-accent/30'
+          : status === 'soon'   ? 'bg-yellow-500/10 text-yellow-500/90 border border-yellow-500/30'
+          :                       'bg-surface text-hint border border-border';
+        const label =
+          status === 'building' ? 'building'
+          : status === 'soon'   ? 'soon'
+          :                       'planned';
+        return (
+          <div class={`section-reveal flex gap-5 p-6 rounded-2xl bg-surface border transition-colors ${cardBorder}`}>
+            <div class={`mt-1 w-2 h-2 rounded-full shrink-0 ${dot}`}></div>
+            <div>
+              <p class="text-hint text-xs font-mono mb-1">{tag}</p>
+              <h3 class="text-base font-bold text-primary mb-1.5">{title}</h3>
+              <p class="text-secondary text-sm leading-relaxed">{body}</p>
+            </div>
+            <div class={`ml-auto shrink-0 self-start px-2 py-0.5 rounded text-xs font-mono ${pill}`}>
+              {label}
+            </div>
           </div>
-          <div class={`ml-auto shrink-0 self-start px-2 py-0.5 rounded text-xs font-mono ${status === 'building' ? 'bg-accent/10 text-accent' : 'bg-surface border border-border text-hint'}`}>
-            {status === 'building' ? 'building' : status === 'soon' ? 'soon' : 'planned'}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </section>
 

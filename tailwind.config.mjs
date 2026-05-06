@@ -9,7 +9,10 @@ export default {
         border:    '#1f1f1f',
         primary:   '#f0f0f0',
         secondary: '#888888',
-        hint:      '#444444',
+        // Bumped from #444 → #737373 to clear WCAG AA contrast on the
+        // #0a0a0a background (was 3.7:1, now ~4.7:1). Used for footer
+        // copy, scroll hints, "label" text — needs to remain readable.
+        hint:      '#737373',
         accent:    '#00d4aa',
         'accent-glow': 'rgba(0,212,170,0.12)',
         error:     '#ff4444',
