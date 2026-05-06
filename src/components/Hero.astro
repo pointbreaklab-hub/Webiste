@@ -122,12 +122,14 @@ for (let i = 0; i < nodes.length; i++) {
         View All Apps
       </a>
     </div>
+  </div>
 
-    <!-- Scroll hint -->
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-hint text-xs">
-      <span>scroll</span>
-      <div class="w-px h-8 bg-gradient-to-b from-hint to-transparent"></div>
-    </div>
+  <!-- Scroll hint — anchored to the section, not the content. Hidden on
+       narrow viewports because there's not enough vertical room and it
+       overlaps the CTA buttons when the headline wraps. -->
+  <div class="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-hint text-xs pointer-events-none">
+    <span>scroll</span>
+    <div class="w-px h-8 bg-gradient-to-b from-hint to-transparent"></div>
   </div>
 </section>
 
