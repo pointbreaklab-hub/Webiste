@@ -139,19 +139,107 @@ GitHub Pages auto-managed (don't touch):
 
 ## Layout / sections
 
-`src/pages/index.astro` is one long page with six chapter-numbered top-level sections:
+The site was split in two on 2026-05-07 (see "Studio + product split"
+below). The homepage is now studio-framed; Whispr lives at its own
+`/whispr/` page. **Don't merge them back into a single homepage** — the
+split is what lets future apps slot in at `/knot/`, `/elixir/`, etc.
 
-- **Hero** — H1 is **"Apps that don't watch back."** (NOT the brand name "PointBreakLab" — that goes in the Nav and the subhead). Subhead: studio context + apps preview. Mono coda: "Free · encrypted · never on a server." (2026-05-06 reframing after "drug lord" feedback.)
-- **01 ─ THE LAB** — three AppCards: Whispr (live, `PRIVATE BY DEFAULT`), Knot (soon, encrypted notes), **Elixir (coming later, 🧪 offline secrets vault)**. The third card was previously `????` with a mystery tagline — that read as half-finished and was renamed to Elixir.
-- **02 ─ WHISPR** — features, how-it-works, transport layer
-- **03 ─ ARCHITECTURE** — terminal-style `security-architecture.txt` panel (full crypto stack — strongest single element; keep). h2 uses `font-light` for editorial contrast.
-- **04 ─ WHAT'S COMING** — roadmap cards with status-driven visual treatment: `building` cards have accent border + glow, `soon` cards have amber border, `planned` cards stay muted.
-- **05 ─ GET WHISPR** — download button + download counter (see below)
-- **06 ─ THE STUDIO** — RG monogram + studio framing. (User has not yet provided a real photo to replace the monogram.)
+### `src/pages/index.astro` — homepage (studio)
 
-`src/pages/privacy.astro` is the privacy policy. Mirrors the in-app version at `securechat/lib/ui/screens/privacy_policy_screen.dart` — keep them in sync if either changes.
+Two top-level chapters only:
 
-`src/pages/whispr/add.astro` is the **deep-link landing page** for invite links shared from the app.
+- **Hero** — H1 is **"Apps that don't watch back."** (the brand name
+  "PointBreakLab" goes in the Nav and the subhead). Mono coda:
+  "Free · encrypted · never on a server." Primary CTA "Explore Whispr"
+  links to `/whispr/`, secondary "View All Apps" anchors to `#apps`
+  on the same page.
+- **01 ─ THE LAB** — three AppCards: Whispr (live, `PRIVATE BY DEFAULT`,
+  href `/whispr/`), Knot (soon, encrypted notes), Elixir (coming later,
+  🧪 offline secrets vault). The Whispr card's "Explore →" is the
+  funnel into the product page.
+- **02 ─ THE STUDIO** — RG monogram + about text + Contact button.
+  (User has not yet provided a real photo to replace the monogram.)
+
+### `src/pages/whispr/index.astro` — product page (Whispr)
+
+All Whispr-specific content. Four chapters:
+
+- **Hero** — Whispr-specific headline ("Your messages, only yours.")
+  with Download / Architecture CTAs. Slim — no animated network, just
+  a centered headline + atmospheric glow.
+- **01 ─ FEATURES** — six FeatureBlock cards, plus the two
+  sub-sections HOW IT WORKS (3-step) and TRANSPORT LAYER (LAN / Tor /
+  BLE).
+- **02 ─ ARCHITECTURE** — terminal-style `security-architecture.txt`
+  panel (full crypto stack — strongest single element; keep). h2 uses
+  `font-light` for editorial contrast.
+- **03 ─ ROADMAP** — status-driven cards: `building` glows accent,
+  `soon` is amber, `planned` is muted. obfs4 bridge transport sits at
+  the top as the next "in progress" item.
+- **04 ─ GET IT** — download buttons, version + SHA-256 box, hidden
+  download counter, link to `/changelog/`, plus a small
+  censored-region note pointing users to the **in-app** bridges guide
+  (Settings → Network → Bridges → (i) icon). The note doesn't
+  duplicate the steps — instructions live inside the app so they're
+  available offline.
+
+The download counter script (~1 KB) lives at the bottom of this file,
+not on the homepage. SHA-256 lives in this file too — update on every
+release, not in `index.astro`.
+
+### Other pages
+
+- `src/pages/privacy.astro` — privacy policy. Mirrors the in-app
+  version at `securechat/lib/ui/screens/privacy_policy_screen.dart`.
+  Keep them in sync if either changes.
+- `src/pages/whispr/add.astro` — **deep-link landing page** for invite
+  links shared from the app.
+- `src/pages/changelog.astro` — release log (see "Changelog" below).
+
+## Studio + product split (2026-05-07)
+
+Before this date the homepage was one long page with six chapters,
+all Whispr-specific. The split moved sections 02–05 to `/whispr/`,
+renumbered them as 01–04 there, and slimmed the homepage to two
+chapters (THE LAB, THE STUDIO). Reason: the homepage was trying to
+be both a studio portfolio and a product page at once, which
+diluted both.
+
+**Don't undo the split.** Future apps (Knot, Elixir) will follow the
+same pattern at `/knot/`, `/elixir/` — homepage stays studio-level,
+each app gets its own product page.
+
+**Cross-page navigation rule.** `Nav.astro` and `Footer.astro` use
+**absolute paths** for every link (`/`, `/whispr/`, `/whispr/#download`,
+`/changelog/`, `/#about`) — never bare `#anchors`, because those
+break when the user is on a page other than the homepage. If you add
+a new internal link, follow this convention.
+
+## Changelog page (`/changelog/`)
+
+`src/pages/changelog.astro` is a hand-curated, user-facing release
+log. Source data is a `releases` array in the page frontmatter — one
+object per release with `tag`, `date`, `kind` (`feature` / `fix` /
+`polish` / `note`), `title`, and `body`. It's NOT auto-fetched from
+GitHub at runtime — keeps the site static, survives API rate limits,
+and lets us write user-facing prose instead of leaking dev-facing
+release-note jargon.
+
+**Per-release maintenance:** when you ship a new app version, prepend
+a new `Release` object to the `releases` array. Style notes:
+- One short user-facing sentence in `body` — what got better for *them*.
+- The dev-facing note in `release_notes/v*.md` (in the app repo) and
+  GitHub Releases stay technical; this is the audience-facing version.
+- Skip releases that shipped briefly and got reverted within an hour
+  — but include the *revert* itself as a `fix` entry naming the
+  reverted version. v1.1.12 (broken) is omitted; v1.1.13 (revert) is
+  listed and explains why. That transparency is a credibility signal,
+  not something to hide.
+
+Each release renders as a left-aligned `SectionEyebrow` with the
+patch number (`13 ─── V1.1.13 · FIX ─── ●`), then a small mono
+date, the user-facing title, and the body. Same editorial chapter
+pattern the homepage uses, applied to every release entry.
 
 ## APK distribution — GitHub Releases (NOT in repo)
 
@@ -178,7 +266,11 @@ gh release create vX.Y.Z /tmp/whispr-android.apk \
 
 The website auto-points at the latest release — no website code change
 needed for new APK versions. SHA-256 in the download box still has to
-be updated manually in `src/pages/index.astro` since it's static text.
+be updated manually in `src/pages/whispr/index.astro` (the product
+page, NOT the homepage — the download section moved there in the
+2026-05-07 split). The release pipeline (`github_whispr_apk.py`)
+already updates this row automatically; the path inside the script
+points at the new file.
 
 **Don't add the APK back to `public/downloads/`.** The repo is
 deliberately kept lean and out of git LFS territory by hosting the
