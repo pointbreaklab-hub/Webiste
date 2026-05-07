@@ -116,17 +116,26 @@ const releases: Release[] = [
   },
 ];
 
-const kindStyle: Record<Release['kind'], { dot: string; label: string }> = {
-  feature: { dot: 'bg-accent',           label: 'New' },
-  fix:     { dot: 'bg-blue-500',         label: 'Fix' },
-  polish:  { dot: 'bg-yellow-500',       label: 'Polish' },
-  note:    { dot: 'bg-textHint',         label: 'Note' },
+const kindLabel: Record<Release['kind'], string> = {
+  feature: 'NEW',
+  fix:     'FIX',
+  polish:  'POLISH',
+  note:    'NOTE',
 };
 
 function fmtDate(iso: string): string {
   const [y, m, d] = iso.split('-').map(Number);
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return `${months[m - 1]} ${d}, ${y}`;
+}
+
+// Eyebrow number = patch component of the tag, padded.
+//   v1.1.13 -> "13"
+//   v1.1.7  -> "07"
+function eyebrowNum(tag: string): string {
+  const parts = tag.replace(/^v/, '').split('.');
+  const patch = parts[2] ?? '0';
+  return patch.padStart(2, '0');
 }
 
 const latest = releases[0];
@@ -156,22 +165,17 @@ const latest = releases[0];
         Latest: {latest.tag} · {fmtDate(latest.date)}
       </p>
 
-      <ol class="space-y-10">
+      <ol class="space-y-14">
         {releases.map((r) => (
-          <li class="relative pl-6 border-l border-border">
-            <span
-              class={`absolute -left-[5px] top-2 w-[9px] h-[9px] rounded-full ring-4 ring-bg ${kindStyle[r.kind].dot}`}
-              aria-hidden="true"
-            ></span>
-
-            <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-2">
-              <span class="font-mono text-accent text-sm tabular-nums">{r.tag}</span>
-              <span class="text-hint text-xs font-mono">{fmtDate(r.date)}</span>
-              <span class="text-[10px] font-mono uppercase tracking-widest text-hint">
-                {kindStyle[r.kind].label}
-              </span>
-            </div>
-
+          <li>
+            <SectionEyebrow
+              num={eyebrowNum(r.tag)}
+              label={`${r.tag.toUpperCase()} · ${kindLabel[r.kind]}`}
+              align="left"
+            />
+            <p class="text-hint text-xs font-mono mb-2">
+              {fmtDate(r.date)}
+            </p>
             <h2 class="text-primary font-semibold text-lg mb-2 leading-snug">
               {r.title}
             </h2>
