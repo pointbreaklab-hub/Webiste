@@ -75,6 +75,7 @@ import '../../styles/global.css';
     const params = new URLSearchParams(window.location.search);
     const k = params.get('k');
     const n = params.get('n');
+    const o = params.get('o');   // sender's .onion — used for round-trip notification
     const t = params.get('t');
 
     const expiredEl = document.getElementById('expired-prompt');
@@ -92,6 +93,7 @@ import '../../styles/global.css';
       const out = new URLSearchParams();
       out.set('k', k);
       if (n) out.set('n', n);
+      if (o) out.set('o', o);
       if (t) out.set('t', t);
       const appUrl = `whispr://add?${out.toString()}`;
 
