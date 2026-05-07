@@ -1,0 +1,208 @@
+---
+// Whispr architecture diagram — pure inline SVG, no JS.
+//
+// Shows the journey of a single message: plaintext on Alice's device →
+// X3DH + Double Ratchet session → AES-256-GCM ciphertext → wire → Bob's
+// device decrypts. Three transport paths (LAN, Tor, BLE) sit in the
+// middle channel, and the "no server in the picture" callout makes the
+// architectural absence explicit.
+//
+// Design constraints:
+//   - No JS, no client-side rendering. SVG inlined at build time.
+//   - Text in monospace to match the editorial / terminal-panel style.
+//   - Site palette only — accent #00d4aa, surface #131316, bg #0b0b0d,
+//     border #23232a, secondary #a3a3a3, hint #737373.
+//   - Wraps in <figure> with <figcaption> so screen readers get the
+//     plain-text equivalent without us hiding the SVG.
+//   - viewBox-based, so it scales down to mobile without media queries.
+---
+
+<figure class="my-8">
+  <svg
+    viewBox="0 0 800 500"
+    class="w-full h-auto max-w-3xl mx-auto block"
+    role="img"
+    aria-labelledby="arch-diagram-title arch-diagram-desc"
+  >
+    <title id="arch-diagram-title">Whispr architecture diagram</title>
+    <desc id="arch-diagram-desc">
+      A message originates as plaintext on the sender's device, passes
+      through an X3DH + Double Ratchet session, gets encrypted with
+      AES-256-GCM, and travels as ciphertext over LAN, Tor, or BLE mesh
+      directly to the recipient. There is no server, no account, and no
+      telemetry between the two devices.
+    </desc>
+
+    <!-- ── ALICE'S DEVICE ──────────────────────────────────────────── -->
+    <g>
+      <rect x="40" y="40" width="220" height="340" rx="14"
+            fill="#131316" stroke="#23232a" stroke-width="1"/>
+      <text x="150" y="68" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            letter-spacing="2" fill="#737373">ALICE'S DEVICE</text>
+
+      <!-- Plaintext -->
+      <rect x="60" y="90" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="150" y="113" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#ffffff">Plaintext message</text>
+
+      <!-- arrow down -->
+      <path d="M 150 130 L 150 144 M 146 140 L 150 144 L 154 140"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- X3DH session -->
+      <rect x="60" y="148" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="150" y="171" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">X3DH + Double Ratchet</text>
+
+      <!-- arrow down -->
+      <path d="M 150 188 L 150 202 M 146 198 L 150 202 L 154 198"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- AES-256-GCM -->
+      <rect x="60" y="206" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="150" y="229" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">AES-256-GCM</text>
+
+      <!-- E2EE boundary -->
+      <text x="150" y="261" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">END-TO-END BOUNDARY</text>
+      <line x1="60" y1="270" x2="240" y2="270"
+            stroke="#00d4aa" stroke-width="1" stroke-dasharray="3 3"
+            stroke-opacity="0.55"/>
+
+      <!-- Encrypted blob -->
+      <rect x="60" y="284" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="150" y="307" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#737373">Encrypted blob</text>
+
+      <!-- arrow exiting device -->
+      <path d="M 150 332 L 150 374 M 146 370 L 150 374 L 154 370"
+            stroke="#737373" stroke-width="1.5" fill="none"/>
+    </g>
+
+    <!-- ── CENTER · TRANSPORT CHANNELS ─────────────────────────────── -->
+    <g>
+      <text x="400" y="60" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            letter-spacing="2" fill="#737373">DIRECT P2P · NO RELAY</text>
+
+      <!-- LAN -->
+      <line x1="260" y1="200" x2="540" y2="200"
+            stroke="#00d4aa" stroke-width="1" stroke-opacity="0.4"/>
+      <rect x="345" y="190" width="110" height="20" rx="10"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.5"/>
+      <text x="400" y="204" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            fill="#00d4aa">LAN</text>
+
+      <!-- Tor -->
+      <line x1="260" y1="240" x2="540" y2="240"
+            stroke="#00d4aa" stroke-width="1" stroke-opacity="0.4"/>
+      <rect x="345" y="230" width="110" height="20" rx="10"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.5"/>
+      <text x="400" y="244" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            fill="#00d4aa">TOR · .onion</text>
+
+      <!-- BLE -->
+      <line x1="260" y1="280" x2="540" y2="280"
+            stroke="#00d4aa" stroke-width="1" stroke-opacity="0.4"/>
+      <rect x="345" y="270" width="110" height="20" rx="10"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.5"/>
+      <text x="400" y="284" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            fill="#00d4aa">BLE MESH</text>
+
+      <!-- Wire-bytes annotation -->
+      <text x="400" y="335" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">ON THE WIRE</text>
+      <text x="400" y="352" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#a3a3a3">Encrypted bytes only</text>
+    </g>
+
+    <!-- ── BOB'S DEVICE ─────────────────────────────────────────────── -->
+    <g>
+      <rect x="540" y="40" width="220" height="340" rx="14"
+            fill="#131316" stroke="#23232a" stroke-width="1"/>
+      <text x="650" y="68" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            letter-spacing="2" fill="#737373">BOB'S DEVICE</text>
+
+      <!-- arrow entering device from below (rendered first so it's behind boxes) -->
+      <path d="M 650 374 L 650 332 M 646 336 L 650 332 L 654 336"
+            stroke="#737373" stroke-width="1.5" fill="none"/>
+
+      <!-- Encrypted blob -->
+      <rect x="560" y="284" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="650" y="307" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#737373">Encrypted blob</text>
+
+      <!-- E2EE boundary -->
+      <line x1="560" y1="270" x2="740" y2="270"
+            stroke="#00d4aa" stroke-width="1" stroke-dasharray="3 3"
+            stroke-opacity="0.55"/>
+      <text x="650" y="261" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">END-TO-END BOUNDARY</text>
+
+      <!-- AES-256-GCM -->
+      <rect x="560" y="206" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="650" y="229" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">AES-256-GCM</text>
+
+      <!-- arrow up -->
+      <path d="M 650 202 L 650 188 M 646 192 L 650 188 L 654 192"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- X3DH session -->
+      <rect x="560" y="148" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="650" y="171" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">X3DH + Double Ratchet</text>
+
+      <!-- arrow up -->
+      <path d="M 650 144 L 650 130 M 646 134 L 650 130 L 654 134"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- Plaintext -->
+      <rect x="560" y="90" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="650" y="113" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#ffffff">Plaintext message</text>
+    </g>
+
+    <!-- ── BOTTOM BAND · NOT IN THE PICTURE ────────────────────────── -->
+    <g>
+      <line x1="40" y1="410" x2="760" y2="410"
+            stroke="#23232a" stroke-width="1"/>
+      <text x="400" y="438" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            letter-spacing="2" fill="#737373">NOT IN THE PICTURE</text>
+      <text x="400" y="468" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#a3a3a3">No server · No account · No phone number · No telemetry · No cloud</text>
+    </g>
+  </svg>
+
+  <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">
+    A message originates as plaintext on the sender's device, passes through an X3DH + Double Ratchet session, is encrypted with AES-256-GCM, and travels as ciphertext over LAN, Tor, or BLE mesh — directly to the recipient. There is no server, account, or telemetry between the two devices.
+  </figcaption>
+</figure>

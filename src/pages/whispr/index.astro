@@ -1,10 +1,11 @@
 ---
-import Base           from '../../layouts/Base.astro';
-import Nav            from '../../components/Nav.astro';
-import FeatureBlock   from '../../components/FeatureBlock.astro';
-import DownloadButton from '../../components/DownloadButton.astro';
-import Footer         from '../../components/Footer.astro';
-import SectionEyebrow from '../../components/SectionEyebrow.astro';
+import Base                 from '../../layouts/Base.astro';
+import Nav                  from '../../components/Nav.astro';
+import FeatureBlock         from '../../components/FeatureBlock.astro';
+import DownloadButton       from '../../components/DownloadButton.astro';
+import Footer               from '../../components/Footer.astro';
+import SectionEyebrow       from '../../components/SectionEyebrow.astro';
+import ArchitectureDiagram  from '../../components/ArchitectureDiagram.astro';
 import '../../styles/global.css';
 ---
 
@@ -146,12 +147,18 @@ import '../../styles/global.css';
   <section id="architecture" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-4xl mx-auto">
-      <div class="section-reveal text-center mb-16">
+      <div class="section-reveal text-center mb-12">
         <SectionEyebrow num="02" label="ARCHITECTURE" />
         <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Built right, by default.</h2>
         <p class="text-secondary max-w-xl mx-auto">
           Whispr uses the same cryptography Signal uses, with one difference: there's no server in the middle. Even we couldn't read your messages if we wanted to.
         </p>
+      </div>
+
+      <!-- Visual entry: how a message travels. The text panel below has
+           the row-by-row primitives; this gives the conceptual map first. -->
+      <div class="section-reveal mb-12">
+        <ArchitectureDiagram />
       </div>
 
       <div class="section-reveal font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden">

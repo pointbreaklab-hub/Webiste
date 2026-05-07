@@ -196,9 +196,16 @@ All Whispr-specific content. Four chapters:
 - **01 ─ FEATURES** — six FeatureBlock cards, plus the two
   sub-sections HOW IT WORKS (3-step) and TRANSPORT LAYER (LAN / Tor /
   BLE).
-- **02 ─ ARCHITECTURE** — terminal-style `security-architecture.txt`
-  panel (full crypto stack — strongest single element; keep). h2 uses
-  `font-light` for editorial contrast.
+- **02 ─ ARCHITECTURE** — opens with a visual `ArchitectureDiagram`
+  (inline SVG, no JS) showing how a message travels: plaintext on
+  Alice's device → X3DH + Double Ratchet → AES-256-GCM → encrypted
+  blob over LAN / Tor / BLE → decrypt on Bob's device, with an
+  explicit "NOT IN THE PICTURE: no server, no account, no telemetry"
+  band at the bottom. Below it sits the terminal-style
+  `security-architecture.txt` panel (the row-by-row primitives — the
+  diagram is the conceptual map, the panel is the technical
+  reference). Both are load-bearing for credibility; don't drop
+  either. h2 uses `font-light` for editorial contrast.
 - **03 ─ ROADMAP** — status-driven cards: `building` glows accent,
   `soon` is amber, `planned` is muted. obfs4 bridge transport sits at
   the top as the next "in progress" item.
