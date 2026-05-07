@@ -1,0 +1,314 @@
+---
+import Base           from '../../layouts/Base.astro';
+import Nav            from '../../components/Nav.astro';
+import FeatureBlock   from '../../components/FeatureBlock.astro';
+import DownloadButton from '../../components/DownloadButton.astro';
+import Footer         from '../../components/Footer.astro';
+import SectionEyebrow from '../../components/SectionEyebrow.astro';
+import '../../styles/global.css';
+---
+
+<Base
+  title="Heart · Local-first wellness app for Bluetooth heart-rate bands"
+  description="A wellness app for Bluetooth heart-rate bands. Tracks HR, HRV, sleep stages, recovery, strain — entirely on your device. No account, no cloud, no subscription. Pairs with Coospo HW9 and any standard BLE chest strap."
+>
+  <Nav />
+
+  <!-- ── HERO (Heart-specific, slim) ──────────────────────────────────────── -->
+  <section class="relative pt-32 pb-20 px-6 overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[28rem] bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div aria-hidden="true" class="absolute top-1/3 right-0 w-72 h-72 bg-blue-500/[0.04] blur-3xl pointer-events-none"></div>
+
+    <div class="relative max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+        HEART · LOCAL-FIRST WELLNESS
+      </div>
+
+      <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
+        <span class="text-primary">Your heart,</span><br/>
+        <span class="text-gradient">on your device.</span>
+      </h1>
+
+      <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-3">
+        A wellness app for Bluetooth heart-rate bands. Tracks HR, HRV, sleep, recovery, and strain — entirely on your device. No account, no cloud, no subscription.
+      </p>
+      <p class="text-sm text-hint font-mono mb-10">
+        Free · on-device · auditable.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="#download"
+          class="px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
+        >
+          Download for Android
+        </a>
+        <a
+          href="#architecture"
+          class="px-8 py-3.5 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all"
+        >
+          See the algorithms
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 01 FEATURES ──────────────────────────────────────────────────────── -->
+  <section id="features" class="relative py-28 px-6 max-w-7xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+    <div class="section-reveal text-center mb-16">
+      <SectionEyebrow num="01" label="FEATURES" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Six features. All on-device. No subscription, no cloud, no compromise.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-24">
+      <FeatureBlock
+        icon="❤️"
+        title="Live HR + HRV"
+        description="Continuous heart rate, zones, and RMSSD-based heart-rate variability — computed directly from R–R intervals using the 1996 ESC/NASPE standard."
+      />
+      <FeatureBlock
+        icon="🌙"
+        title="Four-stage sleep"
+        description="Awake, light, deep, REM — derived from overnight HR with a prior-calibrated stager. Avg HR, min HR, and overnight HRV per night."
+      />
+      <FeatureBlock
+        icon="🔋"
+        title="Recovery & Strain"
+        description="WHOOP-style recovery score from your personal 30-day HRV baseline. Zone-weighted strain. Both grounded in published research, not black boxes."
+      />
+      <FeatureBlock
+        icon="📊"
+        title="Insights with history"
+        description="Pick any past day, custom 24h windows, or 8 AM → 8 AM physiological days. Wear time, energy, sessions with GPS path, sleep snapshot, on-device coach."
+      />
+      <FeatureBlock
+        icon="⏰"
+        title="Smart-wake alarms"
+        description="Wake during a lighter sleep stage with a gentle pre-alarm nudge. Health alerts for low recovery, sleep debt, strain spikes, and band battery."
+      />
+      <FeatureBlock
+        icon="🚫"
+        title="No account, no cloud"
+        description="Everything stays on your device — sample data, scores, sleep history. One-tap JSON export for migration. One-tap delete-everything."
+      />
+    </div>
+
+    <!-- How it works -->
+    <div class="section-reveal mb-20">
+      <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">HOW IT WORKS</p>
+      <h3 class="text-2xl md:text-3xl font-black text-primary mb-12 text-center">Three steps. All on-device.</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          { step: '01', title: 'Pair your band',  body: 'Heart speaks the standard BLE Heart Rate Service (UUID 0x180D). Works with the Coospo HW9 and most modern chest straps.' },
+          { step: '02', title: 'Wear it 24/7',    body: 'iOS state restoration and an Android foreground service keep the connection alive overnight, even when the phone is in your pocket.' },
+          { step: '03', title: 'Get insights',    body: 'Recovery, strain, sleep stages, and on-device Coach observations every morning. Self-validate with a one-tap sleep diary.' },
+        ].map(({ step, title, body }) => (
+          <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
+            <span class="absolute -left-px top-0 w-0.5 h-8 bg-accent"></span>
+            <p class="text-accent font-mono text-xs mb-2">{step}</p>
+            <h4 class="text-lg font-bold text-primary mb-2">{title}</h4>
+            <p class="text-secondary text-sm leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Hardware support -->
+    <div class="section-reveal">
+      <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">HARDWARE</p>
+      <h3 class="text-2xl md:text-3xl font-black text-primary mb-12 text-center">Pairs with the band you already own.</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {[
+          { icon: '🟢', label: 'PRIMARY',  title: 'Coospo HW9',   body: 'Full feature support — live HR, RR-interval HRV, battery percentage, smart-wake fine-tuning. Heart was developed and tested with this band.' },
+          { icon: '🔵', label: 'STANDARD', title: 'Any BLE strap', body: 'Polar H10, Wahoo TICKR, Garmin HRM-Dual — anything that speaks Heart Rate Service 0x180D + Heart Rate Measurement 0x2A37.' },
+          { icon: '🟡', label: 'OPTICAL',  title: 'Wrist sensors', body: 'Live HR works on optical wrist HR straps, but RR-interval availability depends on the device — HRV will be coarser than from a chest strap.' },
+        ].map(({ icon, label, title, body }) => (
+          <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors text-center group">
+            <div class="text-4xl mb-4">{icon}</div>
+            <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">{label}</div>
+            <h4 class="text-base font-bold text-primary mb-2">{title}</h4>
+            <p class="text-secondary text-sm leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 ARCHITECTURE ──────────────────────────────────────────────────── -->
+  <section id="architecture" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="section-reveal text-center mb-16">
+        <SectionEyebrow num="02" label="ARCHITECTURE" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Algorithms, cited.</h2>
+        <p class="text-secondary max-w-xl mx-auto">
+          Every metric is computed on-device from a published formula. No remote endpoints, no model files, no telemetry. Read the source if you want to know how a number was made.
+        </p>
+      </div>
+
+      <div class="section-reveal font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden">
+        <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+          <div class="w-3 h-3 rounded-full bg-error/70"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+          <span class="ml-2 text-hint text-xs">heart-architecture.txt</span>
+        </div>
+        <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
+          {[
+            ['Identity',     'None — no account, no email, no key'],
+            ['HR source',    'BLE Heart Rate Service · UUID 0x180D · char 0x2A37'],
+            ['HRV',          'RMSSD · ESC/NASPE Task Force 1996 · 300-sample buffer'],
+            ['Calories',     'Keytel et al. (2005) · HR + age + weight + sex'],
+            ['Sleep',        'Rule-based 5-min stager + prior-calibrated correction'],
+            ['Recovery',     'HRV percentile vs personal 30-day rolling baseline'],
+            ['Strain',       'Zone-weighted effort score (range 0–21+)'],
+            ['Coach',        'On-device heuristics · trend / variance / streak detection'],
+            ['Storage',      'SharedPreferences + JSONL · app sandbox · OS-encrypted'],
+            ['Network',      'None — only optional OSM tile downloads for offline maps'],
+            ['Server',       'None'],
+          ].map(([key, val]) => (
+            <div class="flex gap-4 items-baseline">
+              <span class="text-hint shrink-0 w-32">{key}</span>
+              <span class="text-accent">→</span>
+              <span class="text-primary/80">{val}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p class="text-hint text-xs text-center mt-6 max-w-xl mx-auto leading-relaxed">
+        Heart is a wellness application — not a medical device. All scores are estimates derived from consumer-grade sensors and population-level reference data, validated for trend tracking, not diagnosis.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 03 ROADMAP ───────────────────────────────────────────────────────── -->
+  <section id="roadmap" class="relative py-32 px-6 max-w-4xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
+    <div class="section-reveal text-center mb-16">
+      <SectionEyebrow num="03" label="ROADMAP" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What's coming</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Always shipping. Every item below either runs entirely on-device, or is opt-in with a clear, narrow scope.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {[
+        {
+          tag: 'IN PROGRESS',
+          title: 'Personal heart-age calibration',
+          body: 'Replace the static population-norm reference tables with a personal regression fit, once 30+ nights of overnight baseline data exist. Surfaces the value in the UI when calibration is reliable.',
+          status: 'building',
+        },
+        {
+          tag: 'PLANNED',
+          title: 'Watch companion (Wear OS / WatchOS)',
+          body: 'Mirror live BPM and zone on your watch face — without sending data through the watch\'s cloud sync. Pair to the same chest strap, render locally.',
+          status: 'planned',
+        },
+        {
+          tag: 'PLANNED',
+          title: 'Optional Apple Health / Google Fit bridges',
+          body: 'One-way export of workouts and sleep, opt-in only, never bidirectional, never on by default. The local-first stance does not change.',
+          status: 'planned',
+        },
+        {
+          tag: 'PLANNED',
+          title: 'Sleep stager validation against PSG',
+          body: 'Validate the rule-based + prior-calibrated stager against published polysomnography datasets and tighten the model where deltas exceed ±10 minutes per stage.',
+          status: 'planned',
+        },
+      ].map(({ tag, title, body, status }) => {
+        const cardBorder =
+          status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]'
+          : status === 'soon'   ? 'border-yellow-500/30 hover:border-yellow-500/50'
+          :                       'border-border hover:border-accent/20';
+        const dot =
+          status === 'building' ? 'bg-accent animate-pulse'
+          : status === 'soon'   ? 'bg-yellow-500/70'
+          :                       'bg-hint';
+        const pill =
+          status === 'building' ? 'bg-accent/10 text-accent border border-accent/30'
+          : status === 'soon'   ? 'bg-yellow-500/10 text-yellow-500/90 border border-yellow-500/30'
+          :                       'bg-surface text-hint border border-border';
+        const label =
+          status === 'building' ? 'building'
+          : status === 'soon'   ? 'soon'
+          :                       'planned';
+        return (
+          <div class={`section-reveal flex gap-5 p-6 rounded-2xl bg-surface border transition-colors ${cardBorder}`}>
+            <div class={`mt-1 w-2 h-2 rounded-full shrink-0 ${dot}`}></div>
+            <div>
+              <p class="text-hint text-xs font-mono mb-1">{tag}</p>
+              <h3 class="text-base font-bold text-primary mb-1.5">{title}</h3>
+              <p class="text-secondary text-sm leading-relaxed">{body}</p>
+            </div>
+            <div class={`ml-auto shrink-0 self-start px-2 py-0.5 rounded text-xs font-mono ${pill}`}>
+              {label}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- ── 04 GET IT ────────────────────────────────────────────────────────── -->
+  <section id="download" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-2xl mx-auto">
+      <div class="section-reveal text-center">
+        <SectionEyebrow num="04" label="GET IT" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Heart</h2>
+        <p class="text-secondary mb-10">Available for Android. iOS coming soon. Pair your band, wear it 24/7, get insights every morning.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+          <DownloadButton
+            platform="android"
+            href="https://github.com/pointbreaklab-byte/Webiste/releases/latest/download/heart-android.apk"
+            label="Android APK"
+          />
+          <DownloadButton platform="ios" href="#" label="iOS — Coming Soon" />
+        </div>
+
+        <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
+          <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.0.0</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Min Android</span><span class="text-primary">7.0 · API 24</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Cost</span><span class="text-primary/80">Free. No accounts, no ads, no tracking.</span></div>
+          <div class="flex gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint w-32">SHA-256 (APK)</span><span class="text-primary/60 break-all">pending</span></div>
+        </div>
+
+        <p class="text-hint text-xs mt-4">
+          Full release history: <a href="/changelog/" class="text-accent hover:underline">changelog</a>
+        </p>
+      </div>
+
+      <!-- ── Why Heart is more accurate than wrist wearables ──────────────── -->
+      <div class="section-reveal mt-16 p-6 rounded-2xl bg-bg border border-border">
+        <div class="flex items-start gap-4">
+          <div class="shrink-0 w-10 h-10 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center text-xl">📏</div>
+          <div>
+            <p class="text-accent text-xs font-mono tracking-widest mb-2">ACCURACY · CHEST STRAP VS WRIST</p>
+            <h3 class="text-lg font-bold text-primary mb-2">Better signal in, better signal out.</h3>
+            <p class="text-secondary text-sm leading-relaxed mb-3">
+              Wrist-based wearables sit at <span class="text-primary">±5–15 bpm</span> against ECG during effort and <span class="text-primary">±10–20 ms</span> on overnight HRV. A chest strap is at <span class="text-accent">±2 bpm</span> and <span class="text-accent">±3–5 ms</span> respectively. Heart pairs with a chest strap by default, so the input it computes from is fundamentally cleaner.
+            </p>
+            <p class="text-hint text-xs">
+              Same algorithmic class as WHOOP and Oura for derived scores — without the subscription, the cloud, or the closed source.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Base>

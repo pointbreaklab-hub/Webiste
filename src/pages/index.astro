@@ -22,13 +22,21 @@ import '../styles/global.css';
         Every application from PointBreakLab is built on the same principle — your data belongs to you.
       </p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <AppCard
         name="Whispr"
         tagline="PRIVATE BY DEFAULT"
         description="A messenger built so your conversations actually belong to you. No accounts, no servers, no phone numbers."
         icon="🔒"
         href="/whispr/"
+        active={true}
+      />
+      <AppCard
+        name="Heart"
+        tagline="LOCAL-FIRST WELLNESS"
+        description="A wellness app for Bluetooth heart-rate bands. HR, HRV, sleep stages, recovery, strain — all on-device. No account, no cloud, no subscription."
+        icon="❤️"
+        href="/heart/"
         active={true}
       />
       <AppCard
