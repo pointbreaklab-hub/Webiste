@@ -73,10 +73,12 @@ import '../../styles/global.css';
     // open it. If the link's expiry timestamp `t` is in the past, show the
     // "expired" view instead of the auto-redirect / install CTAs.
     const params = new URLSearchParams(window.location.search);
-    const k = params.get('k');
-    const n = params.get('n');
-    const o = params.get('o');   // sender's .onion — used for round-trip notification
-    const t = params.get('t');
+    const k  = params.get('k');
+    const n  = params.get('n');
+    const o  = params.get('o');   // sender's .onion — used for round-trip notification
+    const sk = params.get('sk');  // signed pre-key (hex) — required for X3DH
+    const ss = params.get('ss');  // SPK signature (hex)
+    const t  = params.get('t');
 
     const expiredEl = document.getElementById('expired-prompt');
     const openBtn   = document.getElementById('open-app');
@@ -92,9 +94,11 @@ import '../../styles/global.css';
     } else if (k && /^[0-9a-fA-F]{64}$/.test(k)) {
       const out = new URLSearchParams();
       out.set('k', k);
-      if (n) out.set('n', n);
-      if (o) out.set('o', o);
-      if (t) out.set('t', t);
+      if (n)  out.set('n',  n);
+      if (o)  out.set('o',  o);
+      if (sk) out.set('sk', sk);
+      if (ss) out.set('ss', ss);
+      if (t)  out.set('t',  t);
       const appUrl = `whispr://add?${out.toString()}`;
 
       const link = document.getElementById('open-app-link') as HTMLAnchorElement;
