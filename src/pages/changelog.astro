@@ -1,0 +1,200 @@
+---
+import Base   from '../layouts/Base.astro';
+import Nav    from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import '../styles/global.css';
+
+// User-facing release log. Dev-facing detail lives in
+// release_notes/v*.md in the app repo and on GitHub Releases.
+//
+// Style notes:
+//  - Newest first.
+//  - Each entry is one short sentence — what changed for the user.
+//  - Include the v1.1.12-→-v1.1.13 revert; it's a credibility signal,
+//    not something to hide.
+
+interface Release {
+  tag: string;
+  date: string;        // YYYY-MM-DD, displayed as "MMM D, YYYY"
+  title: string;
+  body: string;
+  kind: 'feature' | 'fix' | 'polish' | 'note';
+}
+
+const releases: Release[] = [
+  {
+    tag: 'v1.1.13',
+    date: '2026-05-07',
+    kind: 'fix',
+    title: 'Stability — delete-message restored',
+    body: 'Reverts a chat-screen change shipped briefly in v1.1.12 that left a deleted message visible on screen until you navigated away. Delete and clear-chat now update the view immediately again.',
+  },
+  {
+    tag: 'v1.1.11',
+    date: '2026-05-07',
+    kind: 'polish',
+    title: 'Quieter background notification',
+    body: 'The "Whispr active" notification no longer shows up in the status bar or on the lock screen. It only appears at the bottom of the notification shade if you pull it down and scroll. Closer to a WhatsApp-style background experience without giving up serverless privacy.',
+  },
+  {
+    tag: 'v1.1.10',
+    date: '2026-05-07',
+    kind: 'fix',
+    title: 'Reliable chat between invite-link contacts',
+    body: 'Chat messages now deliver consistently between contacts added via shared invite link, on both directions, across LAN and Tor. Email worked already; chat is now at parity.',
+  },
+  {
+    tag: 'v1.1.9',
+    date: '2026-05-07',
+    kind: 'fix',
+    title: 'First chat after invite link works cross-network',
+    body: 'The very first chat message after a friend taps your invite link now goes through, even when both devices are on different networks. Previously messages would queue silently while email kept flowing.',
+  },
+  {
+    tag: 'v1.1.8',
+    date: '2026-05-07',
+    kind: 'fix',
+    title: 'Messages flow after round-trip invite',
+    body: 'Closes a delivery gap when both sides accept each other through the invite-link flow.',
+  },
+  {
+    tag: 'v1.1.7',
+    date: '2026-05-07',
+    kind: 'feature',
+    title: 'Round-trip invite notifications',
+    body: 'When the friend you sent an invite link to taps Add, you now get a banner letting you accept them back — instead of waiting for them to message you first.',
+  },
+  {
+    tag: 'v1.1.6',
+    date: '2026-05-07',
+    kind: 'polish',
+    title: 'Faster invite-link open',
+    body: 'Invite links now open the app one redirect faster on most networks.',
+  },
+  {
+    tag: 'v1.1.5',
+    date: '2026-05-06',
+    kind: 'fix',
+    title: 'Invite links survive biometric unlock',
+    body: 'Invite-link contact requests are now persistent banners on the chat list instead of dialogs that could disappear during sign-in. They survive app restarts and won\'t get lost during biometric authentication.',
+  },
+  {
+    tag: 'v1.1.4',
+    date: '2026-05-06',
+    kind: 'feature',
+    title: 'Trust & safety: two-stage warnings',
+    body: 'Reports from people you\'ve actually replied to now drive a clear two-stage warning system before account termination — strangers can\'t pile on.',
+  },
+  {
+    tag: 'v1.1.3',
+    date: '2026-05-06',
+    kind: 'feature',
+    title: 'Diagnostic Tor status & one-tap restart',
+    body: 'The "My QR" tab now shows what stage Tor is at — starting, connecting, almost ready, or active — with a Restart Tor button always visible. One screenshot is enough to diagnose what\'s slow.',
+  },
+  {
+    tag: 'v1.1.2',
+    date: '2026-05-06',
+    kind: 'fix',
+    title: 'Tor stays alive in the background',
+    body: 'A new keepalive service keeps the Tor connection running through Doze and aggressive battery management on Android, so messages still arrive when the screen is off.',
+  },
+  {
+    tag: 'v1.1.1',
+    date: '2026-05-06',
+    kind: 'feature',
+    title: 'Battery exemption banner',
+    body: 'On first launch, Whispr now asks for permission to run in the background unrestricted — required so Tor isn\'t throttled by Doze.',
+  },
+  {
+    tag: 'v1.1.0',
+    date: '2026-05-06',
+    kind: 'feature',
+    title: 'Made for daily use',
+    body: 'A reframing release. Softer onboarding, biometric unlock, "Maximum Privacy" preset (renamed from High-Risk), splash auto-detects your language, and Settings → Security tucks the panic-button block under Advanced. Same cryptography, less fugitive vibe.',
+  },
+];
+
+const kindStyle: Record<Release['kind'], { dot: string; label: string }> = {
+  feature: { dot: 'bg-accent',           label: 'New' },
+  fix:     { dot: 'bg-blue-500',         label: 'Fix' },
+  polish:  { dot: 'bg-yellow-500',       label: 'Polish' },
+  note:    { dot: 'bg-textHint',         label: 'Note' },
+};
+
+function fmtDate(iso: string): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[m - 1]} ${d}, ${y}`;
+}
+
+const latest = releases[0];
+---
+
+<Base
+  title="Changelog · Whispr"
+  description="Release log for Whispr. What got better, what got fixed, what shipped briefly and got reverted."
+>
+  <Nav />
+
+  <main class="min-h-screen pt-24 pb-24 px-6">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Atmospheric glow, matching the homepage editorial pattern -->
+      <div aria-hidden="true" class="absolute top-24 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+      <SectionEyebrow num="00" label="CHANGELOG" align="center" />
+
+      <h1 class="text-4xl md:text-5xl font-black text-primary text-center mb-4 tracking-tight">
+        What changed
+      </h1>
+      <p class="text-secondary text-center max-w-xl mx-auto mb-3 leading-relaxed">
+        Every release of Whispr — what got better for you, what we fixed, and the rare time we shipped a bug and pulled it back. No marketing spin.
+      </p>
+      <p class="text-hint text-center text-xs font-mono mb-16">
+        Latest: {latest.tag} · {fmtDate(latest.date)}
+      </p>
+
+      <ol class="space-y-10">
+        {releases.map((r) => (
+          <li class="relative pl-6 border-l border-border">
+            <span
+              class={`absolute -left-[5px] top-2 w-[9px] h-[9px] rounded-full ring-4 ring-bg ${kindStyle[r.kind].dot}`}
+              aria-hidden="true"
+            ></span>
+
+            <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-2">
+              <span class="font-mono text-accent text-sm tabular-nums">{r.tag}</span>
+              <span class="text-hint text-xs font-mono">{fmtDate(r.date)}</span>
+              <span class="text-[10px] font-mono uppercase tracking-widest text-hint">
+                {kindStyle[r.kind].label}
+              </span>
+            </div>
+
+            <h2 class="text-primary font-semibold text-lg mb-2 leading-snug">
+              {r.title}
+            </h2>
+            <p class="text-secondary leading-relaxed text-sm">
+              {r.body}
+            </p>
+          </li>
+        ))}
+      </ol>
+
+      <div class="mt-20 pt-10 border-t border-border text-center text-xs text-hint space-y-2">
+        <p>
+          Older releases (v1.0.x) were development builds — not listed here.
+        </p>
+        <p>
+          Full technical release notes live on
+          <a href="https://github.com/pointbreaklab-byte/Webiste/releases"
+             class="text-accent hover:underline"
+             rel="noopener">GitHub</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Base>
