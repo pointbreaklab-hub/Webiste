@@ -146,7 +146,7 @@ split is what lets future apps slot in at `/knot/`, `/elixir/`, etc.
 
 ### `src/pages/index.astro` — homepage (studio)
 
-Two top-level chapters only:
+Three top-level chapters:
 
 - **Hero** — H1 is **"Apps that don't watch back."** (the brand name
   "PointBreakLab" goes in the Nav and the subhead). Mono coda:
@@ -157,7 +157,18 @@ Two top-level chapters only:
   href `/whispr/`), Knot (soon, encrypted notes), Elixir (coming later,
   🧪 offline secrets vault). The Whispr card's "Explore →" is the
   funnel into the product page.
-- **02 ─ THE STUDIO** — RG monogram + about text + Contact button.
+- **02 ─ PROOF** — compact terminal-style `stack.txt` panel with 6
+  rows excerpted from the full architecture (Identity · Key Exchange ·
+  Message Crypto · Database · Metadata · Server). Footer link
+  "See the full architecture →" deep-links to
+  `/whispr/#architecture`. **Don't strip this back to "claims-only".**
+  Privacy claims have a higher proof burden than ordinary product
+  claims because the user can't verify them by using the product —
+  only by inspecting the architecture. Competitors (Signal, Session,
+  Briar, SimpleX) all show cryptography above the fold; we do too.
+  (Added 2026-05-07 after a review pointed out the post-split
+  homepage was claim-only.)
+- **03 ─ THE STUDIO** — RG monogram + about text + Contact button.
   (User has not yet provided a real photo to replace the monogram.)
 
 ### `src/pages/whispr/index.astro` — product page (Whispr)
