@@ -149,10 +149,25 @@ split is what lets future apps slot in at `/knot/`, `/elixir/`, etc.
 Three top-level chapters:
 
 - **Hero** — H1 is **"Apps that don't watch back."** (the brand name
-  "PointBreakLab" goes in the Nav and the subhead). Mono coda:
-  "Free · encrypted · never on a server." Primary CTA "Explore Whispr"
-  links to `/whispr/`, secondary "View All Apps" anchors to `#apps`
-  on the same page.
+  "PointBreakLab" goes in the Nav and the subhead). Beneath the
+  subhead, two short mono lines that are **load-bearing for trust**:
+  - Line 1 (proof): `End-to-end encrypted via the Signal Protocol · X3DH + Double Ratchet · see the architecture →`
+    The link deep-anchors to `/whispr/#architecture`. Provides
+    above-the-fold cryptographic evidence so a skeptic doesn't have
+    to scroll to find a single piece of proof.
+  - Line 2 (business model): `Solo project from Würzburg · no investors · no ads · no telemetry · free forever.`
+    Defuses the "if it's free, you're the product" question that
+    privacy-aware users ask reflexively. Be honest about what we
+    are; don't pretend to be a company we're not.
+
+  **Don't strip these back to the old single mono coda** ("Free ·
+  encrypted · never on a server"). That coda was claim-only — both
+  reviewers in 2026-05-07 flagged it as the weakest part of the
+  homepage. The replacement adds ~6 lines of vertical space; that's
+  the price of credibility.
+
+  Primary CTA "Explore Whispr" links to `/whispr/`, secondary
+  "View All Apps" anchors to `#apps` on the same page.
 - **01 ─ THE LAB** — three AppCards: Whispr (live, `PRIVATE BY DEFAULT`,
   href `/whispr/`), Knot (soon, encrypted notes), Elixir (coming later,
   🧪 offline secrets vault). The Whispr card's "Explore →" is the
