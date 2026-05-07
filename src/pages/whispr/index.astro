@@ -1,0 +1,371 @@
+---
+import Base           from '../../layouts/Base.astro';
+import Nav            from '../../components/Nav.astro';
+import FeatureBlock   from '../../components/FeatureBlock.astro';
+import DownloadButton from '../../components/DownloadButton.astro';
+import Footer         from '../../components/Footer.astro';
+import SectionEyebrow from '../../components/SectionEyebrow.astro';
+import '../../styles/global.css';
+---
+
+<Base
+  title="Whispr · Private messenger by PointBreakLab"
+  description="A messenger built so your conversations actually belong to you. No accounts, no servers, no phone numbers. End-to-end encrypted via Signal Protocol over LAN, Tor, and Bluetooth mesh."
+>
+  <Nav />
+
+  <!-- ── HERO (Whispr-specific, slim) ─────────────────────────────────────── -->
+  <section class="relative pt-32 pb-20 px-6 overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[28rem] bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div aria-hidden="true" class="absolute top-1/3 right-0 w-72 h-72 bg-blue-500/[0.04] blur-3xl pointer-events-none"></div>
+
+    <div class="relative max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+        WHISPR · PRIVATE BY DEFAULT
+      </div>
+
+      <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
+        <span class="text-primary">Your messages,</span><br/>
+        <span class="text-gradient">only yours.</span>
+      </h1>
+
+      <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-3">
+        A messenger that doesn't need an account, a phone number, or even an internet connection. Encrypted end-to-end before it ever leaves your device.
+      </p>
+      <p class="text-sm text-hint font-mono mb-10">
+        Free · encrypted · never on a server.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="#download"
+          class="px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
+        >
+          Download for Android
+        </a>
+        <a
+          href="#architecture"
+          class="px-8 py-3.5 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all"
+        >
+          See the architecture
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 01 FEATURES ──────────────────────────────────────────────────────── -->
+  <section id="features" class="relative py-28 px-6 max-w-7xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+    <div class="section-reveal text-center mb-16">
+      <SectionEyebrow num="01" label="FEATURES" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Six features that aren't features anywhere else — they're the floor.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-24">
+      <FeatureBlock
+        icon="🌐"
+        title="Zero Servers"
+        description="Messages travel peer to peer. There is no company server to subpoena, no database to breach, no authority to comply with."
+      />
+      <FeatureBlock
+        icon="🔐"
+        title="Signal Protocol"
+        description="X3DH + Double Ratchet. The same cryptography trusted by journalists, activists, and governments worldwide."
+      />
+      <FeatureBlock
+        icon="📡"
+        title="Works Offline"
+        description="Bluetooth LE mesh delivers messages with no internet. At a protest, on a plane, in a blackout — anywhere."
+      />
+      <FeatureBlock
+        icon="🧅"
+        title="Tor Routing"
+        description="Route messages through the Tor network for anonymised delivery. Your IP is never exposed to peers."
+      />
+      <FeatureBlock
+        icon="📧"
+        title="Encrypted Email"
+        description="ECIES-encrypted email between Whispr users. Threads, reply-all, forward — with full E2EE, no central server."
+      />
+      <FeatureBlock
+        icon="🆔"
+        title="No Account"
+        description="Your identity is a locally-generated Ed25519 key pair. No email, no phone, no registration of any kind."
+      />
+    </div>
+
+    <!-- How it works -->
+    <div class="section-reveal mb-20">
+      <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">HOW IT WORKS</p>
+      <h3 class="text-2xl md:text-3xl font-black text-primary mb-12 text-center">Three steps. Completely private.</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          { step: '01', title: 'Encrypt on device', body: 'Your message is encrypted on your device before it ever leaves. Only the recipient\'s Ed25519 key can decrypt it.' },
+          { step: '02', title: 'Travel the best path', body: 'The app automatically picks the fastest available route — direct LAN, Tor hidden service, or BLE mesh.' },
+          { step: '03', title: 'Decrypt on arrival', body: 'Only your contact\'s device decrypts the message. Not us, not your ISP, not anyone in between.' },
+        ].map(({ step, title, body }) => (
+          <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
+            <span class="absolute -left-px top-0 w-0.5 h-8 bg-accent"></span>
+            <p class="text-accent font-mono text-xs mb-2">{step}</p>
+            <h4 class="text-lg font-bold text-primary mb-2">{title}</h4>
+            <p class="text-secondary text-sm leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Three transports -->
+    <div class="section-reveal">
+      <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">TRANSPORT LAYER</p>
+      <h3 class="text-2xl md:text-3xl font-black text-primary mb-12 text-center">Three ways to reach anyone.</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {[
+          { icon: '🏠', label: 'LAN', title: 'Local Network', body: 'When on the same Wi-Fi, messages travel directly — sub-second delivery, zero internet required.' },
+          { icon: '🧅', label: 'TOR', title: 'Tor Network',   body: 'Route through Tor hidden services for anonymous, censorship-resistant delivery across the internet.' },
+          { icon: '📶', label: 'BLE', title: 'BLE Mesh',      body: 'Bluetooth Low Energy mesh. Send messages nearby with no Wi-Fi, no internet, no infrastructure at all.' },
+        ].map(({ icon, label, title, body }) => (
+          <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors text-center group">
+            <div class="text-4xl mb-4">{icon}</div>
+            <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">{label}</div>
+            <h4 class="text-base font-bold text-primary mb-2">{title}</h4>
+            <p class="text-secondary text-sm leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 ARCHITECTURE ──────────────────────────────────────────────────── -->
+  <section id="architecture" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="section-reveal text-center mb-16">
+        <SectionEyebrow num="02" label="ARCHITECTURE" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Built right, by default.</h2>
+        <p class="text-secondary max-w-xl mx-auto">
+          Whispr uses the same cryptography Signal uses, with one difference: there's no server in the middle. Even we couldn't read your messages if we wanted to.
+        </p>
+      </div>
+
+      <div class="section-reveal font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden">
+        <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+          <div class="w-3 h-3 rounded-full bg-error/70"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+          <span class="ml-2 text-hint text-xs">security-architecture.txt</span>
+        </div>
+        <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
+          {[
+            ['Identity',         'Ed25519 key pair · generated on-device · stored in hardware enclave'],
+            ['Key Exchange',     'X3DH (Extended Triple Diffie-Hellman) · forward secrecy'],
+            ['Message Crypto',   'Double Ratchet · AES-256-GCM · per-message keys'],
+            ['Transport Crypto', 'ECIES outer envelope · AES-GCM UDP discovery'],
+            ['Email Crypto',     'ECIES pairwise encryption to recipient Ed25519 identity key'],
+            ['Database',         'SQLCipher · AES-256 · full file encryption on mobile'],
+            ['Password',         'PBKDF2-SHA512 · 200,000 iterations · 256-bit key'],
+            ['Metadata',         'Random padding · ECIES envelope · sender/receiver hidden on wire'],
+            ['Server',           'None'],
+          ].map(([key, val]) => (
+            <div class="flex gap-4 items-baseline">
+              <span class="text-hint shrink-0 w-36">{key}</span>
+              <span class="text-accent">→</span>
+              <span class="text-primary/80">{val}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 03 ROADMAP ───────────────────────────────────────────────────────── -->
+  <section id="roadmap" class="relative py-32 px-6 max-w-4xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
+    <div class="section-reveal text-center mb-16">
+      <SectionEyebrow num="03" label="ROADMAP" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What's coming</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Whispr ships continuously. Here's what's in the pipeline.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {[
+        {
+          tag: 'IN PROGRESS',
+          title: 'obfs4 bridge transport',
+          body: 'Pluggable-transport binary that disguises Tor as TLS, defeating deep-packet inspection in censored networks. Vanilla bridges already shipped in v1.1.14.',
+          status: 'building',
+        },
+        {
+          tag: 'IN PROGRESS',
+          title: 'Voice & Video Calls',
+          body: 'End-to-end encrypted peer-to-peer calls over LAN and Tor. No relay server, no recording, no third party.',
+          status: 'building',
+        },
+        {
+          tag: 'PLANNED',
+          title: 'Group Messaging',
+          body: 'Multi-party encrypted group chats using a shared group key, derived without a central key server.',
+          status: 'planned',
+        },
+        {
+          tag: 'PLANNED',
+          title: 'Self-Destructing Messages',
+          body: 'Per-message timers. Messages evaporate from both devices after the set duration — no trace left.',
+          status: 'planned',
+        },
+      ].map(({ tag, title, body, status }) => {
+        const cardBorder =
+          status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]'
+          : status === 'soon'   ? 'border-yellow-500/30 hover:border-yellow-500/50'
+          :                       'border-border hover:border-accent/20';
+        const dot =
+          status === 'building' ? 'bg-accent animate-pulse'
+          : status === 'soon'   ? 'bg-yellow-500/70'
+          :                       'bg-hint';
+        const pill =
+          status === 'building' ? 'bg-accent/10 text-accent border border-accent/30'
+          : status === 'soon'   ? 'bg-yellow-500/10 text-yellow-500/90 border border-yellow-500/30'
+          :                       'bg-surface text-hint border border-border';
+        const label =
+          status === 'building' ? 'building'
+          : status === 'soon'   ? 'soon'
+          :                       'planned';
+        return (
+          <div class={`section-reveal flex gap-5 p-6 rounded-2xl bg-surface border transition-colors ${cardBorder}`}>
+            <div class={`mt-1 w-2 h-2 rounded-full shrink-0 ${dot}`}></div>
+            <div>
+              <p class="text-hint text-xs font-mono mb-1">{tag}</p>
+              <h3 class="text-base font-bold text-primary mb-1.5">{title}</h3>
+              <p class="text-secondary text-sm leading-relaxed">{body}</p>
+            </div>
+            <div class={`ml-auto shrink-0 self-start px-2 py-0.5 rounded text-xs font-mono ${pill}`}>
+              {label}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- ── 04 GET IT ────────────────────────────────────────────────────────── -->
+  <section id="download" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-2xl mx-auto">
+      <div class="section-reveal text-center">
+        <SectionEyebrow num="04" label="GET IT" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Whispr</h2>
+        <p class="text-secondary mb-10">Available for Android. iOS coming soon. No account. No tracking. Just install and go.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+          <DownloadButton
+            platform="android"
+            href="https://github.com/pointbreaklab-byte/Webiste/releases/latest/download/whispr-android.apk"
+            label="Android APK"
+          />
+          <DownloadButton platform="ios" href="#" label="iOS — Coming Soon" />
+        </div>
+
+        <!-- Download counter — fetched client-side from GitHub API, hidden until 1000+ -->
+        <div id="download-count" class="hidden text-xs font-mono text-hint mb-7"></div>
+
+        <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
+          <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.1.15</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Released</span><span class="text-primary">2026</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Cost</span><span class="text-primary/80">Free. No accounts, no ads, no tracking.</span></div>
+          <div class="flex gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint w-32">SHA-256 (APK)</span><span class="text-primary/60 break-all">cb546b2e5cc138f81976dcae065bbacd1e4131375aafefbaf9bd1e97393d41c5</span></div>
+        </div>
+
+        <p class="text-hint text-xs mt-4">
+          Full release history: <a href="/changelog/" class="text-accent hover:underline">changelog</a>
+        </p>
+      </div>
+
+      <!-- ── Censored-region note ───────────────────────────────────────────
+           Brief mention only. The real getting-started guide is INSIDE the
+           app (Settings → Network → Bridges → tap the (i) icon) so users
+           don't have to leave the install flow to find it.                -->
+      <div class="section-reveal mt-16 p-6 rounded-2xl bg-bg border border-border">
+        <div class="flex items-start gap-4">
+          <div class="shrink-0 w-10 h-10 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center text-xl">🌐</div>
+          <div>
+            <p class="text-accent text-xs font-mono tracking-widest mb-2">USING WHISPR WHERE TOR IS BLOCKED</p>
+            <h3 class="text-lg font-bold text-primary mb-2">India · Iran · China · restrictive Wi-Fi</h3>
+            <p class="text-secondary text-sm leading-relaxed mb-3">
+              Some networks block Tor. If your messages don't deliver, install Whispr and open <span class="text-primary">Settings → Network → Bridges</span>. Tap the <span class="font-mono text-accent">(i)</span> icon there for a full step-by-step guide to setting up bridges for your region.
+            </p>
+            <p class="text-hint text-xs">
+              The instructions live in the app itself so you always have them with you, online or offline.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Base>
+
+<script>
+  // Download counter — fetched client-side from the GitHub Releases API.
+  // Hidden until total downloads ≥ 1000. Cached 1h in localStorage.
+  // Single fetch to a public endpoint, no third-party analytics.
+  const REPO    = 'pointbreaklab-byte/Webiste';
+  const KEY     = 'pbl_dl_count_v1';
+  const TTL_MS  = 60 * 60 * 1000;
+  const REVEAL  = 1000;
+
+  function readCache(): number | null {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      const { count, ts } = JSON.parse(raw);
+      if (typeof count !== 'number' || typeof ts !== 'number') return null;
+      if (Date.now() - ts > TTL_MS) return null;
+      return count;
+    } catch {
+      return null;
+    }
+  }
+
+  function writeCache(count: number) {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ count, ts: Date.now() }));
+    } catch { /* private mode / disabled — silently skip */ }
+  }
+
+  async function fetchTotalDownloads(): Promise<number> {
+    const res = await fetch(`https://api.github.com/repos/${REPO}/releases`);
+    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+    const releases = await res.json() as Array<{ assets: Array<{ download_count: number }> }>;
+    return releases.reduce(
+      (sum, r) => sum + r.assets.reduce((s, a) => s + (a.download_count || 0), 0),
+      0,
+    );
+  }
+
+  function reveal(count: number) {
+    if (count < REVEAL) return;
+    const el = document.getElementById('download-count');
+    if (!el) return;
+    el.textContent = `${count.toLocaleString()} downloads`;
+    el.classList.remove('hidden');
+  }
+
+  (async () => {
+    const cached = readCache();
+    if (cached != null) reveal(cached);
+    try {
+      const fresh = await fetchTotalDownloads();
+      writeCache(fresh);
+      reveal(fresh);
+    } catch { /* offline or rate-limited — leave as-is */ }
+  })();
+</script>
