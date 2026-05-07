@@ -24,6 +24,13 @@ interface Release {
 
 const releases: Release[] = [
   {
+    tag: 'v1.1.14',
+    date: '2026-05-07',
+    kind: 'feature',
+    title: 'Tor bridges (for blocked networks)',
+    body: 'Settings → Network → Bridges. If Tor is blocked or filtered on your network — common in India, Iran, restrictive Wi-Fi — paste a bridge line from bridges.torproject.org and Whispr will route through it instead of public Tor relays. Vanilla bridges this release; obfs4 (DPI-resistant) follows in v1.1.15.',
+  },
+  {
     tag: 'v1.1.13',
     date: '2026-05-07',
     kind: 'fix',
