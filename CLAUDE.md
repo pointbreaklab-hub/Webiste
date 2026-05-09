@@ -150,21 +150,21 @@ Three top-level chapters:
 
 - **Hero** — H1 is **"Apps that don't watch back."** (the brand name
   "PointBreakLab" goes in the Nav and the subhead). Beneath the
-  subhead, two short mono lines that are **load-bearing for trust**:
-  - Line 1 (proof): `End-to-end encrypted via the Signal Protocol · X3DH + Double Ratchet · see the architecture →`
-    The link deep-anchors to `/whispr/#architecture`. Provides
-    above-the-fold cryptographic evidence so a skeptic doesn't have
-    to scroll to find a single piece of proof.
-  - Line 2 (business model): `Solo project from Würzburg · no investors · no ads · no telemetry · free forever.`
-    Defuses the "if it's free, you're the product" question that
-    privacy-aware users ask reflexively. Be honest about what we
-    are; don't pretend to be a company we're not.
+  subhead, one short mono line carries the cryptographic receipt:
+  `End-to-end encrypted via the Signal Protocol · X3DH + Double
+  Ratchet · see the architecture →` — the link deep-anchors to
+  `/whispr/#architecture`. This gives a skeptic above-the-fold
+  evidence without having to scroll. **Don't strip this line back to
+  a claims-only coda.** It addresses a 2026-05-07 review that
+  flagged the homepage as "claims, not receipts."
 
-  **Don't strip these back to the old single mono coda** ("Free ·
-  encrypted · never on a server"). That coda was claim-only — both
-  reviewers in 2026-05-07 flagged it as the weakest part of the
-  homepage. The replacement adds ~6 lines of vertical space; that's
-  the price of credibility.
+  Earlier we also shipped a second line ("Solo project from Würzburg
+  · no investors · no ads · no telemetry · free forever") to defuse
+  the "if it's free, you're the product" reflex. **That line was
+  removed at the user's request** — Whispr is not committed to being
+  free forever, so the line was an unsafe promise. Don't reintroduce
+  it; if a business-model line ever lands again, it must not say
+  "free forever" or otherwise commit to permanent zero-cost.
 
   Primary CTA "Explore Whispr" links to `/whispr/`, secondary
   "View All Apps" anchors to `#apps` on the same page.
