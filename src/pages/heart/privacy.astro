@@ -1,0 +1,242 @@
+---
+import Base   from '../../layouts/Base.astro';
+import Nav    from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import SectionEyebrow from '../../components/SectionEyebrow.astro';
+import '../../styles/global.css';
+
+const updated = '5 May 2026';
+---
+
+<Base
+  title="Privacy Policy · Heart"
+  description="Heart App privacy policy. All health data stays on your device — no account, no server, no telemetry."
+>
+  <Nav />
+
+  <main class="min-h-screen pt-24 pb-24 px-6">
+    <div class="max-w-3xl mx-auto">
+
+      <div aria-hidden="true" class="absolute top-24 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+      <SectionEyebrow num="00" label="PRIVACY POLICY" align="center" />
+
+      <h1 class="text-4xl md:text-5xl font-black text-primary text-center mb-4 tracking-tight">
+        Heart — Privacy Policy
+      </h1>
+      <p class="text-hint text-center text-xs font-mono mb-16">Last updated: {updated}</p>
+
+      <!-- summary callout -->
+      <div class="p-5 rounded-2xl bg-surface border border-accent/30 mb-14 space-y-2">
+        <p class="text-accent text-xs font-mono tracking-widest mb-3">SUMMARY</p>
+        <ul class="space-y-2 text-sm text-secondary">
+          <li class="flex gap-2"><span class="text-accent shrink-0">→</span> Heart stores all health and activity data <strong class="text-primary">on your device only</strong>.</li>
+          <li class="flex gap-2"><span class="text-accent shrink-0">→</span> We do <strong class="text-primary">not</strong> operate servers that receive your data, and there is <strong class="text-primary">no account or login</strong>.</li>
+          <li class="flex gap-2"><span class="text-accent shrink-0">→</span> We do <strong class="text-primary">not</strong> sell, share, or rent your data to anyone.</li>
+          <li class="flex gap-2"><span class="text-accent shrink-0">→</span> You can export or permanently delete your data at any time from <strong class="text-primary">Settings → Privacy &amp; export</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="prose-heart space-y-14">
+
+        <!-- §1 -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">1. What data Heart collects</h2>
+
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-5">1.1 Health &amp; fitness data</h3>
+          <ul class="space-y-2 text-sm text-secondary leading-relaxed list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Heart rate (BPM)</strong> — read in real time from a paired Bluetooth heart-rate monitor (e.g. Coospo HW9) over standard BLE service <code class="text-accent font-mono text-xs">0x180D</code> (Heart Rate Measurement, characteristic <code class="text-accent font-mono text-xs">0x2A37</code>).</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">R–R intervals</strong> — used to compute heart rate variability (HRV / RMSSD).</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Derived metrics</strong> — recovery score, strain score, calorie estimates, sleep stages (awake / light / deep / REM), sleep score, and rolling 30-day baselines for resting HR and HRV. All derivations run on-device.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Session history</strong> — start time, duration, average / max HR, calories, zone distribution, and (if you enable it) GPS route for runs / rides.</span></li>
+          </ul>
+
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.2 Profile data you enter</h3>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Age, sex, weight, and height (used by the calorie and HRV-baseline formulas).</li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Sleep target and accessibility preferences.</li>
+          </ul>
+
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.3 Device data</h3>
+          <p class="text-sm text-secondary leading-relaxed">Identifier, name, firmware version, signal strength, and battery level of paired Bluetooth heart-rate monitors.</p>
+
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.4 Location data (only if you use the route feature)</h3>
+          <p class="text-sm text-secondary leading-relaxed">GPS coordinates while a session is active, used to draw the route map. Location is <strong class="text-primary/80">never</strong> read outside an active session.</p>
+
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.5 Diagnostic data</h3>
+          <p class="text-sm text-secondary leading-relaxed">A rolling log of the last 20 sync / BLE failures (technical strings, no health data) and an in-app crash log. Crash reports are recorded <strong class="text-primary/80">only if you enable</strong> "Crash reports opt-in" in <strong class="text-primary/80">Privacy &amp; export</strong>. They are written to a file on your device and are <strong class="text-primary/80">not transmitted</strong> unless you choose to share a diagnostic export.</p>
+        </section>
+
+        <!-- §2 -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">2. Where data is stored</h2>
+          <p class="text-sm text-secondary leading-relaxed mb-4">All data is stored in your device's private application storage:</p>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">iOS</strong> — the app sandbox (<code class="text-accent font-mono text-xs">Documents</code> and <code class="text-accent font-mono text-xs">NSUserDefaults</code>), automatically protected by iOS data protection.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Android</strong> — internal app storage (<code class="text-accent font-mono text-xs">SharedPreferences</code> and the documents directory). On Android 10+ this storage is hardware-encrypted by the OS using your screen-lock credential.</span></li>
+          </ul>
+          <p class="text-sm text-secondary leading-relaxed mt-4">Other apps cannot read this storage. Uninstalling Heart removes all of it.</p>
+        </section>
+
+        <!-- §3 -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">3. Data Heart does <em>not</em> collect</h2>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            {[
+              'No name, email, phone number, or contact list.',
+              'No device contacts, photos, microphone, or camera access.',
+              'No advertising identifiers.',
+              'No analytics, tracking pixels, or third-party SDKs that profile users.',
+              'No background telemetry to any server controlled by us. The "Outbound telemetry" switch in Privacy & export is off by default and does not currently transmit data.',
+            ].map(item => (
+              <li class="flex gap-2">
+                <span class="text-accent shrink-0">—</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <!-- §4 permissions table -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-6">4. Permissions Heart requests, and why</h2>
+          <div class="rounded-2xl border border-border overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-border bg-surface">
+                    <th class="text-left px-4 py-3 text-hint font-semibold tracking-wider">Permission</th>
+                    <th class="text-left px-4 py-3 text-hint font-semibold tracking-wider">Platform</th>
+                    <th class="text-left px-4 py-3 text-hint font-semibold tracking-wider">Purpose</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  {[
+                    ['Bluetooth (Always)',                                                          'iOS / Android', 'Discover and connect to your heart-rate monitor; required for background heart-rate collection.'],
+                    ['Location (Fine, Always)',                                                     'iOS / Android', '(Android) Required by the OS for BLE scanning. (Both) Map your route during running / cycling sessions, if you use that feature.'],
+                    ['Notifications',                                                               'iOS / Android', 'Sleep summary and low-battery alerts.'],
+                    ['Background modes — bluetooth-central, location',                             'iOS',           'Keep heart-rate streaming and route recording active when the screen is off.'],
+                    ['FOREGROUND_SERVICE, FOREGROUND_SERVICE_CONNECTED_DEVICE, _LOCATION',         'Android',       'Run the BLE collector and route recorder in a foreground service so the OS does not kill them.'],
+                    ['RECEIVE_BOOT_COMPLETED, WAKE_LOCK',                                          'Android',       'Re-arm scheduled tasks after the device reboots.'],
+                    ['REQUEST_IGNORE_BATTERY_OPTIMIZATIONS',                                       'Android',       'Optionally requested so overnight collection is not paused by Doze mode. You may decline.'],
+                  ].map(([perm, platform, purpose]) => (
+                    <tr class="hover:bg-surface/50 transition-colors">
+                      <td class="px-4 py-3 text-accent align-top whitespace-nowrap">{perm}</td>
+                      <td class="px-4 py-3 text-hint align-top whitespace-nowrap">{platform}</td>
+                      <td class="px-4 py-3 text-secondary align-top leading-relaxed">{purpose}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="text-xs text-hint mt-3 leading-relaxed">Heart never reads location outside an active route-tracking session, and never accesses Bluetooth peripherals other than the one you pair with.</p>
+        </section>
+
+        <!-- §5 third-party -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">5. Third-party services</h2>
+          <p class="text-sm text-secondary leading-relaxed">Heart's only network requests are to <strong class="text-primary/80">OpenStreetMap tile servers</strong> when you download an offline map area in <strong class="text-primary/80">Settings → Offline Maps</strong>. Tile requests include your approximate map region but no Heart-specific identifiers. Map tiles are © OpenStreetMap contributors, ODbL license. Once downloaded, tiles are cached locally and used without further network access.</p>
+          <p class="text-sm text-secondary leading-relaxed mt-3">Heart contains no advertising SDKs, no analytics SDKs, and no crash-reporter SDKs that send data off-device.</p>
+        </section>
+
+        <!-- §6 sharing -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">6. Data sharing</h2>
+          <p class="text-sm text-secondary leading-relaxed mb-4">You can share your data with third parties <strong class="text-primary/80">only by your explicit action</strong>:</p>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            {[
+              ['Export to another device', 'produces a JSON bundle you can transfer.'],
+              ['Export local bundle / training data / CSV', 'produces files you can save or share through your OS share sheet.'],
+              ['Diagnostic export', 'bundles recent technical logs for support purposes.'],
+            ].map(([label, desc]) => (
+              <li class="flex gap-2">
+                <span class="text-hint shrink-0">·</span>
+                <span><strong class="text-primary/80">{label}</strong> — {desc}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="text-sm text-secondary leading-relaxed mt-4">We do not sell data. We do not share data with advertisers. We do not share data with insurers or employers.</p>
+        </section>
+
+        <!-- §7 controls -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">7. Your controls</h2>
+          <p class="text-sm text-secondary leading-relaxed mb-3">In <strong class="text-primary/80">Settings → Privacy &amp; export</strong> you can at any time:</p>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            {[
+              'Toggle Anonymize exports, Crash reports opt-in, and Outbound telemetry.',
+              'Export to another device — JSON bundle of sessions and sleep data.',
+              'Export local bundle, training data, or CSV files.',
+              'Create a diagnostic export.',
+              'Clear heart-rate history — deletes recorded HR samples and sleep corrections; sessions and settings are kept.',
+              'Delete all data — permanently removes every heart-rate sample, every session, sleep corrections, app settings, profile, paired devices, and crash logs from this device. This action cannot be undone.',
+            ].map(item => (
+              <li class="flex gap-2">
+                <span class="text-accent shrink-0">→</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="text-sm text-secondary leading-relaxed mt-3">You can also remove all Heart data by uninstalling the app.</p>
+        </section>
+
+        <!-- §8 children -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">8. Children</h2>
+          <p class="text-sm text-secondary leading-relaxed">Heart is not directed to children under 13 (or the equivalent minimum age in your country). The calorie and HRV reference norms used by the app are not validated for children and may produce inaccurate results.</p>
+        </section>
+
+        <!-- §9 wellness disclaimer -->
+        <section>
+          <div class="p-5 rounded-2xl bg-surface border border-yellow-500/20">
+            <h2 class="text-xl font-bold text-primary mb-4">9. Wellness, not medical advice</h2>
+            <p class="text-sm text-secondary leading-relaxed mb-3">Heart is a <strong class="text-primary/80">wellness and fitness application</strong>. It is <strong class="text-primary/80">not</strong> a medical device, is not intended to diagnose, treat, cure, or prevent any disease, and is not a substitute for professional medical advice. All scores (recovery, strain, sleep score, calorie burn, etc.) are estimates derived from consumer-grade sensors and population-level reference data.</p>
+            <p class="text-sm text-secondary leading-relaxed">In particular, the <strong class="text-primary/80">heart-age estimate</strong>, when displayed, is computed from overnight HRV (RMSSD) and resting heart rate compared against published population-average reference norms (Umetani 1998, Pikkujämsä 1999). It is <strong class="text-primary/80">not</strong> personalised to your individual physiology. It is intended only as a longitudinal trend indicator and must not be used to make medical decisions. Always consult a qualified healthcare professional for medical questions.</p>
+          </div>
+        </section>
+
+        <!-- §10 security -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">10. Security</h2>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Storage on Android 10+ is hardware-encrypted by the OS using your screen-lock credential. iOS storage is protected by the iOS data-protection class.</li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Heart does not transmit your data to any server, so transit-level breaches are not applicable.</li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> If you discover a security issue, please contact us at the address below before public disclosure.</li>
+          </ul>
+        </section>
+
+        <!-- §11 changes -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">11. Changes to this policy</h2>
+          <p class="text-sm text-secondary leading-relaxed">If we update this policy, we will revise the "Last updated" date at the top and, for material changes that expand the data Heart collects, present the new policy in the app on next launch.</p>
+        </section>
+
+        <!-- §12 contact -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">12. Contact</h2>
+          <p class="text-sm text-secondary leading-relaxed mb-2">Questions, data-export requests, deletion requests, or security reports:</p>
+          <p class="text-sm font-mono text-accent">mail.roshankumargupta@gmail.com</p>
+          <p class="text-xs text-hint mt-2">For security disclosures, please write before publicly disclosing the issue so it can be reproduced and fixed.</p>
+        </section>
+
+        <!-- §13 jurisdictional -->
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">13. Jurisdictional notes</h2>
+          <ul class="space-y-3 text-sm text-secondary list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">EEA / UK (GDPR / UK GDPR)</strong> — Heart processes personal data only on your own device. No transfer occurs by default. You retain full rights of access, rectification, erasure, restriction, portability, and objection through the in-app Privacy &amp; export screen.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">California (CCPA / CPRA)</strong> — We do not "sell" or "share" personal information as those terms are defined under the CCPA / CPRA.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Health-data laws (HIPAA, etc.)</strong> — Heart is a consumer wellness app and is not a HIPAA-covered entity. Data you collect through Heart is not protected health information unless you choose to share it with a covered entity.</span></li>
+          </ul>
+        </section>
+
+      </div>
+
+      <div class="mt-20 pt-10 border-t border-border text-center text-xs text-hint">
+        <p>This policy applies to the Heart app only. For Whispr's privacy policy see <a href="/privacy/" class="text-accent hover:underline">pointbreaklab.com/privacy/</a>.</p>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Base>
