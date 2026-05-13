@@ -350,19 +350,202 @@ const screenshots = [
   <section id="architecture" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-4xl mx-auto">
+
       <div class="section-reveal text-center mb-16">
         <SectionEyebrow num="02" label="ARCHITECTURE" />
-        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Algorithms, cited.</h2>
-        <p class="text-secondary max-w-xl mx-auto">
-          Every metric is computed on-device from a published formula. No remote endpoints, no model files, no telemetry. Read the source if you want to know how a number was made.
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">A time-series engine,<br/>not an AI black box.</h2>
+        <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
+          Heart ingests raw R–R intervals off a BLE characteristic, runs classical signal processing on a 300-sample sliding window, and produces auditable scores. No neural network. No model weights. No remote inference. Every formula traces to a published paper and every constant is documented in source.
         </p>
       </div>
 
-      <div class="section-reveal mb-12">
+      <!-- device-flow diagram (kept as orientation) -->
+      <div class="section-reveal mb-20">
         <HeartArchitectureDiagram />
       </div>
 
-      <div class="section-reveal font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden">
+      <!-- ── THE PIPELINE ──────────────────────────────────────────────── -->
+      <div class="section-reveal mb-20">
+        <p class="text-accent text-xs font-mono tracking-widest mb-8 text-center">THE PIPELINE · RAW BYTES → RECOVERY SCORE</p>
+
+        <div class="max-w-2xl mx-auto">
+          {[
+            {
+              tag:    'STEP 1 · BLE INGEST',
+              title:  'BLE 0x2A37 notify frame',
+              detail: 'flags[0] | bpm[1] | RR_low[2] | RR_high[3] …   ·   ~1 notify / sec',
+              sub:    'bit1(flags) == 1  →  RR values present in frame',
+              accent: true,
+            },
+            {
+              tag:    'STEP 2 · PARSE',
+              title:  'RR interval extractor',
+              detail: 'uint16_le(frame[i], frame[i+1])  /  1024.0  ×  1000  →  ms',
+              sub:    'physiological gate: discard RR outside [300 ms, 2000 ms]',
+              accent: true,
+            },
+            {
+              tag:    'STEP 3 · PERSIST',
+              title:  'JSONL log  ·  heart_samples/YYYY-MM-DD.jsonl',
+              detail: '{"ts_ms": 1715608800000, "bpm": 72, "rr_ms": [812, 819, 808]}',
+              sub:    'appended live · sandboxed app storage · OS-encrypted at rest',
+              accent: false,
+            },
+            {
+              tag:    'STEP 4 · HRV',
+              title:  '300-sample ring buffer  →  RMSSD',
+              detail: 'RMSSD = √( Σ(RRᵢ₊₁ − RRᵢ)²  /  (N − 1) )   [N ≥ 4]',
+              sub:    'ESC/NASPE Task Force · Eur. Heart J. 17:354–381 · 1996',
+              accent: true,
+            },
+            {
+              tag:    'STEP 5 · SLEEP STAGING',
+              title:  'Rule-based stager  ·  5-min HR buckets',
+              detail: 'mean_bpm < baseline + 8  →  sleep candidate',
+              sub:    'onset gate 0.70  ·  stability σ < 6 bpm  ·  4 stages: awake / light / deep / REM',
+              accent: false,
+            },
+            {
+              tag:    'STEP 6 · BASELINE',
+              title:  'OvernightBaselineComputer  ·  35-night rolling window',
+              detail: 'RMSSD_array[−35 … −1]  →  percentile rank of last night',
+              sub:    'recovery = floor( rank × 100 )   ·   strain = zone-weighted effort Σ',
+              accent: true,
+            },
+          ].map((step, i, arr) => (
+            <div>
+              <div class={`rounded-xl border p-4 font-mono text-xs ${step.accent ? 'border-accent/40 bg-bg' : 'border-border bg-bg/60'}`}>
+                <p class="text-hint tracking-widest mb-1.5">{step.tag}</p>
+                <p class={`text-sm mb-1 ${step.accent ? 'text-accent' : 'text-primary/80'}`}>{step.title}</p>
+                <p class="text-primary/60 leading-relaxed">{step.detail}</p>
+                <p class="text-hint mt-1 leading-relaxed">{step.sub}</p>
+              </div>
+              {i < arr.length - 1 && (
+                <div class="flex justify-center py-3 text-accent/60 text-lg select-none">↓</div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- ── THE MATH ──────────────────────────────────────────────────── -->
+      <div class="section-reveal mb-20">
+        <p class="text-accent text-xs font-mono tracking-widest mb-8 text-center">THE MATH · RMSSD</p>
+
+        <div class="rounded-2xl bg-bg border border-border overflow-hidden">
+          <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+            <div class="w-3 h-3 rounded-full bg-error/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+            <span class="ml-2 text-hint text-xs font-mono">hrv_calculator.dart · evaluateRmssd()</span>
+          </div>
+          <div class="p-6 md:p-8 font-mono overflow-x-auto">
+
+            <!-- formula -->
+            <div class="text-center mb-8">
+              <p class="text-2xl md:text-3xl text-primary tracking-tight leading-relaxed">
+                RMSSD&nbsp;=&nbsp;
+                <span class="text-accent">√</span>
+                <span class="inline-block border-t border-primary/40 px-3 align-middle text-base leading-loose">
+                  Σ (RR<sub class="text-xs">i+1</sub> − RR<sub class="text-xs">i</sub>)<sup class="text-xs">2</sup>
+                  &nbsp;/&nbsp;(N − 1)
+                </span>
+              </p>
+            </div>
+
+            <!-- variable table -->
+            <div class="space-y-2 text-xs max-w-lg mx-auto">
+              {[
+                ['RRᵢ',    'successive R–R intervals in milliseconds'],
+                ['N',      'sample count  ·  ring buffer: min 4, max 300'],
+                ['source', 'ESC/NASPE Task Force · Eur. Heart J. 17:354–381 · 1996'],
+                ['gate',   'physiological range check: 300 ms ≤ RR ≤ 2000 ms'],
+                ['output', 'milliseconds  ·  typical resting adult: 20–80 ms'],
+              ].map(([sym, desc]) => (
+                <div class="flex gap-4 items-baseline">
+                  <span class="text-accent shrink-0 w-16">{sym}</span>
+                  <span class="text-hint">→</span>
+                  <span class="text-secondary">{desc}</span>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ── THE DATA ──────────────────────────────────────────────────── -->
+      <div class="section-reveal mb-20">
+        <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">THE DATA · YOUR DATA, NOT OURS</p>
+        <p class="text-secondary text-sm text-center max-w-xl mx-auto mb-8 leading-relaxed">
+          Every sample Heart records is exportable as structured JSON. It isn't trapped in a proprietary database — it's a flat file ready for Python, Pandas, or any analysis tool you prefer.
+        </p>
+
+        <div class="rounded-2xl bg-bg border border-border overflow-hidden">
+          <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+            <div class="w-3 h-3 rounded-full bg-error/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+            <span class="ml-2 text-hint text-xs font-mono">heart_export.json  ·  Settings → Privacy &amp; export</span>
+          </div>
+          <div class="p-5 md:p-6 font-mono text-xs leading-relaxed overflow-x-auto">
+            <pre class="text-primary/70 whitespace-pre">{`{
+  "export_version": 1,
+  "exported_at_ms": 1715612400000,
+
+  "hr_samples": [
+    { "ts_ms": 1715608800000, "bpm": 72, "rr_ms": [812, 819, 808, 824] },
+    { "ts_ms": 1715608801000, "bpm": 73, "rr_ms": [821, 805]           }
+  ],
+
+  "sleep_summaries": [
+    {
+      "date": "2026-05-13",
+      "sleep_minutes": 235,
+      "avg_bpm": 58,
+      "rmssd_ms": 44.2,
+      "stages": { "deep": 0, "rem": 15, "light": 55, "awake": 155 },
+      "confidence": 0.91
+    }
+  ],
+
+  "sessions": [
+    {
+      "start_at_ms": 1715585400000,
+      "duration_s": 3960,
+      "avg_bpm": 142,  "max_bpm": 168,
+      "calories_kcal": 312,
+      "zones": { "z1": 120, "z2": 840, "z3": 480, "z4": 60, "z5": 0 },
+      "route": [ { "lat": 49.7913, "lng": 9.9534, "ts_ms": 1715585401000 } ]
+    }
+  ]
+}`}</pre>
+          </div>
+        </div>
+
+        <!-- python snippet -->
+        <div class="rounded-2xl bg-bg border border-border overflow-hidden mt-4">
+          <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+            <div class="w-3 h-3 rounded-full bg-error/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+            <span class="ml-2 text-hint text-xs font-mono">analyse.py</span>
+          </div>
+          <div class="p-5 md:p-6 font-mono text-xs leading-relaxed overflow-x-auto">
+            <pre class="whitespace-pre"><span class="text-hint">import</span> <span class="text-primary">pandas</span> <span class="text-hint">as</span> <span class="text-primary">pd</span>, <span class="text-primary">json</span>
+
+<span class="text-hint">data   =</span> <span class="text-accent">json.load</span><span class="text-primary/60">(open(</span><span class="text-yellow-400/80">"heart_export.json"</span><span class="text-primary/60">))</span>
+<span class="text-hint">hr     =</span> <span class="text-accent">pd.DataFrame</span><span class="text-primary/60">(data[</span><span class="text-yellow-400/80">"hr_samples"</span><span class="text-primary/60">])</span>
+<span class="text-hint">hr[</span><span class="text-yellow-400/80">"time"</span><span class="text-hint">]</span>  <span class="text-hint">=</span> <span class="text-accent">pd.to_datetime</span><span class="text-primary/60">(hr[</span><span class="text-yellow-400/80">"ts_ms"</span><span class="text-primary/60">], unit=</span><span class="text-yellow-400/80">"ms"</span><span class="text-primary/60">)</span>
+
+<span class="text-hint"># 30-min rolling mean heart rate</span>
+<span class="text-hint">hr.set_index(</span><span class="text-yellow-400/80">"time"</span><span class="text-hint">)[</span><span class="text-yellow-400/80">"bpm"</span><span class="text-hint">].resample(</span><span class="text-yellow-400/80">"30min"</span><span class="text-hint">).mean().plot()</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- reference table (kept for depth) -->
+      <div class="section-reveal font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden mb-6">
         <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
           <div class="w-3 h-3 rounded-full bg-error/70"></div>
           <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
@@ -371,17 +554,17 @@ const screenshots = [
         </div>
         <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
           {[
-            ['Identity',     'None — no account, no email, no key'],
-            ['HR source',    'BLE Heart Rate Service · UUID 0x180D · char 0x2A37'],
-            ['HRV',          'RMSSD · ESC/NASPE Task Force 1996 · 300-sample buffer'],
-            ['Calories',     'Keytel et al. (2005) · HR + age + weight + sex'],
-            ['Sleep',        'Rule-based 5-min stager + prior-calibrated correction'],
-            ['Recovery',     'HRV percentile vs personal 30-day rolling baseline'],
-            ['Strain',       'Zone-weighted effort score (range 0–21+)'],
-            ['Coach',        'On-device heuristics · trend / variance / streak detection'],
-            ['Storage',      'SharedPreferences + JSONL · app sandbox · OS-encrypted'],
-            ['Network',      'None — only optional OSM tile downloads for offline maps'],
-            ['Server',       'None'],
+            ['Identity',  'None — no account, no email, no key'],
+            ['HR source', 'BLE Heart Rate Service · UUID 0x180D · char 0x2A37'],
+            ['HRV',       'RMSSD · ESC/NASPE Task Force 1996 · 300-sample buffer'],
+            ['Calories',  'Keytel et al. (2005) · HR + age + weight + sex'],
+            ['Sleep',     'Rule-based 5-min stager + prior-calibrated correction'],
+            ['Recovery',  'HRV percentile vs personal 30-day rolling baseline'],
+            ['Strain',    'Zone-weighted effort score (range 0–21+)'],
+            ['Coach',     'On-device heuristics · trend / variance / streak detection'],
+            ['Storage',   'SharedPreferences + JSONL · app sandbox · OS-encrypted'],
+            ['Network',   'None — only optional OSM tile downloads for offline maps'],
+            ['Server',    'None'],
           ].map(([key, val]) => (
             <div class="flex gap-4 items-baseline">
               <span class="text-hint shrink-0 w-32">{key}</span>
@@ -392,7 +575,7 @@ const screenshots = [
         </div>
       </div>
 
-      <p class="text-hint text-xs text-center mt-6 max-w-xl mx-auto leading-relaxed">
+      <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed">
         Heart is a wellness application — not a medical device. All scores are estimates derived from consumer-grade sensors and population-level reference data, validated for trend tracking, not diagnosis.
       </p>
     </div>
