@@ -151,6 +151,77 @@ const screenshots = [
           </div>
         ))}
       </div>
+
+      <!-- The band is just a sensor -->
+      <div class="section-reveal mt-20">
+        <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">THE BAND IS JUST A SENSOR</p>
+        <h3 class="text-2xl md:text-3xl font-black text-primary mb-10 text-center">Your band broadcasts.<br/>Heart listens.</h3>
+
+        <div class="max-w-2xl mx-auto space-y-4 mb-14">
+          <p class="text-secondary text-sm leading-relaxed">
+            The Coospo HW9 is a dumb sensor <span class="text-hint italic">(a device that only broadcasts raw data — no onboard processing, no memory, no intelligence of its own)</span>. Every heartbeat it detects an R-wave, computes a beat interval, and broadcasts two values — BPM and milliseconds since the last beat — over a short-range Bluetooth link. Then it forgets. It doesn't know your name, what day it is, or whether last night was good sleep or bad.
+          </p>
+          <p class="text-secondary text-sm leading-relaxed">
+            The official Coospo app catches that broadcast. Shows you 104 bpm. It was built for bike computers — pairing sensors to head units, syncing ride logs, tracking kilometres. Using it for daily wellness is like using a speedometer to track your resting heart rate.
+          </p>
+          <p class="text-secondary text-sm leading-relaxed">
+            Heart catches the same broadcast — and doesn't let go.
+          </p>
+        </div>
+
+        <!-- comparison panel -->
+        <div class="font-mono text-xs rounded-2xl bg-bg border border-border overflow-hidden">
+          <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+            <div class="w-3 h-3 rounded-full bg-error/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+            <span class="ml-2 text-hint text-xs">same-signal.txt</span>
+          </div>
+          <div class="p-5 md:p-6 overflow-x-auto">
+            <!-- header row -->
+            <div class="flex gap-2 mb-3 pb-3 border-b border-border">
+              <span class="text-hint shrink-0" style="width:220px"></span>
+              <span class="text-hint shrink-0 text-center" style="width:110px">COOSPO APP</span>
+              <span class="text-accent shrink-0 text-center" style="width:240px">HEART</span>
+            </div>
+            <!-- rows -->
+            {[
+              { label: 'Shows live BPM',         coospo: true,  heart: true,  note: '' },
+              { label: 'Stores every beat',       coospo: false, heart: true,  note: 'on-device, sandboxed' },
+              { label: 'HRV (RMSSD)',             coospo: false, heart: true,  note: 'from R–R intervals' },
+              { label: '4-stage sleep',           coospo: false, heart: true,  note: 'rule-based + calibrated' },
+              { label: 'Recovery score',          coospo: false, heart: true,  note: 'vs your 30-day baseline' },
+              { label: 'Rhythm hints',            coospo: false, heart: true,  note: 'pNN50 anomaly detection' },
+              { label: 'GPS sessions',            coospo: false, heart: true,  note: 'route maps + calories' },
+              { label: 'Insights & trends',       coospo: false, heart: true,  note: '24h window deep-dive' },
+              null,
+              { label: 'Needs an account',        coospo: true,  heart: false, note: '' },
+              { label: 'Cloud sync',              coospo: true,  heart: false, note: 'everything stays local' },
+              { label: 'Subscription',            coospo: false, heart: false, note: 'free' },
+            ].map((row) => row === null
+              ? <div class="border-t border-border my-2"></div>
+              : (
+              <div class="flex gap-2 items-baseline py-1.5">
+                <span class="text-hint shrink-0" style="width:220px">{row.label}</span>
+                <span class="shrink-0 text-center" style="width:110px">
+                  {row.coospo
+                    ? <span class="text-primary/50">✓</span>
+                    : <span class="text-hint/40">—</span>
+                  }
+                </span>
+                <span class="shrink-0 text-center" style="width:48px">
+                  {row.heart
+                    ? <span class="text-accent">✓</span>
+                    : <span class="text-hint/40">—</span>
+                  }
+                </span>
+                {row.note && <span class="text-hint pl-2">{row.note}</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
