@@ -1,0 +1,200 @@
+---
+// Heart architecture diagram — pure inline SVG, no JS.
+//
+// Shows the journey of a single heartbeat: HW9 chest strap detects an
+// R-wave, broadcasts bpm + RR intervals over BLE GATT (char 0x2A37),
+// the phone captures the frame, logs it locally, and an on-device
+// compute pipeline derives HRV / sleep / rhythm / readiness / strain.
+// Everything stays on the phone — no server, no cloud, no telemetry.
+//
+// Design constraints (mirrors components/ArchitectureDiagram.astro):
+//   - No JS, no client-side rendering. SVG inlined at build time.
+//   - Text in monospace to match the editorial / terminal-panel style.
+//   - Site palette only — accent #00d4aa, surface #131316, bg #0b0b0d,
+//     border #23232a, secondary #a3a3a3, hint #737373.
+//   - Wraps in <figure> with <figcaption> so screen readers get a
+//     plain-text equivalent of the diagram.
+//   - viewBox-based, so it scales down to mobile without media queries.
+---
+
+<figure class="my-8">
+  <svg
+    viewBox="0 0 800 500"
+    class="w-full h-auto max-w-3xl mx-auto block"
+    role="img"
+    aria-labelledby="heart-arch-title heart-arch-desc"
+  >
+    <title id="heart-arch-title">Heart architecture diagram</title>
+    <desc id="heart-arch-desc">
+      A heartbeat detected by the HW9 chest strap is broadcast over BLE
+      GATT as bpm and RR-interval values, captured by a background
+      service on the phone, appended to an on-disk JSONL log, and fed
+      through an on-device compute pipeline (HRV, sleep, rhythm,
+      readiness, strain) that produces the live UI and Insights. No
+      server, account, cloud sync, telemetry, or external model file is
+      part of this picture.
+    </desc>
+
+    <!-- ── CHEST STRAP ─────────────────────────────────────────────── -->
+    <g>
+      <rect x="40" y="40" width="220" height="340" rx="14"
+            fill="#131316" stroke="#23232a" stroke-width="1"/>
+      <text x="150" y="68" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            letter-spacing="2" fill="#737373">HW9 CHEST STRAP</text>
+
+      <!-- Heartbeat (ECG) -->
+      <rect x="60" y="90" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="150" y="113" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#ffffff">Heartbeat (ECG)</text>
+
+      <!-- arrow down -->
+      <path d="M 150 130 L 150 144 M 146 140 L 150 144 L 154 140"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- bpm + RR ms -->
+      <rect x="60" y="148" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="150" y="171" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">bpm + RR ms</text>
+
+      <!-- arrow down -->
+      <path d="M 150 188 L 150 202 M 146 198 L 150 202 L 154 198"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- BLE GATT 2A37 -->
+      <rect x="60" y="206" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="150" y="229" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">BLE GATT · 0x2A37</text>
+
+      <!-- Device boundary -->
+      <text x="150" y="261" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">DEVICE BOUNDARY</text>
+      <line x1="60" y1="270" x2="240" y2="270"
+            stroke="#00d4aa" stroke-width="1" stroke-dasharray="3 3"
+            stroke-opacity="0.55"/>
+
+      <!-- BLE frame on the wire -->
+      <rect x="60" y="284" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="150" y="307" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#737373">BLE notify frame</text>
+
+      <!-- arrow exiting device -->
+      <path d="M 150 332 L 150 374 M 146 370 L 150 374 L 154 370"
+            stroke="#737373" stroke-width="1.5" fill="none"/>
+    </g>
+
+    <!-- ── CENTER · BLE CHANNEL ────────────────────────────────────── -->
+    <g>
+      <text x="400" y="60" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            letter-spacing="2" fill="#737373">BLE 4.0+ · LINK-LAYER ENCRYPTED</text>
+
+      <!-- Single horizontal pipe -->
+      <line x1="260" y1="240" x2="540" y2="240"
+            stroke="#00d4aa" stroke-width="1" stroke-opacity="0.4"/>
+      <rect x="320" y="230" width="160" height="20" rx="10"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.5"/>
+      <text x="400" y="244" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            fill="#00d4aa">BLE notify · ~1 Hz</text>
+
+      <!-- Range annotation -->
+      <text x="400" y="290" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">DIRECT · NO RELAY · &lt; 10 m</text>
+
+      <!-- Wire-bytes annotation -->
+      <text x="400" y="335" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">ON THE WIRE</text>
+      <text x="400" y="352" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#a3a3a3">bpm + RR ms only</text>
+    </g>
+
+    <!-- ── YOUR PHONE ──────────────────────────────────────────────── -->
+    <g>
+      <rect x="540" y="40" width="220" height="340" rx="14"
+            fill="#131316" stroke="#23232a" stroke-width="1"/>
+      <text x="650" y="68" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            letter-spacing="2" fill="#737373">YOUR PHONE</text>
+
+      <!-- arrow entering device from below -->
+      <path d="M 650 374 L 650 332 M 646 336 L 650 332 L 654 336"
+            stroke="#737373" stroke-width="1.5" fill="none"/>
+
+      <!-- Captured BLE frame -->
+      <rect x="560" y="284" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="650" y="307" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#737373">BLE service · capture</text>
+
+      <!-- Device boundary -->
+      <line x1="560" y1="270" x2="740" y2="270"
+            stroke="#00d4aa" stroke-width="1" stroke-dasharray="3 3"
+            stroke-opacity="0.55"/>
+      <text x="650" y="261" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">ON-DEVICE BOUNDARY</text>
+
+      <!-- JSONL log -->
+      <rect x="560" y="218" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="650" y="241" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">JSONL log · sandboxed</text>
+
+      <!-- arrow up -->
+      <path d="M 650 214 L 650 200 M 646 204 L 650 200 L 654 204"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- On-device compute (taller box, two lines) -->
+      <rect x="560" y="142" width="180" height="58" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="650" y="164" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">HRV · Sleep · Rhythm</text>
+      <text x="650" y="184" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">Readiness · Strain</text>
+
+      <!-- arrow up -->
+      <path d="M 650 138 L 650 124 M 646 128 L 650 124 L 654 128"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- Live UI · Insights -->
+      <rect x="560" y="88" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="650" y="111" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#ffffff">Live UI · Insights</text>
+    </g>
+
+    <!-- ── BOTTOM BAND · NOT IN THE PICTURE ────────────────────────── -->
+    <g>
+      <line x1="40" y1="410" x2="760" y2="410"
+            stroke="#23232a" stroke-width="1"/>
+      <text x="400" y="438" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            letter-spacing="2" fill="#737373">NOT IN THE PICTURE</text>
+      <text x="400" y="468" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#a3a3a3">No server · No account · No cloud sync · No telemetry · No model file</text>
+    </g>
+  </svg>
+
+  <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">
+    A heartbeat detected by the HW9 chest strap travels as bpm + RR-interval values over a short-range BLE link directly to your phone, where it is logged locally and fed through an on-device compute pipeline. No server, cloud sync, telemetry, or external model file is involved.
+  </figcaption>
+</figure>

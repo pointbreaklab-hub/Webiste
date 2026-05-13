@@ -4,6 +4,7 @@ import Nav            from '../../components/Nav.astro';
 import FeatureBlock   from '../../components/FeatureBlock.astro';
 import DownloadButton from '../../components/DownloadButton.astro';
 import Footer         from '../../components/Footer.astro';
+import HeartArchitectureDiagram from '../../components/HeartArchitectureDiagram.astro';
 import SectionEyebrow from '../../components/SectionEyebrow.astro';
 import '../../styles/global.css';
 ---
@@ -152,6 +153,10 @@ import '../../styles/global.css';
         <p class="text-secondary max-w-xl mx-auto">
           Every metric is computed on-device from a published formula. No remote endpoints, no model files, no telemetry. Read the source if you want to know how a number was made.
         </p>
+      </div>
+
+      <div class="section-reveal mb-12">
+        <HeartArchitectureDiagram />
       </div>
 
       <div class="section-reveal font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden">
