@@ -234,6 +234,68 @@ The download counter script (~1 KB) lives at the bottom of this file,
 not on the homepage. SHA-256 lives in this file too — update on every
 release, not in `index.astro`.
 
+### `src/pages/heart/index.astro` — product page (Heart)
+
+All Heart-specific content. Four chapters, structurally parallel to
+the Whispr product page:
+
+- **Hero** — Heart-specific headline + Download / Architecture CTAs.
+  Slim, no animation.
+- **01 ─ FEATURES** — six FeatureBlock cards, then a `HOW IT WORKS`
+  panel and a `HARDWARE` panel. The HOW IT WORKS heading was
+  rewritten on 2026-05-13: it now says *"Pairs with what you
+  already own."* with a sub-line *"Heart speaks the standard BLE
+  Heart Rate Service (UUID 0x180D). Works with the Coospo HW9 —
+  worn on the chest or arm — and most modern chest straps."*
+  Don't revert this to the old *"Three steps. All on-device."*
+  framing — that one buried the compatibility story.
+- **02 ─ ARCHITECTURE** — opens with `HeartArchitectureDiagram`
+  (inline SVG, no JS — components/HeartArchitectureDiagram.astro),
+  then the terminal-style `heart-architecture.txt` panel. Same
+  rule as Whispr: the diagram is the conceptual map, the panel is
+  the technical reference. The "NOT IN THE PICTURE" band on the
+  diagram explicitly includes "No model file" (the Whispr diagram
+  has "No server / No account / etc." — Heart adds the
+  no-model-artifact bullet because the pitch differentiator is
+  auditable maths, not opaque AI).
+- **03 ─ ROADMAP** — same status-driven card pattern as Whispr
+  (`building` / `soon` / `planned`). One PLANNED item is the
+  auto-start-session geofence (added 2026-05-13, replacing two
+  earlier PLANNED cards for Wear OS / Apple Health bridges that
+  were deprioritised).
+- **04 ─ GET IT** — download buttons, version + SHA-256 box,
+  hidden download counter, link to `/heart/changelog/`. The
+  download button points at the GitHub release auto-resolved URL
+  `https://github.com/pointbreaklab-byte/Heart/releases/latest/download/heart-android.apk`.
+
+**Don't describe the HW9 as chest-only.** It's a versatile band
+worn on the chest, upper arm, or forearm. The accuracy section
+that compares chest-strap-as-a-class to wrist-optical is fine
+(category claim, not HW9-specific), but anywhere the HW9
+specifically is mentioned, mention all three wear positions.
+
+### Heart's architecture diagram component
+
+`src/components/HeartArchitectureDiagram.astro` is the SVG-only
+visual for the Heart product page. Three columns mirroring
+Whispr's diagram:
+
+- **Left — HW9 BAND · CHEST OR ARM** — Heartbeat (ECG) →
+  bpm + RR ms → BLE GATT 0x2A37 → device-boundary dashed line →
+  BLE notify frame exits.
+- **Middle — BLE channel** — single horizontal pipe with the pill
+  "BLE notify · ~1 Hz", annotations "DIRECT · NO RELAY · < 10 m"
+  and "ON THE WIRE · bpm + RR ms only".
+- **Right — YOUR PHONE** — arrow enters from below → BLE service
+  capture → on-device-boundary dashed line → JSONL log (sandboxed)
+  → compute pipeline (HRV / Sleep / Rhythm + Readiness / Strain) →
+  Live UI · Insights.
+- **Bottom band** — "NOT IN THE PICTURE — No server · No account ·
+  No cloud sync · No telemetry · No model file".
+
+Same palette as the Whispr diagram. viewBox 800×500, SVG inlined at
+build time, scales to mobile without media queries.
+
 ### Other pages
 
 - `src/pages/privacy.astro` — privacy policy. Mirrors the in-app
@@ -241,52 +303,87 @@ release, not in `index.astro`.
   Keep them in sync if either changes.
 - `src/pages/whispr/add.astro` — **deep-link landing page** for invite
   links shared from the app.
-- `src/pages/changelog.astro` — release log (see "Changelog" below).
+- `src/pages/whispr/changelog.astro` — Whispr release log.
+- `src/pages/heart/changelog.astro` — Heart release log (full
+  history v1.0.0 → latest; v1.0.14 deliberately omitted).
 
-## Studio + product split (2026-05-07)
+## Studio + product split (2026-05-07, extended 2026-05-13)
 
-Before this date the homepage was one long page with six chapters,
+Before 2026-05-07 the homepage was one long page with six chapters,
 all Whispr-specific. The split moved sections 02–05 to `/whispr/`,
 renumbered them as 01–04 there, and slimmed the homepage to two
 chapters (THE LAB, THE STUDIO). Reason: the homepage was trying to
 be both a studio portfolio and a product page at once, which
 diluted both.
 
+Heart followed the same pattern at `/heart/` (product page) and
+`/heart/changelog/`. On 2026-05-13 the previously-shared top-level
+`/changelog/` was moved under each product's subtree
+(`/whispr/changelog/`, `/heart/changelog/`) so each app fully owns
+its own subtree.
+
 **Don't undo the split.** Future apps (Knot, Elixir) will follow the
 same pattern at `/knot/`, `/elixir/` — homepage stays studio-level,
-each app gets its own product page.
+each app gets its own product page **and** its own changelog under
+that subtree.
 
 **Cross-page navigation rule.** `Nav.astro` and `Footer.astro` use
 **absolute paths** for every link (`/`, `/whispr/`, `/whispr/#download`,
-`/changelog/`, `/#about`) — never bare `#anchors`, because those
-break when the user is on a page other than the homepage. If you add
-a new internal link, follow this convention.
+`/whispr/changelog/`, `/heart/`, `/heart/changelog/`, `/#about`) —
+never bare `#anchors`, because those break when the user is on a page
+other than the homepage. If you add a new internal link, follow this
+convention.
 
-## Changelog page (`/changelog/`)
+**Nav simplification (2026-05-13).** The global Nav no longer carries
+a top-level "Changelog" entry — with two products the link became
+ambiguous. Current Nav items: Apps · Whispr · Heart · About.
+Per-product changelogs are reached from the product page's download
+box or from the Footer (which lists both explicitly under Resources).
+Don't restore a top-level Changelog link without first adding a
+landing page that disambiguates between the two — otherwise the
+single link will inevitably misroute one product's users.
 
-`src/pages/changelog.astro` is a hand-curated, user-facing release
-log. Source data is a `releases` array in the page frontmatter — one
-object per release with `tag`, `date`, `kind` (`feature` / `fix` /
-`polish` / `note`), `title`, and `body`. It's NOT auto-fetched from
-GitHub at runtime — keeps the site static, survives API rate limits,
-and lets us write user-facing prose instead of leaking dev-facing
-release-note jargon.
+## Changelog pages — split per product (2026-05-13)
+
+Each app gets its own changelog under its product subtree. The earlier
+top-level `/changelog/` (Whispr-only) was moved when Heart's download
+box pointed users to a Whispr release log:
+
+- `src/pages/whispr/changelog.astro` — Whispr release log (was
+  `src/pages/changelog.astro` before the split).
+- `src/pages/heart/changelog.astro` — Heart release log.
+
+Both files share the same structural pattern: a `releases` array in
+the frontmatter, one object per release with `tag`, `date`, `kind`
+(`feature` / `fix` / `polish` / `note`), `title`, and `body`.
+Hand-curated, NOT auto-fetched from GitHub at runtime — keeps the
+site static, survives API rate limits, and lets us write
+user-facing prose instead of leaking dev-facing release-note jargon.
 
 **Per-release maintenance:** when you ship a new app version, prepend
-a new `Release` object to the `releases` array. Style notes:
+a new `Release` object to the **right product's** array. Style notes:
 - One short user-facing sentence in `body` — what got better for *them*.
-- The dev-facing note in `release_notes/v*.md` (in the app repo) and
-  GitHub Releases stay technical; this is the audience-facing version.
+- The dev-facing note on GitHub Releases stays technical; this is the
+  audience-facing version.
 - Skip releases that shipped briefly and got reverted within an hour
   — but include the *revert* itself as a `fix` entry naming the
   reverted version. v1.1.12 (broken) is omitted; v1.1.13 (revert) is
   listed and explains why. That transparency is a credibility signal,
   not something to hide.
+- **Heart-specific.** v1.0.14 is intentionally absent: it was a
+  draft release for an abandoned band-vibration experiment that never
+  shipped to users. Listing it would mislead the audience.
 
 Each release renders as a left-aligned `SectionEyebrow` with the
 patch number (`13 ─── V1.1.13 · FIX ─── ●`), then a small mono
 date, the user-facing title, and the body. Same editorial chapter
 pattern the homepage uses, applied to every release entry.
+
+**Don't add a top-level `/changelog/` shim.** A user landing on
+`/changelog/` would be ambiguously routed; we removed the entry
+entirely from `Nav.astro` and replaced the single Footer link with
+two explicit ones ("Whispr changelog" / "Heart changelog"). Each
+product page's download box links to its own changelog.
 
 ## APK distribution — GitHub Releases (NOT in repo)
 
