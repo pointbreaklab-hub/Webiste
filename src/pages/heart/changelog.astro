@@ -28,7 +28,7 @@ const releases: Release[] = [
     date: '2026-05-13',
     kind: 'feature',
     title: 'On-device intelligence: rhythm hints, readiness forecast, personalized sleep',
-    body: 'Three new on-device features land in this release. Live rhythm hints flag windows of unusually irregular beat-to-beat variability on the home screen, with an episode log in Insights. A new readiness forecast on the Insights tab predicts tomorrow’s overnight HRV from the last week of nights, with small adjustments for last night’s sleep and recent training load. And once you’ve logged seven nights in the sleep diary, Heart starts shifting the detected sleep window to match the bedtime and wake times you actually live by. Everything is closed-form maths running locally — no telemetry, no model file, no account.',
+    body: 'Three new on-device features land in this release. Live rhythm hints flag windows of unusually irregular beat-to-beat variability on the home screen, with an episode log in Insights. A new readiness forecast on the Insights tab predicts tomorrow’s overnight HRV from the last week of nights, with small adjustments for last night’s sleep and recent training load. And once you’ve corrected seven detected sleep windows by hand, Heart starts shifting future detections by your personal bedtime / wake offset. Everything is closed-form maths running locally — no telemetry, no model file, no account.',
   },
   {
     tag: 'v1.0.13',
@@ -45,11 +45,88 @@ const releases: Release[] = [
     body: 'The sleep stager now matches Kotlin’s thresholds (HR std max 8 bpm, sleep-onset gate 0.7) so Dart and the native background path agree on what counts as sleep. Trends → Sleep stops showing empty weeks for users whose real overnight std is in the 4–6 bpm range.',
   },
   {
+    tag: 'v1.0.11',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Sleep tab actually populates a week of nights',
+    body: 'Three thresholds in the sleep stager were set tight enough that real overnight data couldn’t pass them — clean nights scored 0.85 against a 0.85 gate, the stability check rejected normal 4–6 bpm variance as too noisy, and disturbed-sleep nights under three hours were silently erased. Relaxed all three to match the actual signal the band produces. Trends → Sleep populates with the last week of nights within seconds of opening the app.',
+  },
+  {
+    tag: 'v1.0.10',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Past nights stop showing zero minutes of sleep',
+    body: 'If you opened Trends → Sleep and saw older nights stuck at zero minutes even though raw HR samples were on disk, that’s fixed. The cached daily summary was being written by a legacy native formula that never picked up the Dart stager fixes. The app now recomputes the last seven nights at launch using the corrected pipeline, and the background service does the same for any future night it computes while Heart is closed.',
+  },
+  {
+    tag: 'v1.0.9',
+    date: '2026-05-09',
+    kind: 'polish',
+    title: 'No more morning sleep-validation prompt',
+    body: 'Asking you to remember last night’s bedtime to the minute, every morning, wasn’t earning its keep — most people don’t actually recall accurately, and the prompt added friction without a real payoff. It’s gone. The Sleep snapshot card in Insights now carries a Detection quality bar (Low / Medium / High) so you can see at a glance how confidently the stager classified the night, without having to log anything yourself.',
+  },
+  {
+    tag: 'v1.0.8',
+    date: '2026-05-09',
+    kind: 'feature',
+    title: 'Backup & restore your full history',
+    body: 'Settings → Backup & restore. Pack the device’s full Heart state — every HR sample, every GPS route, every sleep summary, every setting — into a single ZIP and share it via email / Drive / AirDrop. Restore it on a new phone and your full history follows you. Optional automatic backups on a daily / weekly / monthly cadence run quietly the next time you open the app.',
+  },
+  {
     tag: 'v1.0.7',
     date: '2026-05-09',
     kind: 'fix',
     title: 'GPS works on Android, faster initial fix',
     body: 'Android location permission is now requested at the right moment, and the GPS listener registers against both GPS and network providers — so the map gets a coarse fix indoors right away and refines to a precise outdoor fix once you’re under sky. The “Waiting for GPS…” stall is gone.',
+  },
+  {
+    tag: 'v1.0.6',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Sleep tab works for users with higher resting HR',
+    body: 'Second pass on the sleep stager. v1.0.5 forwarded your personalised resting HR into the detection threshold, but the cap was still pulling the threshold below the actual sleep BPM for default profiles. The cap now leaves enough headroom to detect real sleep up to ~75 bpm while still rejecting clearly-awake nights, so your past week of overnight data shows up correctly.',
+  },
+  {
+    tag: 'v1.0.5',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Sleep tab no longer empty, Energy no longer shows 6,000 kcal days',
+    body: 'Two fixes from the same screenshot. Sleep: the Trends → Sleep tab was hardcoding a 60 bpm resting reference instead of your personalised value, so users with a real resting HR above 60 saw nothing populate even with tens of thousands of overnight samples on disk. Energy: the daily kcal estimator was applying the Keytel formula at every HR ≥ 60 bpm, but the formula is only validated for 90–150 bpm — integrated over 24 h that produced phantom totals around 6,000 kcal for desk days. The Energy card now shows active energy above resting only (HR ≥ 90 bpm), matching how WHOOP and Polar present their training-load numbers.',
+  },
+  {
+    tag: 'v1.0.4',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Map tiles actually render',
+    body: 'v1.0.2 declared the INTERNET permission, which OpenStreetMap needs to serve tiles. v1.0.4 is the part that actually makes them load: a custom HTTP layer with a policy-compliant User-Agent so OSM doesn’t reject the requests. The route-map tile area in live and saved sessions stops being grey rectangles.',
+  },
+  {
+    tag: 'v1.0.3',
+    date: '2026-05-08',
+    kind: 'fix',
+    title: 'Routes record while the app is in the background',
+    body: 'Minimising Heart during a Walk / Run / Cycling session used to pause the GPS stream, so the saved route would render as straight lines connecting only the waypoints captured while the app was visible. The foreground service now keeps recording the full polyline whether the screen is on or off, and the saved-session map shows what you actually moved.',
+  },
+  {
+    tag: 'v1.0.2',
+    date: '2026-05-08',
+    kind: 'fix',
+    title: 'Internet permission for map tiles',
+    body: 'The Android manifest was missing the INTERNET permission — Heart needs it for exactly one thing, OpenStreetMap tile downloads in the map widget. Declared it (with a comment naming the one widget that uses it). This was the first half of a two-part fix; the tiles fully start loading once v1.0.4’s OSM-policy User-Agent lands too.',
+  },
+  {
+    tag: 'v1.0.1',
+    date: '2026-05-08',
+    kind: 'fix',
+    title: 'Insights and Trends populate on Android',
+    body: 'v1.0.0 on Android wrote HR samples to one directory and read them from a different one — so the Insights and Trends tabs would render empty (0 samples, 0 minutes wear, no sleep stages) even after the band had been streaming overnight. Live BPM kept working because it’s driven by the in-memory stream, which masked the bug. Fixed.',
+  },
+  {
+    tag: 'v1.0.0',
+    date: '2026-05-08',
+    kind: 'feature',
+    title: 'Initial public release',
+    body: 'Local-first wellness app for Bluetooth heart-rate bands. Pairs with the Coospo HW9 — worn on the chest, upper arm, or forearm — and any standard BLE heart-rate strap (Polar H10, Wahoo TICKR, Garmin HRM-Dual). Live HR with zones, continuous HRV from R-R intervals, four-stage sleep tracking, daily recovery from a personal 30-day baseline, strain and calorie estimation, smart-wake alarms, 24/7 background BLE, an Insights tab with a window selector, and one-tap export / delete-everything. 100 % on-device — no account, no cloud, no telemetry.',
   },
 ];
 
@@ -123,10 +200,7 @@ const latest = releases[0];
 
       <div class="mt-20 pt-10 border-t border-border text-center text-xs text-hint space-y-2">
         <p>
-          Older releases (v1.0.5 – v1.0.6, v1.0.8 – v1.0.11) shipped smaller fixes — not listed here.
-        </p>
-        <p>
-          Full technical release notes live on
+          Full technical release notes (SHA-256s, build details, APK download counts) live on
           <a href="https://github.com/pointbreaklab-byte/Heart/releases"
              class="text-accent hover:underline"
              rel="noopener">GitHub</a>.
