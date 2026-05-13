@@ -11,7 +11,7 @@ import '../../styles/global.css';
 
 <Base
   title="Heart · Local-first wellness app for Bluetooth heart-rate bands"
-  description="A wellness app for Bluetooth heart-rate bands. Tracks HR, HRV, sleep stages, recovery, strain — entirely on your device. No account, no cloud, no subscription. Pairs with Coospo HW9 and any standard BLE chest strap."
+  description="A wellness app for Bluetooth heart-rate bands. Tracks HR, HRV, sleep stages, recovery, strain — entirely on your device. No account, no cloud, no subscription. Pairs with the Coospo HW9 (worn on the chest or arm) and any standard BLE chest strap."
 >
   <Nav />
 
@@ -103,11 +103,14 @@ import '../../styles/global.css';
     <!-- How it works -->
     <div class="section-reveal mb-20">
       <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">HOW IT WORKS</p>
-      <h3 class="text-2xl md:text-3xl font-black text-primary mb-12 text-center">Three steps. All on-device.</h3>
+      <h3 class="text-2xl md:text-3xl font-black text-primary mb-4 text-center">Pairs with what you already own.</h3>
+      <p class="text-secondary max-w-2xl mx-auto mb-12 text-center leading-relaxed">
+        Heart speaks the standard BLE Heart Rate Service (UUID 0x180D). Works with the Coospo HW9 — worn on the chest or arm — and most modern chest straps.
+      </p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
-          { step: '01', title: 'Pair your band',  body: 'Heart speaks the standard BLE Heart Rate Service (UUID 0x180D). Works with the Coospo HW9 and most modern chest straps.' },
+          { step: '01', title: 'Pair your band',  body: 'Open Settings → Devices, scan, tap your HW9 (or any BLE HRS strap). One-time approval — no account, no QR, no cloud handshake.' },
           { step: '02', title: 'Wear it 24/7',    body: 'iOS state restoration and an Android foreground service keep the connection alive overnight, even when the phone is in your pocket.' },
           { step: '03', title: 'Get insights',    body: 'Recovery, strain, sleep stages, and on-device Coach observations every morning. Self-validate with a one-tap sleep diary.' },
         ].map(({ step, title, body }) => (
@@ -128,7 +131,7 @@ import '../../styles/global.css';
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
-          { icon: '🟢', label: 'PRIMARY',  title: 'Coospo HW9',   body: 'Full feature support — live HR, RR-interval HRV, battery percentage, smart-wake fine-tuning. Heart was developed and tested with this band.' },
+          { icon: '🟢', label: 'PRIMARY',  title: 'Coospo HW9',   body: 'A versatile band — worn on the chest, upper arm, or forearm. Full feature support: live HR, RR-interval HRV, battery percentage, smart-wake fine-tuning. Heart was developed and tested with this band.' },
           { icon: '🔵', label: 'STANDARD', title: 'Any BLE strap', body: 'Polar H10, Wahoo TICKR, Garmin HRM-Dual — anything that speaks Heart Rate Service 0x180D + Heart Rate Measurement 0x2A37.' },
           { icon: '🟡', label: 'OPTICAL',  title: 'Wrist sensors', body: 'Live HR works on optical wrist HR straps, but RR-interval availability depends on the device — HRV will be coarser than from a chest strap.' },
         ].map(({ icon, label, title, body }) => (

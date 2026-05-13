@@ -1,11 +1,12 @@
 ---
 // Heart architecture diagram — pure inline SVG, no JS.
 //
-// Shows the journey of a single heartbeat: HW9 chest strap detects an
-// R-wave, broadcasts bpm + RR intervals over BLE GATT (char 0x2A37),
-// the phone captures the frame, logs it locally, and an on-device
-// compute pipeline derives HRV / sleep / rhythm / readiness / strain.
-// Everything stays on the phone — no server, no cloud, no telemetry.
+// Shows the journey of a single heartbeat: HW9 band (worn on the chest
+// or upper / lower arm) detects an R-wave, broadcasts bpm + RR intervals
+// over BLE GATT (char 0x2A37), the phone captures the frame, logs it
+// locally, and an on-device compute pipeline derives HRV / sleep /
+// rhythm / readiness / strain. Everything stays on the phone — no
+// server, no cloud, no telemetry.
 //
 // Design constraints (mirrors components/ArchitectureDiagram.astro):
 //   - No JS, no client-side rendering. SVG inlined at build time.
@@ -26,22 +27,23 @@
   >
     <title id="heart-arch-title">Heart architecture diagram</title>
     <desc id="heart-arch-desc">
-      A heartbeat detected by the HW9 chest strap is broadcast over BLE
-      GATT as bpm and RR-interval values, captured by a background
-      service on the phone, appended to an on-disk JSONL log, and fed
-      through an on-device compute pipeline (HRV, sleep, rhythm,
-      readiness, strain) that produces the live UI and Insights. No
-      server, account, cloud sync, telemetry, or external model file is
-      part of this picture.
+      A heartbeat detected by the HW9 band — worn on the chest, upper
+      arm, or forearm — is broadcast over BLE GATT as bpm and
+      RR-interval values, captured by a background service on the
+      phone, appended to an on-disk JSONL log, and fed through an
+      on-device compute pipeline (HRV, sleep, rhythm, readiness,
+      strain) that produces the live UI and Insights. No server,
+      account, cloud sync, telemetry, or external model file is part of
+      this picture.
     </desc>
 
-    <!-- ── CHEST STRAP ─────────────────────────────────────────────── -->
+    <!-- ── HW9 BAND (CHEST OR ARM) ─────────────────────────────────── -->
     <g>
       <rect x="40" y="40" width="220" height="340" rx="14"
             fill="#131316" stroke="#23232a" stroke-width="1"/>
       <text x="150" y="68" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            letter-spacing="2" fill="#737373">HW9 CHEST STRAP</text>
+            letter-spacing="2" fill="#737373">HW9 BAND · CHEST OR ARM</text>
 
       <!-- Heartbeat (ECG) -->
       <rect x="60" y="90" width="180" height="36" rx="6"
@@ -195,6 +197,6 @@
   </svg>
 
   <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">
-    A heartbeat detected by the HW9 chest strap travels as bpm + RR-interval values over a short-range BLE link directly to your phone, where it is logged locally and fed through an on-device compute pipeline. No server, cloud sync, telemetry, or external model file is involved.
+    A heartbeat detected by the HW9 band — worn on the chest, upper arm, or forearm — travels as bpm + RR-interval values over a short-range BLE link directly to your phone, where it is logged locally and fed through an on-device compute pipeline. No server, cloud sync, telemetry, or external model file is involved.
   </figcaption>
 </figure>
