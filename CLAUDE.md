@@ -172,17 +172,31 @@ Three top-level chapters:
   href `/whispr/`), Knot (soon, encrypted notes), Elixir (coming later,
   🧪 offline secrets vault). The Whispr card's "Explore →" is the
   funnel into the product page.
-- **02 ─ PROOF** — compact terminal-style `stack.txt` panel with 6
-  rows excerpted from the full architecture (Identity · Key Exchange ·
-  Message Crypto · Database · Metadata · Server). Footer link
-  "See the full architecture →" deep-links to
-  `/whispr/#architecture`. **Don't strip this back to "claims-only".**
-  Privacy claims have a higher proof burden than ordinary product
-  claims because the user can't verify them by using the product —
-  only by inspecting the architecture. Competitors (Signal, Session,
-  Briar, SimpleX) all show cryptography above the fold; we do too.
-  (Added 2026-05-07 after a review pointed out the post-split
-  homepage was claim-only.)
+- **02 ─ PROOF** — compact terminal-style `stack.txt` panel listing
+  **studio-level guarantees only** (Storage · Server · Accounts ·
+  Telemetry · Trust model). Each row is something that holds for
+  *every* PBL app (Whispr, Heart, Knot, Elixir). Footer link
+  "Per-app cryptography (Whispr's Signal Protocol stack, etc.) →"
+  deep-links to `/whispr/#architecture` where the messaging-specific
+  primitives (X3DH, Double Ratchet, ECIES envelope) actually belong.
+
+  **Don't reintroduce Whispr-specific rows on this panel.** An
+  earlier iteration listed Identity (Ed25519), Key Exchange (X3DH),
+  Message Crypto (Double Ratchet), and Metadata (ECIES envelope) —
+  all of which are messaging concerns, irrelevant to Heart (BLE
+  wellness, no networking crypto), Knot (local notes), and Elixir
+  (offline vault). Listing them as "what PointBreakLab ships" on
+  the studio homepage was a structural dishonesty for a privacy
+  product. Studio-level claims belong here; per-app stacks go on
+  per-app pages. (Generalised 2026-05-08.)
+
+  **Don't strip this section back to "claims-only".** Privacy claims
+  have a higher proof burden than ordinary product claims because
+  the user can't verify them by using the product — only by
+  inspecting the architecture. Competitors (Signal, Session, Briar,
+  SimpleX) all show cryptography above the fold; we do too.
+  (Originally added 2026-05-07 after a review pointed out the
+  post-split homepage was claim-only.)
 - **03 ─ THE STUDIO** — RG monogram + about text + Contact button.
   (User has not yet provided a real photo to replace the monogram.)
 

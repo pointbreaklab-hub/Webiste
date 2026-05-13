@@ -70,7 +70,7 @@ import '../styles/global.css';
         <SectionEyebrow num="02" label="PROOF" />
         <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Receipts, not claims.</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          Privacy claims need evidence. Here's the cryptography PointBreakLab actually ships — the same primitives Signal uses, with one difference: there's no server in the middle.
+          Privacy claims need evidence. These guarantees hold for every PointBreakLab app — by architectural choice, not company policy.
         </p>
       </div>
 
@@ -81,14 +81,20 @@ import '../styles/global.css';
           <div class="w-3 h-3 rounded-full bg-accent/70"></div>
           <span class="ml-2 text-hint text-xs">stack.txt</span>
         </div>
+        {/* Studio-level guarantees only — what's true of EVERY PBL app
+            (Whispr, Heart, Knot, Elixir). Whispr-specific primitives like
+            X3DH, Double Ratchet, and the ECIES wire envelope live on
+            /whispr/#architecture because they're messaging-only and would
+            misrepresent the other apps. The link below sends interested
+            visitors there. (Generalised 2026-05-08 after a review pointed
+            out the homepage panel was Whispr-specific in disguise.) */}
         <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
           {[
-            ['Identity',       'Ed25519 key pair · generated on-device · stored in hardware enclave'],
-            ['Key Exchange',   'X3DH · Extended Triple Diffie-Hellman · forward secrecy'],
-            ['Message Crypto', 'Double Ratchet · AES-256-GCM · per-message keys'],
-            ['Database',       'SQLCipher · AES-256 · full file encryption'],
-            ['Metadata',       'Random padding · ECIES envelope · sender/receiver hidden on wire'],
-            ['Server',         'None'],
+            ['Storage',     'SQLCipher · AES-256 · full-file encryption · on device'],
+            ['Server',      'None · peer-to-peer or local-only by design'],
+            ['Accounts',    'None · no email, no phone, no registration'],
+            ['Telemetry',   'None · no analytics, no crash reports, no usage pings'],
+            ['Trust model', 'Open algorithms · architecture, not policy'],
           ].map(([key, val]) => (
             <div class="flex gap-4 items-baseline">
               <span class="text-hint shrink-0 w-32">{key}</span>
@@ -104,7 +110,7 @@ import '../styles/global.css';
           href="/whispr/#architecture"
           class="inline-flex items-center gap-2 text-accent text-sm font-semibold hover:gap-3 transition-all"
         >
-          See the full architecture <span>→</span>
+          Per-app cryptography (Whispr's Signal Protocol stack, etc.) <span>→</span>
         </a>
       </div>
     </div>
