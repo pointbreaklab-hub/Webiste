@@ -89,7 +89,7 @@ const screenshots = [
       <FeatureBlock
         icon="🔋"
         title="Recovery & Strain"
-        description="WHOOP-style recovery score from your personal 30-day HRV baseline. Zone-weighted strain. Both grounded in published research, not black boxes."
+        description="WHOOP-inspired recovery score — HRV percentile against your personal 30-day baseline. Zone-weighted strain. Both derived from published methodology, not black boxes."
       />
       <FeatureBlock
         icon="📊"
@@ -97,9 +97,9 @@ const screenshots = [
         description="Pick any past day, custom 24h windows, or 8 AM → 8 AM physiological days. Wear time, energy, sessions with GPS path, sleep snapshot, on-device coach."
       />
       <FeatureBlock
-        icon="⏰"
-        title="Smart-wake alarms"
-        description="Wake during a lighter sleep stage with a gentle pre-alarm nudge. Health alerts for low recovery, sleep debt, strain spikes, and band battery."
+        icon="🧠"
+        title="On-device intelligence"
+        description="Rhythm hints flag windows of unusual beat-to-beat variability. A readiness forecast estimates tomorrow's overnight HRV from your last week of nights. Personalized sleep correction shifts detections to your actual clock after 7 confirmed nights."
       />
       <FeatureBlock
         icon="🚫"
@@ -139,7 +139,7 @@ const screenshots = [
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
-          { icon: '🟢', label: 'PRIMARY',  title: 'Coospo HW9',   body: 'A versatile band — worn on the chest, upper arm, or forearm. Full feature support: live HR, RR-interval HRV, battery percentage, smart-wake fine-tuning. Heart was developed and tested with this band.' },
+          { icon: '🟢', label: 'PRIMARY',  title: 'Coospo HW9',   body: 'A versatile band — worn on the chest, upper arm, or forearm. Full feature support: live HR, RR-interval HRV, battery percentage reporting. Heart was developed and tested with this band.' },
           { icon: '🔵', label: 'STANDARD', title: 'Any BLE strap', body: 'Polar H10, Wahoo TICKR, Garmin HRM-Dual — anything that speaks Heart Rate Service 0x180D + Heart Rate Measurement 0x2A37.' },
           { icon: '🟡', label: 'OPTICAL',  title: 'Wrist sensors', body: 'Live HR works on optical wrist HR straps, but RR-interval availability depends on the device — HRV will be coarser than from a chest strap.' },
         ].map(({ icon, label, title, body }) => (
@@ -417,9 +417,9 @@ const screenshots = [
                 },
                 {
                   tag:    'STEP 5 · SLEEP STAGING',
-                  title:  'Rule-based stager  ·  5-min HR buckets',
+                  title:  'Deterministic stager  ·  5-min HR buckets',
                   detail: 'mean_bpm < baseline + 8  →  sleep candidate',
-                  sub:    'onset gate 0.70  ·  stability σ < 6 bpm  ·  4 stages: awake / light / deep / REM',
+                  sub:    'onset gate 0.70  ·  stability σ < 6 bpm  ·  4 stages: awake / light / deep / REM  ·  deterministic heuristics chosen over on-device ML — continuous tflite inference overnight would drain both phone and band battery in hours',
                   accent: false,
                 },
                 {
@@ -522,6 +522,9 @@ const screenshots = [
         </div>
       </div>
 
+      <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed mb-3">
+        Sleep staging accuracy against polysomnography (PSG) has not yet been independently measured for Heart. Thresholds are derived from published population studies; an independent PSG validation study is on the roadmap. HRV and HR accuracy numbers in the section below are class-level figures for chest straps as a category — not Heart-specific measured values.
+      </p>
       <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed">
         Heart is a wellness application — not a medical device. All scores are estimates derived from consumer-grade sensors and population-level reference data, validated for trend tracking, not diagnosis.
       </p>
@@ -612,10 +615,10 @@ const screenshots = [
         </div>
 
         <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
-          <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.0.15</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.0.16</span></div>
           <div class="flex gap-3"><span class="text-hint w-32">Min Android</span><span class="text-primary">7.0 · API 24</span></div>
           <div class="flex gap-3"><span class="text-hint w-32">Cost</span><span class="text-primary/80">Free. No accounts, no ads, no tracking.</span></div>
-          <div class="flex gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint w-32">SHA-256 (APK)</span><span class="text-primary/60 break-all">691fe24acaae8aec1d7911d3fcefcf1fa978a710b64e23a927c094026ac04e03</span></div>
+          <div class="flex gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint w-32">SHA-256 (APK)</span><span class="text-primary/60 break-all">465d7cb99b33c6614b302b1d760638b5017731c67b1df43125053a59115ffaf4</span></div>
         </div>
 
         <p class="text-hint text-xs mt-4">
@@ -633,7 +636,7 @@ const screenshots = [
             <p class="text-accent text-xs font-mono tracking-widest mb-2">ACCURACY · CHEST STRAP VS WRIST</p>
             <h3 class="text-lg font-bold text-primary mb-2">Better signal in, better signal out.</h3>
             <p class="text-secondary text-sm leading-relaxed mb-3">
-              Wrist-based wearables sit at <span class="text-primary">±5–15 bpm</span> against ECG during effort and <span class="text-primary">±10–20 ms</span> on overnight HRV. A chest strap is at <span class="text-accent">±2 bpm</span> and <span class="text-accent">±3–5 ms</span> respectively. Heart pairs with a chest strap by default, so the input it computes from is fundamentally cleaner.
+              Published literature puts wrist-based optical sensors at <span class="text-primary">±5–15 bpm</span> against ECG during effort and <span class="text-primary">±10–20 ms</span> on overnight HRV. Chest straps as a category reach <span class="text-accent">±2 bpm</span> and <span class="text-accent">±3–5 ms</span> respectively. These are category figures — Heart hasn't been independently measured against ECG. What Heart does is pair with a chest strap by default, so the input it computes from is fundamentally cleaner than optical.
             </p>
             <p class="text-hint text-xs">
               Same algorithmic class as WHOOP and Oura for derived scores — without the subscription, the cloud, or the closed source.
