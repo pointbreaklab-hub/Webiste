@@ -71,7 +71,7 @@ const screenshots = [
       <SectionEyebrow num="01" label="FEATURES" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Six features. All on-device. No subscription, no cloud, no compromise.
+        Eight features. All on-device. No subscription, no cloud, no compromise.
       </p>
     </div>
 
@@ -99,7 +99,17 @@ const screenshots = [
       <FeatureBlock
         icon="🧠"
         title="On-device intelligence"
-        description="Rhythm hints flag windows of unusual beat-to-beat variability. A readiness forecast estimates tomorrow's overnight HRV from your last week of nights. Personalized sleep correction shifts detections to your actual clock after 7 confirmed nights."
+        description="Rhythm hints flag windows of unusual beat-to-beat variability. A readiness forecast estimates tomorrow's overnight HRV. Personalized sleep correction shifts detections to your actual clock after 7 confirmed nights."
+      />
+      <FeatureBlock
+        icon="🏋️"
+        title="Post-workout analysis"
+        description="End a session and get an instant full summary — HR zone breakdown, peak and avg BPM, active calories, a side-by-side compare to your last session of the same type, and an estimated overnight HRV impact."
+      />
+      <FeatureBlock
+        icon="📍"
+        title="Gym auto-detection"
+        description="Pin your gym's location once. Pick a detection radius (100–500 m). Heart offers to start a session automatically after 10 minutes of dwell — nothing leaves your device, no map service, no movement history."
       />
       <FeatureBlock
         icon="🚫"
@@ -191,8 +201,10 @@ const screenshots = [
               { label: 'HRV (RMSSD)',             coospo: false, heart: true,  note: 'from R–R intervals' },
               { label: '4-stage sleep',           coospo: false, heart: true,  note: 'rule-based + calibrated' },
               { label: 'Recovery score',          coospo: false, heart: true,  note: 'vs your 30-day baseline' },
-              { label: 'Rhythm hints',            coospo: false, heart: true,  note: 'pNN50 anomaly detection' },
+              { label: 'Rhythm hints',            coospo: false, heart: true,  note: 'beat-skip rate anomaly detection' },
               { label: 'GPS sessions',            coospo: false, heart: true,  note: 'route maps + calories' },
+              { label: 'Post-workout analysis',   coospo: false, heart: true,  note: 'zones · compare · recovery impact' },
+              { label: 'Gym auto-detection',      coospo: false, heart: true,  note: 'GPS geofence · on-device only' },
               { label: 'Insights & trends',       coospo: false, heart: true,  note: '24h window deep-dive' },
               null,
               { label: 'Needs an account',        coospo: true,  heart: false, note: '' },
@@ -508,9 +520,11 @@ const screenshots = [
             ['Sleep',     'Rule-based 5-min stager + prior-calibrated correction'],
             ['Recovery',  'HRV percentile vs personal 30-day rolling baseline'],
             ['Strain',    'Zone-weighted effort score (range 0–21+)'],
-            ['Coach',     'On-device heuristics · trend / variance / streak detection'],
-            ['Storage',   'SharedPreferences + JSONL · app sandbox · OS-encrypted'],
-            ['Network',   'None — only optional OSM tile downloads for offline maps'],
+            ['Coach',       'On-device heuristics · trend / variance / streak detection'],
+            ['Post-workout','HR zones · vs last session · recovery impact estimate · GPS map'],
+            ['Gym detect',  'GPS geofence · 250 m default radius · 10-min dwell · on-device'],
+            ['Storage',     'SharedPreferences + JSONL · app sandbox · OS-encrypted'],
+            ['Network',     'None — only optional OSM tile downloads for offline maps'],
             ['Server',    'None'],
           ].map(([key, val]) => (
             <div class="flex gap-4 items-baseline">
@@ -609,7 +623,7 @@ const screenshots = [
         </div>
 
         <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
-          <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.0.16</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.0.18</span></div>
           <div class="flex gap-3"><span class="text-hint w-32">Min Android</span><span class="text-primary">7.0 · API 24</span></div>
           <div class="flex gap-3"><span class="text-hint w-32">Cost</span><span class="text-primary/80">Free. No accounts, no ads, no tracking.</span></div>
           <div class="flex gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint w-32">SHA-256 (APK)</span><span class="text-primary/60 break-all">6e00794571911aed8b99f4905483819b60cf4cd6d972ff6dcb9712071c595235</span></div>
