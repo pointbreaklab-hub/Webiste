@@ -24,6 +24,20 @@ interface Release {
 
 const releases: Release[] = [
   {
+    tag: 'v1.0.18',
+    date: '2026-05-17',
+    kind: 'feature',
+    title: 'Post-workout analysis, gym auto-detection, and GPS map fix',
+    body: 'Three things in one release. First, when you end a session Heart now shows a full post-workout summary — HR zone breakdown, peak and avg BPM, active calories, a compare-to-last-session row, and an estimated overnight HRV impact so you can see what recovery cost the session had. Second, go to Settings → Gym, pin your gym\'s location, pick a detection radius (100 – 500 m), and Heart will offer to start a Gym session automatically after you\'ve been there for 10 minutes — no manual tap needed. Third, the "Waiting for GPS…" state that sometimes stuck on Walk/Run sessions even after a few minutes is fixed: the app now seeds the map from the device\'s cached location instantly, falls back to a network fix in under two seconds, and only filters out genuinely bad accuracy rather than discarding early satellite fixes.',
+  },
+  {
+    tag: 'v1.0.17',
+    date: '2026-05-16',
+    kind: 'fix',
+    title: 'Sleep detection after post-workout nights',
+    body: 'Nights following a recorded workout session were being missed at a high rate. Post-exercise sympathetic activation keeps overnight HR elevated by 8–15 bpm, which pushed the detection baseline above the hard gate. The stager now detects when a session ended within three hours of the night window and automatically raises the detection threshold for that night, recovering detection on the nights that matter most for recovery context.',
+  },
+  {
     tag: 'v1.0.16',
     date: '2026-05-14',
     kind: 'feature',
