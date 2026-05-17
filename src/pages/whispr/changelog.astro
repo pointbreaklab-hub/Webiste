@@ -24,6 +24,13 @@ interface Release {
 
 const releases: Release[] = [
   {
+    tag: 'v1.1.16',
+    date: '2026-05-17',
+    kind: 'fix',
+    title: 'Messages no longer disappear after navigating away (Tor / bridge path)',
+    body: 'A race condition in conversation storage allowed two simultaneous Tor-retry deliveries to create duplicate conversation rows for the same contact — messages landed in one row while the chat list pointed at the other. Fixed at the database level. A one-time migration on first launch merges any existing split conversations and recovers previously missing messages.',
+  },
+  {
     tag: 'v1.1.15',
     date: '2026-05-07',
     kind: 'polish',
