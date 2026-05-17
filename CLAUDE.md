@@ -391,7 +391,7 @@ The APK lives in **GitHub Releases**, not in `public/downloads/`.
 Live download URL on the site:
 
 ```
-https://github.com/pointbreaklab-byte/Webiste/releases/latest/download/whispr-android.apk
+https://github.com/pointbreaklab-byte/Whispr/releases/latest/download/whispr-android.apk
 ```
 
 `releases/latest/download/<filename>` auto-resolves to the most recent
@@ -493,7 +493,7 @@ gh release create v1.1.0 path/to/app-arm64-v8a-release.apk \
 
 Then change the website's download button URL to:
 ```
-https://github.com/pointbreaklab-byte/Webiste/releases/latest/download/whispr-android.apk
+https://github.com/pointbreaklab-byte/Whispr/releases/latest/download/whispr-android.apk
 ```
 
 That URL auto-redirects to whatever the latest release's asset is. Repo stays lean, releases get version tags and download counts visible on the GitHub profile.
