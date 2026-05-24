@@ -168,10 +168,15 @@ Three top-level chapters:
 
   Primary CTA "Explore Whispr" links to `/whispr/`, secondary
   "View All Apps" anchors to `#apps` on the same page.
-- **01 ─ THE LAB** — three AppCards: Whispr (live, `PRIVATE BY DEFAULT`,
-  href `/whispr/`), Knot (soon, encrypted notes), Elixir (coming later,
-  🧪 offline secrets vault). The Whispr card's "Explore →" is the
-  funnel into the product page.
+- **01 ─ THE LAB** — four AppCards: Whispr (`LIVE`, `PRIVATE BY
+  DEFAULT`, href `/whispr/`), Heart (`LIVE`, `LOCAL-FIRST WELLNESS`,
+  href `/heart/`), Knot (`TESTING`, `PEER-TO-PEER VERSION CONTROL`,
+  href `/knot/`), Elixir (coming later, 🧪 offline secrets vault). Each
+  active card's "Explore →" is the funnel into its product page. The
+  `AppCard` component now takes a `status` prop (defaults `"LIVE"`;
+  Knot uses `"TESTING"`) so apps in pre-alpha don't have to lie about
+  being LIVE. Don't use `"LIVE"` for anything that doesn't have a
+  public binary.
 - **02 ─ PROOF** — compact terminal-style `stack.txt` panel listing
   **studio-level guarantees only** (Storage · Server · Accounts ·
   Telemetry · Trust model). Each row is something that holds for
@@ -184,8 +189,9 @@ Three top-level chapters:
   earlier iteration listed Identity (Ed25519), Key Exchange (X3DH),
   Message Crypto (Double Ratchet), and Metadata (ECIES envelope) —
   all of which are messaging concerns, irrelevant to Heart (BLE
-  wellness, no networking crypto), Knot (local notes), and Elixir
-  (offline vault). Listing them as "what PointBreakLab ships" on
+  wellness, no networking crypto), Knot (P2P version control with its
+  own Ed25519 + Tor stack), and Elixir (offline vault). Listing them
+  as "what PointBreakLab ships" on
   the studio homepage was a structural dishonesty for a privacy
   product. Studio-level claims belong here; per-app stacks go on
   per-app pages. (Generalised 2026-05-08.)
@@ -296,6 +302,112 @@ Whispr's diagram:
 Same palette as the Whispr diagram. viewBox 800×500, SVG inlined at
 build time, scales to mobile without media queries.
 
+### `src/pages/knot/index.astro` — product page (Knot)
+
+Added 2026-05-23, extended 2026-05-24 with the architecture diagram +
+FAQ. Knot is **pre-alpha** — the page reflects that everywhere it
+matters. Eight chapters, structurally parallel to /whispr/ and
+/heart/ but with the pre-alpha framing throughout:
+
+- **Hero** — Knot-specific headline ("Your code. Your machines. No
+  middleman."). Two CTAs: `Request early access` (anchors to
+  `#early-access`) and `See the architecture` (anchors to
+  `#architecture`). Below the CTAs, a yellow `IN TESTING · pre-alpha
+  · binaries not yet public` pill — visible above the fold without
+  dominating. **Don't drop this pill.** It's load-bearing for
+  honesty; the page leads with the product story before the caveat,
+  but the caveat is present from the first scroll.
+- **01 ─ THE PROBLEM** — four cards: regulated teams, small teams,
+  solo devs, everyone (outages). Sets up why a peer-to-peer
+  alternative makes sense before describing what Knot does.
+- **02 ─ HOW IT WORKS** — three step cards (the folder · the peers ·
+  the save). Plain-English description of save→commit→propagate
+  for non-engineers. Same three-step pattern Heart uses for its
+  hardware story.
+- **03 ─ FEATURES** — six FeatureBlock cards covering: saves are
+  commits, propagation over Tor, mutual cryptographic trust,
+  pairing codes (`knot1:<base64>` blob), real git underneath,
+  AI-session attribution.
+- **04 ─ ARCHITECTURE** — opens with `KnotArchitectureDiagram`
+  (inline SVG, no JS — components/KnotArchitectureDiagram.astro),
+  then the terminal-style `knot-architecture.txt` panel. Same rule
+  as Whispr and Heart: the diagram is the conceptual map, the
+  terminal panel is the technical reference. Both are load-bearing;
+  don't drop either.
+- **05 ─ WHO IT'S FOR** — three accent-bordered cards (SOLO ·
+  STARTUP · ENTERPRISE), each with a quote that summarises the
+  conversion trigger. Mirrors the three-audience framing that lives
+  in knot/CLAUDE.md §14 and is binding product positioning.
+  **Don't merge these into one block.** The three-audience framing
+  is the canonical Knot commercial positioning.
+- **06 ─ STATUS & ROADMAP** — same status-driven card pattern as
+  Whispr/Heart (`building` / `soon` / `planned`). Currently two
+  items are `building` (v1 milestone, autonomous Tor sync), one is
+  `soon` (onboarding wizard), three are `planned` (merge support,
+  mobile clients, public binaries).
+- **07 ─ FAQ** — seven plain-English `<details>` disclosure cards.
+  Collapsed by default; native `<details>`/`<summary>` so the
+  page stays JS-free. The seven questions in order: who should use
+  Knot, is Knot safe, does Knot use a server, do I still get to use
+  `git`, what about offline collaborators, lost keypair recovery,
+  non-code files. **The order is the order people actually ask in
+  — don't reorder without thinking about that.** Order matters
+  for skimmers who stop reading after question three.
+- **08 ─ EARLY ACCESS** — `Request early access` mailto button to
+  `mail.roshankumargupta@gmail.com`. **Not a download box.** Knot
+  has no public binary yet; building from source is mentioned in a
+  small footnote ("access granted with the early-access invite").
+  Below the CTA, a yellow pre-alpha caveat card explicitly lists
+  what's deferred: merge-of-divergent-histories, mobile clients,
+  onboarding wizard, installer packaging. Honest > aspirational —
+  this card is what makes the rest of the page credible.
+
+#### Hard rules for the Knot page
+
+- **`TESTING` badge, not `LIVE`.** The homepage AppCard uses
+  `status="TESTING"`; the in-hero pill says `IN TESTING · pre-alpha
+  · binaries not yet public`. Don't promote either to LIVE until
+  there's a public installer.
+- **No download button on `/knot/` until binaries are public.**
+  The Whispr / Heart product pages are the model for layout once we
+  get there. Today's `#early-access` mailto is the substitute.
+- **No GitHub source link.** The Knot source is private during
+  pre-alpha. Don't add "View source" buttons until that changes.
+- **No `/knot/changelog/` subtree yet.** No public releases means
+  nothing to log. Add it as `src/pages/knot/changelog.astro` once
+  the first public binary ships, following the Heart/Whispr split
+  convention.
+- **No `free forever` / pricing language.** Same site-wide rule
+  that applies to Whispr/Heart. The eventual enterprise tier is in
+  flight; don't commit to permanent zero-cost.
+- **Three-audience framing is binding.** Section 05 (SOLO ·
+  STARTUP · ENTERPRISE) maps to knot/CLAUDE.md §14. Reordering or
+  merging audiences here drifts the marketing off-strategy.
+
+### Knot's architecture diagram component
+
+`src/components/KnotArchitectureDiagram.astro` is the SVG-only
+visual for the Knot product page. Three columns mirroring Whispr's
+diagram (same viewBox 800×500, same palette, same `<figure>` +
+`<figcaption>` accessibility wrapper):
+
+- **Left — YOUR LAPTOP** — Hit save in editor → Daemon sees the
+  change → Real git commit (signed) → DEVICE BOUNDARY (dashed) →
+  Encrypted git pack exits.
+- **Middle — PEER-TO-PEER · NO MIDDLEMAN** — Single horizontal
+  pipe `TOR · .onion`, annotations `ED25519 MUTUAL AUTH · Both sides
+  prove identity` and `ON THE WIRE · Encrypted bytes only · Relays
+  carry, never read`.
+- **Right — TEAMMATE'S LAPTOP** — Encrypted git pack arrives from
+  below → DEVICE BOUNDARY → Verify + import pack → New commit on
+  disk → Shows in `git log`.
+- **Bottom band** — `NOT IN THE PICTURE — No GitHub · No central
+  server · No cloud account · No git add · No git push`.
+
+The "absences" band is the editorial heart of the diagram — it
+makes the architectural choice explicit. Same role the Whispr and
+Heart diagrams' bottom bands play. Don't drop or soften it.
+
 ### Other pages
 
 - `src/pages/privacy.astro` — privacy policy. Mirrors the in-app
@@ -322,10 +434,12 @@ Heart followed the same pattern at `/heart/` (product page) and
 (`/whispr/changelog/`, `/heart/changelog/`) so each app fully owns
 its own subtree.
 
-**Don't undo the split.** Future apps (Knot, Elixir) will follow the
-same pattern at `/knot/`, `/elixir/` — homepage stays studio-level,
-each app gets its own product page **and** its own changelog under
-that subtree.
+**Don't undo the split.** Knot now lives at `/knot/` following the
+same pattern; Elixir will follow at `/elixir/` when it lands.
+Homepage stays studio-level, each app gets its own product page —
+and once it has public releases, its own changelog under that
+subtree (e.g. `/knot/changelog/` once Knot ships its first public
+binary; nothing to log today).
 
 **Cross-page navigation rule.** `Nav.astro` and `Footer.astro` use
 **absolute paths** for every link (`/`, `/whispr/`, `/whispr/#download`,
@@ -334,14 +448,15 @@ never bare `#anchors`, because those break when the user is on a page
 other than the homepage. If you add a new internal link, follow this
 convention.
 
-**Nav simplification (2026-05-13).** The global Nav no longer carries
-a top-level "Changelog" entry — with two products the link became
-ambiguous. Current Nav items: Apps · Whispr · Heart · About.
-Per-product changelogs are reached from the product page's download
-box or from the Footer (which lists both explicitly under Resources).
-Don't restore a top-level Changelog link without first adding a
-landing page that disambiguates between the two — otherwise the
-single link will inevitably misroute one product's users.
+**Nav simplification (2026-05-13, extended 2026-05-24).** The global
+Nav no longer carries a top-level "Changelog" entry — with multiple
+products the link became ambiguous. Current Nav items: Apps · Whispr
+· Heart · Knot · About. Per-product changelogs are reached from the
+product page's download box or from the Footer (which lists each
+explicitly under Resources). Knot has no changelog page yet (no
+public releases). Don't restore a top-level Changelog link without
+first adding a landing page that disambiguates between the products
+— otherwise the single link will inevitably misroute users.
 
 ## Changelog pages — split per product (2026-05-13)
 
