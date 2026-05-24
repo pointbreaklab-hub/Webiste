@@ -1,0 +1,211 @@
+---
+// Knot architecture diagram — pure inline SVG, no JS.
+//
+// Tells the save → commit → propagate story end-to-end so a
+// non-engineer can follow what happens between "hit save" and
+// "teammate sees the new file." Three columns:
+//   1. Developer A's device — save → watcher → real git commit →
+//      encrypted git pack exits the device.
+//   2. Center transport channel — single horizontal Tor pipe with the
+//      mutual-auth + encrypted-bytes annotations.
+//   3. Developer B's device — encrypted pack arrives → verify + import
+//      → new commit on disk → `git log` shows it (familiar surface).
+//
+// Bottom band makes the architectural ABSENCES explicit, mirroring the
+// Whispr diagram's "no server, no account, no telemetry" band: no
+// GitHub, no central server, no cloud account, no `git add`, no
+// `git push`. The "what's not there" is what makes the design honest.
+//
+// Design constraints: same as ArchitectureDiagram.astro (Whispr's).
+//   - No JS. SVG inlined at build time.
+//   - Monospace text everywhere.
+//   - Site palette only — accent #00d4aa, surface #131316, bg #0b0b0d,
+//     border #23232a, secondary #a3a3a3, hint #737373.
+//   - viewBox-based — scales down to mobile without media queries.
+//   - <figure> + <figcaption> so screen readers get the plain-text
+//     equivalent without us hiding the SVG.
+---
+
+<figure class="my-8">
+  <svg
+    viewBox="0 0 800 500"
+    class="w-full h-auto max-w-3xl mx-auto block"
+    role="img"
+    aria-labelledby="knot-arch-title knot-arch-desc"
+  >
+    <title id="knot-arch-title">Knot architecture diagram</title>
+    <desc id="knot-arch-desc">
+      A developer hits save on their machine. The Knot daemon notices
+      the change, makes a real git commit, and pushes that commit as an
+      encrypted git pack directly over Tor to every paired teammate.
+      The teammate's daemon verifies the signature, imports the pack,
+      and the new commit shows up in their local git log within seconds.
+      No GitHub, no central server, no cloud account, no manual push.
+    </desc>
+
+    <!-- ── DEVELOPER A'S DEVICE ──────────────────────────────────── -->
+    <g>
+      <rect x="40" y="40" width="220" height="340" rx="14"
+            fill="#131316" stroke="#23232a" stroke-width="1"/>
+      <text x="150" y="68" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            letter-spacing="2" fill="#737373">YOUR LAPTOP</text>
+
+      <!-- Save action -->
+      <rect x="60" y="90" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="150" y="113" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#ffffff">Hit save in editor</text>
+
+      <!-- arrow down -->
+      <path d="M 150 130 L 150 144 M 146 140 L 150 144 L 154 140"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- Watcher -->
+      <rect x="60" y="148" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="150" y="171" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">Daemon sees the change</text>
+
+      <!-- arrow down -->
+      <path d="M 150 188 L 150 202 M 146 198 L 150 202 L 154 198"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- Commit -->
+      <rect x="60" y="206" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="150" y="229" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">Real git commit (signed)</text>
+
+      <!-- Device boundary -->
+      <text x="150" y="261" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">DEVICE BOUNDARY</text>
+      <line x1="60" y1="270" x2="240" y2="270"
+            stroke="#00d4aa" stroke-width="1" stroke-dasharray="3 3"
+            stroke-opacity="0.55"/>
+
+      <!-- Encrypted pack -->
+      <rect x="60" y="284" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="150" y="307" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#737373">Encrypted git pack</text>
+
+      <!-- arrow exiting device -->
+      <path d="M 150 332 L 150 374 M 146 370 L 150 374 L 154 370"
+            stroke="#737373" stroke-width="1.5" fill="none"/>
+    </g>
+
+    <!-- ── CENTER · TRANSPORT CHANNEL ────────────────────────────── -->
+    <g>
+      <text x="400" y="60" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            letter-spacing="2" fill="#737373">PEER-TO-PEER · NO MIDDLEMAN</text>
+
+      <!-- Tor pipe -->
+      <line x1="260" y1="220" x2="540" y2="220"
+            stroke="#00d4aa" stroke-width="1" stroke-opacity="0.4"/>
+      <rect x="320" y="210" width="160" height="20" rx="10"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.5"/>
+      <text x="400" y="224" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            fill="#00d4aa">TOR · .onion</text>
+
+      <!-- Mutual auth label -->
+      <text x="400" y="258" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">ED25519 MUTUAL AUTH</text>
+      <text x="400" y="274" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            fill="#a3a3a3">Both sides prove identity</text>
+
+      <!-- Wire-bytes annotation -->
+      <text x="400" y="320" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">ON THE WIRE</text>
+      <text x="400" y="338" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#a3a3a3">Encrypted bytes only</text>
+      <text x="400" y="355" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            fill="#737373">Relays carry, never read</text>
+    </g>
+
+    <!-- ── TEAMMATE'S DEVICE ─────────────────────────────────────── -->
+    <g>
+      <rect x="540" y="40" width="220" height="340" rx="14"
+            fill="#131316" stroke="#23232a" stroke-width="1"/>
+      <text x="650" y="68" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            letter-spacing="2" fill="#737373">TEAMMATE'S LAPTOP</text>
+
+      <!-- arrow entering device from below -->
+      <path d="M 650 374 L 650 332 M 646 336 L 650 332 L 654 336"
+            stroke="#737373" stroke-width="1.5" fill="none"/>
+
+      <!-- Encrypted pack -->
+      <rect x="560" y="284" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="650" y="307" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#737373">Encrypted git pack</text>
+
+      <!-- Device boundary -->
+      <line x1="560" y1="270" x2="740" y2="270"
+            stroke="#00d4aa" stroke-width="1" stroke-dasharray="3 3"
+            stroke-opacity="0.55"/>
+      <text x="650" y="261" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="9"
+            letter-spacing="1.5" fill="#737373">DEVICE BOUNDARY</text>
+
+      <!-- Verify + import -->
+      <rect x="560" y="206" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="650" y="229" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">Verify + import pack</text>
+
+      <!-- arrow up -->
+      <path d="M 650 202 L 650 188 M 646 192 L 650 188 L 654 192"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- New commit -->
+      <rect x="560" y="148" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="650" y="171" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#00d4aa">New commit on disk</text>
+
+      <!-- arrow up -->
+      <path d="M 650 144 L 650 130 M 646 134 L 650 130 L 654 134"
+            stroke="#00d4aa" stroke-width="1.5" fill="none"/>
+
+      <!-- Visible in editor -->
+      <rect x="560" y="90" width="180" height="36" rx="6"
+            fill="#0b0b0d" stroke="#23232a"/>
+      <text x="650" y="113" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#ffffff">Shows in `git log`</text>
+    </g>
+
+    <!-- ── BOTTOM BAND · NOT IN THE PICTURE ──────────────────────── -->
+    <g>
+      <line x1="40" y1="410" x2="760" y2="410"
+            stroke="#23232a" stroke-width="1"/>
+      <text x="400" y="438" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            letter-spacing="2" fill="#737373">NOT IN THE PICTURE</text>
+      <text x="400" y="468" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="11"
+            fill="#a3a3a3">No GitHub · No central server · No cloud account · No `git add` · No `git push`</text>
+    </g>
+  </svg>
+
+  <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">
+    A save in your editor becomes a real git commit on your machine, encrypts as a git pack, travels over Tor directly to every paired teammate, and shows up in their local git log within seconds. No GitHub, no central server, no cloud account, no manual push.
+  </figcaption>
+</figure>
