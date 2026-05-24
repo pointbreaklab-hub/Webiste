@@ -1,0 +1,427 @@
+---
+import Base           from '../../layouts/Base.astro';
+import Nav            from '../../components/Nav.astro';
+import FeatureBlock   from '../../components/FeatureBlock.astro';
+import Footer         from '../../components/Footer.astro';
+import SectionEyebrow from '../../components/SectionEyebrow.astro';
+import '../../styles/global.css';
+---
+
+<Base
+  title="Knot · Peer-to-peer version control for the AI era"
+  description="Take any folder on your machine. Every save is a real git commit; every commit propagates to your teammates within seconds. No GitHub account, no central server, no four-step push ritual. Peer-to-peer over Tor — works wherever outbound HTTPS works."
+>
+  <Nav />
+
+  <!-- ── HERO (Knot-specific, slim) ──────────────────────────────────────── -->
+  <section class="relative pt-32 pb-20 px-6 overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[28rem] bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div aria-hidden="true" class="absolute top-1/3 right-0 w-72 h-72 bg-blue-500/[0.04] blur-3xl pointer-events-none"></div>
+
+    <div class="relative max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+        KNOT · PEER-TO-PEER VERSION CONTROL
+      </div>
+
+      <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
+        <span class="text-primary">Your code.</span><br/>
+        <span class="text-gradient">Your machines.</span><br/>
+        <span class="text-primary">No middleman.</span>
+      </h1>
+
+      <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-3">
+        Take any folder on your computer. Knot turns it into a private, real-time-replicated git repository — shared directly between your machines and your teammates, with no central server, no cloud account, and no third party in between.
+      </p>
+      <p class="text-sm text-hint font-mono mb-10">
+        Save → commit → synced. No add, no commit -m, no push.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="#early-access"
+          class="px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
+        >
+          Request early access
+        </a>
+        <a
+          href="#architecture"
+          class="px-8 py-3.5 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all"
+        >
+          See the architecture
+        </a>
+      </div>
+
+      <!-- Pre-alpha honesty pill — sits below CTAs so it doesn't dominate
+           the hero, but is visible above the fold for anyone scrolling
+           the page deciding whether to engage. -->
+      <div class="mt-10 inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-yellow-500/30 bg-yellow-500/5 text-yellow-500/90 text-xs font-mono">
+        <span class="w-1.5 h-1.5 rounded-full bg-yellow-500/80"></span>
+        IN TESTING · pre-alpha · binaries not yet public
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 01 THE PROBLEM ───────────────────────────────────────────────────── -->
+  <section id="problem" class="relative py-28 px-6 max-w-4xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+    <div class="section-reveal text-center mb-16">
+      <SectionEyebrow num="01" label="THE PROBLEM" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Your code lives on someone else's computer.</h2>
+      <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
+        Today's developer workflow assumes a central server. Push to GitHub, GitLab, Bitbucket; pull from GitHub, GitLab, Bitbucket. Your team's source code sits on a third party's infrastructure — behind their access controls, subject to their availability, their pricing, and their policies.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="p-6 rounded-2xl bg-surface border border-border">
+        <p class="text-accent text-xs font-mono tracking-widest mb-2">FOR REGULATED TEAMS</p>
+        <h3 class="text-lg font-bold text-primary mb-2">Code that legally can't leave the network</h3>
+        <p class="text-secondary text-sm leading-relaxed">
+          Defence, healthcare, finance, anything subject to data-residency rules. GitHub is off the table; self-hosted GitLab is an IT operational tax.
+        </p>
+      </div>
+      <div class="p-6 rounded-2xl bg-surface border border-border">
+        <p class="text-accent text-xs font-mono tracking-widest mb-2">FOR SMALL TEAMS</p>
+        <h3 class="text-lg font-bold text-primary mb-2">$30/seat/month for what used to be free</h3>
+        <p class="text-secondary text-sm leading-relaxed">
+          GitHub Team scales with every hire. SAML, branch protection, Actions YAML — admin overhead is a tax on shipping.
+        </p>
+      </div>
+      <div class="p-6 rounded-2xl bg-surface border border-border">
+        <p class="text-accent text-xs font-mono tracking-widest mb-2">FOR SOLO DEVS</p>
+        <h3 class="text-lg font-bold text-primary mb-2">The four-step push ritual</h3>
+        <p class="text-secondary text-sm leading-relaxed">
+          <code class="text-primary/70">git add</code> · <code class="text-primary/70">git commit -m</code> · <code class="text-primary/70">git push</code> · check teammate pulled. Four extra steps between thinking and shipping.
+        </p>
+      </div>
+      <div class="p-6 rounded-2xl bg-surface border border-border">
+        <p class="text-accent text-xs font-mono tracking-widest mb-2">FOR EVERYONE</p>
+        <h3 class="text-lg font-bold text-primary mb-2">Outages on someone else's clock</h3>
+        <p class="text-secondary text-sm leading-relaxed">
+          Anyone who's ever lost an afternoon to a GitHub outage. The fix is structural — not a different server, no server.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 HOW IT WORKS ──────────────────────────────────────────────────── -->
+  <section id="how" class="relative py-28 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="section-reveal text-center mb-16">
+        <SectionEyebrow num="02" label="HOW IT WORKS" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Three pieces. You only see one.</h2>
+        <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+          The other two — the daemon and the Tor transport — work in the background and stay invisible.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          {
+            step: '01',
+            title: 'The folder',
+            body: 'Pick any folder on your machine. Tell Knot once. It now behaves like a git repository — because under the hood it is one. Existing `git` commands still work.',
+          },
+          {
+            step: '02',
+            title: 'The peers',
+            body: 'Anyone you want to collaborate with installs Knot. You give them a one-time pairing code; they accept it. From that moment, your two machines are paired.',
+          },
+          {
+            step: '03',
+            title: 'The save',
+            body: 'Open the file. Write code. Hit save. The Knot daemon notices the change, debounces, makes a real git commit, and pushes that commit to every paired teammate. They see it within seconds.',
+          },
+        ].map(({ step, title, body }) => (
+          <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
+            <span class="absolute -left-px top-0 w-0.5 h-8 bg-accent"></span>
+            <p class="text-accent font-mono text-xs mb-2">{step}</p>
+            <h4 class="text-lg font-bold text-primary mb-2">{title}</h4>
+            <p class="text-secondary text-sm leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="text-center text-hint text-xs mt-12 max-w-xl mx-auto leading-relaxed">
+        Same wire-format efficiency as `git fetch` (real pack files). Same content-addressing guarantees (SHA-256 hash chain). What changes is who owns the bytes in transit — only you and your peers.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 03 FEATURES ──────────────────────────────────────────────────────── -->
+  <section id="features" class="relative py-28 px-6 max-w-7xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 right-0 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+    <div class="section-reveal text-center mb-16">
+      <SectionEyebrow num="03" label="FEATURES" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Everything below is built and verified end-to-end. The full v1 milestone passes on real hardware across networks.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <FeatureBlock
+        icon="💾"
+        title="Saves are commits"
+        description="The daemon watches the working tree. After a short debounce, every change becomes a real git commit. No `git add`, no `git commit -m`, no four-step ritual."
+      />
+      <FeatureBlock
+        icon="📡"
+        title="Commits propagate over Tor"
+        description="Every paired peer receives the new commit through a Tor circuit. Both sides outbound — works on any network where outbound HTTPS works."
+      />
+      <FeatureBlock
+        icon="🔐"
+        title="Mutual cryptographic trust"
+        description="Pairing requires explicit confirmation on both sides. Every wire connection runs Ed25519 mutual auth. Tor relays only ever see encrypted bytes."
+      />
+      <FeatureBlock
+        icon="🪪"
+        title="Pairing codes, not accounts"
+        description="One copy-pasteable `knot1:` blob carries the other device's pubkey + onion + nickname. Render as QR for phones. Zero accounts, zero email."
+      />
+      <FeatureBlock
+        icon="🪢"
+        title="Real git underneath"
+        description="Knot uses git's object format. Existing `git log`, `git diff`, `git branch` all work on a Knot folder. Not a replacement — a layer above."
+      />
+      <FeatureBlock
+        icon="🤖"
+        title="AI-session attribution"
+        description="Every commit is signed by the developer + the agent session that made it. Audit trail tells you which line came from Claude, Cursor, or human."
+      />
+    </div>
+  </section>
+
+  <!-- ── 04 ARCHITECTURE ──────────────────────────────────────────────────── -->
+  <section id="architecture" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="section-reveal text-center mb-12">
+        <SectionEyebrow num="04" label="ARCHITECTURE" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Receipts, not claims.</h2>
+        <p class="text-secondary max-w-xl mx-auto">
+          The cryptographic and transport primitives Knot ships are open and inspectable. Pure-Rust, single binary, zero system services.
+        </p>
+      </div>
+
+      <div class="section-reveal font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden">
+        <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+          <div class="w-3 h-3 rounded-full bg-error/70"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+          <span class="ml-2 text-hint text-xs">knot-architecture.txt</span>
+        </div>
+        <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
+          {[
+            ['Identity',        'Ed25519 keypair · generated on-device · stored at OS-permission 0600'],
+            ['Pairing',         'Mutual `knot1:<base64>` blob exchange · explicit confirm on both sides'],
+            ['Wire auth',       'Ed25519 challenge–response · per-connection nonces · no replay'],
+            ['Transport',       'Arti (pure-Rust Tor) · onion-v3 hidden services · no clearnet bytes'],
+            ['Object format',   'Real git pack files · libgit2 · `git` CLI works on a Knot folder'],
+            ['Push',            'Bundle over Tor · fast-forward only · non-FF lands in refs/knot-incoming/'],
+            ['Capabilities',    'Ed25519-signed grants · offline-verifiable · instant revocation'],
+            ['Coordinator',     'Optional · sees encrypted bytes only · cannot tamper with the hash chain'],
+            ['Server',          'None'],
+          ].map(([key, val]) => (
+            <div class="flex gap-4 items-baseline">
+              <span class="text-hint shrink-0 w-32">{key}</span>
+              <span class="text-accent">→</span>
+              <span class="text-primary/80">{val}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p class="text-hint text-xs text-center mt-6 max-w-xl mx-auto leading-relaxed">
+        Same Tor primitives that route Whispr's messages and protect journalists worldwide. Same git object format that powers every git host on the internet. We didn't reinvent the cryptography — we removed the centralised server.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 05 WHO IT'S FOR ──────────────────────────────────────────────────── -->
+  <section id="audiences" class="relative py-32 px-6 max-w-6xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
+
+    <div class="section-reveal text-center mb-16">
+      <SectionEyebrow num="05" label="WHO IT'S FOR" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Three audiences, one tool.</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Knot scales from one person on one laptop to a regulated enterprise — without changing tools, because the architecture fits all three.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="p-6 rounded-2xl bg-surface border border-accent/30 glow-border">
+        <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">SOLO</div>
+        <h3 class="text-lg font-bold text-primary mb-2">Personal projects</h3>
+        <p class="text-secondary text-sm leading-relaxed mb-3">
+          You want version history + cross-device sync. You don't want to pay GitHub Pro for an unfinished side-project, or upload it to Microsoft.
+        </p>
+        <p class="text-hint text-xs italic">
+          "I just want my code to exist on hardware I own and not be lost."
+        </p>
+      </div>
+      <div class="p-6 rounded-2xl bg-surface border border-accent/30 glow-border">
+        <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">STARTUP</div>
+        <h3 class="text-lg font-bold text-primary mb-2">Small distributed team</h3>
+        <p class="text-secondary text-sm leading-relaxed mb-3">
+          One-time install per laptop. Teammate added in 30 seconds with a pairing code. No GitHub org admin overhead, no per-seat bill that scales with hiring.
+        </p>
+        <p class="text-hint text-xs italic">
+          "We don't want a GitHub org just to share code with five people who already trust each other."
+        </p>
+      </div>
+      <div class="p-6 rounded-2xl bg-surface border border-accent/30 glow-border">
+        <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">ENTERPRISE</div>
+        <h3 class="text-lg font-bold text-primary mb-2">Centralised office</h3>
+        <p class="text-secondary text-sm leading-relaxed mb-3">
+          Code never crosses the firewall. Every commit signed by developer + AI session. Per-path scopes for what agents may touch. Compliance answer, audit answer, IT-relief answer — same architecture.
+        </p>
+        <p class="text-hint text-xs italic">
+          "Legal won't let us send code to GitHub.com, but we still want our developers to use modern AI tools."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 06 STATUS & ROADMAP ──────────────────────────────────────────────── -->
+  <section id="roadmap" class="relative py-32 px-6 max-w-4xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
+    <div class="section-reveal text-center mb-16">
+      <SectionEyebrow num="06" label="STATUS & ROADMAP" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Where we are.</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Knot is in pre-alpha. Every storyline below has working code; some are still being hardened for general release.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {[
+        {
+          tag: 'IN TESTING',
+          title: 'v1 milestone — end-to-end on real hardware',
+          body: 'Save → commit → propagate across two machines on two different networks, entirely over Tor, in under 30 seconds. Verified Mac ↔ Linux on home WiFi + mobile hotspot.',
+          status: 'building',
+        },
+        {
+          tag: 'IN PROGRESS',
+          title: 'Autonomous folder sync over Tor',
+          body: 'After every auto-commit, fan out a Tor push to every paired device with a recorded onion. No manual clone, no manual push — saves become synced.',
+          status: 'building',
+        },
+        {
+          tag: 'SOON',
+          title: 'First-run onboarding wizard',
+          body: 'Polished install flow for non-developers — pick a folder, generate identity, scan a pairing QR. Today the CLI works; the GUI wizard is the wrapper.',
+          status: 'soon',
+        },
+        {
+          tag: 'PLANNED',
+          title: 'Merge of divergent histories',
+          body: 'Three-way merge with conflict resolution surfaced in the desktop. Today push refuses if it isn\'t fast-forward — you resolve manually with `git` (which works because it\'s a real git repo).',
+          status: 'planned',
+        },
+        {
+          tag: 'PLANNED',
+          title: 'Mobile clients (iOS / Android)',
+          body: 'Read access on the go via the same paired-device model. Flutter app already exists for sync toggles + QR pairing; full read-only viewer is next.',
+          status: 'planned',
+        },
+        {
+          tag: 'PLANNED',
+          title: 'Public binaries + installer',
+          body: '`.dmg` / `.deb` / Windows MSI for non-CLI users. Today early adopters build from source.',
+          status: 'planned',
+        },
+      ].map(({ tag, title, body, status }) => {
+        const cardBorder =
+          status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]'
+          : status === 'soon'   ? 'border-yellow-500/30 hover:border-yellow-500/50'
+          :                       'border-border hover:border-accent/20';
+        const dot =
+          status === 'building' ? 'bg-accent animate-pulse'
+          : status === 'soon'   ? 'bg-yellow-500/70'
+          :                       'bg-hint';
+        const pill =
+          status === 'building' ? 'bg-accent/10 text-accent border border-accent/30'
+          : status === 'soon'   ? 'bg-yellow-500/10 text-yellow-500/90 border border-yellow-500/30'
+          :                       'bg-surface text-hint border border-border';
+        const label =
+          status === 'building' ? 'building'
+          : status === 'soon'   ? 'soon'
+          :                       'planned';
+        return (
+          <div class={`section-reveal flex gap-5 p-6 rounded-2xl bg-surface border transition-colors ${cardBorder}`}>
+            <div class={`mt-1 w-2 h-2 rounded-full shrink-0 ${dot}`}></div>
+            <div>
+              <p class="text-hint text-xs font-mono mb-1">{tag}</p>
+              <h3 class="text-base font-bold text-primary mb-1.5">{title}</h3>
+              <p class="text-secondary text-sm leading-relaxed">{body}</p>
+            </div>
+            <div class={`ml-auto shrink-0 self-start px-2 py-0.5 rounded text-xs font-mono ${pill}`}>
+              {label}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- ── 07 EARLY ACCESS ──────────────────────────────────────────────────── -->
+  <section id="early-access" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-2xl mx-auto">
+      <div class="section-reveal text-center">
+        <SectionEyebrow num="07" label="EARLY ACCESS" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Knot is in testing.</h2>
+        <p class="text-secondary mb-10 leading-relaxed">
+          We're not ready for a public release yet. The first wave of slots is for solo developers and 2–10 person teams who'd benefit <em class="text-primary">now</em> from removing GitHub from the loop. If that's you, we'd love to hear from you.
+        </p>
+
+        <a
+          href="mailto:mail.roshankumargupta@gmail.com?subject=Knot%20early%20access&body=Hi%20—%20interested%20in%20Knot%20early%20access.%20A%20bit%20about%20me%2Fmy%20team%3A"
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
+        >
+          Request early access
+          <span>→</span>
+        </a>
+
+        <p class="text-hint text-xs mt-6">
+          Or build from source today. The full source tree is private during pre-alpha; access is granted with the early-access invite.
+        </p>
+      </div>
+
+      <!-- Honest framing card — same pattern as the chest-strap accuracy
+           card on /heart/, but with credibility-by-honesty rather than
+           credibility-by-spec. -->
+      <div class="section-reveal mt-16 p-6 rounded-2xl bg-bg border border-border">
+        <div class="flex items-start gap-4">
+          <div class="shrink-0 w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-xl">⚠️</div>
+          <div>
+            <p class="text-yellow-500/90 text-xs font-mono tracking-widest mb-2">PRE-ALPHA</p>
+            <h3 class="text-lg font-bold text-primary mb-2">What "in testing" actually means here.</h3>
+            <p class="text-secondary text-sm leading-relaxed mb-3">
+              The core sync loop works end-to-end across networks on real hardware. We've deliberately deferred a few things that don't matter for early-adopter use but will matter before general release:
+            </p>
+            <ul class="text-hint text-xs space-y-1.5 ml-1">
+              <li>· Merge of divergent histories (push refuses on non-FF; resolve with `git` manually).</li>
+              <li>· Mobile clients (desktop only — Linux, macOS, Windows).</li>
+              <li>· Polished onboarding wizard for non-developer users.</li>
+              <li>· Installer packaging (`.dmg`, `.deb`, MSI).</li>
+            </ul>
+            <p class="text-hint text-xs mt-3">
+              If you're a developer comfortable with `git`, you'll feel the difference within the first hour. If you're not, wait for v1.1.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Base>
