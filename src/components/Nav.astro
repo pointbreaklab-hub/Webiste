@@ -1,4 +1,19 @@
 ---
+// Resolve the Download CTA target from the current URL so the button
+// always points at THIS product's download section instead of always
+// firing the user at Whispr's. Homepage (no product context) keeps
+// Whispr as the default since Whispr is the studio's flagship app.
+const path = Astro.url.pathname;
+let downloadHref = '/whispr/#download';
+let downloadLabel = 'Download';
+if (path.startsWith('/heart')) {
+  downloadHref = '/heart/#download';
+} else if (path.startsWith('/knot')) {
+  // Knot is pre-alpha — no public binary, so the CTA becomes the
+  // early-access mailto anchor instead of a download.
+  downloadHref = '/knot/#early-access';
+  downloadLabel = 'Early access';
+}
 ---
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
   <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -28,12 +43,13 @@
       <li><a href="/#about"              class="hover:text-primary transition-colors">About</a></li>
     </ul>
 
-    <!-- CTA -->
+    <!-- CTA — context-aware: routes to the current product's download
+         section (or early-access mailto for pre-alpha apps). -->
     <a
-      href="/whispr/#download"
+      href={downloadHref}
       class="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-bg text-sm font-semibold hover:bg-white transition-colors"
     >
-      Download
+      {downloadLabel}
     </a>
 
     <!-- Mobile hamburger -->
@@ -55,7 +71,7 @@
       <li><a href="/heart/"              class="block hover:text-primary transition-colors">Heart</a></li>
       <li><a href="/knot/"               class="block hover:text-primary transition-colors">Knot</a></li>
       <li><a href="/#about"              class="block hover:text-primary transition-colors">About</a></li>
-      <li><a href="/whispr/#download"    class="block text-accent font-semibold">Download</a></li>
+      <li><a href={downloadHref}         class="block text-accent font-semibold">{downloadLabel}</a></li>
     </ul>
   </div>
 </nav>
