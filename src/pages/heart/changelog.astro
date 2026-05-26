@@ -24,6 +24,13 @@ interface Release {
 
 const releases: Release[] = [
   {
+    tag: 'v1.0.20',
+    date: '2026-05-23',
+    kind: 'feature',
+    title: 'Silent gym auto-start, overnight reliability fix, battery alerts, full-backup map tiles',
+    body: 'Five things in one release, all aimed at Heart being a quieter, more reliable companion. First, gym detection no longer asks you to confirm — arrive at your saved gym, stay 2 minutes, and a Gym session starts automatically with a quick snackbar confirmation. The detection radius is now configurable in Settings → Gym (100–500 m), and a live status row tells you exactly what the detector is seeing — "outside radius", "session starts in 1:42", or "permission needed — tap to retry" — so you never have to wonder if it\'s working. Second, the overnight no-recording bug is fixed: the background service now detects "zombie" GATT connections (the radio link looks alive but no heart-rate packets are arriving) and forces a clean reconnect within 5 minutes, so the band actually keeps recording through the night. Third, two gentle battery notifications — one at 15%, one at 5% — let you know when the band needs charging, then re-arm only after you charge it back above 20% so a hovering low battery doesn\'t spam you. Fourth, backups (and QR device-to-device sync) now bundle your offline map tiles too, so a full migration to a new phone reproduces offline maps without re-downloading. Fifth, a small "Powered by PointBreakLab" credit lives at the bottom of Settings.',
+  },
+  {
     tag: 'v1.0.19',
     date: '2026-05-17',
     kind: 'feature',
