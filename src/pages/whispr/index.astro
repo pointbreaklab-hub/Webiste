@@ -279,7 +279,7 @@ import '../../styles/global.css';
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
           <DownloadButton
             platform="android"
-            href="https://github.com/pointbreaklab-byte/Whispr/releases/latest/download/whispr-android.apk"
+            href="https://github.com/pointbreaklab-hub/Whispr/releases/latest/download/whispr-android.apk"
             label="Android APK"
           />
           <DownloadButton platform="ios" href="#" label="iOS — Coming Soon" />
@@ -329,7 +329,7 @@ import '../../styles/global.css';
   // Download counter — fetched client-side from the GitHub Releases API.
   // Hidden until total downloads ≥ 1000. Cached 1h in localStorage.
   // Single fetch to a public endpoint, no third-party analytics.
-  const REPO    = 'pointbreaklab-byte/Whispr';
+  const REPO    = 'pointbreaklab-hub/Whispr';
   const KEY     = 'pbl_dl_count_v1';
   const TTL_MS  = 60 * 60 * 1000;
   const REVEAL  = 1000;

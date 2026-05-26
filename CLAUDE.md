@@ -7,7 +7,7 @@ The marketing/portfolio site for PointBreakLab (pointbreaklab.com). Hosts the Wh
 - **Astro 4** + **Tailwind CSS** (no client-side framework). Total client JS ~1.5 KB.
 - Static output (`output: 'static'` in `astro.config.mjs`)
 - Hosted on **GitHub Pages** with custom domain `pointbreaklab.com`
-- Repo: `https://github.com/pointbreaklab-byte/Webiste` (yes, "Webiste" — typo in repo name, harmless)
+- Repo: `https://github.com/pointbreaklab-hub/Webiste` (yes, "Webiste" — typo in repo name, harmless)
 - Deploy: pushes to `main` trigger `.github/workflows/deploy.yml` → builds → uploads to Pages
 - Domain registered at **Porkbun**
 - Discussion notes for context: stay with Astro. React/Svelte would ship more JS for *zero* functional benefit on a static marketing site. If a future page genuinely needs reactivity, add it as an Astro **island** — don't migrate the site framework.
@@ -122,7 +122,7 @@ Apex (`pointbreaklab.com`):
 - `AAAA` records → `2606:50c0:8000::153` through `8003::153` (GitHub Pages IPv6)
 
 `www`:
-- `CNAME` → `pointbreaklab-byte.github.io` (must include `.github.io` suffix or Porkbun bounces to pixie parking)
+- `CNAME` → `pointbreaklab-hub.github.io` (must include `.github.io` suffix or Porkbun bounces to pixie parking)
 
 Email forwarding (Porkbun's defaults — leave alone):
 - `MX` → `fwd1.porkbun.com` (10), `fwd2.porkbun.com` (20)
@@ -135,7 +135,7 @@ GitHub Pages auto-managed (don't touch):
 
 - **Free GitHub plan + private repo = no Pages.** Repo must stay public. The website code is just marketing markup, no Whispr app source.
 - **HTTPS enforce can only be enabled after the cert is issued.** API will return 404 ("certificate does not exist yet") until Let's Encrypt has issued the cert (5–30 min after DNS verifies).
-- **CNAME values must be FQDN.** Just `pointbreaklab-byte` doesn't work — needs the `.github.io`.
+- **CNAME values must be FQDN.** Just `pointbreaklab-hub` doesn't work — needs the `.github.io`.
 
 ## Layout / sections
 
@@ -272,7 +272,7 @@ the Whispr product page:
 - **04 ─ GET IT** — download buttons, version + SHA-256 box,
   hidden download counter, link to `/heart/changelog/`. The
   download button points at the GitHub release auto-resolved URL
-  `https://github.com/pointbreaklab-byte/Heart/releases/latest/download/heart-android.apk`.
+  `https://github.com/pointbreaklab-hub/Heart/releases/latest/download/heart-android.apk`.
 
 **Don't describe the HW9 as chest-only.** It's a versatile band
 worn on the chest, upper arm, or forearm. The accuracy section
@@ -506,7 +506,7 @@ The APK lives in **GitHub Releases**, not in `public/downloads/`.
 Live download URL on the site:
 
 ```
-https://github.com/pointbreaklab-byte/Whispr/releases/latest/download/whispr-android.apk
+https://github.com/pointbreaklab-hub/Whispr/releases/latest/download/whispr-android.apk
 ```
 
 `releases/latest/download/<filename>` auto-resolves to the most recent
@@ -608,7 +608,7 @@ gh release create v1.1.0 path/to/app-arm64-v8a-release.apk \
 
 Then change the website's download button URL to:
 ```
-https://github.com/pointbreaklab-byte/Whispr/releases/latest/download/whispr-android.apk
+https://github.com/pointbreaklab-hub/Whispr/releases/latest/download/whispr-android.apk
 ```
 
 That URL auto-redirects to whatever the latest release's asset is. Repo stays lean, releases get version tags and download counts visible on the GitHub profile.
