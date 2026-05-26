@@ -1,5 +1,7 @@
 name: Deploy to GitHub Pages
 
+# Workflow dispatch endpoint occasionally 500s; pushing a substantive
+# change to this file is the most reliable way to force a re-deploy.
 on:
   push:
     branches: [main]
