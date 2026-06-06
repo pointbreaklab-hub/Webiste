@@ -306,28 +306,51 @@ build time, scales to mobile without media queries.
 
 Added 2026-05-23, extended 2026-05-24 with the architecture diagram +
 FAQ. Knot is **pre-alpha** — the page reflects that everywhere it
-matters. Eight chapters, structurally parallel to /whispr/ and
+matters. Nine chapters (a STORYBOARD was inserted at 02 on 2026-06-06,
+shifting everything below it +1), structurally parallel to /whispr/ and
 /heart/ but with the pre-alpha framing throughout:
 
 - **Hero** — Knot-specific headline ("Your code. Your machines. No
   middleman."). Two CTAs: `Request early access` (anchors to
   `#early-access`) and `See the architecture` (anchors to
   `#architecture`). Below the CTAs, a yellow `IN TESTING · pre-alpha
-  · binaries not yet public` pill — visible above the fold without
+  · request access to try it` pill — visible above the fold without
   dominating. **Don't drop this pill.** It's load-bearing for
   honesty; the page leads with the product story before the caveat,
-  but the caveat is present from the first scroll.
+  but the caveat is present from the first scroll. (Pill text updated
+  2026-06-06: requesters now get a testing build, so "binaries not yet
+  public" was replaced with "request access to try it".)
+  The hero also carries an accent mono line below the `save→commit→synced`
+  line — the killer differentiator: "Two machines, two AI agents, one
+  repo — they build it together over your LAN, hands-free, while you
+  watch." Keep it; it's the headline thing no central host can do.
 - **01 ─ THE PROBLEM** — four cards: regulated teams, small teams,
-  solo devs, everyone (outages). Sets up why a peer-to-peer
+  solo devs, everyone (outages). The outages card is explicit that
+  Knot's fix is structural — no central server, so nothing to have an
+  outage (strengthened 2026-06-06). Sets up why a peer-to-peer
   alternative makes sense before describing what Knot does.
-- **02 ─ HOW IT WORKS** — three step cards (the folder · the peers ·
+- **02 ─ STORYBOARD** (added 2026-06-06, id=`#story`) — a real-world,
+  scene-by-scene scenario ("A day on a two-person team": Maya on a Mac,
+  Sam on Linux, same Wi-Fi). Seven timestamped scenes, each mapping to a
+  shipped capability; the load-bearing beats are **11:00** (two AI
+  agents build one repo together over the LAN, watched live — the
+  killer) and **16:00** (GitHub outage → they don't notice; no server).
+  Renders via a `.map` over a scenes array, same pattern as the roadmap.
+  This pushed HOW IT WORKS→03, FEATURES→04, ARCHITECTURE→05, WHO IT'S
+  FOR→06, STATUS→07, FAQ→08, EARLY ACCESS→09.
+- **03 ─ HOW IT WORKS** — three step cards (the folder · the peers ·
   the save). Plain-English description of save→commit→propagate
   for non-engineers. Same three-step pattern Heart uses for its
   hardware story.
-- **03 ─ FEATURES** — six FeatureBlock cards covering: saves are
-  commits, propagation over Tor, mutual cryptographic trust,
-  pairing codes (`knot1:<base64>` blob), real git underneath,
-  AI-session attribution.
+- **03 ─ FEATURES** — FeatureBlock cards. The original six (saves are
+  commits, propagation over Tor, mutual cryptographic trust, pairing
+  codes `knot1:<base64>` blob, real git underneath, AI-session
+  attribution) PLUS the AI-era additions (2026-06-06), kept benefit-level
+  with NO trade-secret mechanics: "AI agents build together, machine to
+  machine" (the killer — listed FIRST), "Watch your AI agents work"
+  (glass box), "Provenance you can prove" (signed + independently
+  verifiable), "Agents stay in their lane" (enforced per-path scopes),
+  "Mirror to your phone or iPad" (read-only LAN view of a synced repo).
 - **04 ─ ARCHITECTURE** — opens with `KnotArchitectureDiagram`
   (inline SVG, no JS — components/KnotArchitectureDiagram.astro),
   then the terminal-style `knot-architecture.txt` panel. Same rule
@@ -340,11 +363,15 @@ matters. Eight chapters, structurally parallel to /whispr/ and
   in knot/CLAUDE.md §14 and is binding product positioning.
   **Don't merge these into one block.** The three-audience framing
   is the canonical Knot commercial positioning.
-- **06 ─ STATUS & ROADMAP** — same status-driven card pattern as
-  Whispr/Heart (`building` / `soon` / `planned`). Currently two
-  items are `building` (v1 milestone, autonomous Tor sync), one is
-  `soon` (onboarding wizard), three are `planned` (merge support,
-  mobile clients, public binaries).
+- **07 ─ STATUS & ROADMAP** — same status-driven card pattern as
+  Whispr/Heart (`building` / `soon` / `planned`). As of 2026-06-06 the
+  VERIFIED/`building` cards include the AI-era set (agents build across
+  machines together, signed/exportable provenance, enforced per-agent
+  scopes, mirror-to-phone/iPad) plus v1 sync + conflict resolution;
+  `soon` is the onboarding wizard; `planned` is full three-way merge +
+  a public notarized installer. NOTE: native mobile is no longer
+  "planned" — the mobile app + LAN mirror are done (user confirmed
+  2026-06-06), so don't re-add mobile to the planned list.
 - **07 ─ FAQ** — seven plain-English `<details>` disclosure cards.
   Collapsed by default; native `<details>`/`<summary>` so the
   page stays JS-free. The seven questions in order: who should use
@@ -354,23 +381,32 @@ matters. Eight chapters, structurally parallel to /whispr/ and
   — don't reorder without thinking about that.** Order matters
   for skimmers who stop reading after question three.
 - **08 ─ EARLY ACCESS** — `Request early access` mailto button to
-  `mail.roshankumargupta@gmail.com`. **Not a download box.** Knot
-  has no public binary yet; building from source is mentioned in a
-  small footnote ("access granted with the early-access invite").
+  `mail.roshankumargupta@gmail.com`. **Not a public download box.**
+  Still no public download button. CHANGED 2026-06-06: the invite now
+  *delivers a testing build* (macOS + Linux) to requesters — the
+  footnote says exactly that (no longer "build from source"). It's
+  pre-alpha + un-notarized, so the footnote notes you'll wave it past
+  the OS first-run/Gatekeeper warning (the invite includes how).
   Below the CTA, a yellow pre-alpha caveat card explicitly lists
-  what's deferred: merge-of-divergent-histories, mobile clients,
-  onboarding wizard, installer packaging. Honest > aspirational —
-  this card is what makes the rest of the page credible.
+  what's deferred: merge-of-divergent-histories, native mobile
+  clients, onboarding wizard, public notarized installer. Honest >
+  aspirational — this card is what makes the rest of the page credible.
 
 #### Hard rules for the Knot page
 
 - **`TESTING` badge, not `LIVE`.** The homepage AppCard uses
   `status="TESTING"`; the in-hero pill says `IN TESTING · pre-alpha
-  · binaries not yet public`. Don't promote either to LIVE until
-  there's a public installer.
-- **No download button on `/knot/` until binaries are public.**
-  The Whispr / Heart product pages are the model for layout once we
-  get there. Today's `#early-access` mailto is the substitute.
+  · request access to try it`. Don't promote either to LIVE until
+  there's a public, notarized installer.
+- **No PUBLIC download button on `/knot/` until binaries are public +
+  notarized.** The early-access mailto is the substitute — and it now
+  *delivers a testing build to requesters* (macOS + Linux), gated by
+  request, NOT an open download button. (App is ad-hoc-signed, not
+  Apple-notarized; an open download would trigger Gatekeeper warnings —
+  that's the gate.) The Whispr / Heart pages are the model for an open
+  download box once notarized.
+- **Footer:** Knot is a `(Testing)` link to `/knot/` (was a non-link
+  `(Soon)` span — fixed 2026-06-06; it has a live page).
 - **No GitHub source link.** The Knot source is private during
   pre-alpha. Don't add "View source" buttons until that changes.
 - **No `/knot/changelog/` subtree yet.** No public releases means

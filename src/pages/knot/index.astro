@@ -34,8 +34,11 @@ import '../../styles/global.css';
       <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-3">
         Take any folder on your computer. Knot turns it into a private, real-time-replicated git repository — shared directly between your machines and your teammates, with no central server, no cloud account, and no third party in between.
       </p>
-      <p class="text-sm text-hint font-mono mb-10">
+      <p class="text-sm text-hint font-mono mb-2">
         Save → commit → synced. No add, no commit -m, no push.
+      </p>
+      <p class="text-sm text-accent font-mono mb-10">
+        Two machines, two AI agents, one repo — they build it together over your LAN, hands-free, while you watch.
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -58,7 +61,7 @@ import '../../styles/global.css';
            the page deciding whether to engage. -->
       <div class="mt-10 inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-yellow-500/30 bg-yellow-500/5 text-yellow-500/90 text-xs font-mono">
         <span class="w-1.5 h-1.5 rounded-full bg-yellow-500/80"></span>
-        IN TESTING · pre-alpha · binaries not yet public
+        IN TESTING · pre-alpha · request access to try it
       </div>
     </div>
   </section>
@@ -101,18 +104,58 @@ import '../../styles/global.css';
         <p class="text-accent text-xs font-mono tracking-widest mb-2">FOR EVERYONE</p>
         <h3 class="text-lg font-bold text-primary mb-2">Outages on someone else's clock</h3>
         <p class="text-secondary text-sm leading-relaxed">
-          Anyone who's ever lost an afternoon to a GitHub outage. The fix is structural — not a different server, no server.
+          Anyone who's ever lost an afternoon to a GitHub outage. Knot's fix is structural: there's no central server to go down. Your code lives on your own machines — so there's simply nothing to have an outage.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ── 02 HOW IT WORKS ──────────────────────────────────────────────────── -->
+  <!-- ── 02 STORYBOARD ────────────────────────────────────────────────────── -->
+  <!-- Real-world scenario explaining Knot scene by scene. Every beat maps to
+       a shipped capability; the killer AI-agent-collaboration beat (11:00) and
+       the no-server / no-outage beat (16:00) are the load-bearing ones. -->
+  <section id="story" class="relative py-28 px-6 max-w-3xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 right-1/4 w-[45%] h-72 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
+
+    <div class="section-reveal text-center mb-16">
+      <SectionEyebrow num="02" label="STORYBOARD" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">A day on a two-person team.</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Maya builds on a Mac, Sam on Linux — same Wi-Fi, no GitHub between them. Here's an ordinary Tuesday.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {[
+        { t: '09:00', h: 'No setup. No accounts.', b: 'Maya drops the project folder into Knot on her Mac. Sam does the same on his Linux laptop. One pairing code, scanned once — that is the whole setup. No GitHub org, no SSH keys, no server to provision.' },
+        { t: '09:15', h: 'She saves. He already has it.', b: 'Maya fixes a bug and hits save. A few seconds later it is a real commit on Sam\'s machine — no add, no commit, no push. He keeps building on top of it without lifting a finger.' },
+        { t: '11:00', h: 'Two AI agents. One repo. Built together.', b: 'Maya\'s coding agent on the Mac and Sam\'s agent on the Linux box split the work — backend on one, frontend on the other — and build the feature together over the office Wi-Fi. No human in the loop, and Maya watches every file they write and every command they run, live, on her screen.' },
+        { t: '11:30', h: 'Guardrails that actually hold.', b: 'Sam scoped his agent to the app source only. When it reaches toward the secrets file, Knot blocks the commit and records the attempt. The secret never moves.' },
+        { t: '13:00', h: 'Proof, on demand.', b: 'Someone asks who changed the auth flow. Maya exports a signed record — every step attributed to a person or an agent session, tamper-evident, and verifiable by anyone. No server was asked.' },
+        { t: '16:00', h: 'GitHub goes down. They do not notice.', b: 'There is no central server in the picture, so there is nothing to have an outage. The repo lives on their machines; they keep shipping while half the internet waits.' },
+        { t: 'evening', h: 'Check it from the couch.', b: 'Maya opens the project on her iPad on the same Wi-Fi — a live, read-only view of the repo, with every new commit appearing as it lands. No app store, no account.' },
+      ].map(({ t, h, b }) => (
+        <div class="section-reveal flex gap-5 p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">
+          <div class="shrink-0 w-16 text-accent text-xs font-mono tracking-widest pt-1">{t}</div>
+          <div>
+            <h3 class="text-base font-bold text-primary mb-1.5 leading-snug">{h}</h3>
+            <p class="text-secondary text-sm leading-relaxed">{b}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p class="section-reveal text-center text-hint text-sm mt-10 max-w-xl mx-auto">
+      No server appears anywhere in that day — because there isn't one. That's the whole idea.
+    </p>
+  </section>
+
+  <!-- ── 03 HOW IT WORKS ──────────────────────────────────────────────────── -->
   <section id="how" class="relative py-28 px-6 bg-surface border-y border-border overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-4xl mx-auto">
       <div class="section-reveal text-center mb-16">
-        <SectionEyebrow num="02" label="HOW IT WORKS" />
+        <SectionEyebrow num="03" label="HOW IT WORKS" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Three pieces. You only see one.</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
           The other two — the daemon and the Tor transport — work in the background and stay invisible.
@@ -157,7 +200,7 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 right-0 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
     <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="03" label="FEATURES" />
+      <SectionEyebrow num="04" label="FEATURES" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
         Everything below is built and verified end-to-end. The full v1 milestone passes on real hardware across networks.
@@ -165,6 +208,11 @@ import '../../styles/global.css';
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <FeatureBlock
+        icon="🤝"
+        title="AI agents build together, machine to machine"
+        description="Your AI agent on one machine and your agent on another collaborate over your LAN to build and update the same repo — hands-free, no human in the loop, with every step visible to you. The thing a central host can't do."
+      />
       <FeatureBlock
         icon="💾"
         title="Saves are commits"
@@ -195,6 +243,26 @@ import '../../styles/global.css';
         title="AI-session attribution"
         description="Every commit is signed by the developer + the agent session that made it. Audit trail tells you which line came from Claude, Cursor, or human."
       />
+      <FeatureBlock
+        icon="👁️"
+        title="Watch your AI agents work"
+        description="When agents build across your paired devices, you see every step as it happens — the files they write, the commands they run — in plain view, not a black box."
+      />
+      <FeatureBlock
+        icon="🧾"
+        title="Provenance you can prove"
+        description="Every agent action is cryptographically signed by the device and the agent session. Export a tamper-evident record anyone can verify independently — no server, no vendor."
+      />
+      <FeatureBlock
+        icon="🚧"
+        title="Agents stay in their lane"
+        description="Give an agent access to exactly the paths you choose. A change outside its scope never commits — and the attempt is recorded."
+      />
+      <FeatureBlock
+        icon="📱"
+        title="Mirror to your phone or iPad"
+        description="On the same network, open a live read-only view of any synced project on your phone or tablet — every new commit and repo update appears as it lands. No app store, no account."
+      />
     </div>
   </section>
 
@@ -203,7 +271,7 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-4xl mx-auto">
       <div class="section-reveal text-center mb-12">
-        <SectionEyebrow num="04" label="ARCHITECTURE" />
+        <SectionEyebrow num="05" label="ARCHITECTURE" />
         <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Receipts, not claims.</h2>
         <p class="text-secondary max-w-xl mx-auto">
           The cryptographic and transport primitives Knot ships are open and inspectable. Pure-Rust, single binary, zero system services.
@@ -259,7 +327,7 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
 
     <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="05" label="WHO IT'S FOR" />
+      <SectionEyebrow num="06" label="WHO IT'S FOR" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Three audiences, one tool.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
         Knot scales from one person on one laptop to a regulated enterprise — without changing tools, because the architecture fits all three.
@@ -304,7 +372,7 @@ import '../../styles/global.css';
   <section id="roadmap" class="relative py-32 px-6 max-w-4xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="06" label="STATUS & ROADMAP" />
+      <SectionEyebrow num="07" label="STATUS & ROADMAP" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Where we are.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
         Knot is in pre-alpha. Every storyline below has working code; some are still being hardened for general release.
@@ -320,33 +388,57 @@ import '../../styles/global.css';
           status: 'building',
         },
         {
-          tag: 'IN PROGRESS',
+          tag: 'VERIFIED',
           title: 'Autonomous folder sync over Tor',
-          body: 'After every auto-commit, fan out a Tor push to every paired device with a recorded onion. No manual clone, no manual push — saves become synced.',
+          body: 'Every auto-commit fans out a Tor push to each paired device with a recorded onion — no manual clone, no manual push. Proven end-to-end, symmetric on Mac and Linux.',
           status: 'building',
         },
         {
-          tag: 'SOON',
-          title: 'First-run onboarding wizard',
-          body: 'Polished install flow for non-developers — pick a folder, generate identity, scan a pairing QR. Today the CLI works; the GUI wizard is the wrapper.',
+          tag: 'VERIFIED',
+          title: 'Conflict resolution for non-developers',
+          body: 'When two machines change the same file, Knot shows a plain "which version do you want to keep" banner — keep mine, keep theirs, or keep both. It never surfaces raw git markers, and both sides are always recoverable.',
+          status: 'building',
+        },
+        {
+          tag: 'VERIFIED',
+          title: 'AI agents build across your machines — together',
+          body: 'An AI agent on one machine asks an agent on another to build something, and they work it out between them over your network — while you watch the whole exchange live: each file written, each command run, each reply, streamed to the watching device in plain view. No human in the build loop.',
+          status: 'building',
+        },
+        {
+          tag: 'VERIFIED',
+          title: 'Signed, exportable provenance',
+          body: 'Every cross-device agent action is recorded as a cryptographically signed entry. Export it as an audit trail a third party can verify on its own — tamper-evident, no server and no access to the original device required.',
+          status: 'building',
+        },
+        {
+          tag: 'VERIFIED',
+          title: 'Enforced per-agent scopes',
+          body: 'Scope an agent to the paths it may touch — say src/** but never secrets/**. A change outside that scope is blocked from committing and recorded. Governance that holds, not a guideline.',
+          status: 'building',
+        },
+        {
+          tag: 'IN PROGRESS',
+          title: 'First-run onboarding',
+          body: 'Autostart, one-click Solo mode, and a polished install flow are in. The full pick-a-folder → generate-identity → scan-a-pairing-QR wizard for non-developers is still being refined.',
           status: 'soon',
         },
         {
           tag: 'PLANNED',
           title: 'Merge of divergent histories',
-          body: 'Three-way merge with conflict resolution surfaced in the desktop. Today push refuses if it isn\'t fast-forward — you resolve manually with `git` (which works because it\'s a real git repo).',
+          body: 'The common single-file conflict case is handled (see above). Full three-way merge across diverged branches is still manual — push refuses on non-fast-forward, and you resolve with `git`, which works because it is a real git repo.',
           status: 'planned',
         },
         {
-          tag: 'PLANNED',
-          title: 'Mobile clients (iOS / Android)',
-          body: 'Read access on the go via the same paired-device model. Flutter app already exists for sync toggles + QR pairing; full read-only viewer is next.',
-          status: 'planned',
+          tag: 'VERIFIED',
+          title: 'Mirror to phone / iPad on your LAN',
+          body: 'Open any synced project on your phone or tablet on the same network — a live, read-only view where new commits + repo updates appear as they land. A native mobile app (browse the repo + commit log, pair by QR, toggle sync) is built too.',
+          status: 'building',
         },
         {
-          tag: 'PLANNED',
+          tag: 'IN PROGRESS',
           title: 'Public binaries + installer',
-          body: '`.dmg` / `.deb` / Windows MSI for non-CLI users. Today early adopters build from source.',
+          body: 'macOS and Linux testing builds go out today with the early-access invite. A public, notarized installer (Apple Developer ID + Windows MSI) is the gate before an open download lands here.',
           status: 'planned',
         },
       ].map(({ tag, title, body, status }) => {
@@ -393,7 +485,7 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[50%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
     <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="07" label="FAQ" />
+      <SectionEyebrow num="08" label="FAQ" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">The questions everyone asks.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
         Plain-English answers. If something's still unclear, the contact form is at the bottom.
@@ -449,7 +541,7 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-2xl mx-auto">
       <div class="section-reveal text-center">
-        <SectionEyebrow num="08" label="EARLY ACCESS" />
+        <SectionEyebrow num="09" label="EARLY ACCESS" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Knot is in testing.</h2>
         <p class="text-secondary mb-10 leading-relaxed">
           We're not ready for a public release yet. The first wave of slots is for solo developers and 2–10 person teams who'd benefit <em class="text-primary">now</em> from removing GitHub from the loop. If that's you, we'd love to hear from you.
@@ -464,7 +556,7 @@ import '../../styles/global.css';
         </a>
 
         <p class="text-hint text-xs mt-6">
-          Or build from source today. The full source tree is private during pre-alpha; access is granted with the early-access invite.
+          Request access and we'll send you a testing build for macOS and Linux. It's pre-alpha and not yet notarized, so you'll wave it past your OS's first-run warning — the invite walks you through it.
         </p>
       </div>
 
@@ -481,10 +573,9 @@ import '../../styles/global.css';
               The core sync loop works end-to-end across networks on real hardware. We've deliberately deferred a few things that don't matter for early-adopter use but will matter before general release:
             </p>
             <ul class="text-hint text-xs space-y-1.5 ml-1">
-              <li>· Merge of divergent histories (push refuses on non-FF; resolve with `git` manually).</li>
-              <li>· Mobile clients (desktop only — Linux, macOS, Windows).</li>
+              <li>· Full three-way merge of diverged branches (the common single-file conflict already has a guided keep-mine / keep-theirs / keep-both flow; push still refuses on non-FF, resolve with `git` manually).</li>
               <li>· Polished onboarding wizard for non-developer users.</li>
-              <li>· Installer packaging (`.dmg`, `.deb`, MSI).</li>
+              <li>· A public, notarized download (Apple Developer ID + Windows MSI). Until then, testing builds go out with the early-access invite — macOS + Linux today, Windows soon.</li>
             </ul>
             <p class="text-hint text-xs mt-3">
               If you're a developer comfortable with `git`, you'll feel the difference within the first hour. If you're not, wait for v1.1.
