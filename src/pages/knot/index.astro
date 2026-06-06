@@ -38,7 +38,7 @@ import '../../styles/global.css';
         Save → commit → synced. No add, no commit -m, no push.
       </p>
       <p class="text-sm text-accent font-mono mb-10">
-        Two machines, two AI agents, one repo — they build it together over your LAN, hands-free, while you watch.
+        Multiple machines, multiple AI agents, one repo — they build and update it together over your LAN, hands-free, while you watch.
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -121,19 +121,19 @@ import '../../styles/global.css';
       <SectionEyebrow num="02" label="STORYBOARD" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">A day on a two-person team.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Maya builds on a Mac, Sam on Linux — same Wi-Fi, no GitHub between them. Here's an ordinary Tuesday.
+        Roshan builds on a Mac, Ammu on Linux — same Wi-Fi, no GitHub between them. Here's an ordinary Tuesday. Two people here, but the same loop runs across as many machines — and as many AI agents — as you pair: a five-person startup or a two-thousand-engineer org, same flow.
       </p>
     </div>
 
     <div class="space-y-4">
       {[
-        { t: '09:00', h: 'No setup. No accounts.', b: 'Maya drops the project folder into Knot on her Mac. Sam does the same on his Linux laptop. One pairing code, scanned once — that is the whole setup. No GitHub org, no SSH keys, no server to provision.' },
-        { t: '09:15', h: 'She saves. He already has it.', b: 'Maya fixes a bug and hits save. A few seconds later it is a real commit on Sam\'s machine — no add, no commit, no push. He keeps building on top of it without lifting a finger.' },
-        { t: '11:00', h: 'Two AI agents. One repo. Built together.', b: 'Maya\'s coding agent on the Mac and Sam\'s agent on the Linux box split the work — backend on one, frontend on the other — and build the feature together over the office Wi-Fi. No human in the loop, and Maya watches every file they write and every command they run, live, on her screen.' },
-        { t: '11:30', h: 'Guardrails that actually hold.', b: 'Sam scoped his agent to the app source only. When it reaches toward the secrets file, Knot blocks the commit and records the attempt. The secret never moves.' },
-        { t: '13:00', h: 'Proof, on demand.', b: 'Someone asks who changed the auth flow. Maya exports a signed record — every step attributed to a person or an agent session, tamper-evident, and verifiable by anyone. No server was asked.' },
+        { t: '09:00', h: 'No setup. No accounts.', b: 'Roshan drops the project folder into Knot on the Mac. Ammu does the same on the Linux laptop. One pairing code, scanned once — that is the whole setup. No GitHub org, no SSH keys, no server to provision.' },
+        { t: '09:15', h: 'One saves. The other already has it.', b: 'Roshan fixes a bug and hits save. A few seconds later it is a real commit on Ammu\'s machine — no add, no commit, no push. Ammu keeps building on top of it without lifting a finger.' },
+        { t: '11:00', h: 'AI agents. One repo. Built together.', b: 'Roshan\'s coding agent on the Mac and Ammu\'s agent on the Linux box split the work — backend on one, frontend on the other — and build the feature together over the office Wi-Fi. Add more machines and more agents and they coordinate across all of them. No human in the loop, and you watch every file they write and every command they run, live, on screen.' },
+        { t: '11:30', h: 'Guardrails that actually hold.', b: 'Ammu scoped the agent to the app source only. When it reaches toward the secrets file, Knot blocks the commit and records the attempt. The secret never moves.' },
+        { t: '13:00', h: 'Proof, on demand.', b: 'Someone asks who changed the auth flow. Roshan exports a signed record — every step attributed to a person or an agent session, tamper-evident, and verifiable by anyone. No server was asked.' },
         { t: '16:00', h: 'GitHub goes down. They do not notice.', b: 'There is no central server in the picture, so there is nothing to have an outage. The repo lives on their machines; they keep shipping while half the internet waits.' },
-        { t: 'evening', h: 'Check it from the couch.', b: 'Maya opens the project on her iPad on the same Wi-Fi — a live, read-only view of the repo, with every new commit appearing as it lands. No app store, no account.' },
+        { t: 'evening', h: 'Check it from the couch.', b: 'Roshan opens the project on an iPad on the same Wi-Fi — a live, read-only view of the repo, with every new commit appearing as it lands. No app store, no account.' },
       ].map(({ t, h, b }) => (
         <div class="section-reveal flex gap-5 p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">
           <div class="shrink-0 w-16 text-accent text-xs font-mono tracking-widest pt-1">{t}</div>
@@ -210,8 +210,8 @@ import '../../styles/global.css';
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <FeatureBlock
         icon="🤝"
-        title="AI agents build together, machine to machine"
-        description="Your AI agent on one machine and your agent on another collaborate over your LAN to build and update the same repo — hands-free, no human in the loop, with every step visible to you. The thing a central host can't do."
+        title="AI agents build together, across your machines"
+        description="The AI agents on your paired machines collaborate over your LAN to build and update one repo — two machines or many, hands-free, no human in the loop, with every step visible to you. The thing a central host can't do."
       />
       <FeatureBlock
         icon="💾"
@@ -402,7 +402,7 @@ import '../../styles/global.css';
         {
           tag: 'VERIFIED',
           title: 'AI agents build across your machines — together',
-          body: 'An AI agent on one machine asks an agent on another to build something, and they work it out between them over your network — while you watch the whole exchange live: each file written, each command run, each reply, streamed to the watching device in plain view. No human in the build loop.',
+          body: 'An AI agent on one machine asks an agent on another to build something, and they work it out between them over your network — while you watch the whole exchange live: each file written, each command run, each reply, streamed to the watching device in plain view. Pair more machines and more agents join the build. No human in the loop.',
           status: 'building',
         },
         {
