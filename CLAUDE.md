@@ -325,16 +325,22 @@ shifting everything below it +1), structurally parallel to /whispr/ and
   repo — they build it together over your LAN, hands-free, while you
   watch." Keep it; it's the headline thing no central host can do.
 - **01 ─ THE PROBLEM** — four cards: regulated teams, small teams,
-  solo devs, everyone (outages). The outages card is explicit that
-  Knot's fix is structural — no central server, so nothing to have an
-  outage (strengthened 2026-06-06). Sets up why a peer-to-peer
-  alternative makes sense before describing what Knot does.
+  solo devs, everyone. The fourth card is "Availability on someone
+  else's terms" — reframed 2026-06-06 AWAY from "GitHub outage" (GitHub
+  is Microsoft-backed and genuinely reliable, so leaning on its downtime
+  is a weak/disprovable hook) TOWARD dependency/independence: no account
+  to lock, no region to block, no provider's uptime to live by. **Don't
+  reintroduce "GitHub goes down / outage" framing anywhere on the Knot
+  page** — compete on independence, not on out-reliabilitying GitHub.
+  Sets up why a peer-to-peer alternative makes sense.
 - **02 ─ STORYBOARD** (added 2026-06-06, id=`#story`) — a real-world,
   scene-by-scene scenario ("A day on a two-person team": Maya on a Mac,
   Sam on Linux, same Wi-Fi). Seven timestamped scenes, each mapping to a
   shipped capability; the load-bearing beats are **11:00** (two AI
   agents build one repo together over the LAN, watched live — the
-  killer) and **16:00** (GitHub outage → they don't notice; no server).
+  killer) and **16:00** ("nobody else's uptime, nobody else's rules" —
+  independence from any third party; reframed 2026-06-06 off the old
+  "GitHub goes down" beat).
   Renders via a `.map` over a scenes array, same pattern as the roadmap.
   This pushed HOW IT WORKS→03, FEATURES→04, ARCHITECTURE→05, WHO IT'S
   FOR→06, STATUS→07, FAQ→08, EARLY ACCESS→09.

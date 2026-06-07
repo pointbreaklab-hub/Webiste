@@ -102,9 +102,9 @@ import '../../styles/global.css';
       </div>
       <div class="p-6 rounded-2xl bg-surface border border-border">
         <p class="text-accent text-xs font-mono tracking-widest mb-2">FOR EVERYONE</p>
-        <h3 class="text-lg font-bold text-primary mb-2">Outages on someone else's clock</h3>
+        <h3 class="text-lg font-bold text-primary mb-2">Availability on someone else's terms</h3>
         <p class="text-secondary text-sm leading-relaxed">
-          Anyone who's ever lost an afternoon to a GitHub outage. Knot's fix is structural: there's no central server to go down. Your code lives on your own machines — so there's simply nothing to have an outage.
+          Your access to your own code rides on a third party staying up, keeping your account, and serving your region. Knot's fix is structural: there's no central server in the middle at all. Your code lives on your own machines — your availability is your own.
         </p>
       </div>
     </div>
@@ -113,7 +113,7 @@ import '../../styles/global.css';
   <!-- ── 02 STORYBOARD ────────────────────────────────────────────────────── -->
   <!-- Real-world scenario explaining Knot scene by scene. Every beat maps to
        a shipped capability; the killer AI-agent-collaboration beat (11:00) and
-       the no-server / no-outage beat (16:00) are the load-bearing ones. -->
+       the no-third-party-dependency beat (16:00) are the load-bearing ones. -->
   <section id="story" class="relative py-28 px-6 max-w-3xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 right-1/4 w-[45%] h-72 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
 
@@ -132,7 +132,7 @@ import '../../styles/global.css';
         { t: '11:00', h: 'AI agents. One repo. Built together.', b: 'Roshan\'s coding agent on the Mac and Ammu\'s agent on the Linux box split the work — backend on one, frontend on the other — and build the feature together over the office Wi-Fi. Add more machines and more agents and they coordinate across all of them. No human in the loop, and you watch every file they write and every command they run, live, on screen.' },
         { t: '11:30', h: 'Guardrails that actually hold.', b: 'Ammu scoped the agent to the app source only. When it reaches toward the secrets file, Knot blocks the commit and records the attempt. The secret never moves.' },
         { t: '13:00', h: 'Proof, on demand.', b: 'Someone asks who changed the auth flow. Roshan exports a signed record — every step attributed to a person or an agent session, tamper-evident, and verifiable by anyone. No server was asked.' },
-        { t: '16:00', h: 'GitHub goes down. They do not notice.', b: 'There is no central server in the picture, so there is nothing to have an outage. The repo lives on their machines; they keep shipping while half the internet waits.' },
+        { t: '16:00', h: 'Nobody else\'s uptime. Nobody else\'s rules.', b: 'No central server ever sat between Roshan and Ammu — so there is no account to lock, no region to block, no seat to pay for, and no provider whose uptime they live or die by. The repo is on their machines; their availability is their own.' },
         { t: 'evening', h: 'Check it from the couch.', b: 'Roshan opens the project on an iPad on the same Wi-Fi — a live, read-only view of the repo, with every new commit appearing as it lands. No app store, no account.' },
       ].map(({ t, h, b }) => (
         <div class="section-reveal flex gap-5 p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">
