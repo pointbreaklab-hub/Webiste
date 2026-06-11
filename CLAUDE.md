@@ -363,7 +363,22 @@ shifting everything below it +1), structurally parallel to /whispr/ and
   as Whispr and Heart: the diagram is the conceptual map, the
   terminal panel is the technical reference. Both are load-bearing;
   don't drop either.
-- **05 ─ WHO IT'S FOR** — three accent-bordered cards (SOLO ·
+- **06 ─ PROOF** (added 2026-06-11, id=`#proof`) — the token-efficiency
+  evidence for the AI-agent claim. TWO benchmarks, deliberately framed so
+  the honest one leads: **Benchmark 1** is an A/B (same 56-file repo, same
+  question, same agent, both answers correct) — *without Knot* ≈5,185 tokens
+  / 5+ calls vs *with Knot* (`knot_repo_map`) ≈1,504 tokens / 1 call →
+  "≥3.4× fewer, gap widens with repo size". **Benchmark 2** is a
+  `token_bench.sh` table (Heart 194:1, Knot 325:1 raw-source vs map) shown
+  as an EXPLICITLY-LABELLED CEILING ("not the everyday saving"). Plus a
+  "VERIFY IT YOURSELF" card (run two agent sessions, compare the agent's own
+  reported cost). **Hard rule: never promote the 194:1 / 325:1 ceiling ratio
+  to the headline — it's the raw-size bound, not realistic savings; the A/B
+  is the real claim. Numbers come from `knot/scripts/token_bench.sh` +
+  `knot/docs/benchmarks/token-orientation.md` (which also records that an
+  earlier inflated "6.9M tokens" figure was corrected to 390K).** This
+  pushed WHO IT'S FOR→07, STATUS→08, FAQ→09, EARLY ACCESS→10.
+- **07 ─ WHO IT'S FOR** — three accent-bordered cards (SOLO ·
   STARTUP · ENTERPRISE), each with a quote that summarises the
   conversion trigger. Mirrors the three-audience framing that lives
   in knot/CLAUDE.md §14 and is binding product positioning.

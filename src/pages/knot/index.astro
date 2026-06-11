@@ -322,12 +322,114 @@ import '../../styles/global.css';
     </div>
   </section>
 
-  <!-- ── 05 WHO IT'S FOR ──────────────────────────────────────────────────── -->
+  <!-- ── 06 PROOF ─────────────────────────────────────────────────────────── -->
+  <!-- Token-efficiency benchmark + A/B. Honest framing per the corrected
+       evidence doc: the A/B (same task, real counts) is the headline; the
+       raw-size ratios are shown as a labelled CEILING, never as the everyday
+       saving. Every number here is reproducible by the reader. -->
+  <section id="proof" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 right-1/4 w-[45%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="section-reveal text-center mb-14">
+        <SectionEyebrow num="06" label="PROOF" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Measured, not claimed.</h2>
+        <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
+          Knot's headline benefit for AI agents: one reads a repository's whole shape for a few thousand tokens — instead of burning tens of thousands listing folders and opening files to find its bearings. That's a testable claim, so we tested it. Every number below is reproducible on your own machine.
+        </p>
+      </div>
+
+      <!-- Benchmark 1 — the A/B (the defensible centrepiece). -->
+      <div class="section-reveal mb-6">
+        <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">BENCHMARK 1 · SAME REPO · SAME QUESTION · SAME AGENT</p>
+        <p class="text-secondary text-sm text-center max-w-2xl mx-auto mb-8">
+          A 56-file Python codebase the agent had never read. The question, both times:
+          <span class="text-primary/90">“What is this project, what are its main components, and where would a new forecasting model go?”</span> Both answers were correct against the source. Only the cost differed.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="p-6 rounded-2xl bg-bg border border-border">
+            <p class="text-hint text-xs font-mono tracking-widest mb-3">WITHOUT KNOT</p>
+            <p class="text-4xl font-black text-primary mb-1">≈ 5,185<span class="text-lg text-hint font-bold"> tokens</span></p>
+            <p class="text-hint text-xs font-mono mb-4">5+ tool calls</p>
+            <ul class="text-secondary text-sm space-y-1.5 leading-relaxed">
+              <li>list the files · read the README</li>
+              <li>open <code class="text-primary/70">base.py</code> · <code class="text-primary/70">registry.py</code> · a model</li>
+              <li class="text-hint">…and that's granting perfect first-try file picks</li>
+            </ul>
+          </div>
+          <div class="p-6 rounded-2xl bg-accent/[0.06] border border-accent/40">
+            <p class="text-accent text-xs font-mono tracking-widest mb-3">WITH KNOT</p>
+            <p class="text-4xl font-black text-accent mb-1">≈ 1,504<span class="text-lg text-accent/70 font-bold"> tokens</span></p>
+            <p class="text-accent/70 text-xs font-mono mb-4">1 tool call</p>
+            <ul class="text-secondary text-sm space-y-1.5 leading-relaxed">
+              <li>one call to <code class="text-primary/80">knot_repo_map</code></li>
+              <li>files ranked by importance, each with its symbols</li>
+              <li class="text-primary/80">complete, correct answer</li>
+            </ul>
+          </div>
+        </div>
+        <p class="text-secondary text-sm text-center mt-6 max-w-2xl mx-auto leading-relaxed">
+          <span class="text-primary font-semibold">≥ 3.4× fewer tokens — on a small repo, with every assumption biased against Knot.</span> The map is budget-capped (~2,000 tokens whether the repo has 56 files or 5,000), while ad-hoc exploration scales with the codebase — so the gap widens as projects grow.
+        </p>
+      </div>
+
+      <!-- Benchmark 2 — the raw-size ratios, explicitly labelled as a ceiling. -->
+      <div class="section-reveal mt-14 font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden">
+        <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+          <div class="w-3 h-3 rounded-full bg-error/70"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+          <span class="ml-2 text-hint text-xs">token_bench.sh · two real repositories</span>
+        </div>
+        <div class="p-6 space-y-3 text-xs md:text-sm leading-relaxed overflow-x-auto">
+          <div class="flex gap-4 items-baseline text-hint">
+            <span class="shrink-0 w-44">repository</span>
+            <span class="shrink-0 w-24 text-right">raw source</span>
+            <span class="shrink-0 w-24 text-right">knot map</span>
+            <span class="text-right">ratio</span>
+          </div>
+          {[
+            ['Heart · Flutter + Python · 226 files', '≈390,000', '≈2,006', '194 : 1'],
+            ['Knot · Rust workspace · 106 files',    '≈652,000', '≈2,005', '325 : 1'],
+          ].map(([repo, raw, map, ratio]) => (
+            <div class="flex gap-4 items-baseline">
+              <span class="text-primary/80 shrink-0 w-44">{repo}</span>
+              <span class="text-hint shrink-0 w-24 text-right">{raw}</span>
+              <span class="text-accent shrink-0 w-24 text-right">{map}</span>
+              <span class="text-primary font-semibold text-right flex-1">{ratio}</span>
+            </div>
+          ))}
+          <div class="pt-3 text-hint text-[11px] leading-relaxed border-t border-border/60 mt-3">
+            tokens ≈ bytes ÷ 4 · raw counts source only, with vendored/build dirs already excluded
+          </div>
+        </div>
+      </div>
+      <p class="text-hint text-xs text-center mt-4 max-w-2xl mx-auto leading-relaxed">
+        This ratio is a <span class="text-secondary">ceiling</span>, not the everyday saving — no agent reads an entire repo. It bounds the problem; Benchmark 1 is the realistic number.
+      </p>
+
+      <!-- Verify it yourself — the third-party-checkable protocol. -->
+      <div class="section-reveal mt-12 p-6 rounded-2xl bg-bg border border-border max-w-2xl mx-auto">
+        <p class="text-accent text-xs font-mono tracking-widest mb-3">VERIFY IT YOURSELF</p>
+        <p class="text-secondary text-sm leading-relaxed mb-3">
+          Don't take our number — generate your own. Run two fresh AI-agent sessions on the same repository: one with Knot's tools available, one without. Ask each the same orientation question, then compare the token cost the agent itself reports.
+        </p>
+        <p class="text-hint text-xs leading-relaxed">
+          Same task, same model, same repo — metered by the agent's own billing, not by us. The bundled <code class="text-primary/70">knot</code> CLI also ships a one-screen benchmark script you can point at any folder.
+        </p>
+      </div>
+
+      <p class="text-hint text-xs text-center mt-6 max-w-xl mx-auto leading-relaxed">
+        Honest limits: the map doesn't replace reading code you're about to <em>edit</em> — it replaces the hunt for <em>which</em> code that is. Per-file symbol extraction currently covers Rust, Python, JavaScript/TypeScript, and Dart.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 07 WHO IT'S FOR ──────────────────────────────────────────────────── -->
   <section id="audiences" class="relative py-32 px-6 max-w-6xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
 
     <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="06" label="WHO IT'S FOR" />
+      <SectionEyebrow num="07" label="WHO IT'S FOR" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Three audiences, one tool.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
         Knot scales from one person on one laptop to a regulated enterprise — without changing tools, because the architecture fits all three.
@@ -372,7 +474,7 @@ import '../../styles/global.css';
   <section id="roadmap" class="relative py-32 px-6 max-w-4xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="07" label="STATUS & ROADMAP" />
+      <SectionEyebrow num="08" label="STATUS & ROADMAP" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Where we are.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
         Knot is in pre-alpha. Every storyline below has working code; some are still being hardened for general release.
@@ -485,7 +587,7 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[50%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
     <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="08" label="FAQ" />
+      <SectionEyebrow num="09" label="FAQ" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">The questions everyone asks.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
         Plain-English answers. If something's still unclear, the contact form is at the bottom.
@@ -541,7 +643,7 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-2xl mx-auto">
       <div class="section-reveal text-center">
-        <SectionEyebrow num="09" label="EARLY ACCESS" />
+        <SectionEyebrow num="10" label="EARLY ACCESS" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Knot is in testing.</h2>
         <p class="text-secondary mb-10 leading-relaxed">
           We're not ready for a public release yet. The first wave of slots is for solo developers and 2–10 person teams who'd benefit <em class="text-primary">now</em> from removing GitHub from the loop. If that's you, we'd love to hear from you.
