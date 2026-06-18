@@ -10,7 +10,7 @@ import '../../styles/global.css';
 
 <Base
   title="Knot · Peer-to-peer version control for the AI era"
-  description="Take any folder on your machine. Every save becomes a real git commit and reaches your teammates within seconds — no GitHub account, no central server, no four-step push ritual. Peer-to-peer over Tor: works wherever normal web traffic does."
+  description="Take any folder on your machine. Every save becomes a real git commit and reaches your teammates within seconds — no account, no central server, no four-step push ritual. Peer-to-peer over Tor: works wherever normal web traffic does."
 >
   <Nav />
 
@@ -74,7 +74,7 @@ import '../../styles/global.css';
       <SectionEyebrow num="01" label="THE PROBLEM" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Your code lives on someone else's computer.</h2>
       <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-        Today's developer workflow assumes a central server. Push to GitHub, GitLab, Bitbucket; pull from GitHub, GitLab, Bitbucket. Your team's source code sits on a third party's infrastructure — behind their access controls, subject to their availability, their pricing, and their policies.
+        The usual way to share code puts it on a company's servers — push it up, pull it down. Your source then lives on infrastructure you don't control: someone else's access rules, uptime, and terms. Knot takes the middle out entirely — your code stays on your machines and moves directly between them.
       </p>
     </div>
 
@@ -83,14 +83,14 @@ import '../../styles/global.css';
         <p class="text-accent text-xs font-mono tracking-widest mb-2">FOR REGULATED TEAMS</p>
         <h3 class="text-lg font-bold text-primary mb-2">Code that legally can't leave the network</h3>
         <p class="text-secondary text-sm leading-relaxed">
-          Defence, healthcare, finance, anything subject to data-residency rules. GitHub is off the table; self-hosted GitLab is an IT operational tax.
+          Defence, healthcare, finance — anything under data-residency rules. A hosted service is off the table, and running your own is an IT operational tax. Knot needs neither.
         </p>
       </div>
       <div class="p-6 rounded-2xl bg-surface border border-border">
         <p class="text-accent text-xs font-mono tracking-widest mb-2">FOR SMALL TEAMS</p>
-        <h3 class="text-lg font-bold text-primary mb-2">$30/seat/month for what used to be free</h3>
+        <h3 class="text-lg font-bold text-primary mb-2">A per-seat bill just to collaborate</h3>
         <p class="text-secondary text-sm leading-relaxed">
-          GitHub Team scales with every hire. SAML, branch protection, Actions YAML — admin overhead is a tax on shipping.
+          A hosted service charges for every head, and the SSO / access-rules / CI setup is its own tax on shipping — for a team that only wants to share code.
         </p>
       </div>
       <div class="p-6 rounded-2xl bg-surface border border-border">
@@ -121,13 +121,13 @@ import '../../styles/global.css';
       <SectionEyebrow num="02" label="STORYBOARD" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">A day on a two-person team.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Roshan builds on a Mac, Ammu on Linux — same Wi-Fi, no GitHub between them. Here's an ordinary Tuesday. Two people here, but the same loop runs across as many machines — and as many AI agents — as you pair: a five-person startup or a two-thousand-engineer org, same flow.
+        Roshan builds on a Mac, Ammu on Linux — same Wi-Fi, nothing in between them. Here's an ordinary Tuesday. Two people here, but the same loop runs across as many machines — and as many AI agents — as you pair: a five-person startup or a two-thousand-engineer org, same flow.
       </p>
     </div>
 
     <div class="space-y-4">
       {[
-        { t: '09:00', h: 'No setup. No accounts.', b: 'Roshan drops the project folder into Knot on the Mac. Ammu does the same on the Linux laptop. One pairing code, scanned once — that is the whole setup. No GitHub org, no SSH keys, no server to provision.' },
+        { t: '09:00', h: 'No setup. No accounts.', b: 'Roshan drops the project folder into Knot on the Mac. Ammu does the same on the Linux laptop. One pairing code, scanned once — that is the whole setup. No accounts, no SSH keys, no server to provision.' },
         { t: '09:15', h: 'One saves. The other already has it.', b: 'Roshan fixes a bug and hits save. A few seconds later it is a real commit on Ammu\'s machine — no add, no commit, no push. Ammu keeps building on top of it without lifting a finger.' },
         { t: '11:00', h: 'AI agents. One repo. Built together.', b: 'Roshan\'s coding agent on the Mac and Ammu\'s agent on the Linux box split the work — backend on one, frontend on the other — and build the feature together over the office Wi-Fi. Add more machines and more agents and they coordinate across all of them. No human in the loop, and you watch every file they write and every command they run, live, on screen.' },
         { t: '11:30', h: 'Guardrails that actually hold.', b: 'Ammu scoped the agent to the app source only. When it reaches toward the secrets file, Knot blocks the commit and records the attempt. The secret never moves.' },
@@ -231,7 +231,7 @@ import '../../styles/global.css';
       <FeatureBlock
         icon="🪢"
         title="Real git underneath"
-        description="Knot uses git's real object format, so `git log`, `git diff`, and `git branch` all still work. Not a replacement — a layer above."
+        description="Knot uses git's real object format, so `git log`, `git diff`, and `git branch` all still work underneath — nothing to relearn."
       />
       <FeatureBlock
         icon="🧾"
@@ -416,7 +416,7 @@ import '../../styles/global.css';
         <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">SOLO</div>
         <h3 class="text-lg font-bold text-primary mb-2">Personal projects</h3>
         <p class="text-secondary text-sm leading-relaxed mb-3">
-          You want version history + cross-device sync. You don't want to pay GitHub Pro for an unfinished side-project, or upload it to Microsoft.
+          You want version history and cross-device sync — without a subscription for an unfinished side-project, and without uploading it to a company's servers.
         </p>
         <p class="text-hint text-xs italic">
           "I just want my code to exist on hardware I own and not be lost."
@@ -426,10 +426,10 @@ import '../../styles/global.css';
         <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">STARTUP</div>
         <h3 class="text-lg font-bold text-primary mb-2">Small distributed team</h3>
         <p class="text-secondary text-sm leading-relaxed mb-3">
-          One-time install per laptop. Teammate added in 30 seconds with a pairing code. No GitHub org admin overhead, no per-seat bill that scales with hiring.
+          One-time install per laptop. Teammate added in 30 seconds with a pairing code. No org to administer, no per-seat bill that grows with every hire.
         </p>
         <p class="text-hint text-xs italic">
-          "We don't want a GitHub org just to share code with five people who already trust each other."
+          "We don't want to stand up a hosted org just to share code with five people who already trust each other."
         </p>
       </div>
       <div class="p-6 rounded-2xl bg-surface border border-accent/30 glow-border">
@@ -439,7 +439,7 @@ import '../../styles/global.css';
           Code never crosses the firewall. Every commit signed by developer + AI session. Per-path scopes for what agents may touch. Compliance answer, audit answer, IT-relief answer — same architecture.
         </p>
         <p class="text-hint text-xs italic">
-          "Legal won't let us send code to GitHub.com, but we still want our developers to use modern AI tools."
+          "Legal won't let our code leave the network, but we still want our developers to use modern AI tools."
         </p>
       </div>
     </div>
@@ -549,7 +549,7 @@ import '../../styles/global.css';
       {[
         {
           q: 'Who should use Knot?',
-          a: 'Three groups, roughly: (1) solo developers who want version history + cross-device sync without paying GitHub Pro or uploading unfinished work to Microsoft; (2) small teams who don\'t want $30/seat/month and the GitHub-org admin overhead just to share code with people who already trust each other; (3) enterprises where compliance or contracts mean code legally can\'t leave the network. The same Knot install fits all three — the architecture doesn\'t change when your team grows.',
+          a: 'Three groups, roughly: (1) solo developers who want version history and cross-device sync without a subscription or uploading unfinished work to someone else\'s servers; (2) small teams who don\'t want a per-seat bill and an org to administer just to share code with people they already trust; (3) enterprises where compliance or contracts mean code legally can\'t leave the network. The same Knot install fits all three — the architecture doesn\'t change when your team grows.',
         },
         {
           q: 'Is Knot safe?',
@@ -597,7 +597,7 @@ import '../../styles/global.css';
         <SectionEyebrow num="10" label="EARLY ACCESS" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Knot is in testing.</h2>
         <p class="text-secondary mb-10 leading-relaxed">
-          We're not ready for a public release yet. The first wave of slots is for solo developers and 2–10 person teams who'd benefit <em class="text-primary">now</em> from removing GitHub from the loop. If that's you, we'd love to hear from you.
+          We're not ready for a public release yet. The first wave of slots is for solo developers and 2–10 person teams who'd benefit <em class="text-primary">now</em> from removing the middleman from the loop. If that's you, we'd love to hear from you.
         </p>
 
         <a
