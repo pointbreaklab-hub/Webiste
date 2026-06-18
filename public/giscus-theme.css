@@ -1,0 +1,106 @@
+/* PointBreakLab — custom giscus theme matched to the site palette.
+   bg #0b0b0d · surface #131316 · border #23232a · text #f0f0f0/#888888
+   · accent #00d4aa (teal). Served at /giscus-theme.css and referenced via
+   data-theme on the giscus script. Keeps the Community thread visually
+   consistent with the rest of the dark, teal-accented editorial design. */
+
+main {
+  --color-prettylights-syntax-comment: #737373;
+  --color-prettylights-syntax-constant: #00d4aa;
+  --color-prettylights-syntax-entity: #b392f0;
+  --color-prettylights-syntax-storage-modifier-import: #f0f0f0;
+  --color-prettylights-syntax-entity-tag: #00d4aa;
+  --color-prettylights-syntax-keyword: #ff7b72;
+  --color-prettylights-syntax-string: #00d4aa;
+  --color-prettylights-syntax-variable: #ffa657;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #ff4444;
+  --color-prettylights-syntax-invalid-illegal-text: #f0f0f0;
+  --color-prettylights-syntax-invalid-illegal-bg: #67060c;
+  --color-prettylights-syntax-carriage-return-text: #f0f0f0;
+  --color-prettylights-syntax-carriage-return-bg: #ff4444;
+  --color-prettylights-syntax-string-regexp: #7ee787;
+  --color-prettylights-syntax-markup-list: #f2cc60;
+  --color-prettylights-syntax-markup-heading: #00d4aa;
+  --color-prettylights-syntax-markup-italic: #f0f0f0;
+  --color-prettylights-syntax-markup-bold: #f0f0f0;
+  --color-prettylights-syntax-markup-deleted-text: #ffdcd7;
+  --color-prettylights-syntax-markup-deleted-bg: #67060c;
+  --color-prettylights-syntax-markup-inserted-text: #aff5b4;
+  --color-prettylights-syntax-markup-inserted-bg: #033a16;
+  --color-prettylights-syntax-markup-changed-text: #ffdfb6;
+  --color-prettylights-syntax-markup-changed-bg: #5a1e02;
+  --color-prettylights-syntax-markup-ignored-text: #f0f0f0;
+  --color-prettylights-syntax-markup-ignored-bg: #00d4aa;
+  --color-prettylights-syntax-meta-diff-range: #d2a8ff;
+  --color-prettylights-syntax-brackethighlighter-angle: #888888;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #484f58;
+  --color-prettylights-syntax-constant-other-reference-link: #00d4aa;
+
+  --color-btn-text: #f0f0f0;
+  --color-btn-bg: #1a1a1f;
+  --color-btn-border: rgba(35, 35, 42, 1);
+  --color-btn-shadow: 0 0 transparent;
+  --color-btn-inset-shadow: 0 0 transparent;
+  --color-btn-hover-bg: #23232a;
+  --color-btn-hover-border: #00d4aa;
+  --color-btn-active-bg: #23232a;
+  --color-btn-active-border: #00d4aa;
+  --color-btn-selected-bg: #0b0b0d;
+  --color-btn-primary-text: #0b0b0d;
+  --color-btn-primary-bg: #00d4aa;
+  --color-btn-primary-border: #00d4aa;
+  --color-btn-primary-shadow: 0 0 transparent;
+  --color-btn-primary-inset-shadow: 0 0 transparent;
+  --color-btn-primary-hover-bg: #19e0b8;
+  --color-btn-primary-hover-border: #19e0b8;
+  --color-btn-primary-selected-bg: #00b894;
+  --color-btn-primary-disabled-text: rgba(11, 11, 13, 0.5);
+  --color-btn-primary-disabled-bg: rgba(0, 212, 170, 0.4);
+  --color-btn-primary-disabled-border: transparent;
+
+  --color-action-list-item-default-hover-bg: rgba(35, 35, 42, 0.5);
+  --color-segmented-control-bg: #1a1a1f;
+  --color-segmented-control-button-bg: #131316;
+  --color-segmented-control-button-selected-border: #00d4aa;
+
+  --color-fg-default: #f0f0f0;
+  --color-fg-muted: #888888;
+  --color-fg-subtle: #737373;
+  --color-canvas-default: #131316;
+  --color-canvas-overlay: #1a1a1f;
+  --color-canvas-inset: #0b0b0d;
+  --color-canvas-subtle: #1a1a1f;
+  --color-border-default: #23232a;
+  --color-border-muted: #1f1f25;
+  --color-neutral-muted: rgba(35, 35, 42, 0.5);
+  --color-accent-fg: #00d4aa;
+  --color-accent-emphasis: #00d4aa;
+  --color-accent-muted: rgba(0, 212, 170, 0.4);
+  --color-accent-subtle: rgba(0, 212, 170, 0.1);
+  --color-success-fg: #00d4aa;
+  --color-danger-fg: #ff4444;
+  --color-primer-shadow-inset: 0 0 transparent;
+  --color-scale-gray-1: #23232a;
+
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+  background: transparent;
+}
+
+main .gsc-comment-box-tabs,
+main .gsc-comment-box-preview {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+main .gsc-comment-box-textarea,
+main .gsc-comment-content code,
+main .gsc-comment-content pre {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Rounder corners to match the site's 2xl card language. */
+main .gsc-comment-box,
+main .gsc-comment > .gsc-comment-content,
+main .gsc-comment-box-textarea {
+  border-radius: 12px;
+}
