@@ -159,5 +159,63 @@ import '../styles/global.css';
     </div>
   </section>
 
+  <!-- ── 04 COMMUNITY — async conversation, backed by GitHub Discussions ──────
+       Giscus widget. Source of truth = Discussions in pointbreaklab-hub/Webiste.
+       Lazy-loaded (IntersectionObserver) so the third-party client.js never
+       touches the initial-load JS budget. Giscus is open-source + tracker-free
+       — the one sanctioned third-party script on the site. To POST, a visitor
+       signs in with GitHub (reading is open to all). -->
+  <section id="conversation" class="relative py-32 px-6 max-w-3xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
+    <div class="section-reveal text-center mb-12">
+      <SectionEyebrow num="04" label="COMMUNITY" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Join the conversation.</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Questions, feedback, ideas — talk to us and to each other, right here. Threads are public and powered by GitHub Discussions; sign in with a GitHub account to post.
+      </p>
+    </div>
+    <div class="section-reveal rounded-2xl bg-surface border border-border p-4 md:p-8 min-h-[180px]">
+      <div id="giscus-container"></div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var section = document.getElementById('conversation');
+      var mount = document.getElementById('giscus-container');
+      if (!section || !mount) return;
+      var loaded = false;
+      function loadGiscus() {
+        if (loaded) return; loaded = true;
+        var s = document.createElement('script');
+        s.src = 'https://giscus.app/client.js';
+        s.setAttribute('data-repo', 'pointbreaklab-hub/Webiste');
+        s.setAttribute('data-repo-id', 'R_kgDOSUvnLA');
+        s.setAttribute('data-category', 'General');
+        s.setAttribute('data-category-id', 'DIC_kwDOSUvnLM4C_b6T');
+        s.setAttribute('data-mapping', 'specific');
+        s.setAttribute('data-term', 'PointBreakLab Community');
+        s.setAttribute('data-strict', '0');
+        s.setAttribute('data-reactions-enabled', '1');
+        s.setAttribute('data-emit-metadata', '0');
+        s.setAttribute('data-input-position', 'top');
+        s.setAttribute('data-theme', 'transparent_dark');
+        s.setAttribute('data-lang', 'en');
+        s.setAttribute('data-loading', 'lazy');
+        s.crossOrigin = 'anonymous';
+        s.async = true;
+        mount.appendChild(s);
+      }
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { loadGiscus(); io.disconnect(); } });
+        }, { rootMargin: '300px' });
+        io.observe(section);
+      } else {
+        loadGiscus();
+      }
+    })();
+  </script>
+
   <Footer />
 </Base>
