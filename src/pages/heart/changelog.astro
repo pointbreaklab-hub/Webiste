@@ -24,6 +24,13 @@ interface Release {
 
 const releases: Release[] = [
   {
+    tag: 'v1.0.21',
+    date: '2026-06-04',
+    kind: 'polish',
+    title: 'Smooth long sessions, smarter gym exit, layout fixes, Home tab cleanup',
+    body: 'A focused polish release aimed at making Heart feel right during multi-hour use on mid-range phones. The active-route accumulator now batches GPS updates instead of rebuilding the route on every fix, so a 2-hour cycling session no longer pays an O(n²) penalty as the route grows. The live session banner, the Start/Stop FAB and the active-session status card stopped rebuilding their entire layout every second — only the elapsed-time text rebuilds now, which is the only thing that actually changes. The live HR chart and the route map are wrapped in repaint boundaries so heart-rate updates and tile redraws stop cascading into sibling widgets. Gym auto-end is smarter: when you leave the radius it counts down 30 seconds and ends the session; when the band powers off (or runs out of battery, or goes out of range) it also ends — same 30-second budget, just split across staleness detection and the exit dwell so a brief BLE blip doesn\'t end the workout. The sleep card moved off Home into Trends → Sleep where it now leads with a circular ring showing last night against your target — Home is now strictly today\'s live story. The Baseline card shows again on Home even with zero sessions. Settings → Gym surfaces a live status row that tells you what the detector is seeing right now ("at gym · session starts in 1:42", "left gym · session ends in 0:30", or "permission denied — tap to retry"). And the Home tab\'s bottom padding finally reserves enough space to clear the floating Stop button when a session is running, so the last card doesn\'t hide behind the FAB anymore.',
+  },
+  {
     tag: 'v1.0.20',
     date: '2026-05-23',
     kind: 'feature',
