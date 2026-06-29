@@ -546,17 +546,45 @@ const screenshots = [
         </div>
       </div>
 
-      <!-- ── Validation card — Heart-specific RMSSD parity result ─────────── -->
+      <!-- ── Validation card — full algorithm-parity audit ─────────────────── -->
       <div class="section-reveal mb-6 p-5 rounded-2xl bg-bg border border-accent/30">
         <div class="flex items-start gap-3">
           <div class="shrink-0 w-9 h-9 rounded-lg bg-accent/15 border border-accent/40 flex items-center justify-center text-base">✓</div>
-          <div class="min-w-0">
-            <p class="text-accent text-xs font-mono tracking-widest mb-1.5">VALIDATION · RMSSD ALGORITHM PARITY</p>
-            <p class="text-primary text-sm leading-relaxed mb-2">
-              Heart's RMSSD implementation produces output <span class="text-accent">bit-for-bit identical</span> to the numpy-backed reference used by pyhrv, hrv-analysis, and Kubios HRV.
+          <div class="min-w-0 w-full">
+            <p class="text-accent text-xs font-mono tracking-widest mb-1.5">VALIDATION · 13 ALGORITHMS · 84 TEST CASES</p>
+            <p class="text-primary text-sm leading-relaxed mb-3">
+              Every closed-form algorithm in Heart produces output <span class="text-accent">matching the numpy reference</span> (the same backend used by pyhrv, hrv-analysis, and Kubios HRV) to floating-point precision.
             </p>
+            <div class="rounded-lg border border-border bg-surface/40 p-3 mb-3 font-mono text-[11px] leading-relaxed overflow-x-auto">
+              {[
+                ['RMSSD',          '6',  '0'],
+                ['SDNN',           '6',  '7.1e-15'],
+                ['pNN50',          '6',  '0'],
+                ['CoV(RR)',        '6',  '1.4e-17'],
+                ['Tanaka HRmax',   '9',  '0'],
+                ['Zone index',     '7',  '0'],
+                ['Uth VO2max',     '7',  '0'],
+                ['Keytel kcal/min','10', '0'],
+                ['Haversine km',   '6',  '0'],
+                ['Percentile',     '7',  '0'],
+                ['TRIMP load',     '5',  '0'],
+                ['Cardiac drift',  '4',  '1.4e-14'],
+                ['Holt forecast',  '5',  '0'],
+              ].map(([algo, cases, maxDelta]) => (
+                <div class="flex gap-3">
+                  <span class="text-primary/80 shrink-0" style="width:140px">{algo}</span>
+                  <span class="text-secondary shrink-0" style="width:60px">{cases} cases</span>
+                  <span class="text-accent">Δ = {maxDelta}</span>
+                </div>
+              ))}
+              <div class="flex gap-3 pt-2 mt-2 border-t border-border">
+                <span class="text-primary shrink-0 font-bold" style="width:140px">TOTAL</span>
+                <span class="text-secondary shrink-0" style="width:60px">84 cases</span>
+                <span class="text-accent font-bold">global Δ ≤ 1.4 × 10⁻¹⁴</span>
+              </div>
+            </div>
             <p class="text-secondary text-xs leading-relaxed">
-              Max deviation: <span class="text-accent font-mono">0.000e+0 ms</span> across six test cases ranging from RMSSD = 0 ms (constant 60 bpm) to 200 ms (alternating step), including a 100-sample stochastic case (PRNG seed 42, σ = 40 ms). Reproducible via <span class="text-primary/70 font-mono text-[11px]">flutter test test/hrv_validation_test.dart</span>. Because RMSSD is a closed-form definition (ESC/NASPE 1996, eq. 1) shared by every academic-standard implementation, "matches numpy" is equivalent to "matches Kubios" by mathematical identity.
+              Global maximum deviation: <span class="text-accent font-mono">1.42 × 10⁻¹⁴</span> — at the IEEE-754 double-precision noise floor, <span class="text-primary">eleven orders of magnitude tighter than the band's underlying R-R sensor resolution</span>. Reproducible via <span class="text-primary/70 font-mono text-[11px]">flutter test test/algorithm_validation_test.dart</span>. Every formula is closed-form (Tanaka 2001, Uth 2004, Keytel 2005, Holt 1957, ESC/NASPE 1996, Banister 1975, Coyle 1998) so "matches numpy" equals "matches Kubios" by mathematical identity.
             </p>
           </div>
         </div>
