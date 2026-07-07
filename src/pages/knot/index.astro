@@ -510,66 +510,25 @@ const screenshots = [
     </div>
   </section>
 
-  <!-- ── KNOT AI (on-device commit-message model) ─────────────────────────────
-       Intentionally un-numbered — like THE DESKTOP APP showcase — so it doesn't
-       renumber the 01–10 chapter sequence. Knot AI is a capability of Knot (the
-       on-device model that writes commit messages), now published openly on
-       Hugging Face + Ollama. Benchmark rendered as native themed CSS bars/table
-       (NOT the white PNGs used on HF/Ollama) so it matches the dark palette.
-       Every number here comes from the same 3-model x 2-gold-set eval. -->
-  <section id="knot-ai" class="relative py-32 px-6 overflow-hidden">
-    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-72 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
-    <div class="relative max-w-4xl mx-auto">
-      <div class="section-reveal text-center mb-14">
-        <div class="flex items-center justify-center gap-3 mb-4">
-          <img src="/knot-ai-logo.png" alt="Knot AI" width="52" height="52" class="rounded-xl" />
-          <p class="text-accent text-xs font-mono tracking-widest">KNOT AI · ON-DEVICE MODEL</p>
+  <!-- ── KNOT AI (bridge to the dedicated /knot-ai/ page) ──────────────────────
+       Knot AI writes Knot's commit messages, so the Knot page names it once and
+       links out. The full pitch, benchmark, training and files live on /knot-ai/;
+       kept deliberately slim here to avoid duplicating that page. -->
+  <section id="knot-ai" class="relative py-20 px-6 overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-56 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-3xl mx-auto">
+      <div class="section-reveal flex flex-col md:flex-row items-center gap-6 p-6 md:p-8 rounded-2xl bg-surface border border-accent/25">
+        <img src="/knot-ai-logo.png" alt="Knot AI" width="60" height="60" class="rounded-xl shrink-0" />
+        <div class="flex-1 text-center md:text-left">
+          <p class="text-accent text-xs font-mono tracking-widest mb-2">POWERED BY KNOT AI</p>
+          <h3 class="text-xl font-bold text-primary mb-1.5">Every commit message is written on-device.</h3>
+          <p class="text-secondary text-sm leading-relaxed">
+            The messages Knot writes come from <span class="text-primary">Knot AI</span> - our open, on-device model that reads the diff and writes the message. It never leaves your machine, and it's also a standalone release on Hugging Face and Ollama.
+          </p>
         </div>
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">The model that writes your commits.</h2>
-        <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-          When a save becomes a commit, something has to write the message. Knot AI does — a task-specific model that reads your diff and writes a clear, correctly-typed Conventional-Commit message. It runs <span class="text-primary">100% on your machine</span>: no API, no code leaving your device. It's a fine-tune of Qwen2.5-Coder-7B, and it's <span class="text-primary">open</span> — on Hugging Face and Ollama.
-        </p>
-      </div>
-
-      <!-- How it works — one mono line, same visual grammar as the hero coda. -->
-      <div class="section-reveal text-center mb-14">
-        <p class="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs font-mono text-hint">
-          <span class="text-primary/80">git diff</span>
-          <span class="text-accent">→</span>
-          <span class="text-primary/80">Qwen2.5-Coder-7B + Knot AI LoRA</span>
-          <span class="text-accent">→</span>
-          <span class="text-primary/80">fix: prevent division by zero</span>
-        </p>
-      </div>
-
-      <!-- Compact teaser — full benchmark, training and files live on /knot-ai/. -->
-      <div class="section-reveal">
-        <div class="grid grid-cols-3 gap-3 md:gap-4 max-w-lg mx-auto mb-8">
-          {[
-            ['55%',  'commit-type accuracy'],
-            ['0/60', 'unparseable replies'],
-            ['100%', 'on your machine'],
-          ].map(([n, l]) => (
-            <div class="p-4 rounded-2xl bg-bg border border-border text-center">
-              <p class="text-2xl md:text-3xl font-black text-accent mb-1">{n}</p>
-              <p class="text-hint text-[11px] font-mono leading-tight">{l}</p>
-            </div>
-          ))}
-        </div>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="/knot-ai/" class="group inline-flex items-center gap-1.5 px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105">
-            Explore Knot AI <span class="group-hover:translate-x-0.5 transition-transform">→</span>
-          </a>
-          <a href="https://huggingface.co/pointbreaklab/knot-ai" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-border text-secondary text-sm font-mono hover:border-accent hover:text-primary transition-all">
-            🤗 Hugging Face
-          </a>
-          <a href="https://ollama.com/pointbreaklab/knot-ai" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-border text-secondary text-sm font-mono hover:border-accent hover:text-primary transition-all">
-            🦙 Ollama
-          </a>
-        </div>
-        <p class="text-hint text-[11px] text-center mt-6 max-w-lg mx-auto leading-relaxed">
-          Base 0% -> v3 40% -> Knot AI 55% commit-type accuracy, across JS/TS and Rust/Go/Python. Full benchmark, training and files on the <a href="/knot-ai/" class="text-accent hover:underline">Knot AI page</a> · Qwen2.5-Coder-7B fine-tune · Apache-2.0.
-        </p>
+        <a href="/knot-ai/" class="group shrink-0 inline-flex items-center gap-1.5 px-6 py-3 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105">
+          Explore Knot AI <span class="group-hover:translate-x-0.5 transition-transform">→</span>
+        </a>
       </div>
     </div>
   </section>
