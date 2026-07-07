@@ -510,6 +510,155 @@ const screenshots = [
     </div>
   </section>
 
+  <!-- ── KNOT AI (on-device commit-message model) ─────────────────────────────
+       Intentionally un-numbered — like THE DESKTOP APP showcase — so it doesn't
+       renumber the 01–10 chapter sequence. Knot AI is a capability of Knot (the
+       on-device model that writes commit messages), now published openly on
+       Hugging Face + Ollama. Benchmark rendered as native themed CSS bars/table
+       (NOT the white PNGs used on HF/Ollama) so it matches the dark palette.
+       Every number here comes from the same 3-model x 2-gold-set eval. -->
+  <section id="knot-ai" class="relative py-32 px-6 overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-72 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="section-reveal text-center mb-14">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <img src="/knot-ai-logo.png" alt="Knot AI" width="52" height="52" class="rounded-xl" />
+          <p class="text-accent text-xs font-mono tracking-widest">KNOT AI · ON-DEVICE MODEL</p>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">The model that writes your commits.</h2>
+        <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
+          When a save becomes a commit, something has to write the message. Knot AI does — a task-specific model that reads your diff and writes a clear, correctly-typed Conventional-Commit message. It runs <span class="text-primary">100% on your machine</span>: no API, no code leaving your device. It's a fine-tune of Qwen2.5-Coder-7B, and it's <span class="text-primary">open</span> — on Hugging Face and Ollama.
+        </p>
+      </div>
+
+      <!-- How it works — one mono line, same visual grammar as the hero coda. -->
+      <div class="section-reveal text-center mb-14">
+        <p class="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs font-mono text-hint">
+          <span class="text-primary/80">git diff</span>
+          <span class="text-accent">→</span>
+          <span class="text-primary/80">Qwen2.5-Coder-7B + Knot AI LoRA</span>
+          <span class="text-accent">→</span>
+          <span class="text-primary/80">fix: prevent division by zero</span>
+        </p>
+      </div>
+
+      <!-- Benchmark: measured, not claimed — matches the PROOF section's stance. -->
+      <div class="section-reveal">
+        <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">BENCHMARK · 60 HELD-OUT COMMITS · SCORED THROUGH THE SHIPPING MODEL</p>
+        <p class="text-secondary text-sm text-center max-w-2xl mx-auto mb-10">
+          Three models under one identical harness: the untouched base, the prior release (v3, JS/TS only), and today's model (v4, with added Rust / Go / Python). The metric is whether it picks the right commit <em>type</em> — the hardest, most useful signal.
+        </p>
+
+        <!-- Fine-tuning ladder — the headline chart, native CSS bars. -->
+        <div class="rounded-2xl bg-bg border border-border p-6 md:p-8 mb-6">
+          <p class="text-hint text-xs font-mono tracking-widest mb-6">TYPE ACCURACY — THE FINE-TUNING LADDER</p>
+          {[
+            { name: 'Base Qwen (zero-shot)', val: 0,  pct: '0%',   fill: 'bg-hint/40',   txt: 'text-hint',   note: '59/60 replies unparseable' },
+            { name: 'Knot AI v3 (prior)',    val: 40, pct: '40%',  fill: 'bg-accent/45', txt: 'text-secondary', note: 'JS/TS only' },
+            { name: 'Knot AI (v4)',          val: 55, pct: '55%',  fill: 'bg-accent',    txt: 'text-accent',    note: '0/60 errors' },
+          ].map(({ name, val, pct, fill, txt, note }) => (
+            <div class="flex items-center gap-3 md:gap-4 mb-4 last:mb-0">
+              <span class="w-32 md:w-44 shrink-0 text-[11px] md:text-xs font-mono text-secondary text-right leading-tight">{name}</span>
+              <div class="flex-1 h-7 rounded-md bg-surface border border-border overflow-hidden">
+                <div class={`h-full ${fill} rounded-md transition-all`} style={`width:${val}%`}></div>
+              </div>
+              <span class={`w-10 shrink-0 text-xs font-mono ${txt}`}>{pct}</span>
+              <span class="hidden md:block w-40 shrink-0 text-[11px] font-mono text-hint leading-tight">{note}</span>
+            </div>
+          ))}
+        </div>
+
+        <!-- Full metrics table (JS/TS gold). -->
+        <div class="section-reveal rounded-2xl bg-bg border border-border overflow-hidden mb-6">
+          <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+            <div class="w-3 h-3 rounded-full bg-error/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+            <span class="ml-2 text-hint text-xs font-mono">knot-ai-benchmark.txt · 60 JS/TS gold</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs md:text-sm font-mono">
+              <thead>
+                <tr class="text-hint border-b border-border">
+                  <th class="text-left font-normal p-3 md:px-5">Metric</th>
+                  <th class="text-right font-normal p-3 md:px-5">Base</th>
+                  <th class="text-right font-normal p-3 md:px-5">v3</th>
+                  <th class="text-right font-semibold p-3 md:px-5 text-accent">Knot AI</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Type accuracy',        '0.0%', '40.0%', '55.0%'],
+                  ['Title word-overlap',   '0.4%', '18.3%', '30.3%'],
+                  ['Exact title',          '0.0%', '0.0%',  '6.7%'],
+                  ['Scope accuracy',       '0.0%', '70.0%', '75.0%'],
+                  ['Unparseable / 60',     '59',   '4',     '0'],
+                ].map(([metric, base, v3, knot]) => (
+                  <tr class="border-b border-border/50 last:border-0">
+                    <td class="text-secondary p-3 md:px-5">{metric}</td>
+                    <td class="text-hint text-right p-3 md:px-5">{base}</td>
+                    <td class="text-secondary text-right p-3 md:px-5">{v3}</td>
+                    <td class="text-accent text-right font-semibold p-3 md:px-5">{knot}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Cross-language generalization — separate gold set. -->
+        <div class="section-reveal rounded-2xl bg-bg border border-border p-6 md:p-8 mb-8">
+          <p class="text-hint text-xs font-mono tracking-widest mb-2">GENERALIZES ACROSS LANGUAGES</p>
+          <p class="text-secondary text-sm mb-6 leading-relaxed">
+            Type accuracy on a <span class="text-primary/80">separate</span> 60-commit set of Rust / Go / Python — languages this release added. The base model scores 0% on all three.
+          </p>
+          {[
+            { lang: 'Rust',   val: 55 },
+            { lang: 'Go',     val: 45 },
+            { lang: 'Python', val: 60 },
+          ].map(({ lang, val }) => (
+            <div class="flex items-center gap-3 md:gap-4 mb-3.5 last:mb-0">
+              <span class="w-16 md:w-20 shrink-0 text-xs font-mono text-secondary text-right">{lang}</span>
+              <div class="flex-1 h-6 rounded-md bg-surface border border-border overflow-hidden">
+                <div class="h-full bg-accent rounded-md" style={`width:${val}%`}></div>
+              </div>
+              <span class="w-10 shrink-0 text-xs font-mono text-accent">{val}%</span>
+            </div>
+          ))}
+        </div>
+
+        <!-- Honest read — same credibility-by-honesty pattern as the rest of the page. -->
+        <p class="section-reveal text-hint text-xs text-center max-w-2xl mx-auto leading-relaxed mb-10">
+          Honest read: strong on the high-signal types (chore, ci, feat, fix, test), still developing on the genuinely ambiguous ones — refactor vs feat, build vs chore — which the next release targets. These are single-reference scores (compared to one human label), so they understate real usefulness: a change scored a "miss" for not matching the exact human wording is still a correct, useful message.
+        </p>
+
+        <!-- Published links — the model is public; source stays private. -->
+        <div class="section-reveal flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="https://huggingface.co/pointbreaklab/knot-ai"
+            target="_blank" rel="noopener"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border text-secondary text-sm font-mono hover:border-accent hover:text-primary transition-all"
+          >
+            🤗 Hugging Face
+            <span class="text-hint">pointbreaklab/knot-ai</span>
+          </a>
+          <a
+            href="https://ollama.com/pointbreaklab/knot-ai"
+            target="_blank" rel="noopener"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border text-secondary text-sm font-mono hover:border-accent hover:text-primary transition-all"
+          >
+            🦙 Ollama
+            <span class="text-hint">ollama run pointbreaklab/knot-ai</span>
+          </a>
+        </div>
+
+        <p class="section-reveal text-hint text-[11px] text-center mt-8 max-w-xl mx-auto leading-relaxed">
+          Base: Qwen2.5-Coder-7B-Instruct · Method: QLoRA (4-bit) on a single NVIDIA RTX 3060 · Trained only on permissively-licensed public commit history — no user data, no private code · License: Apache-2.0.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- ── 07 WHO IT'S FOR ──────────────────────────────────────────────────── -->
   <section id="audiences" class="relative py-32 px-6 max-w-6xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
