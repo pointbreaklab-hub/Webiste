@@ -771,36 +771,6 @@ const screenshots = [
           Questions, or a use case to talk through? <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot" class="text-accent hover:underline">Get in touch</a>.
         </p>
       </div>
-
-      <!-- First-run (un-notarized) honesty + what's still in flight. Keep this
-           card — it's what makes shipping an un-notarized build credible. -->
-      <div class="section-reveal mt-16 p-6 rounded-2xl bg-bg border border-border">
-        <div class="flex items-start gap-4">
-          <div class="shrink-0 w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-xl">⚠️</div>
-          <div>
-            <p class="text-yellow-500/90 text-xs font-mono tracking-widest mb-2">NOT YET NOTARIZED</p>
-            <h3 class="text-lg font-bold text-primary mb-2">Opening it the first time</h3>
-            <p class="text-secondary text-sm leading-relaxed mb-2">
-              The builds are signed but not yet Apple-notarized, so you wave past a one-time first-run warning:
-            </p>
-            <ul class="text-hint text-xs space-y-1.5 ml-1 mb-3">
-              <li>· <span class="text-secondary">macOS</span> — open the .dmg, drag Knot to Applications, then right-click Knot → Open → Open. (Or System Settings → Privacy &amp; Security → Open Anyway.)</li>
-              <li>· <span class="text-secondary">Linux</span> — extract the .tar.gz, copy the binaries to <code class="text-primary/70">~/.local/bin</code>, and run <code class="text-primary/70">knotd</code> once (the included INSTALL.txt has the exact steps).</li>
-            </ul>
-            <p class="text-secondary text-sm leading-relaxed mb-2">
-              The core save → commit → sync loop works end-to-end across networks; a few things are still in flight:
-            </p>
-            <ul class="text-hint text-xs space-y-1.5 ml-1">
-              <li>· Full three-way merge of diverged branches (single-file conflicts already have a guided keep-mine / keep-theirs / keep-both flow).</li>
-              <li>· Polished first-run wizard for non-developers.</li>
-              <li>· An Apple-notarized installer and a Windows build.</li>
-            </ul>
-            <p class="text-hint text-xs mt-3">
-              If you're comfortable with `git`, you'll feel the difference within the first hour.
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
