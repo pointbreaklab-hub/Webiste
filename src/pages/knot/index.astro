@@ -68,12 +68,12 @@ const screenshots = [
         </a>
       </div>
 
-      <!-- Pre-alpha honesty pill — sits below CTAs so it doesn't dominate
-           the hero, but is visible above the fold for anyone scrolling
-           the page deciding whether to engage. -->
+      <!-- Honesty pill — sits below CTAs so it doesn't dominate the hero,
+           but is visible above the fold for anyone scrolling the page
+           deciding whether to engage. -->
       <div class="mt-10 inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-yellow-500/30 bg-yellow-500/5 text-yellow-500/90 text-xs font-mono">
         <span class="w-1.5 h-1.5 rounded-full bg-yellow-500/80"></span>
-        IN TESTING · pre-alpha · free download below
+        IN TESTING · free download below
       </div>
     </div>
   </section>
@@ -586,7 +586,7 @@ const screenshots = [
       <SectionEyebrow num="08" label="STATUS & ROADMAP" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Where we are.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Knot is in pre-alpha. Every storyline below has working code; some are still being hardened for general release.
+        Every storyline below has working code; some are still being hardened for general release.
       </p>
     </div>
 
@@ -723,12 +723,13 @@ const screenshots = [
     </div>
   </section>
 
-  <!-- ── 08 GET IT — public pre-alpha download ────────────────────────────────
+  <!-- ── 08 GET IT — public free download ─────────────────────────────────────
        Free build for macOS + Linux. The user explicitly lifted the earlier
        "no public download until notarized" gate on 2026-07-09 to ship free Knot
-       now. Binaries are ad-hoc-signed, NOT Apple-notarized — so the honest
-       pre-alpha + wave-past-Gatekeeper framing stays (first-run steps + caveat
-       card). Hosted on GitHub Releases (pointbreaklab-hub/knot); the
+       now, and dropped the "pre-alpha" label on 2026-07-09. Binaries are
+       ad-hoc-signed, NOT Apple-notarized — so the honest wave-past-Gatekeeper
+       framing stays (first-run steps + caveat card), just without the pre-alpha
+       wording. Hosted on GitHub Releases (pointbreaklab-hub/knot); the
        /releases/latest/download/ URLs auto-resolve to the newest release. -->
   <section id="download" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
@@ -737,7 +738,7 @@ const screenshots = [
         <SectionEyebrow num="10" label="GET IT" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Knot</h2>
         <p class="text-secondary mb-10 leading-relaxed">
-          The free edition, for macOS and Linux. It's <span class="text-primary">pre-alpha</span> and not yet notarized, so your system shows a one-time first-run warning — the steps to open it are below. Windows is coming.
+          The free edition, for macOS and Linux. It's not yet notarized, so your system shows a one-time first-run warning — the steps to open it are below. Windows is coming.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -756,7 +757,7 @@ const screenshots = [
         </div>
 
         <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
-          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Version</span><span class="text-primary">v0.1.0 · pre-alpha</span></div>
+          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Version</span><span class="text-primary">v0.1.0</span></div>
           <div class="flex gap-3"><span class="text-hint w-28 shrink-0">macOS</span><span class="text-primary/80">Intel — and Apple Silicon via Rosetta · .dmg</span></div>
           <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Linux</span><span class="text-primary/80">x86_64 · .tar.gz (glibc 2.31+)</span></div>
           <div class="flex gap-3 mt-2 pt-2 border-t border-border"><span class="text-hint w-28 shrink-0">SHA-256 mac</span><span class="text-primary/60 break-all">7e0cb16d194883abdc78fa3697cc5e4ca47c079d08bfaed9d94f45bbf11378cf</span></div>
@@ -768,13 +769,13 @@ const screenshots = [
         </p>
       </div>
 
-      <!-- First-run (un-notarized) + pre-alpha honesty. Keep this card — it's
-           what makes shipping an un-notarized pre-alpha credible. -->
+      <!-- First-run (un-notarized) honesty + what's still in flight. Keep this
+           card — it's what makes shipping an un-notarized build credible. -->
       <div class="section-reveal mt-16 p-6 rounded-2xl bg-bg border border-border">
         <div class="flex items-start gap-4">
           <div class="shrink-0 w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-xl">⚠️</div>
           <div>
-            <p class="text-yellow-500/90 text-xs font-mono tracking-widest mb-2">PRE-ALPHA · NOT YET NOTARIZED</p>
+            <p class="text-yellow-500/90 text-xs font-mono tracking-widest mb-2">NOT YET NOTARIZED</p>
             <h3 class="text-lg font-bold text-primary mb-2">Opening it the first time</h3>
             <p class="text-secondary text-sm leading-relaxed mb-2">
               The builds are signed but not yet Apple-notarized, so you wave past a one-time first-run warning:
@@ -784,7 +785,7 @@ const screenshots = [
               <li>· <span class="text-secondary">Linux</span> — extract the .tar.gz, copy the binaries to <code class="text-primary/70">~/.local/bin</code>, and run <code class="text-primary/70">knotd</code> once (the included INSTALL.txt has the exact steps).</li>
             </ul>
             <p class="text-secondary text-sm leading-relaxed mb-2">
-              It's pre-alpha — the core save → commit → sync loop works end-to-end across networks, but a few things are still in flight:
+              The core save → commit → sync loop works end-to-end across networks; a few things are still in flight:
             </p>
             <ul class="text-hint text-xs space-y-1.5 ml-1">
               <li>· Full three-way merge of diverged branches (single-file conflicts already have a guided keep-mine / keep-theirs / keep-both flow).</li>
