@@ -589,17 +589,17 @@ const screenshots = [
       <SectionEyebrow num="08" label="STATUS & ROADMAP" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Where we are.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Every storyline below has working code; some are still being hardened for general release.
+        The v1 loop is shipping as a free download for Mac and Linux. Everything below has working code; a few things are still being hardened.
       </p>
     </div>
 
     <div class="space-y-4">
       {[
         {
-          tag: 'IN TESTING',
-          title: 'v1 milestone — end-to-end on real hardware',
-          body: 'Save → commit → sync across two machines on two different networks, entirely over Tor, in seconds. Verified Mac ↔ Linux on home Wi-Fi and a mobile hotspot.',
-          status: 'building',
+          tag: 'SHIPPED',
+          title: 'Free download — Mac + Linux, live now',
+          body: 'Save → commit → sync end-to-end across machines and networks, over Tor, in seconds. Verified Mac ↔ Linux on home Wi-Fi and a mobile hotspot. Grab it from the download section above.',
+          status: 'shipped',
         },
         {
           tag: 'VERIFIED',
@@ -609,8 +609,14 @@ const screenshots = [
         },
         {
           tag: 'VERIFIED',
+          title: 'Knot AI writes your commit messages',
+          body: 'An on-device model reads your diff and writes the commit message, so even the commit text is hands-free. It runs entirely on your machine — your code never leaves it to get a message.',
+          status: 'building',
+        },
+        {
+          tag: 'VERIFIED',
           title: 'AI collaboration you can prove',
-          body: 'AI assistants on different machines build one project together, watched live — every action signed and exportable as a tamper-evident audit trail, and each agent scoped to the paths it may touch.',
+          body: 'AI agents on different machines build one project together, watched live — every action signed and exportable as a tamper-evident audit trail, and each agent scoped to the paths it may touch.',
           status: 'building',
         },
         {
@@ -621,9 +627,15 @@ const screenshots = [
         },
         {
           tag: 'IN PROGRESS',
-          title: 'Onboarding + public installer',
-          body: 'Autostart and one-click Solo mode are in. The full first-run wizard and a public, notarized installer (Apple Developer ID + Windows MSI) are the last gate before an open download lands here.',
+          title: 'First-run wizard, notarized installer, Windows',
+          body: 'The free download is live now. Next up: a polished first-run wizard for non-developers, an Apple-notarized installer (no first-run warning), and a Windows build.',
           status: 'soon',
+        },
+        {
+          tag: 'IN DESIGN',
+          title: 'Voice calls',
+          body: 'Talk to your teammates inside the repo — LAN-first, over the same private peer-to-peer path chat already uses, end-to-end encrypted with nothing in the middle. In design now.',
+          status: 'planned',
         },
         {
           tag: 'PLANNED',
@@ -633,19 +645,23 @@ const screenshots = [
         },
       ].map(({ tag, title, body, status }) => {
         const cardBorder =
-          status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]'
+          status === 'shipped'  ? 'border-accent/50 hover:border-accent/70 shadow-[0_0_24px_rgba(0,212,170,0.10)]'
+          : status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]'
           : status === 'soon'   ? 'border-yellow-500/30 hover:border-yellow-500/50'
           :                       'border-border hover:border-accent/20';
         const dot =
-          status === 'building' ? 'bg-accent animate-pulse'
+          status === 'shipped'  ? 'bg-accent'
+          : status === 'building' ? 'bg-accent animate-pulse'
           : status === 'soon'   ? 'bg-yellow-500/70'
           :                       'bg-hint';
         const pill =
-          status === 'building' ? 'bg-accent/10 text-accent border border-accent/30'
+          status === 'shipped'  ? 'bg-accent/15 text-accent border border-accent/40'
+          : status === 'building' ? 'bg-accent/10 text-accent border border-accent/30'
           : status === 'soon'   ? 'bg-yellow-500/10 text-yellow-500/90 border border-yellow-500/30'
           :                       'bg-surface text-hint border border-border';
         const label =
-          status === 'building' ? 'building'
+          status === 'shipped'  ? 'shipped'
+          : status === 'building' ? 'working'
           : status === 'soon'   ? 'soon'
           :                       'planned';
         return (
