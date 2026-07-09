@@ -55,10 +55,10 @@ const screenshots = [
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a
-          href="#early-access"
+          href="#download"
           class="px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
         >
-          Request early access
+          Download for Mac / Linux
         </a>
         <a
           href="#architecture"
@@ -73,7 +73,7 @@ const screenshots = [
            the page deciding whether to engage. -->
       <div class="mt-10 inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-yellow-500/30 bg-yellow-500/5 text-yellow-500/90 text-xs font-mono">
         <span class="w-1.5 h-1.5 rounded-full bg-yellow-500/80"></span>
-        IN TESTING · pre-alpha · request access to try it
+        IN TESTING · pre-alpha · free download below
       </div>
     </div>
   </section>
@@ -723,49 +723,76 @@ const screenshots = [
     </div>
   </section>
 
-  <!-- ── 08 EARLY ACCESS ──────────────────────────────────────────────────── -->
-  <section id="early-access" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+  <!-- ── 08 GET IT — public pre-alpha download ────────────────────────────────
+       Free build for macOS + Linux. The user explicitly lifted the earlier
+       "no public download until notarized" gate on 2026-07-09 to ship free Knot
+       now. Binaries are ad-hoc-signed, NOT Apple-notarized — so the honest
+       pre-alpha + wave-past-Gatekeeper framing stays (first-run steps + caveat
+       card). Hosted on GitHub Releases (pointbreaklab-hub/knot); the
+       /releases/latest/download/ URLs auto-resolve to the newest release. -->
+  <section id="download" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-2xl mx-auto">
       <div class="section-reveal text-center">
-        <SectionEyebrow num="10" label="EARLY ACCESS" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Knot is in testing.</h2>
+        <SectionEyebrow num="10" label="GET IT" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Knot</h2>
         <p class="text-secondary mb-10 leading-relaxed">
-          We're not ready for a public release yet. The first wave of slots is for solo developers and 2–10 person teams who'd benefit <em class="text-primary">now</em> from removing the middleman from the loop. If that's you, we'd love to hear from you.
+          The free edition, for macOS and Linux. It's <span class="text-primary">pre-alpha</span> and not yet notarized, so your system shows a one-time first-run warning — the steps to open it are below. Windows is coming.
         </p>
 
-        <a
-          href="mailto:mail.roshankumargupta@gmail.com?subject=Knot%20early%20access&body=Hi%20—%20interested%20in%20Knot%20early%20access.%20A%20bit%20about%20me%2Fmy%20team%3A"
-          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
-        >
-          Request early access
-          <span>→</span>
-        </a>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <a
+            href="https://github.com/pointbreaklab-hub/knot/releases/latest/download/Knot-macos.dmg"
+            class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
+          >
+            Download for macOS
+          </a>
+          <a
+            href="https://github.com/pointbreaklab-hub/knot/releases/latest/download/knot-linux-x86_64.tar.gz"
+            class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
+          >
+            Download for Linux
+          </a>
+        </div>
 
-        <p class="text-hint text-xs mt-6">
-          Request access and we'll send you a testing build for macOS and Linux. It's pre-alpha and not yet notarized, so you'll wave it past your OS's first-run warning — the invite walks you through it.
+        <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
+          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Version</span><span class="text-primary">v0.1.0 · pre-alpha</span></div>
+          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">macOS</span><span class="text-primary/80">Intel — and Apple Silicon via Rosetta · .dmg</span></div>
+          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Linux</span><span class="text-primary/80">x86_64 · .tar.gz (glibc 2.31+)</span></div>
+          <div class="flex gap-3 mt-2 pt-2 border-t border-border"><span class="text-hint w-28 shrink-0">SHA-256 mac</span><span class="text-primary/60 break-all">7e0cb16d194883abdc78fa3697cc5e4ca47c079d08bfaed9d94f45bbf11378cf</span></div>
+          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">SHA-256 linux</span><span class="text-primary/60 break-all">ac6ca9353ea9bd15b70171e9be3c64a82ab01205957eaf21d904bb5297500c13</span></div>
+        </div>
+
+        <p class="text-hint text-xs mt-4">
+          Questions, or a use case to talk through? <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot" class="text-accent hover:underline">Get in touch</a>.
         </p>
       </div>
 
-      <!-- Honest framing card — same pattern as the chest-strap accuracy
-           card on /heart/, but with credibility-by-honesty rather than
-           credibility-by-spec. -->
+      <!-- First-run (un-notarized) + pre-alpha honesty. Keep this card — it's
+           what makes shipping an un-notarized pre-alpha credible. -->
       <div class="section-reveal mt-16 p-6 rounded-2xl bg-bg border border-border">
         <div class="flex items-start gap-4">
           <div class="shrink-0 w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-xl">⚠️</div>
           <div>
-            <p class="text-yellow-500/90 text-xs font-mono tracking-widest mb-2">PRE-ALPHA</p>
-            <h3 class="text-lg font-bold text-primary mb-2">What "in testing" actually means here.</h3>
-            <p class="text-secondary text-sm leading-relaxed mb-3">
-              The core sync loop works end-to-end across networks on real hardware. We've deliberately deferred a few things that don't matter for early-adopter use but will matter before general release:
+            <p class="text-yellow-500/90 text-xs font-mono tracking-widest mb-2">PRE-ALPHA · NOT YET NOTARIZED</p>
+            <h3 class="text-lg font-bold text-primary mb-2">Opening it the first time</h3>
+            <p class="text-secondary text-sm leading-relaxed mb-2">
+              The builds are signed but not yet Apple-notarized, so you wave past a one-time first-run warning:
+            </p>
+            <ul class="text-hint text-xs space-y-1.5 ml-1 mb-3">
+              <li>· <span class="text-secondary">macOS</span> — open the .dmg, drag Knot to Applications, then right-click Knot → Open → Open. (Or System Settings → Privacy &amp; Security → Open Anyway.)</li>
+              <li>· <span class="text-secondary">Linux</span> — extract the .tar.gz, copy the binaries to <code class="text-primary/70">~/.local/bin</code>, and run <code class="text-primary/70">knotd</code> once (the included INSTALL.txt has the exact steps).</li>
+            </ul>
+            <p class="text-secondary text-sm leading-relaxed mb-2">
+              It's pre-alpha — the core save → commit → sync loop works end-to-end across networks, but a few things are still in flight:
             </p>
             <ul class="text-hint text-xs space-y-1.5 ml-1">
-              <li>· Full three-way merge of diverged branches (the common single-file conflict already has a guided keep-mine / keep-theirs / keep-both flow; push still refuses on non-FF, resolve with `git` manually).</li>
-              <li>· Polished onboarding wizard for non-developer users.</li>
-              <li>· A public, notarized download (Apple Developer ID + Windows MSI). Until then, testing builds go out with the early-access invite — macOS + Linux today, Windows soon.</li>
+              <li>· Full three-way merge of diverged branches (single-file conflicts already have a guided keep-mine / keep-theirs / keep-both flow).</li>
+              <li>· Polished first-run wizard for non-developers.</li>
+              <li>· An Apple-notarized installer and a Windows build.</li>
             </ul>
             <p class="text-hint text-xs mt-3">
-              If you're a developer comfortable with `git`, you'll feel the difference within the first hour. If you're not, wait for v1.1.
+              If you're comfortable with `git`, you'll feel the difference within the first hour.
             </p>
           </div>
         </div>
