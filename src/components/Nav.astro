@@ -9,10 +9,9 @@ let downloadLabel = 'Download';
 if (path.startsWith('/heart')) {
   downloadHref = '/heart/#download';
 } else if (path.startsWith('/knot')) {
-  // Knot is pre-alpha — no public binary, so the CTA becomes the
-  // early-access mailto anchor instead of a download.
-  downloadHref = '/knot/#early-access';
-  downloadLabel = 'Early access';
+  // Knot is pre-alpha but now has a public free download (Mac + Linux),
+  // so the CTA points at the download section like the other products.
+  downloadHref = '/knot/#download';
 }
 ---
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
@@ -45,7 +44,7 @@ if (path.startsWith('/heart')) {
     </ul>
 
     <!-- CTA — context-aware: routes to the current product's download
-         section (or early-access mailto for pre-alpha apps). -->
+         section. -->
     <a
       href={downloadHref}
       class="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-bg text-sm font-semibold hover:bg-white transition-colors"
