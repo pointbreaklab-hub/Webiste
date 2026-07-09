@@ -304,6 +304,30 @@ build time, scales to mobile without media queries.
 
 ### `src/pages/knot/index.astro` — product page (Knot)
 
+> **SUPERSEDED 2026-07-08 — Knot now has a PUBLIC free download (Mac +
+> Linux).** The user lifted the "no public download until notarized"
+> gate for the free edition. The old EARLY-ACCESS story below (hero
+> "Request early access" CTA, the `#early-access` mailto section, and
+> the "No PUBLIC download button on /knot/" hard rule) is **no longer
+> in effect** and has been replaced in the code:
+> - Hero CTA → `#download` ("Download for Mac / Linux"); hero pill →
+>   `IN TESTING · pre-alpha · free download below`.
+> - The `#early-access` section is now a **Download section**
+>   (`id="download"`, eyebrow "GET IT") with Mac `.dmg` + Linux
+>   `.tar.gz` buttons wired to
+>   `github.com/pointbreaklab-hub/knot/releases/latest/download/...`,
+>   per-asset SHA-256, and honest pre-alpha / un-notarized first-run
+>   steps (Gatekeeper right-click-open on Mac; copy bins to
+>   `~/.local/bin` on Linux).
+> - Nav CTA for `/knot` → `/knot/#download` (was the broken
+>   `#early-access` anchor). Homepage updates-feed card reworded off
+>   "request early access".
+> Still honest about pre-alpha: keep the `TESTING` AppCard badge and the
+> pre-alpha caveat card. What changed is ONLY that the download is public
+> and free — do NOT restore any "request early access" / mailto framing.
+> Releases live on `pointbreaklab-hub/knot` (lowercase repo), NOT a
+> `Knot`-repo; SHA-256s in the download box are updated per release.
+
 Added 2026-05-23, extended 2026-05-24 with the architecture diagram +
 FAQ. Knot is **pre-alpha** — the page reflects that everywhere it
 matters. Nine chapters (a STORYBOARD was inserted at 02 on 2026-06-06,
