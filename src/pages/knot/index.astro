@@ -779,12 +779,37 @@ const screenshots = [
           <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Version</span><span class="text-primary">v0.1.0</span></div>
           <div class="flex gap-3"><span class="text-hint w-28 shrink-0">macOS</span><span class="text-primary/80">Intel — and Apple Silicon via Rosetta · .dmg</span></div>
           <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Linux</span><span class="text-primary/80">x86_64 · .tar.gz (glibc 2.31+)</span></div>
-          <div class="flex gap-3 mt-2 pt-2 border-t border-border"><span class="text-hint w-28 shrink-0">SHA-256 mac</span><span class="text-primary/60 break-all">7e0cb16d194883abdc78fa3697cc5e4ca47c079d08bfaed9d94f45bbf11378cf</span></div>
-          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">SHA-256 linux</span><span class="text-primary/60 break-all">ac6ca9353ea9bd15b70171e9be3c64a82ab01205957eaf21d904bb5297500c13</span></div>
+          <div class="flex gap-3 mt-2 pt-2 border-t border-border"><span class="text-hint w-28 shrink-0">SHA-256 mac</span><span class="text-primary/60 break-all">8d9f07ae9e9c8c29cd433f2477c6501e71de27d368e008c6b9c0b2a7db99a873</span></div>
+          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">SHA-256 linux</span><span class="text-primary/60 break-all">d328613d2b5a1f12591d34d4c39f8dbc562ba95eb1b6930eb347c793869e188f</span></div>
+        </div>
+
+        <!-- First-run steps. The builds are self-contained (no Homebrew, no
+             system openssl) but ad-hoc-signed, not Apple-notarized — so macOS
+             shows a one-time Gatekeeper warning. Steps below clear it. -->
+        <div class="text-left mt-4 p-5 rounded-2xl bg-bg border border-border text-xs space-y-4">
+          <div>
+            <div class="font-mono text-hint uppercase tracking-widest mb-2">First run · macOS</div>
+            <p class="text-secondary leading-relaxed mb-2">Not yet notarized, so macOS blocks the first open. Clear it once — pick one:</p>
+            <ul class="text-secondary/90 leading-relaxed space-y-1.5 list-disc pl-4">
+              <li>Most reliable (any macOS): open Terminal and run<br><code class="text-primary/80 break-all">xattr -dr com.apple.quarantine "/Applications/Knot.app"</code></li>
+              <li>Or open Knot once (it's blocked), then <span class="text-primary/80">System Settings → Privacy &amp; Security → “Open Anyway”</span>.</li>
+              <li>Older macOS (pre-Sequoia): right-click Knot → Open → Open.</li>
+            </ul>
+          </div>
+          <div class="pt-3 border-t border-border">
+            <div class="font-mono text-hint uppercase tracking-widest mb-2">First run · Linux</div>
+            <p class="text-secondary leading-relaxed mb-2">Prebuilt, self-contained — no toolchain, no openssl. Needs glibc 2.31+ (Ubuntu 20.04+, Debian 11+, Fedora 33+).</p>
+            <pre class="text-primary/80 bg-surface rounded-lg p-3 overflow-x-auto leading-relaxed"><code>tar xzf knot-linux-x86_64.tar.gz &amp;&amp; cd knot-linux-x86_64
+mkdir -p ~/.local/bin &amp;&amp; cp knotd knot knot-mcp knot-app ~/.local/bin/
+knotd --tor &amp;      # background daemon
+knot solo          # in any folder: save → commit → sync</code></pre>
+            <p class="text-hint mt-2 leading-relaxed">The optional GUI (<code class="text-primary/70">knot-app</code>) uses standard desktop libs at runtime: <code class="text-primary/70">libfontconfig1 libgl1 libxkbcommon0</code>.</p>
+          </div>
+          <p class="text-hint pt-1">Your code never leaves your machines regardless of the signature.</p>
         </div>
 
         <p class="text-hint text-xs mt-4">
-          Questions, or a use case to talk through? <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot" class="text-accent hover:underline">Get in touch</a>.
+          Full release history: <a href="/knot/changelog/" class="text-accent hover:underline">changelog</a>. Questions, or a use case to talk through? <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot" class="text-accent hover:underline">Get in touch</a>.
         </p>
       </div>
     </div>

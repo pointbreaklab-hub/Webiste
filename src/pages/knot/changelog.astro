@@ -1,0 +1,115 @@
+---
+import Base   from '../../layouts/Base.astro';
+import Nav    from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import SectionEyebrow from '../../components/SectionEyebrow.astro';
+import '../../styles/global.css';
+
+// User-facing release log for Knot. Dev-facing detail lives on
+// GitHub Releases (https://github.com/pointbreaklab-hub/knot/releases).
+//
+// Style notes:
+//  - Newest first.
+//  - Each entry is one short paragraph in user-facing prose.
+//  - Skip releases that shipped briefly and got pulled — log only what
+//    users actually saw and could run.
+
+interface Release {
+  tag: string;
+  date: string;        // YYYY-MM-DD
+  title: string;
+  body: string;
+  kind: 'feature' | 'fix' | 'polish' | 'note';
+}
+
+const releases: Release[] = [
+  {
+    tag: 'v0.1.0',
+    date: '2026-07-12',
+    kind: 'feature',
+    title: 'Public free download — macOS + Linux, self-contained',
+    body: 'The first public build of Knot that runs anywhere, with nothing to install first. Drop any folder into Knot and every save becomes a real git commit that syncs to your paired machines within seconds — peer-to-peer over Tor and your local network, no account, no cloud, no central server. The macOS app (.dmg) and the Linux tarball (x86_64, glibc 2.31+) are now fully self-contained: no Homebrew, no system openssl, no Rust toolchain — verified by launching the binaries on a clean machine. macOS is ad-hoc-signed (not yet Apple-notarized), so the first launch needs a one-time Gatekeeper wave-through — the steps are on the download page. Under the hood it is real git, so you can drop to plain git commands any time. Full three-way merge, a first-run wizard, on-device AI in the bundle, and a notarized installer + Windows build are still in flight.',
+  },
+];
+
+const fmtDate = (iso: string) => {
+  const [y, m, d] = iso.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return dt.toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC',
+  });
+};
+
+const kindLabel: Record<Release['kind'], string> = {
+  feature: 'FEATURE',
+  fix:     'FIX',
+  polish:  'POLISH',
+  note:    'NOTE',
+};
+
+function eyebrowNum(tag: string): string {
+  const parts = tag.replace(/^v/, '').split('.');
+  const patch = parts[2] ?? '0';
+  return patch.padStart(2, '0');
+}
+
+const latest = releases[0];
+---
+
+<Base
+  title="Changelog · Knot"
+  description="Release log for Knot — peer-to-peer version control. Save → commit → sync across your machines over Tor and LAN, with no central server."
+>
+  <Nav />
+
+  <main class="min-h-screen pt-24 pb-24 px-6">
+    <div class="max-w-3xl mx-auto">
+
+      <div aria-hidden="true" class="absolute top-24 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+      <SectionEyebrow num="00" label="CHANGELOG" align="center" />
+
+      <h1 class="text-4xl md:text-5xl font-black text-primary text-center mb-4 tracking-tight">
+        Knot — what changed
+      </h1>
+      <p class="text-secondary text-center max-w-xl mx-auto mb-3 leading-relaxed">
+        Every release of Knot — the features and fixes that landed on the app.
+      </p>
+      <p class="text-hint text-center text-xs font-mono mb-16">
+        Latest: {latest.tag} · {fmtDate(latest.date)}
+      </p>
+
+      <ol class="space-y-14">
+        {releases.map((r) => (
+          <li>
+            <SectionEyebrow
+              num={eyebrowNum(r.tag)}
+              label={`${r.tag.toUpperCase()} · ${kindLabel[r.kind]}`}
+              align="left"
+            />
+            <p class="text-hint text-xs font-mono mb-2">
+              {fmtDate(r.date)}
+            </p>
+            <h2 class="text-primary font-semibold text-lg mb-2 leading-snug">
+              {r.title}
+            </h2>
+            <p class="text-secondary leading-relaxed text-sm">
+              {r.body}
+            </p>
+          </li>
+        ))}
+      </ol>
+
+      <div class="mt-20 pt-10 border-t border-border text-center text-xs text-hint space-y-2">
+        <p>
+          Full technical release notes (SHA-256s, build details, download counts) live on
+          <a href="https://github.com/pointbreaklab-hub/knot/releases"
+             class="text-accent hover:underline"
+             rel="noopener">GitHub</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Base>
