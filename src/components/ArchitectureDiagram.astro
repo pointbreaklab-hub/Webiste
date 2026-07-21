@@ -1,5 +1,5 @@
 ---
-// Whispr architecture diagram — pure inline SVG, no JS.
+// Whispr architecture diagram, pure inline SVG, no JS.
 //
 // Shows the journey of a single message: plaintext on Alice's device →
 // X3DH + Double Ratchet session → AES-256-GCM ciphertext → wire → Bob's
@@ -10,7 +10,7 @@
 // Design constraints:
 //   - No JS, no client-side rendering. SVG inlined at build time.
 //   - Text in monospace to match the editorial / terminal-panel style.
-//   - Site palette only — accent #00d4aa, surface #131316, bg #0b0b0d,
+//   - Site palette only, accent #00d4aa, surface #131316, bg #0b0b0d,
 //     border #23232a, secondary #a3a3a3, hint #737373.
 //   - Wraps in <figure> with <figcaption> so screen readers get the
 //     plain-text equivalent without us hiding the SVG.
@@ -203,6 +203,6 @@
   </svg>
 
   <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">
-    A message originates as plaintext on the sender's device, passes through an X3DH + Double Ratchet session, is encrypted with AES-256-GCM, and travels as ciphertext over LAN, Tor, or BLE mesh — directly to the recipient. There is no server, account, or telemetry between the two devices.
+    A message originates as plaintext on the sender's device, passes through an X3DH + Double Ratchet session, is encrypted with AES-256-GCM, and travels as ciphertext over LAN, Tor, or BLE mesh, directly to the recipient. There is no server, account, or telemetry between the two devices.
   </figcaption>
 </figure>

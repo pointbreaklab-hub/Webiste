@@ -304,6 +304,30 @@ build time, scales to mobile without media queries.
 
 ### `src/pages/knot/index.astro` — product page (Knot)
 
+> **RESTRUCTURED 2026-07-20 (owner decision: "we shouldn't overstate; I
+> leave the Knot page up to you").** The page was cut from a manifesto to
+> a product page. CURRENT structure: HERO (pill + H1 + ONE plain subhead
+> "Knot watches the folders you choose. Every save becomes a real git
+> commit on your teammates' machines within seconds. No server, no
+> account." + one accent AI-agents line + CTAs) → THE DESKTOP APP
+> carousel (unnumbered) → 01 HOW IT WORKS → 02 FEATURES → 03 ARCHITECTURE
+> (2-machine diagram + mesh diagram + terminal panel) → 04 PROOF (A/B
+> benchmark + verify-yourself card ONLY) → Knot AI bridge (unnumbered) →
+> 05 WHO IT'S FOR → 06 STATUS & ROADMAP → 07 FAQ → 08 GET IT.
+> **DELETED by owner decision — do NOT restore:** the 01 THE PROBLEM
+> section (4 pain cards), the 02 STORYBOARD section (7-scene Roshan/Ammu
+> day), the Benchmark-2 raw-size "ceiling" table (194:1/325:1), the
+> "Voice calls" roadmap card, the "Hands-free sync, no server" roadmap
+> card, the IN TESTING hero pill, and the hero's save→commit→synced +
+> platform mono lines. Any structure description below that contradicts
+> this note is historical.
+> **Overstatement policy (binding):** claims must not exceed what is
+> verified. Specifically banned: org-scale numbers ("two-thousand-
+> engineer org", "two people or two thousand"), "six interface
+> languages" (4 of 6 are English fallback), marketing not-yet-designed
+> features (voice calls), enterprise "compliance answer" flourishes.
+> The A/B benchmark is the only efficiency number on the page.
+
 > **SUPERSEDED 2026-07-08 — Knot now has a PUBLIC free download (Mac +
 > Linux).** The user lifted the "no public download until notarized"
 > gate for the free edition. The old EARLY-ACCESS story below (hero
@@ -337,13 +361,12 @@ shifting everything below it +1), structurally parallel to /whispr/ and
 - **Hero** — Knot-specific headline ("Your code. Your machines. No
   middleman."). Two CTAs: `Request early access` (anchors to
   `#early-access`) and `See the architecture` (anchors to
-  `#architecture`). Below the CTAs, a yellow `IN TESTING · pre-alpha
-  · request access to try it` pill — visible above the fold without
-  dominating. **Don't drop this pill.** It's load-bearing for
-  honesty; the page leads with the product story before the caveat,
-  but the caveat is present from the first scroll. (Pill text updated
-  2026-06-06: requesters now get a testing build, so "binaries not yet
-  public" was replaced with "request access to try it".)
+  `#architecture`). **The yellow `IN TESTING` hero pill was REMOVED
+  2026-07-20 at the owner's request** (it last read `IN TESTING · free
+  download below`). Pre-alpha honesty is now carried lower on the page,
+  by the download section's not-yet-notarized / first-run-warning steps
+  and the STATUS & ROADMAP section, not by a top-of-hero caveat banner.
+  Don't re-add the pill.
   The hero also carries an accent mono line below the `save→commit→synced`
   line — the killer differentiator: "Two machines, two AI agents, one
   repo — they build it together over your LAN, hands-free, while you
@@ -440,9 +463,10 @@ shifting everything below it +1), structurally parallel to /whispr/ and
 #### Hard rules for the Knot page
 
 - **`TESTING` badge, not `LIVE`.** The homepage AppCard uses
-  `status="TESTING"`; the in-hero pill says `IN TESTING · pre-alpha
-  · request access to try it`. Don't promote either to LIVE until
-  there's a public, notarized installer.
+  `status="TESTING"`. (The in-hero `IN TESTING` pill was removed
+  2026-07-20 at the owner's request; see the Hero note above.) Don't
+  promote the homepage badge to LIVE until there's a public, notarized
+  installer.
 - **No PUBLIC download button on `/knot/` until binaries are public +
   notarized.** The early-access mailto is the substitute — and it now
   *delivers a testing build to requesters* (macOS + Linux), gated by

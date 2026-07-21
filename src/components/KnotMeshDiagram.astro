@@ -1,0 +1,115 @@
+---
+// Knot mesh diagram, pure inline SVG, no JS.
+//
+// The companion to KnotArchitectureDiagram (which shows the 2-machine
+// save->commit->propagate flow). This one answers the other question:
+// what does it look like with MANY machines? A peer-to-peer mesh where
+// every device (laptops, a phone, an always-on Pi) talks DIRECTLY to
+// every other, with no server or hub in the middle. Same convention as
+// the other diagrams: the empty center is the point.
+//
+// Design constraints (identical to KnotArchitectureDiagram.astro):
+//   - No JS. SVG inlined at build time.
+//   - Monospace text everywhere.
+//   - Site palette only: accent #00d4aa, surface #131316, bg #0b0b0d,
+//     border #23232a, secondary #a3a3a3, hint #737373.
+//   - viewBox-based, scales to mobile without media queries.
+//   - <figure> + <figcaption> so screen readers get the plain-text map.
+---
+
+<figure class="my-8">
+  <svg
+    viewBox="0 0 800 500"
+    class="w-full h-auto max-w-3xl mx-auto block"
+    role="img"
+    aria-labelledby="knot-mesh-title knot-mesh-desc"
+  >
+    <title id="knot-mesh-title">Knot peer-to-peer mesh</title>
+    <desc id="knot-mesh-desc">
+      Six devices arranged in a ring: your Mac, your desktop, two
+      teammates on Mac and Linux, a phone running a read-only mirror,
+      and an optional always-on peer such as a home server, a
+      Raspberry Pi, or a cheap VPS. Encrypted lines connect every
+      device directly to the others. There is nothing in the middle:
+      no central server, no hub, no cloud. Each machine talks straight to every
+      other, so the same flow keeps working as the team grows.
+    </desc>
+
+    <text x="400" y="34" text-anchor="middle"
+          font-family="ui-monospace, monospace" font-size="11"
+          letter-spacing="2" fill="#737373">PEER-TO-PEER MESH · MANY MACHINES, NO MIDDLE</text>
+
+    <!-- ── EDGES (drawn first, behind nodes) ─────────────────────────
+         Ring of 6 + four cross-links = a real mesh, not a star. -->
+    <g stroke="#00d4aa" fill="none">
+      <!-- ring -->
+      <line x1="400" y1="88"  x2="551" y2="172" stroke-opacity="0.30"/>
+      <line x1="551" y1="172" x2="551" y2="330" stroke-opacity="0.30"/>
+      <line x1="551" y1="330" x2="400" y2="414" stroke-opacity="0.30"/>
+      <line x1="400" y1="414" x2="249" y2="330" stroke-opacity="0.30"/>
+      <line x1="249" y1="330" x2="249" y2="172" stroke-opacity="0.30"/>
+      <line x1="249" y1="172" x2="400" y2="88"  stroke-opacity="0.30"/>
+      <!-- diagonals -->
+      <line x1="249" y1="172" x2="551" y2="330" stroke-opacity="0.16"/>
+      <line x1="551" y1="172" x2="249" y2="330" stroke-opacity="0.16"/>
+      <line x1="249" y1="172" x2="551" y2="172" stroke-opacity="0.16"/>
+      <line x1="249" y1="330" x2="551" y2="330" stroke-opacity="0.16"/>
+    </g>
+
+    <!-- ── EMPTY CENTER · the point ──────────────────────────────────
+         A masked label sits over the crossing lines: nothing here. -->
+    <rect x="326" y="228" width="148" height="46" rx="8" fill="#0b0b0d"/>
+    <text x="400" y="246" text-anchor="middle"
+          font-family="ui-monospace, monospace" font-size="10"
+          letter-spacing="1.5" fill="#737373">NO CENTRAL SERVER</text>
+    <text x="400" y="263" text-anchor="middle"
+          font-family="ui-monospace, monospace" font-size="10"
+          letter-spacing="1.5" fill="#737373">NO HUB · NO CLOUD</text>
+
+    <!-- ── NODES ─────────────────────────────────────────────────────
+         Six peers. name centered at cy-4, role at cy+13. -->
+    <g font-family="ui-monospace, monospace">
+      <!-- 1 · top -->
+      <rect x="335" y="60" width="130" height="52" rx="10" fill="#131316" stroke="#00d4aa" stroke-opacity="0.45"/>
+      <text x="400" y="82" text-anchor="middle" font-size="12" fill="#ffffff">Your Mac</text>
+      <text x="400" y="98" text-anchor="middle" font-size="9" letter-spacing="1" fill="#737373">EDITING</text>
+
+      <!-- 2 · top-right -->
+      <rect x="486" y="146" width="130" height="52" rx="10" fill="#131316" stroke="#23232a"/>
+      <text x="551" y="168" text-anchor="middle" font-size="12" fill="#a3a3a3">Teammate</text>
+      <text x="551" y="184" text-anchor="middle" font-size="9" letter-spacing="1" fill="#737373">LINUX</text>
+
+      <!-- 3 · bottom-right -->
+      <rect x="486" y="304" width="130" height="52" rx="10" fill="#131316" stroke="#23232a"/>
+      <text x="551" y="326" text-anchor="middle" font-size="12" fill="#a3a3a3">Phone</text>
+      <text x="551" y="342" text-anchor="middle" font-size="9" letter-spacing="1" fill="#737373">MIRROR · READ-ONLY</text>
+
+      <!-- 4 · bottom -->
+      <rect x="335" y="388" width="130" height="52" rx="10" fill="#131316" stroke="#00d4aa" stroke-opacity="0.35"/>
+      <text x="400" y="410" text-anchor="middle" font-size="12" fill="#00d4aa">Server / Pi</text>
+      <text x="400" y="426" text-anchor="middle" font-size="9" letter-spacing="0.5" fill="#737373">ALWAYS-ON · OPTIONAL</text>
+
+      <!-- 5 · bottom-left -->
+      <rect x="184" y="304" width="130" height="52" rx="10" fill="#131316" stroke="#23232a"/>
+      <text x="249" y="326" text-anchor="middle" font-size="12" fill="#a3a3a3">Teammate</text>
+      <text x="249" y="342" text-anchor="middle" font-size="9" letter-spacing="1" fill="#737373">MAC</text>
+
+      <!-- 6 · top-left -->
+      <rect x="184" y="146" width="130" height="52" rx="10" fill="#131316" stroke="#23232a"/>
+      <text x="249" y="168" text-anchor="middle" font-size="12" fill="#a3a3a3">Your desktop</text>
+      <text x="249" y="184" text-anchor="middle" font-size="9" letter-spacing="1" fill="#737373">BACKUP</text>
+    </g>
+
+    <!-- ── BOTTOM BAND · what's on the wire ──────────────────────────── -->
+    <g>
+      <line x1="40" y1="456" x2="760" y2="456" stroke="#23232a" stroke-width="1"/>
+      <text x="400" y="482" text-anchor="middle"
+            font-family="ui-monospace, monospace" font-size="10"
+            fill="#a3a3a3">Every line is Ed25519-authenticated, encrypted end to end. Relays carry bytes, never read them.</text>
+    </g>
+  </svg>
+
+  <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">
+    No server in the middle: every machine talks directly to every other. Add laptops, a phone, or an optional always-on peer (a home server, a Raspberry Pi, a cheap VPS) and they all sync the same repo.
+  </figcaption>
+</figure>

@@ -1,17 +1,17 @@
 ---
-// Heart architecture diagram — pure inline SVG, no JS.
+// Heart architecture diagram, pure inline SVG, no JS.
 //
 // Shows the journey of a single heartbeat: HW9 band (worn on the chest
 // or upper / lower arm) detects an R-wave, broadcasts bpm + RR intervals
 // over BLE GATT (char 0x2A37), the phone captures the frame, logs it
 // locally, and an on-device compute pipeline derives HRV / sleep /
-// rhythm / readiness / strain. Everything stays on the phone — no
+// rhythm / readiness / strain. Everything stays on the phone, no
 // server, no cloud, no telemetry.
 //
 // Design constraints (mirrors components/ArchitectureDiagram.astro):
 //   - No JS, no client-side rendering. SVG inlined at build time.
 //   - Text in monospace to match the editorial / terminal-panel style.
-//   - Site palette only — accent #00d4aa, surface #131316, bg #0b0b0d,
+//   - Site palette only, accent #00d4aa, surface #131316, bg #0b0b0d,
 //     border #23232a, secondary #a3a3a3, hint #737373.
 //   - Wraps in <figure> with <figcaption> so screen readers get a
 //     plain-text equivalent of the diagram.
@@ -27,8 +27,8 @@
   >
     <title id="heart-arch-title">Heart architecture diagram</title>
     <desc id="heart-arch-desc">
-      A heartbeat detected by the HW9 band — worn on the chest, upper
-      arm, or forearm — is broadcast over BLE GATT as bpm and
+      A heartbeat detected by the HW9 band, worn on the chest, upper
+      arm, or forearm, is broadcast over BLE GATT as bpm and
       RR-interval values, captured by a background service on the
       phone, appended to an on-disk JSONL log, and fed through an
       on-device compute pipeline (HRV, sleep, rhythm, readiness,
@@ -197,6 +197,6 @@
   </svg>
 
   <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">
-    A heartbeat detected by the HW9 band — worn on the chest, upper arm, or forearm — travels as bpm + RR-interval values over a short-range BLE link directly to your phone, where it is logged locally and fed through an on-device compute pipeline. No server, cloud sync, telemetry, or external model file is involved.
+    A heartbeat detected by the HW9 band, worn on the chest, upper arm, or forearm, travels as bpm + RR-interval values over a short-range BLE link directly to your phone, where it is logged locally and fed through an on-device compute pipeline. No server, cloud sync, telemetry, or external model file is involved.
   </figcaption>
 </figure>

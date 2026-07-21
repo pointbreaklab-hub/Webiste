@@ -6,10 +6,15 @@ export interface Props {
 }
 const { platform, href, label } = Astro.props;
 const isAndroid = platform === 'android';
+// href="#" means "not shipped yet": render a dimmed, non-clickable control
+// instead of an anchor, so it can't jump the page to the top.
+const comingSoon = href === '#';
+const Tag = comingSoon ? 'div' : 'a';
 ---
-<a
-  href={href}
-  class="flex items-center gap-3 px-6 py-4 rounded-2xl bg-surface border border-border hover:border-accent/40 hover:bg-accent/5 transition-all group"
+<Tag
+  href={comingSoon ? undefined : href}
+  aria-disabled={comingSoon ? 'true' : undefined}
+  class={`flex items-center gap-3 px-6 py-4 rounded-2xl bg-surface border border-border transition-all group ${comingSoon ? 'opacity-50 cursor-default select-none' : 'hover:border-accent/40 hover:bg-accent/5'}`}
 >
   {isAndroid ? (
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" class="text-accent">
@@ -31,4 +36,4 @@ const isAndroid = platform === 'android';
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="ml-auto text-hint group-hover:text-accent transition-colors group-hover:translate-x-0.5">
     <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-</a>
+</Tag>

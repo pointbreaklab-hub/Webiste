@@ -10,7 +10,7 @@ const updated = '5 May 2026';
 
 <Base
   title="Privacy Policy · Heart"
-  description="Heart App privacy policy. All health data stays on your device — no account, no server, no telemetry."
+  description="Heart App privacy policy. All health data stays on your device, no account, no server, no telemetry."
 >
   <Nav />
 
@@ -22,7 +22,7 @@ const updated = '5 May 2026';
       <SectionEyebrow num="00" label="PRIVACY POLICY" align="center" />
 
       <h1 class="text-4xl md:text-5xl font-black text-primary text-center mb-4 tracking-tight">
-        Heart — Privacy Policy
+        Heart, Privacy Policy
       </h1>
       <p class="text-hint text-center text-xs font-mono mb-16">Last updated: {updated}</p>
 
@@ -45,10 +45,10 @@ const updated = '5 May 2026';
 
           <h3 class="text-sm font-semibold text-primary mb-2 mt-5">1.1 Health &amp; fitness data</h3>
           <ul class="space-y-2 text-sm text-secondary leading-relaxed list-none">
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Heart rate (BPM)</strong> — read in real time from a paired Bluetooth heart-rate monitor (e.g. Coospo HW9) over standard BLE service <code class="text-accent font-mono text-xs">0x180D</code> (Heart Rate Measurement, characteristic <code class="text-accent font-mono text-xs">0x2A37</code>).</span></li>
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">R–R intervals</strong> — used to compute heart rate variability (HRV / RMSSD).</span></li>
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Derived metrics</strong> — recovery score, strain score, calorie estimates, sleep stages (awake / light / deep / REM), sleep score, and rolling 30-day baselines for resting HR and HRV. All derivations run on-device.</span></li>
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Session history</strong> — start time, duration, average / max HR, calories, zone distribution, and (if you enable it) GPS route for runs / rides.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Heart rate (BPM)</strong>, read in real time from a paired Bluetooth heart-rate monitor (e.g. Coospo HW9) over standard BLE service <code class="text-accent font-mono text-xs">0x180D</code> (Heart Rate Measurement, characteristic <code class="text-accent font-mono text-xs">0x2A37</code>).</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">R–R intervals</strong>, used to compute heart rate variability (HRV / RMSSD).</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Derived metrics</strong>, recovery score, strain score, calorie estimates, sleep stages (awake / light / deep / REM), sleep score, and rolling 30-day baselines for resting HR and HRV. All derivations run on-device.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Session history</strong>, start time, duration, average / max HR, calories, zone distribution, and (if you enable it) GPS route for runs / rides.</span></li>
           </ul>
 
           <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.2 Profile data you enter</h3>
@@ -72,8 +72,8 @@ const updated = '5 May 2026';
           <h2 class="text-xl font-bold text-primary mb-4">2. Where data is stored</h2>
           <p class="text-sm text-secondary leading-relaxed mb-4">All data is stored in your device's private application storage:</p>
           <ul class="space-y-2 text-sm text-secondary list-none">
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">iOS</strong> — the app sandbox (<code class="text-accent font-mono text-xs">Documents</code> and <code class="text-accent font-mono text-xs">NSUserDefaults</code>), automatically protected by iOS data protection.</span></li>
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Android</strong> — internal app storage (<code class="text-accent font-mono text-xs">SharedPreferences</code> and the documents directory). On Android 10+ this storage is hardware-encrypted by the OS using your screen-lock credential.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">iOS</strong>, the app sandbox (<code class="text-accent font-mono text-xs">Documents</code> and <code class="text-accent font-mono text-xs">NSUserDefaults</code>), automatically protected by iOS data protection.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Android</strong>, internal app storage (<code class="text-accent font-mono text-xs">SharedPreferences</code> and the documents directory). On Android 10+ this storage is hardware-encrypted by the OS using your screen-lock credential.</span></li>
           </ul>
           <p class="text-sm text-secondary leading-relaxed mt-4">Other apps cannot read this storage. Uninstalling Heart removes all of it.</p>
         </section>
@@ -90,7 +90,7 @@ const updated = '5 May 2026';
               'No background telemetry to any server controlled by us. The "Outbound telemetry" switch in Privacy & export is off by default and does not currently transmit data.',
             ].map(item => (
               <li class="flex gap-2">
-                <span class="text-accent shrink-0">—</span>
+                <span class="text-accent shrink-0">-</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -115,7 +115,7 @@ const updated = '5 May 2026';
                     ['Bluetooth (Always)',                                                          'iOS / Android', 'Discover and connect to your heart-rate monitor; required for background heart-rate collection.'],
                     ['Location (Fine, Always)',                                                     'iOS / Android', '(Android) Required by the OS for BLE scanning. (Both) Map your route during running / cycling sessions, if you use that feature.'],
                     ['Notifications',                                                               'iOS / Android', 'Sleep summary and low-battery alerts.'],
-                    ['Background modes — bluetooth-central, location',                             'iOS',           'Keep heart-rate streaming and route recording active when the screen is off.'],
+                    ['Background modes, bluetooth-central, location',                             'iOS',           'Keep heart-rate streaming and route recording active when the screen is off.'],
                     ['FOREGROUND_SERVICE, FOREGROUND_SERVICE_CONNECTED_DEVICE, _LOCATION',         'Android',       'Run the BLE collector and route recorder in a foreground service so the OS does not kill them.'],
                     ['RECEIVE_BOOT_COMPLETED, WAKE_LOCK',                                          'Android',       'Re-arm scheduled tasks after the device reboots.'],
                     ['REQUEST_IGNORE_BATTERY_OPTIMIZATIONS',                                       'Android',       'Optionally requested so overnight collection is not paused by Doze mode. You may decline.'],
@@ -152,7 +152,7 @@ const updated = '5 May 2026';
             ].map(([label, desc]) => (
               <li class="flex gap-2">
                 <span class="text-hint shrink-0">·</span>
-                <span><strong class="text-primary/80">{label}</strong> — {desc}</span>
+                <span><strong class="text-primary/80">{label}</strong>, {desc}</span>
               </li>
             ))}
           </ul>
@@ -166,11 +166,11 @@ const updated = '5 May 2026';
           <ul class="space-y-2 text-sm text-secondary list-none">
             {[
               'Toggle Anonymize exports, Crash reports opt-in, and Outbound telemetry.',
-              'Export to another device — JSON bundle of sessions and sleep data.',
+              'Export to another device, JSON bundle of sessions and sleep data.',
               'Export local bundle, training data, or CSV files.',
               'Create a diagnostic export.',
-              'Clear heart-rate history — deletes recorded HR samples and sleep corrections; sessions and settings are kept.',
-              'Delete all data — permanently removes every heart-rate sample, every session, sleep corrections, app settings, profile, paired devices, and crash logs from this device. This action cannot be undone.',
+              'Clear heart-rate history, deletes recorded HR samples and sleep corrections; sessions and settings are kept.',
+              'Delete all data, permanently removes every heart-rate sample, every session, sleep corrections, app settings, profile, paired devices, and crash logs from this device. This action cannot be undone.',
             ].map(item => (
               <li class="flex gap-2">
                 <span class="text-accent shrink-0">→</span>
@@ -224,9 +224,9 @@ const updated = '5 May 2026';
         <section>
           <h2 class="text-xl font-bold text-primary mb-4">13. Jurisdictional notes</h2>
           <ul class="space-y-3 text-sm text-secondary list-none">
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">EEA / UK (GDPR / UK GDPR)</strong> — Heart processes personal data only on your own device. No transfer occurs by default. You retain full rights of access, rectification, erasure, restriction, portability, and objection through the in-app Privacy &amp; export screen.</span></li>
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">California (CCPA / CPRA)</strong> — We do not "sell" or "share" personal information as those terms are defined under the CCPA / CPRA.</span></li>
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Health-data laws (HIPAA, etc.)</strong> — Heart is a consumer wellness app and is not a HIPAA-covered entity. Data you collect through Heart is not protected health information unless you choose to share it with a covered entity.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">EEA / UK (GDPR / UK GDPR)</strong>, Heart processes personal data only on your own device. No transfer occurs by default. You retain full rights of access, rectification, erasure, restriction, portability, and objection through the in-app Privacy &amp; export screen.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">California (CCPA / CPRA)</strong>, We do not "sell" or "share" personal information as those terms are defined under the CCPA / CPRA.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Health-data laws (HIPAA, etc.)</strong>, Heart is a consumer wellness app and is not a HIPAA-covered entity. Data you collect through Heart is not protected health information unless you choose to share it with a covered entity.</span></li>
           </ul>
         </section>
 
