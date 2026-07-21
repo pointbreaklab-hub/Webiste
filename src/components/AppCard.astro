@@ -8,8 +8,8 @@ export interface Props {
   active?: boolean;
   /**
    * Pill text rendered in the top-right corner when `active` is true.
-   * Defaults to `LIVE`; Knot uses `TESTING` while the app is in
-   * pre-alpha. Pick honest labels, "LIVE" on something that isn't
+   * Defaults to `LIVE`. Pass an empty string to render NO badge (the Knot
+   * card does this). Pick honest labels, "LIVE" on something that isn't
    * shipping yet would be misleading.
    */
   status?: string;

@@ -474,8 +474,10 @@ shifting everything below it +1), structurally parallel to /whispr/ and
   Apple-notarized; an open download would trigger Gatekeeper warnings —
   that's the gate.) The Whispr / Heart pages are the model for an open
   download box once notarized.
-- **Footer:** Knot is a `(Testing)` link to `/knot/` (was a non-link
-  `(Soon)` span — fixed 2026-06-06; it has a live page).
+- **Footer:** Knot is a plain link to `/knot/`. The `(Testing)` tag was
+  REMOVED 2026-07-21 (owner decision), matching the removed hero pill and
+  homepage badge — do not re-add a testing/soon tag. Pre-alpha honesty is
+  carried by the download section's first-run steps.
 - **No GitHub source link.** The Knot source is private during
   pre-alpha. Don't add "View source" buttons until that changes.
 - **No `/knot/changelog/` subtree yet.** No public releases means
