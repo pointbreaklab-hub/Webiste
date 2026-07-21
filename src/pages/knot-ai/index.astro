@@ -96,11 +96,11 @@ const deltaRepos = [
       </div>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
-        <a href="https://ollama.com/pointbreaklab/knot-ai" target="_blank" rel="noopener"
+        <a href="https://ollama.com/pointbreaklab/knot-scribe" target="_blank" rel="noopener"
            class="px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]">
           🦙 Get Scribe on Ollama
         </a>
-        <a href="https://huggingface.co/pointbreaklab/knot-ai" target="_blank" rel="noopener"
+        <a href="https://huggingface.co/pointbreaklab/knot-scribe" target="_blank" rel="noopener"
            class="px-8 py-3.5 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all">
           🤗 Hugging Face
         </a>
@@ -252,7 +252,7 @@ const deltaRepos = [
       <SectionEyebrow num="03" label="KNOT DELTA" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">The model that explains what changed.</h2>
       <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-        Where Scribe writes the commit, Knot Delta reads it: a 9B model that turns a change into a grounded report of what moved, why, and the risk. It runs on your machine, built into Knot. Every number below is measured against real git history, beside the baseline a lazy model would score.
+        Where Scribe writes the commit, Knot Delta reads it: a 9B model that turns a change into a grounded report of what moved, why, and the risk. It runs on your machine, built into Knot and open below. Every number below is measured against real git history, beside the baseline a lazy model would score.
       </p>
     </div>
 
@@ -344,7 +344,7 @@ const deltaRepos = [
       </div>
 
       <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed">
-        Every file (adapter weights, GGUF, tokenizer, and the full model card) is public on <a href="https://huggingface.co/pointbreaklab/knot-ai" target="_blank" rel="noopener" class="text-accent hover:underline">Hugging Face</a>.
+        Every file (adapter weights, GGUF, tokenizer, and the full model card) is public on <a href="https://huggingface.co/pointbreaklab/knot-scribe" target="_blank" rel="noopener" class="text-accent hover:underline">Hugging Face</a>.
       </p>
     </div>
   </section>
@@ -357,33 +357,44 @@ const deltaRepos = [
         <SectionEyebrow num="05" label="GET IT" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Run it in one line.</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          Knot Scribe's open weights are on Ollama and Hugging Face. Point it at a staged diff and get a commit message back. (Knot Delta ships inside Knot.)
+          Both models are open weights, on Ollama and Hugging Face. Point Scribe at a staged diff for a commit message; run Delta on a diff for a change report.
         </p>
       </div>
 
       <div class="section-reveal space-y-4">
+        <!-- Knot Scribe -->
         <div class="rounded-2xl bg-bg border border-border overflow-hidden">
           <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
             <div class="w-3 h-3 rounded-full bg-error/70"></div>
             <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
             <div class="w-3 h-3 rounded-full bg-accent/70"></div>
-            <span class="ml-2 text-hint text-xs font-mono">OLLAMA</span>
+            <span class="ml-2 text-hint text-xs font-mono">KNOT SCRIBE · commit message</span>
           </div>
-          <pre class="p-5 text-xs md:text-sm font-mono text-primary/90 overflow-x-auto"><code>ollama run pointbreaklab/knot-ai "$(git diff --staged)"</code></pre>
+          <pre class="p-5 text-xs md:text-sm font-mono text-primary/90 overflow-x-auto"><code>ollama run pointbreaklab/knot-scribe "$(git diff --staged)"</code></pre>
+        </div>
+        <!-- Knot Delta -->
+        <div class="rounded-2xl bg-bg border border-border overflow-hidden">
+          <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+            <div class="w-3 h-3 rounded-full bg-error/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+            <span class="ml-2 text-hint text-xs font-mono">KNOT DELTA · change report</span>
+          </div>
+          <pre class="p-5 text-xs md:text-sm font-mono text-primary/90 overflow-x-auto"><code>ollama run pointbreaklab/knot-delta "$(git diff)"</code></pre>
         </div>
         <p class="text-hint text-xs leading-relaxed px-1">
-          Prefer llama.cpp? The base model, the LoRA files, and the exact command are on the <a href="https://huggingface.co/pointbreaklab/knot-ai" target="_blank" rel="noopener" class="text-accent hover:underline">Hugging Face model card</a>.
+          Prefer llama.cpp? Each model's GGUF, files, and exact command are on its Hugging Face model card, linked below.
         </p>
       </div>
 
-      <div class="section-reveal flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-        <a href="https://ollama.com/pointbreaklab/knot-ai" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105">
-          🦙 Ollama
+      <div class="section-reveal grid grid-cols-1 sm:grid-cols-2 gap-4 mt-10">
+        <a href="https://huggingface.co/pointbreaklab/knot-scribe" target="_blank" rel="noopener"
+           class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-border text-secondary text-sm font-mono hover:border-accent hover:text-primary transition-all">
+          🤗 Knot Scribe on Hugging Face
         </a>
-        <a href="https://huggingface.co/pointbreaklab/knot-ai" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border text-secondary text-sm font-mono hover:border-accent hover:text-primary transition-all">
-          🤗 huggingface.co/pointbreaklab/knot-ai
+        <a href="https://huggingface.co/pointbreaklab/knot-delta" target="_blank" rel="noopener"
+           class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-border text-secondary text-sm font-mono hover:border-accent hover:text-primary transition-all">
+          🤗 Knot Delta on Hugging Face
         </a>
       </div>
 
