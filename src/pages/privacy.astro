@@ -21,17 +21,17 @@ const sections = [
   {
     n: '3',
     title: 'How the App Works (and Why It Is Private)',
-    body: `Whispr is a serverless, peer-to-peer messaging application. Messages travel directly between devices over three channels:\n\n• Local Wi-Fi (LAN) — direct HTTP between devices on the same network, with every message wrapped in ECIES application-layer encryption so contents are invisible to other devices on the same network.\n\n• Bluetooth LE mesh — multi-hop relay between nearby devices for offline messaging. Payloads are end-to-end encrypted before entering the mesh.\n\n• Tor hidden services — over the internet via the Tor anonymity network. Your IP address is not revealed to your contact.\n\nAll three channels apply end-to-end encryption using the Signal Protocol (X3DH key agreement + Double Ratchet algorithm) before any data leaves your device. PointBreakLab cannot decrypt your messages even if compelled by law.`,
+    body: `Whispr is a serverless, peer-to-peer messaging application. Messages travel directly between devices over three channels:\n\n• Local Wi-Fi (LAN), direct HTTP between devices on the same network, with every message wrapped in ECIES application-layer encryption so contents are invisible to other devices on the same network.\n\n• Bluetooth LE mesh, multi-hop relay between nearby devices for offline messaging. Payloads are end-to-end encrypted before entering the mesh.\n\n• Tor hidden services, over the internet via the Tor anonymity network. Your IP address is not revealed to your contact.\n\nAll three channels apply end-to-end encryption using the Signal Protocol (X3DH key agreement + Double Ratchet algorithm) before any data leaves your device. PointBreakLab cannot decrypt your messages even if compelled by law.`,
   },
   {
     n: '4',
     title: 'Local Data Storage',
-    body: `All app data is stored exclusively on your device:\n\n• Messages, contacts, and settings are stored in an SQLite database encrypted with SQLCipher (AES-256-CBC full-file encryption) on Android and iOS.\n\n• Cryptographic private keys are stored in your device's secure hardware enclave: Android Keystore on Android, iOS Keychain on iPhone.\n\n• The database encryption key is derived from your password using PBKDF2-SHA512 (200,000 iterations) and is never stored in plaintext.\n\n• Whispr does not use iCloud, Google Drive, or any cloud backup for message data. If you use the built-in encrypted backup feature, the backup file is saved to your local device storage — you control where it goes.`,
+    body: `All app data is stored exclusively on your device:\n\n• Messages, contacts, and settings are stored in an SQLite database encrypted with SQLCipher (AES-256-CBC full-file encryption) on Android and iOS.\n\n• Cryptographic private keys are stored in your device's secure hardware enclave: Android Keystore on Android, iOS Keychain on iPhone.\n\n• The database encryption key is derived from your password using PBKDF2-SHA512 (200,000 iterations) and is never stored in plaintext.\n\n• Whispr does not use iCloud, Google Drive, or any cloud backup for message data. If you use the built-in encrypted backup feature, the backup file is saved to your local device storage, you control where it goes.`,
   },
   {
     n: '5',
     title: 'Third-Party Services',
-    body: `Whispr contains no advertising SDKs, no social login, and no third-party analytics.\n\nThe only third-party component that may contact an external server is the embedded Tor daemon, which connects to the Tor network for routing — not to any PointBreakLab server. The Tor Project's privacy policy applies to that connection (torproject.org).\n\nThe QR-code scanning library (Google ML Kit via mobile_scanner) includes Firebase Transport Runtime as a transitive dependency. This component is bundled but does not transmit data; it is used only for local barcode detection. No Firebase project is configured in Whispr.`,
+    body: `Whispr contains no advertising SDKs, no social login, and no third-party analytics.\n\nThe only third-party component that may contact an external server is the embedded Tor daemon, which connects to the Tor network for routing, not to any PointBreakLab server. The Tor Project's privacy policy applies to that connection (torproject.org).\n\nThe QR-code scanning library (Google ML Kit via mobile_scanner) includes Firebase Transport Runtime as a transitive dependency. This component is bundled but does not transmit data; it is used only for local barcode detection. No Firebase project is configured in Whispr.`,
   },
   {
     n: '6',
@@ -91,7 +91,7 @@ const dataTable = [
 ---
 
 <Base
-  title="Privacy Policy — Whispr"
+  title="Privacy Policy, Whispr"
   description="Whispr collects zero personal data. Messages, contacts, and identity keys live only on your device. No analytics, no servers, no tracking."
 >
   <Nav />

@@ -12,14 +12,14 @@ import '../styles/global.css';
   <Nav />
   <Hero />
 
-  <!-- ── 01 THE LAB — apps lineup ──────────────────────────────────────── -->
+  <!-- ── 01 THE LAB, apps lineup ──────────────────────────────────────── -->
   <section id="apps" class="relative py-32 px-6 max-w-7xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-16">
       <SectionEyebrow num="01" label="THE LAB" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What we build</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Every application from PointBreakLab is built on the same principle — your data belongs to you.
+        Every application from PointBreakLab is built on the same principle: your data belongs to you.
       </p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -34,7 +34,7 @@ import '../styles/global.css';
       <AppCard
         name="Heart"
         tagline="LOCAL-FIRST WELLNESS"
-        description="A wellness app for Bluetooth heart-rate bands. HR, HRV, sleep stages, recovery, strain — all on-device. No account, no cloud, no subscription."
+        description="A wellness app for Bluetooth heart-rate bands. HR, HRV, sleep stages, recovery, strain. All on-device. No account, no cloud, no subscription."
         icon="❤️"
         href="/heart/"
         active={true}
@@ -42,16 +42,16 @@ import '../styles/global.css';
       <AppCard
         name="Knot"
         tagline="PEER-TO-PEER VERSION CONTROL"
-        description="Save a file. A few seconds later it's a real commit on every teammate's machine. No GitHub account, no central server, no four-step push ritual — peer-to-peer over Tor."
+        description="Save a file. A few seconds later it's a real commit on every teammate's machine. No GitHub account, no central server, no four-step push ritual. Peer-to-peer over Tor."
         icon="🪢"
         href="/knot/"
         active={true}
-        status="TESTING"
+        status=""
       />
       <AppCard
         name="Knot AI"
-        tagline="ON-DEVICE COMMIT MODEL"
-        description="The open model behind Knot's auto-commit — it reads a diff and writes the commit message. A Qwen2.5-Coder-7B fine-tune that runs 100% on your machine. Open on Hugging Face and Ollama."
+        tagline="TWO ON-DEVICE MODELS"
+        description="A model family that runs on your machine: Knot Scribe writes your commit messages, Knot Delta explains what changed. Open weights on Hugging Face and Ollama."
         icon="✍️"
         href="/knot-ai/"
         active={true}
@@ -60,7 +60,7 @@ import '../styles/global.css';
       <AppCard
         name="Elixir"
         tagline="OFFLINE VAULT · COMING LATER"
-        description="An encrypted secrets vault — passwords, recovery codes, anything you'd lose sleep over leaking. Lives only on your device."
+        description="An encrypted secrets vault: passwords, recovery codes, anything you'd lose sleep over leaking. Lives only on your device."
         icon="🧪"
       />
     </div>
@@ -69,11 +69,11 @@ import '../styles/global.css';
   <!-- ── 02 PROOF ──────────────────────────────────────────────────────────
        Receipts for the privacy claims in the hero. Privacy products carry a
        higher proof burden than most product claims because users can't
-       verify them by using the product — only by inspecting the
+       verify them by using the product, only by inspecting the
        architecture. The full architecture lives at /whispr/#architecture;
        this is a compact excerpt so the homepage shows evidence, not just
        claims. (Added 2026-05-07 after homepage-split review.) Don't strip
-       this back — competitors (Signal, Session, Briar, SimpleX) all lead
+       this back, competitors (Signal, Session, Briar, SimpleX) all lead
        with cryptographic architecture above the fold.                    -->
   <section id="proof" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
@@ -82,7 +82,7 @@ import '../styles/global.css';
         <SectionEyebrow num="02" label="PROOF" />
         <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Receipts, not claims.</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          Privacy claims need evidence. These guarantees hold for every PointBreakLab app — by architectural choice, not company policy.
+          Privacy claims need evidence. These guarantees hold for every PointBreakLab app, by architectural choice, not company policy.
         </p>
       </div>
 
@@ -93,7 +93,7 @@ import '../styles/global.css';
           <div class="w-3 h-3 rounded-full bg-accent/70"></div>
           <span class="ml-2 text-hint text-xs">stack.txt</span>
         </div>
-        {/* Studio-level guarantees only — what's true of EVERY PBL app
+        {/* Studio-level guarantees only, what's true of EVERY PBL app
             (Whispr, Heart, Knot, Elixir). Whispr-specific primitives like
             X3DH, Double Ratchet, and the ECIES wire envelope live on
             /whispr/#architecture because they're messaging-only and would
@@ -137,7 +137,7 @@ import '../styles/global.css';
         <div class="mb-3"><SectionEyebrow num="03" label="THE STUDIO" align="left" /></div>
         <h2 class="text-3xl md:text-4xl font-black text-primary mb-6">About PointBreakLab</h2>
         <p class="text-secondary leading-relaxed mb-5">
-          PointBreakLab is a studio building privacy-first applications. Every app ships free, with zero access to your data — by design, not by policy.
+          PointBreakLab is a studio building privacy-first applications. Every app ships free, with zero access to your data, by design, not by policy.
         </p>
         <p class="text-secondary leading-relaxed mb-8">
           Every tool starts from the same question: what would this app look like if we genuinely had no access to your data? Whispr is the answer for communication.
@@ -180,7 +180,7 @@ import '../styles/global.css';
             href="https://www.openstreetmap.org/?mlat=49.7913&mlon=9.9534#map=12/49.7913/9.9534"
             target="_blank"
             rel="noopener noreferrer"
-            title="Würzburg, Germany — open in OpenStreetMap"
+            title="Würzburg, Germany, open in OpenStreetMap"
             class="group block mx-auto mt-3 w-44 rounded-xl overflow-hidden border border-border hover:border-accent/50 transition-colors"
           >
             <img
@@ -204,17 +204,17 @@ import '../styles/global.css';
     </div>
   </section>
 
-  <!-- ── 04 UPDATES — "From the lab" news feed ───────────────────────────────
+  <!-- ── 04 UPDATES, "From the lab" news feed ───────────────────────────────
        Page-rendered list (no widget): always non-empty, no login, no tracker.
        To post an update, prepend an entry to the `updates` array below and
-       redeploy — same pattern as the per-product changelogs. -->
+       redeploy, same pattern as the per-product changelogs. -->
   <section id="updates" class="relative py-32 px-6 max-w-3xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-12">
       <SectionEyebrow num="04" label="UPDATES" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">From the lab.</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Product news as it ships — building in public.
+        Product news as it ships.
       </p>
     </div>
 
@@ -224,13 +224,13 @@ import '../styles/global.css';
           date: 'Jun 2026',
           tag: 'KNOT',
           title: 'Knot enters testing',
-          body: 'Peer-to-peer version control for the AI era — save becomes commit becomes synced, with no central server. Free download for Mac and Linux on the Knot page.',
+          body: 'Peer-to-peer version control for the AI era: save becomes commit becomes synced, with no central server. Free download for Mac and Linux on the Knot page.',
         },
         {
           date: 'Jun 2026',
-          tag: 'STUDIO',
-          title: 'Building in public',
-          body: 'This is the lab’s updates feed — product news as it ships across Knot, Whispr, and Heart. Check back here.',
+          tag: 'KNOT',
+          title: 'Follow Knot from your phone',
+          body: 'A companion mobile app streams every synced repo read-only over your LAN and pings you when a commit lands or an agent finishes a task. Keep an eye on the work from anywhere in the house.',
         },
       ].map(({ date, tag, title, body }) => (
         <div class="section-reveal flex gap-5 p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">

@@ -53,7 +53,7 @@ for (let i = 0; i < nodes.length; i++) {
 
 <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden bg-bg">
 
-  <!-- Animated network — pure SVG + CSS, no JS. Hidden behind reduced-motion -->
+  <!-- Animated network, pure SVG + CSS, no JS. Hidden behind reduced-motion -->
   <div class="hero-network absolute inset-0 hidden md:block">
     <svg
       class="w-full h-full"
@@ -80,7 +80,7 @@ for (let i = 0; i < nodes.length; i++) {
     </svg>
   </div>
 
-  <!-- Soft accent orbs — gives depth on every screen size. -->
+  <!-- Soft accent orbs, gives depth on every screen size. -->
   <div class="absolute inset-0 pointer-events-none">
     <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-accent opacity-[0.06] blur-3xl"></div>
     <div class="absolute bottom-1/3 right-1/4 w-64 h-64 rounded-full bg-blue-500 opacity-[0.05] blur-3xl"></div>
@@ -101,7 +101,7 @@ for (let i = 0; i < nodes.length; i++) {
       <span class="text-gradient">watch back.</span>
     </h1>
 
-    <!-- Single CTA — anchors down to the THE LAB section where Whispr,
+    <!-- Single CTA, anchors down to the THE LAB section where Whispr,
          Heart, Knot, and Elixir cards live. The old "Explore Whispr"
          button was redundant with the Whispr card sitting one scroll
          below, and it implied Whispr was the only thing on offer.
@@ -116,7 +116,7 @@ for (let i = 0; i < nodes.length; i++) {
     </div>
   </div>
 
-  <!-- Scroll hint — anchored to the section, not the content. Hidden on
+  <!-- Scroll hint, anchored to the section, not the content. Hidden on
        narrow viewports because there's not enough vertical room and it
        overlaps the CTA buttons when the headline wraps. -->
   <div class="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-hint text-xs pointer-events-none">
@@ -126,7 +126,7 @@ for (let i = 0; i < nodes.length; i++) {
 </section>
 
 <style>
-  /* Network — soft, slow, GPU-friendly. No animation while reduced-motion is on. */
+  /* Network, soft, slow, GPU-friendly. No animation while reduced-motion is on. */
   .hero-network svg {
     opacity: 0.55;
   }
@@ -150,7 +150,7 @@ for (let i = 0; i < nodes.length; i++) {
     50%      { opacity: 1;    r: 0.75; }
   }
 
-  /* Whole-network gentle drift — single transform on the SVG, very cheap */
+  /* Whole-network gentle drift, single transform on the SVG, very cheap */
   .hero-network {
     animation: networkDrift 24s ease-in-out infinite alternate;
   }

@@ -68,7 +68,7 @@ import '../../styles/global.css';
       <SectionEyebrow num="01" label="FEATURES" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Six features that aren't features anywhere else — they're the floor.
+        Six features that aren't features anywhere else: they're the floor.
       </p>
     </div>
 
@@ -86,7 +86,7 @@ import '../../styles/global.css';
       <FeatureBlock
         icon="📡"
         title="Works Offline"
-        description="Bluetooth LE mesh delivers messages with no internet. At a protest, on a plane, in a blackout — anywhere."
+        description="Bluetooth LE mesh delivers messages with no internet. At a protest, on a plane, in a blackout, anywhere."
       />
       <FeatureBlock
         icon="🧅"
@@ -96,7 +96,7 @@ import '../../styles/global.css';
       <FeatureBlock
         icon="📧"
         title="Encrypted Email"
-        description="ECIES-encrypted email between Whispr users. Threads, reply-all, forward — with full E2EE, no central server."
+        description="ECIES-encrypted email between Whispr users. Threads, reply-all, forward, with full E2EE and no central server."
       />
       <FeatureBlock
         icon="🆔"
@@ -113,7 +113,7 @@ import '../../styles/global.css';
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
           { step: '01', title: 'Encrypt on device', body: 'Your message is encrypted on your device before it ever leaves. Only the recipient\'s Ed25519 key can decrypt it.' },
-          { step: '02', title: 'Travel the best path', body: 'The app automatically picks the fastest available route — direct LAN, Tor hidden service, or BLE mesh.' },
+          { step: '02', title: 'Travel the best path', body: 'The app automatically picks the fastest available route: direct LAN, Tor hidden service, or BLE mesh.' },
           { step: '03', title: 'Decrypt on arrival', body: 'Only your contact\'s device decrypts the message. Not us, not your ISP, not anyone in between.' },
         ].map(({ step, title, body }) => (
           <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
@@ -133,7 +133,7 @@ import '../../styles/global.css';
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
-          { icon: '🏠', label: 'LAN', title: 'Local Network', body: 'When on the same Wi-Fi, messages travel directly — sub-second delivery, zero internet required.' },
+          { icon: '🏠', label: 'LAN', title: 'Local Network', body: 'When on the same Wi-Fi, messages travel directly: sub-second delivery, zero internet required.' },
           { icon: '🧅', label: 'TOR', title: 'Tor Network',   body: 'Route through Tor hidden services for anonymous, censorship-resistant delivery across the internet.' },
           { icon: '📶', label: 'BLE', title: 'BLE Mesh',      body: 'Bluetooth Low Energy mesh. Send messages nearby with no Wi-Fi, no internet, no infrastructure at all.' },
         ].map(({ icon, label, title, body }) => (
@@ -230,7 +230,7 @@ import '../../styles/global.css';
         {
           tag: 'PLANNED',
           title: 'Self-Destructing Messages',
-          body: 'Per-message timers. Messages evaporate from both devices after the set duration — no trace left.',
+          body: 'Per-message timers. Messages evaporate from both devices after the set duration, with no trace left.',
           status: 'planned',
         },
       ].map(({ tag, title, body, status }) => {
@@ -282,10 +282,10 @@ import '../../styles/global.css';
             href="https://github.com/pointbreaklab-hub/Whispr/releases/latest/download/whispr-android.apk"
             label="Android APK"
           />
-          <DownloadButton platform="ios" href="#" label="iOS — Coming Soon" />
+          <DownloadButton platform="ios" href="#" label="iOS, Coming Soon" />
         </div>
 
-        <!-- Download counter — fetched client-side from GitHub API, hidden until 1000+ -->
+        <!-- Download counter, fetched client-side from GitHub API, hidden until 1000+ -->
         <div id="download-count" class="hidden text-xs font-mono text-hint mb-7"></div>
 
         <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
@@ -326,7 +326,7 @@ import '../../styles/global.css';
 </Base>
 
 <script>
-  // Download counter — fetched client-side from the GitHub Releases API.
+  // Download counter, fetched client-side from the GitHub Releases API.
   // Hidden until total downloads ≥ 1000. Cached 1h in localStorage.
   // Single fetch to a public endpoint, no third-party analytics.
   const REPO    = 'pointbreaklab-hub/Whispr';
@@ -350,7 +350,7 @@ import '../../styles/global.css';
   function writeCache(count: number) {
     try {
       localStorage.setItem(KEY, JSON.stringify({ count, ts: Date.now() }));
-    } catch { /* private mode / disabled — silently skip */ }
+    } catch { /* private mode / disabled, silently skip */ }
   }
 
   async function fetchTotalDownloads(): Promise<number> {
@@ -378,6 +378,6 @@ import '../../styles/global.css';
       const fresh = await fetchTotalDownloads();
       writeCache(fresh);
       reveal(fresh);
-    } catch { /* offline or rate-limited — leave as-is */ }
+    } catch { /* offline or rate-limited, leave as-is */ }
   })();
 </script>

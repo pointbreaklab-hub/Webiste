@@ -19,7 +19,7 @@ const screenshots = [
 
 <Base
   title="Heart · Local-first wellness app for Bluetooth heart-rate bands"
-  description="A wellness app for Bluetooth heart-rate bands. Tracks HR, HRV, sleep stages, recovery, strain — entirely on your device. No account, no cloud, no subscription. Pairs with the Coospo HW9 (worn on the chest or arm) and any standard BLE chest strap."
+  description="A wellness app for Bluetooth heart-rate bands. Tracks HR, HRV, sleep stages, recovery, and strain, entirely on your device. No account, no cloud, no subscription. Pairs with the Coospo HW9 (worn on the chest or arm) and any standard BLE chest strap."
 >
   <Nav />
 
@@ -40,7 +40,7 @@ const screenshots = [
       </h1>
 
       <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-3">
-        A wellness app for Bluetooth heart-rate bands. Tracks HR, HRV, sleep, recovery, and strain — entirely on your device. No account, no cloud, no subscription.
+        A wellness app for Bluetooth heart-rate bands. Tracks HR, HRV, sleep, recovery, and strain, entirely on your device. No account, no cloud, no subscription.
       </p>
       <p class="text-sm text-hint font-mono mb-10">
         Free · on-device · auditable.
@@ -79,17 +79,17 @@ const screenshots = [
       <FeatureBlock
         icon="❤️"
         title="Live HR + HRV"
-        description="Continuous heart rate, zones, and RMSSD-based heart-rate variability — computed directly from R–R intervals using the 1996 ESC/NASPE standard."
+        description="Continuous heart rate, zones, and RMSSD-based heart-rate variability, computed directly from R–R intervals using the 1996 ESC/NASPE standard."
       />
       <FeatureBlock
         icon="🌙"
         title="Four-stage sleep"
-        description="Awake, light, deep, REM — derived from overnight HR with a prior-calibrated stager. Avg HR, min HR, and overnight HRV per night."
+        description="Awake, light, deep, and REM, derived from overnight HR with a prior-calibrated stager. Avg HR, min HR, and overnight HRV per night."
       />
       <FeatureBlock
         icon="🔋"
         title="Recovery & Strain"
-        description="WHOOP-inspired recovery score — HRV percentile against your personal 30-day baseline. Zone-weighted strain. Both derived from published methodology, not black boxes."
+        description="WHOOP-inspired recovery score: an HRV percentile against your personal 30-day baseline. Zone-weighted strain. Both derived from published methodology, not black boxes."
       />
       <FeatureBlock
         icon="📊"
@@ -104,17 +104,17 @@ const screenshots = [
       <FeatureBlock
         icon="🏋️"
         title="Post-workout analysis"
-        description="End a session and get an instant full summary — HR zone breakdown, peak and avg BPM, active calories, a side-by-side compare to your last session of the same type, and an estimated overnight HRV impact."
+        description="End a session and get an instant full summary, HR zone breakdown, peak and avg BPM, active calories, a side-by-side compare to your last session of the same type, and an estimated overnight HRV impact."
       />
       <FeatureBlock
         icon="📍"
         title="Gym auto-detection"
-        description="Pin your gym's location once. Pick a detection radius (100–500 m). Heart offers to start a session automatically after 10 minutes of dwell — nothing leaves your device, no map service, no movement history."
+        description="Pin your gym's location once. Pick a detection radius (100–500 m). Heart offers to start a session automatically after 10 minutes of dwell. Nothing leaves your device: no map service, no movement history."
       />
       <FeatureBlock
         icon="🚫"
         title="No account, no cloud"
-        description="Everything stays on your device — sample data, scores, sleep history. One-tap JSON export for migration. One-tap delete-everything."
+        description="Everything stays on your device: sample data, scores, sleep history. One-tap JSON export for migration. One-tap delete-everything."
       />
     </div>
 
@@ -123,12 +123,12 @@ const screenshots = [
       <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">HOW IT WORKS</p>
       <h3 class="text-2xl md:text-3xl font-black text-primary mb-4 text-center">Pairs with what you already own.</h3>
       <p class="text-secondary max-w-2xl mx-auto mb-12 text-center leading-relaxed">
-        Heart speaks the standard BLE Heart Rate Service (UUID 0x180D). Works with the Coospo HW9 — worn on the chest or arm — and most modern chest straps.
+        Heart speaks the standard BLE Heart Rate Service (UUID 0x180D). Works with the Coospo HW9 (worn on the chest or arm) and most modern chest straps.
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
-          { step: '01', title: 'Pair your band',  body: 'Open Settings → Devices, scan, tap your HW9 (or any BLE HRS strap). One-time approval — no account, no QR, no cloud handshake.' },
+          { step: '01', title: 'Pair your band',  body: 'Open Settings → Devices, scan, tap your HW9 (or any BLE HRS strap). One-time approval, no account, no QR, no cloud handshake.' },
           { step: '02', title: 'Wear it 24/7',    body: 'iOS state restoration and an Android foreground service keep the connection alive overnight, even when the phone is in your pocket.' },
           { step: '03', title: 'Get insights',    body: 'Recovery, strain, sleep stages, and on-device Coach observations every morning. Self-validate with a one-tap sleep diary.' },
         ].map(({ step, title, body }) => (
@@ -149,9 +149,9 @@ const screenshots = [
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
-          { icon: '🟢', label: 'PRIMARY',  title: 'Coospo HW9',   body: 'A versatile band — worn on the chest, upper arm, or forearm. Full feature support: live HR, RR-interval HRV, battery percentage reporting. Heart was developed and tested with this band.' },
-          { icon: '🔵', label: 'STANDARD', title: 'Any BLE strap', body: 'Polar H10, Wahoo TICKR, Garmin HRM-Dual — anything that speaks Heart Rate Service 0x180D + Heart Rate Measurement 0x2A37.' },
-          { icon: '🟡', label: 'OPTICAL',  title: 'Wrist sensors', body: 'Live HR works on optical wrist HR straps, but RR-interval availability depends on the device — HRV will be coarser than from a chest strap.' },
+          { icon: '🟢', label: 'PRIMARY',  title: 'Coospo HW9',   body: 'A versatile band, worn on the chest, upper arm, or forearm. Full feature support: live HR, RR-interval HRV, battery percentage reporting. Heart was developed and tested with this band.' },
+          { icon: '🔵', label: 'STANDARD', title: 'Any BLE strap', body: 'Polar H10, Wahoo TICKR, Garmin HRM-Dual, anything that speaks Heart Rate Service 0x180D + Heart Rate Measurement 0x2A37.' },
+          { icon: '🟡', label: 'OPTICAL',  title: 'Wrist sensors', body: 'Live HR works on optical wrist HR straps, but RR-interval availability depends on the device, so HRV will be coarser than from a chest strap.' },
         ].map(({ icon, label, title, body }) => (
           <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors text-center group">
             <div class="text-4xl mb-4">{icon}</div>
@@ -169,13 +169,13 @@ const screenshots = [
 
         <div class="max-w-2xl mx-auto space-y-4 mb-14">
           <p class="text-secondary text-sm leading-relaxed">
-            The Coospo HW9 is a dumb sensor <span class="text-hint italic">(a device that only broadcasts raw data — no onboard processing, no memory, no intelligence of its own)</span>. Every heartbeat it detects an R-wave, computes a beat interval, and broadcasts two values — BPM and milliseconds since the last beat — over a short-range Bluetooth link. Then it forgets. It doesn't know your name, what day it is, or whether last night was good sleep or bad.
+            The Coospo HW9 is a dumb sensor <span class="text-hint italic">(a device that only broadcasts raw data, no onboard processing, no memory, no intelligence of its own)</span>. Every heartbeat it detects an R-wave, computes a beat interval, and broadcasts two values, BPM and milliseconds since the last beat, over a short-range Bluetooth link. Then it forgets. It doesn't know your name, what day it is, or whether last night was good sleep or bad.
           </p>
           <p class="text-secondary text-sm leading-relaxed">
-            The official Coospo app catches that broadcast. Shows you 104 bpm. It was built for bike computers — pairing sensors to head units, syncing ride logs, tracking kilometres. Using it for daily wellness is like using a speedometer to track your resting heart rate.
+            The official Coospo app catches that broadcast. Shows you 104 bpm. It was built for bike computers: pairing sensors to head units, syncing ride logs, tracking kilometres. Using it for daily wellness is like using a speedometer to track your resting heart rate.
           </p>
           <p class="text-secondary text-sm leading-relaxed">
-            Heart catches the same broadcast — and doesn't let go.
+            Heart catches the same broadcast, and doesn't let go.
           </p>
         </div>
 
@@ -218,13 +218,13 @@ const screenshots = [
                 <span class="shrink-0 text-center" style="width:110px">
                   {row.coospo
                     ? <span class="text-primary/50">✓</span>
-                    : <span class="text-hint/40">—</span>
+                    : <span class="text-hint/40">-</span>
                   }
                 </span>
                 <span class="shrink-0 text-center" style="width:48px">
                   {row.heart
                     ? <span class="text-accent">✓</span>
-                    : <span class="text-hint/40">—</span>
+                    : <span class="text-hint/40">-</span>
                   }
                 </span>
                 {row.note && <span class="text-hint pl-2">{row.note}</span>}
@@ -246,7 +246,7 @@ const screenshots = [
         <p class="text-accent text-xs font-mono tracking-widest mb-3">IN THE APP</p>
         <h2 class="text-2xl md:text-3xl font-black text-primary mb-3">A look inside.</h2>
         <p class="text-secondary text-sm max-w-sm mx-auto leading-relaxed">
-          Five screens from the daily loop — live monitoring, sleep review, insights, trends, and GPS sessions.
+          Five screens from the daily loop: live monitoring, sleep review, insights, trends, and GPS sessions.
         </p>
       </div>
 
@@ -386,7 +386,7 @@ const screenshots = [
             <span class="ml-2 text-hint text-xs font-mono">pipeline-and-math.txt</span>
           </div>
           <div class="flex items-center gap-2 font-mono text-xs select-none">
-            <span class="text-secondary">Pipeline &amp; Math — technical detail</span>
+            <span class="text-secondary">Pipeline &amp; Math, technical detail</span>
             <span class="text-accent group-open:hidden">▶</span>
             <span class="text-accent hidden group-open:inline">▼</span>
           </div>
@@ -431,7 +431,7 @@ const screenshots = [
                   tag:    'STEP 5 · SLEEP STAGING',
                   title:  'Deterministic four-stage sleep classifier  ·  5-min HR buckets',
                   detail: 'mean_bpm < baseline + 8  →  sleep candidate',
-                  sub:    'onset gate 0.70  ·  stability σ < 6 bpm  ·  4 stages: awake / light / deep / REM  ·  deterministic heuristics chosen over on-device ML — continuous tflite inference overnight would drain both phone and band battery in hours',
+                  sub:    'onset gate 0.70  ·  stability σ < 6 bpm  ·  4 stages: awake / light / deep / REM  ·  deterministic heuristics chosen over on-device ML: continuous tflite inference overnight would drain both phone and band battery in hours',
                   accent: false,
                 },
                 {
@@ -513,7 +513,7 @@ const screenshots = [
         </div>
         <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
           {[
-            ['Identity',         'None — no account, no email, no key'],
+            ['Identity',         'None, no account, no email, no key'],
             ['HR source',        'BLE Heart Rate Service · Bluetooth SIG spec · UUID 0x180D / 0x2A37'],
             ['HRV',              'RMSSD · ESC/NASPE Task Force · Eur. Heart J. 17:354 · 1996'],
             ['HRmax',            'Age-predicted max · Tanaka et al. · Med. Sci. Sports Exerc. 32:1591 · 2001'],
@@ -534,7 +534,7 @@ const screenshots = [
             ['Post-workout',     'HR zones · vs last session · recovery impact estimate'],
             ['Gym detect',       'Android GeofencingClient · DWELL transition · on-device'],
             ['Storage',          'SharedPreferences + JSONL · app sandbox · OS-encrypted'],
-            ['Network',          'None — only optional OSM tile downloads for offline maps'],
+            ['Network',          'None, only optional OSM tile downloads for offline maps'],
             ['Server',           'None'],
           ].map(([key, val]) => (
             <div class="flex gap-4 items-baseline">
@@ -546,7 +546,7 @@ const screenshots = [
         </div>
       </div>
 
-      <!-- ── Validation card — full algorithm-parity audit ─────────────────── -->
+      <!-- ── Validation card, full algorithm-parity audit ─────────────────── -->
       <div class="section-reveal mb-6 p-5 rounded-2xl bg-bg border border-accent/30">
         <div class="flex items-start gap-3">
           <div class="shrink-0 w-9 h-9 rounded-lg bg-accent/15 border border-accent/40 flex items-center justify-center text-base">✓</div>
@@ -584,17 +584,17 @@ const screenshots = [
               </div>
             </div>
             <p class="text-secondary text-xs leading-relaxed">
-              Global maximum deviation: <span class="text-accent font-mono">1.42 × 10⁻¹⁴</span> — at the IEEE-754 double-precision noise floor, <span class="text-primary">eleven orders of magnitude tighter than the band's underlying R-R sensor resolution</span>. Reproducible via <span class="text-primary/70 font-mono text-[11px]">flutter test test/algorithm_validation_test.dart</span>. Every formula is closed-form (Tanaka 2001, Uth 2004, Keytel 2005, Holt 1957, ESC/NASPE 1996, Banister 1975, Coyle 1998) so "matches numpy" equals "matches Kubios" by mathematical identity.
+              Global maximum deviation: <span class="text-accent font-mono">1.42 × 10⁻¹⁴</span>, at the IEEE-754 double-precision noise floor, <span class="text-primary">eleven orders of magnitude tighter than the band's underlying R-R sensor resolution</span>. Reproducible via <span class="text-primary/70 font-mono text-[11px]">flutter test test/algorithm_validation_test.dart</span>. Every formula is closed-form (Tanaka 2001, Uth 2004, Keytel 2005, Holt 1957, ESC/NASPE 1996, Banister 1975, Coyle 1998) so "matches numpy" equals "matches Kubios" by mathematical identity.
             </p>
           </div>
         </div>
       </div>
 
       <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed mb-3">
-        End-to-end accuracy of derived metrics (sleep staging vs PSG, calorie totals vs indirect calorimetry) has not yet been independently measured for Heart — those validation studies are on the roadmap. The result above validates the <span class="text-secondary">algorithm</span>; the input-signal accuracy is governed by the chest strap (chest-strap class: ±1–2 bpm vs ECG; ±3–5 ms RMSSD vs ECG).
+        End-to-end accuracy of derived metrics (sleep staging vs PSG, calorie totals vs indirect calorimetry) has not yet been independently measured for Heart. Those validation studies are on the roadmap. The result above validates the <span class="text-secondary">algorithm</span>; the input-signal accuracy is governed by the chest strap (chest-strap class: ±1–2 bpm vs ECG; ±3–5 ms RMSSD vs ECG).
       </p>
       <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed">
-        Heart is a wellness application — not a medical device. All scores are estimates derived from consumer-grade sensors and population-level reference data, validated for trend tracking, not diagnosis.
+        Heart is a wellness application, not a medical device. All scores are estimates derived from consumer-grade sensors and population-level reference data, validated for trend tracking, not diagnosis.
       </p>
     </div>
   </section>
@@ -673,7 +673,7 @@ const screenshots = [
             href="https://github.com/pointbreaklab-hub/Heart/releases/latest/download/heart-android.apk"
             label="Android APK"
           />
-          <DownloadButton platform="ios" href="#" label="iOS — Coming Soon" />
+          <DownloadButton platform="ios" href="#" label="iOS, Coming Soon" />
         </div>
 
         <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
@@ -698,10 +698,10 @@ const screenshots = [
             <p class="text-accent text-xs font-mono tracking-widest mb-2">ACCURACY · CHEST STRAP VS WRIST</p>
             <h3 class="text-lg font-bold text-primary mb-2">Better signal in, better signal out.</h3>
             <p class="text-secondary text-sm leading-relaxed mb-3">
-              Published literature puts wrist-based optical sensors at <span class="text-primary">±5–15 bpm</span> against ECG during effort and <span class="text-primary">±10–20 ms</span> on overnight HRV. Chest straps as a category reach <span class="text-accent">±2 bpm</span> and <span class="text-accent">±3–5 ms</span> respectively. These are category figures — Heart hasn't been independently measured against ECG. What Heart does is pair with a chest strap by default, so the input it computes from is fundamentally cleaner than optical.
+              Published literature puts wrist-based optical sensors at <span class="text-primary">±5–15 bpm</span> against ECG during effort and <span class="text-primary">±10–20 ms</span> on overnight HRV. Chest straps as a category reach <span class="text-accent">±2 bpm</span> and <span class="text-accent">±3–5 ms</span> respectively. These are category figures. Heart hasn't been independently measured against ECG. What Heart does is pair with a chest strap by default, so the input it computes from is fundamentally cleaner than optical.
             </p>
             <p class="text-hint text-xs">
-              Same algorithmic class as WHOOP and Oura for derived scores — without the subscription, the cloud, or the closed source.
+              Same algorithmic class as WHOOP and Oura for derived scores, without the subscription, the cloud, or the closed source.
             </p>
           </div>
         </div>

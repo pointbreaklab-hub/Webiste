@@ -1,14 +1,14 @@
 ---
-// Knot architecture diagram — pure inline SVG, no JS.
+// Knot architecture diagram, pure inline SVG, no JS.
 //
 // Tells the save → commit → propagate story end-to-end so a
 // non-engineer can follow what happens between "hit save" and
 // "teammate sees the new file." Three columns:
-//   1. Developer A's device — save → watcher → real git commit →
+//   1. Developer A's device, save → watcher → real git commit →
 //      encrypted git pack exits the device.
-//   2. Center transport channel — single horizontal Tor pipe with the
+//   2. Center transport channel, single horizontal Tor pipe with the
 //      mutual-auth + encrypted-bytes annotations.
-//   3. Developer B's device — encrypted pack arrives → verify + import
+//   3. Developer B's device, encrypted pack arrives → verify + import
 //      → new commit on disk → `git log` shows it (familiar surface).
 //
 // Bottom band makes the architectural ABSENCES explicit, mirroring the
@@ -19,9 +19,9 @@
 // Design constraints: same as ArchitectureDiagram.astro (Whispr's).
 //   - No JS. SVG inlined at build time.
 //   - Monospace text everywhere.
-//   - Site palette only — accent #00d4aa, surface #131316, bg #0b0b0d,
+//   - Site palette only, accent #00d4aa, surface #131316, bg #0b0b0d,
 //     border #23232a, secondary #a3a3a3, hint #737373.
-//   - viewBox-based — scales down to mobile without media queries.
+//   - viewBox-based, scales down to mobile without media queries.
 //   - <figure> + <figcaption> so screen readers get the plain-text
 //     equivalent without us hiding the SVG.
 ---

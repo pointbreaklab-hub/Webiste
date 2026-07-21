@@ -6,7 +6,7 @@ import '../../styles/global.css';
 
 <Base
   title="Add me on Whispr"
-  description="A friend wants to chat with you on Whispr — the private, serverless messenger."
+  description="A friend wants to chat with you on Whispr, the private, serverless messenger."
 >
   <Nav />
 
@@ -19,7 +19,7 @@ import '../../styles/global.css';
 
       <h1 class="text-3xl md:text-4xl font-black text-primary mb-3">Add me on Whispr</h1>
       <p class="text-secondary leading-relaxed mb-8">
-        A friend has invited you to a private conversation on Whispr — the serverless, end-to-end encrypted messenger.
+        A friend has invited you to a private conversation on Whispr, the serverless, end-to-end encrypted messenger.
       </p>
 
       <!-- App-installed path: visible immediately if the app handles whispr:// links -->
@@ -75,8 +75,8 @@ import '../../styles/global.css';
     const params = new URLSearchParams(window.location.search);
     const k  = params.get('k');
     const n  = params.get('n');
-    const o  = params.get('o');   // sender's .onion — used for round-trip notification
-    const sk = params.get('sk');  // signed pre-key (hex) — required for X3DH
+    const o  = params.get('o');   // sender's .onion, used for round-trip notification
+    const sk = params.get('sk');  // signed pre-key (hex), required for X3DH
     const ss = params.get('ss');  // SPK signature (hex)
     const t  = params.get('t');
 
@@ -106,7 +106,7 @@ import '../../styles/global.css';
       if (openBtn) openBtn.classList.remove('hidden');
 
       // Auto-attempt to open the app (browsers will silently do nothing
-      // if the scheme isn't registered — no error shown to the user).
+      // if the scheme isn't registered, no error shown to the user).
       window.addEventListener('load', () => {
         setTimeout(() => { window.location.href = appUrl; }, 250);
       });

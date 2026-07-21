@@ -30,7 +30,7 @@ if (path.startsWith('/heart')) {
       </span>
     </a>
 
-    <!-- Desktop links — full paths so they work from any page (homepage,
+    <!-- Desktop links, full paths so they work from any page (homepage,
          /whispr/, /heart/, /privacy/). Per-product changelogs live under
          each app's subtree (/whispr/changelog/, /heart/changelog/) so
          the global Nav doesn't need a top-level Changelog entry. -->
@@ -43,7 +43,7 @@ if (path.startsWith('/heart')) {
       <li><a href="/#about"              class="hover:text-primary transition-colors">About</a></li>
     </ul>
 
-    <!-- CTA — context-aware: routes to the current product's download
+    <!-- CTA, context-aware: routes to the current product's download
          section. -->
     <a
       href={downloadHref}
@@ -78,7 +78,7 @@ if (path.startsWith('/heart')) {
 </nav>
 
 <script>
-  // Scroll background — passive listener, only updates class when state actually changes.
+  // Scroll background, passive listener, only updates class when state actually changes.
   // Uses solid bg instead of backdrop-blur (backdrop-filter is the #1 cause of scroll jank on macOS).
   const nav = document.getElementById('nav')!;
   let scrolled = false;
@@ -109,7 +109,7 @@ if (path.startsWith('/heart')) {
 </script>
 
 <style>
-  /* Solid background instead of backdrop-blur — backdrop-filter is GPU-expensive
+  /* Solid background instead of backdrop-blur, backdrop-filter is GPU-expensive
      and the #1 cause of scroll stutter on macOS / MBP. */
   #nav.nav-scrolled {
     background-color: rgba(10, 10, 10, 0.92);

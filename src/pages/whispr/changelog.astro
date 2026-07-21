@@ -10,7 +10,7 @@ import '../../styles/global.css';
 //
 // Style notes:
 //  - Newest first.
-//  - Each entry is one short sentence — what changed for the user.
+//  - Each entry is one short sentence, what changed for the user.
 //  - Include the v1.1.12-→-v1.1.13 revert; it's a credibility signal,
 //    not something to hide.
 
@@ -28,27 +28,27 @@ const releases: Release[] = [
     date: '2026-05-17',
     kind: 'fix',
     title: 'Messages no longer disappear after navigating away (Tor / bridge path)',
-    body: 'A race condition in conversation storage allowed two simultaneous Tor-retry deliveries to create duplicate conversation rows for the same contact — messages landed in one row while the chat list pointed at the other. Fixed at the database level. A one-time migration on first launch merges any existing split conversations and recovers previously missing messages.',
+    body: 'A race condition in conversation storage allowed two simultaneous Tor-retry deliveries to create duplicate conversation rows for the same contact, messages landed in one row while the chat list pointed at the other. Fixed at the database level. A one-time migration on first launch merges any existing split conversations and recovers previously missing messages.',
   },
   {
     tag: 'v1.1.15',
     date: '2026-05-07',
     kind: 'polish',
     title: 'In-app guide for users where Tor is blocked',
-    body: 'Settings → Network → Bridges → (i) icon now opens a full step-by-step walkthrough — when to enable bridges, where to get them, how to paste them, and what this release supports. No need to leave Whispr to figure it out.',
+    body: 'Settings → Network → Bridges → (i) icon now opens a full step-by-step walkthrough, when to enable bridges, where to get them, how to paste them, and what this release supports. No need to leave Whispr to figure it out.',
   },
   {
     tag: 'v1.1.14',
     date: '2026-05-07',
     kind: 'feature',
     title: 'Tor bridges (for blocked networks)',
-    body: 'Settings → Network → Bridges. If Tor is blocked or filtered on your network — common in India, Iran, restrictive Wi-Fi — paste a bridge line from bridges.torproject.org and Whispr will route through it instead of public Tor relays. Vanilla bridges this release; obfs4 (DPI-resistant) follows in v1.1.15.',
+    body: 'Settings → Network → Bridges. If Tor is blocked or filtered on your network, common in India, Iran, restrictive Wi-Fi, paste a bridge line from bridges.torproject.org and Whispr will route through it instead of public Tor relays. Vanilla bridges this release; obfs4 (DPI-resistant) follows in v1.1.15.',
   },
   {
     tag: 'v1.1.13',
     date: '2026-05-07',
     kind: 'fix',
-    title: 'Stability — delete-message restored',
+    title: 'Stability, delete-message restored',
     body: 'Reverts a chat-screen change shipped briefly in v1.1.12 that left a deleted message visible on screen until you navigated away. Delete and clear-chat now update the view immediately again.',
   },
   {
@@ -84,7 +84,7 @@ const releases: Release[] = [
     date: '2026-05-07',
     kind: 'feature',
     title: 'Round-trip invite notifications',
-    body: 'When the friend you sent an invite link to taps Add, you now get a banner letting you accept them back — instead of waiting for them to message you first.',
+    body: 'When the friend you sent an invite link to taps Add, you now get a banner letting you accept them back, instead of waiting for them to message you first.',
   },
   {
     tag: 'v1.1.6',
@@ -105,14 +105,14 @@ const releases: Release[] = [
     date: '2026-05-06',
     kind: 'feature',
     title: 'Trust & safety: two-stage warnings',
-    body: 'Reports from people you\'ve actually replied to now drive a clear two-stage warning system before account termination — strangers can\'t pile on.',
+    body: 'Reports from people you\'ve actually replied to now drive a clear two-stage warning system before account termination, strangers can\'t pile on.',
   },
   {
     tag: 'v1.1.3',
     date: '2026-05-06',
     kind: 'feature',
     title: 'Diagnostic Tor status & one-tap restart',
-    body: 'The "My QR" tab now shows what stage Tor is at — starting, connecting, almost ready, or active — with a Restart Tor button always visible. One screenshot is enough to diagnose what\'s slow.',
+    body: 'The "My QR" tab now shows what stage Tor is at, starting, connecting, almost ready, or active, with a Restart Tor button always visible. One screenshot is enough to diagnose what\'s slow.',
   },
   {
     tag: 'v1.1.2',
@@ -126,7 +126,7 @@ const releases: Release[] = [
     date: '2026-05-06',
     kind: 'feature',
     title: 'Battery exemption banner',
-    body: 'On first launch, Whispr now asks for permission to run in the background unrestricted — required so Tor isn\'t throttled by Doze.',
+    body: 'On first launch, Whispr now asks for permission to run in the background unrestricted, required so Tor isn\'t throttled by Doze.',
   },
   {
     tag: 'v1.1.0',
@@ -180,7 +180,7 @@ const latest = releases[0];
         What changed
       </h1>
       <p class="text-secondary text-center max-w-xl mx-auto mb-3 leading-relaxed">
-        Every release of Whispr — what got better for you, what we fixed, and the rare time we shipped a bug and pulled it back. No marketing spin.
+        Every release of Whispr, what got better for you, what we fixed, and the rare time we shipped a bug and pulled it back. No marketing spin.
       </p>
       <p class="text-hint text-center text-xs font-mono mb-16">
         Latest: {latest.tag} · {fmtDate(latest.date)}
@@ -209,7 +209,7 @@ const latest = releases[0];
 
       <div class="mt-20 pt-10 border-t border-border text-center text-xs text-hint space-y-2">
         <p>
-          Older releases (v1.0.x) were development builds — not listed here.
+          Older releases (v1.0.x) were development builds, not listed here.
         </p>
         <p>
           Full technical release notes live on
