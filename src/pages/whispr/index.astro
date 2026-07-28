@@ -7,6 +7,13 @@ import Footer               from '../../components/Footer.astro';
 import SectionEyebrow       from '../../components/SectionEyebrow.astro';
 import ArchitectureDiagram  from '../../components/ArchitectureDiagram.astro';
 import '../../styles/global.css';
+
+// LEAN REWRITE 2026-07-28 (owner: "too much content is a dead end"). Same
+// treatment as the Knot page: get to the download fast. Cut the 3-step
+// "how it works" block (the architecture diagram covers it) and 6 -> 4
+// feature cards; pulled the download up from section 4 to section 2. The
+// crypto proof (diagram + security-architecture.txt) and roadmap are kept
+// below the fold for the readers who want depth. Do NOT restore the cut bits.
 ---
 
 <Base
@@ -15,7 +22,7 @@ import '../../styles/global.css';
 >
   <Nav />
 
-  <!-- ── HERO (Whispr-specific, slim) ─────────────────────────────────────── -->
+  <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
   <section class="relative pt-32 pb-20 px-6 overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[28rem] bg-accent/[0.08] blur-3xl pointer-events-none"></div>
     <div aria-hidden="true" class="absolute top-1/3 right-0 w-72 h-72 bg-blue-500/[0.04] blur-3xl pointer-events-none"></div>
@@ -60,82 +67,51 @@ import '../../styles/global.css';
     </div>
   </section>
 
-  <!-- ── 01 FEATURES ──────────────────────────────────────────────────────── -->
-  <section id="features" class="relative py-28 px-6 max-w-7xl mx-auto">
+  <!-- ── 01 WHAT IT DOES (4 features + the three transports) ──────────────── -->
+  <section id="features" class="relative py-24 px-6 max-w-6xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
-    <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="01" label="FEATURES" />
+    <div class="section-reveal text-center mb-14">
+      <SectionEyebrow num="01" label="WHAT IT DOES" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Six features that aren't features anywhere else: they're the floor.
+        Not features. The floor.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-20">
       <FeatureBlock
         icon="🌐"
-        title="Zero Servers"
-        description="Messages travel peer to peer. There is no company server to subpoena, no database to breach, no authority to comply with."
+        title="Zero servers"
+        description="Messages travel peer to peer. No company server to subpoena, no database to breach, no authority to comply with."
       />
       <FeatureBlock
         icon="🔐"
         title="Signal Protocol"
-        description="X3DH + Double Ratchet. The same cryptography trusted by journalists, activists, and governments worldwide."
-      />
-      <FeatureBlock
-        icon="📡"
-        title="Works Offline"
-        description="Bluetooth LE mesh delivers messages with no internet. At a protest, on a plane, in a blackout, anywhere."
-      />
-      <FeatureBlock
-        icon="🧅"
-        title="Tor Routing"
-        description="Route messages through the Tor network for anonymised delivery. Your IP is never exposed to peers."
-      />
-      <FeatureBlock
-        icon="📧"
-        title="Encrypted Email"
-        description="ECIES-encrypted email between Whispr users. Threads, reply-all, forward, with full E2EE and no central server."
+        description="X3DH + Double Ratchet, the same cryptography trusted by journalists, activists, and governments worldwide."
       />
       <FeatureBlock
         icon="🆔"
-        title="No Account"
+        title="No account"
         description="Your identity is a locally-generated Ed25519 key pair. No email, no phone, no registration of any kind."
+      />
+      <FeatureBlock
+        icon="📧"
+        title="Encrypted email"
+        description="ECIES-encrypted email between Whispr users: threads, reply-all, forward, with full E2EE and no central server."
       />
     </div>
 
-    <!-- How it works -->
-    <div class="section-reveal mb-20">
-      <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">HOW IT WORKS</p>
-      <h3 class="text-2xl md:text-3xl font-black text-primary mb-12 text-center">Three steps. Completely private.</h3>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {[
-          { step: '01', title: 'Encrypt on device', body: 'Your message is encrypted on your device before it ever leaves. Only the recipient\'s Ed25519 key can decrypt it.' },
-          { step: '02', title: 'Travel the best path', body: 'The app automatically picks the fastest available route: direct LAN, Tor hidden service, or BLE mesh.' },
-          { step: '03', title: 'Decrypt on arrival', body: 'Only your contact\'s device decrypts the message. Not us, not your ISP, not anyone in between.' },
-        ].map(({ step, title, body }) => (
-          <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
-            <span class="absolute -left-px top-0 w-0.5 h-8 bg-accent"></span>
-            <p class="text-accent font-mono text-xs mb-2">{step}</p>
-            <h4 class="text-lg font-bold text-primary mb-2">{title}</h4>
-            <p class="text-secondary text-sm leading-relaxed">{body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Three transports -->
+    <!-- The three transports (the real differentiator: works with no internet). -->
     <div class="section-reveal">
-      <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">TRANSPORT LAYER</p>
-      <h3 class="text-2xl md:text-3xl font-black text-primary mb-12 text-center">Three ways to reach anyone.</h3>
+      <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">THREE WAYS TO REACH ANYONE</p>
+      <h3 class="text-2xl md:text-3xl font-black text-primary mb-10 text-center">Even with no internet at all.</h3>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
-          { icon: '🏠', label: 'LAN', title: 'Local Network', body: 'When on the same Wi-Fi, messages travel directly: sub-second delivery, zero internet required.' },
-          { icon: '🧅', label: 'TOR', title: 'Tor Network',   body: 'Route through Tor hidden services for anonymous, censorship-resistant delivery across the internet.' },
-          { icon: '📶', label: 'BLE', title: 'BLE Mesh',      body: 'Bluetooth Low Energy mesh. Send messages nearby with no Wi-Fi, no internet, no infrastructure at all.' },
+          { icon: '🏠', label: 'LAN', title: 'Local network', body: 'On the same Wi-Fi, messages travel directly: sub-second delivery, zero internet required.' },
+          { icon: '🧅', label: 'TOR', title: 'Tor network',   body: 'Route through Tor hidden services for anonymous, censorship-resistant delivery across the internet.' },
+          { icon: '📶', label: 'BLE', title: 'BLE mesh',      body: 'Bluetooth Low Energy mesh: send to people nearby with no Wi-Fi, no internet, no infrastructure at all.' },
         ].map(({ icon, label, title, body }) => (
           <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors text-center group">
             <div class="text-4xl mb-4">{icon}</div>
@@ -148,20 +124,71 @@ import '../../styles/global.css';
     </div>
   </section>
 
-  <!-- ── 02 ARCHITECTURE ──────────────────────────────────────────────────── -->
-  <section id="architecture" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
-    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
-    <div class="relative max-w-4xl mx-auto">
-      <div class="section-reveal text-center mb-12">
-        <SectionEyebrow num="02" label="ARCHITECTURE" />
-        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Built right, by default.</h2>
-        <p class="text-secondary max-w-xl mx-auto">
-          Whispr uses the same cryptography Signal uses, with one difference: there's no server in the middle. Even we couldn't read your messages if we wanted to.
+  <!-- ── 02 GET IT (moved up from section 4) ──────────────────────────────── -->
+  <section id="download" class="relative py-28 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-2xl mx-auto">
+      <div class="section-reveal text-center">
+        <SectionEyebrow num="02" label="GET IT" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Whispr</h2>
+        <p class="text-secondary mb-10">Available for Android. iOS coming soon. No account. No tracking. Just install and go.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+          <DownloadButton
+            platform="android"
+            href="https://github.com/pointbreaklab-hub/Whispr/releases/latest/download/whispr-android.apk"
+            label="Android APK"
+          />
+          <DownloadButton platform="ios" href="#" label="iOS, Coming Soon" />
+        </div>
+
+        <!-- Download counter, fetched client-side from GitHub API, hidden until 1000+ -->
+        <div id="download-count" class="hidden text-xs font-mono text-hint mb-7"></div>
+
+        <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
+          <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.1.16</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Released</span><span class="text-primary">2026</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Cost</span><span class="text-primary/80">Free. No accounts, no ads, no tracking.</span></div>
+          <div class="flex gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint w-32">SHA-256 (APK)</span><span class="text-primary/60 break-all">3790f59b17c9d5886f77a79d985143cde8b62793aa73d781a177a75968eadf24</span></div>
+        </div>
+
+        <p class="text-hint text-xs mt-4">
+          Full release history: <a href="/whispr/changelog/" class="text-accent hover:underline">changelog</a>
         </p>
       </div>
 
-      <!-- Visual entry: how a message travels. The text panel below has
-           the row-by-row primitives; this gives the conceptual map first. -->
+      <!-- Censored-region note. The full guide lives INSIDE the app so users
+           don't leave the install flow to find it. -->
+      <div class="section-reveal mt-12 p-6 rounded-2xl bg-bg border border-border">
+        <div class="flex items-start gap-4">
+          <div class="shrink-0 w-10 h-10 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center text-xl">🌐</div>
+          <div>
+            <p class="text-accent text-xs font-mono tracking-widest mb-2">USING WHISPR WHERE TOR IS BLOCKED</p>
+            <h3 class="text-lg font-bold text-primary mb-2">India · Iran · China · restrictive Wi-Fi</h3>
+            <p class="text-secondary text-sm leading-relaxed mb-3">
+              Some networks block Tor. If your messages don't deliver, install Whispr and open <span class="text-primary">Settings → Network → Bridges</span>. Tap the <span class="font-mono text-accent">(i)</span> icon there for a full step-by-step guide to setting up bridges for your region.
+            </p>
+            <p class="text-hint text-xs">
+              The instructions live in the app itself so you always have them with you, online or offline.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 03 ARCHITECTURE (the crypto proof, kept) ─────────────────────────── -->
+  <section id="architecture" class="relative py-28 px-6 max-w-4xl mx-auto overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+    <div class="relative">
+      <div class="section-reveal text-center mb-12">
+        <SectionEyebrow num="03" label="ARCHITECTURE" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Built right, by default.</h2>
+        <p class="text-secondary max-w-xl mx-auto">
+          The same cryptography Signal uses, with one difference: there's no server in the middle. Even we couldn't read your messages if we wanted to.
+        </p>
+      </div>
+
       <div class="section-reveal mb-12">
         <ArchitectureDiagram />
       </div>
@@ -196,60 +223,29 @@ import '../../styles/global.css';
     </div>
   </section>
 
-  <!-- ── 03 ROADMAP ───────────────────────────────────────────────────────── -->
-  <section id="roadmap" class="relative py-32 px-6 max-w-4xl mx-auto">
+  <!-- ── 04 ROADMAP ───────────────────────────────────────────────────────── -->
+  <section id="roadmap" class="relative py-24 px-6 max-w-4xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
-    <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="03" label="ROADMAP" />
+    <div class="section-reveal text-center mb-14">
+      <SectionEyebrow num="04" label="ROADMAP" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What's coming</h2>
-      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Whispr ships continuously. Here's what's in the pipeline.
-      </p>
     </div>
 
     <div class="space-y-4">
       {[
-        {
-          tag: 'IN PROGRESS',
-          title: 'obfs4 bridge transport',
-          body: 'Pluggable-transport binary that disguises Tor as TLS, defeating deep-packet inspection in censored networks. Vanilla bridges already shipped in v1.1.14.',
-          status: 'building',
-        },
-        {
-          tag: 'IN PROGRESS',
-          title: 'Voice & Video Calls',
-          body: 'End-to-end encrypted peer-to-peer calls over LAN and Tor. No relay server, no recording, no third party.',
-          status: 'building',
-        },
-        {
-          tag: 'PLANNED',
-          title: 'Group Messaging',
-          body: 'Multi-party encrypted group chats using a shared group key, derived without a central key server.',
-          status: 'planned',
-        },
-        {
-          tag: 'PLANNED',
-          title: 'Self-Destructing Messages',
-          body: 'Per-message timers. Messages evaporate from both devices after the set duration, with no trace left.',
-          status: 'planned',
-        },
+        { tag: 'IN PROGRESS', title: 'obfs4 bridge transport', body: 'Pluggable-transport binary that disguises Tor as TLS, defeating deep-packet inspection in censored networks. Vanilla bridges already shipped in v1.1.14.', status: 'building' },
+        { tag: 'IN PROGRESS', title: 'Voice & video calls', body: 'End-to-end encrypted peer-to-peer calls over LAN and Tor. No relay server, no recording, no third party.', status: 'building' },
+        { tag: 'PLANNED', title: 'Group messaging', body: 'Multi-party encrypted group chats using a shared group key, derived without a central key server.', status: 'planned' },
+        { tag: 'PLANNED', title: 'Self-destructing messages', body: 'Per-message timers. Messages evaporate from both devices after the set duration, with no trace left.', status: 'planned' },
       ].map(({ tag, title, body, status }) => {
         const cardBorder =
           status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]'
-          : status === 'soon'   ? 'border-yellow-500/30 hover:border-yellow-500/50'
           :                       'border-border hover:border-accent/20';
-        const dot =
-          status === 'building' ? 'bg-accent animate-pulse'
-          : status === 'soon'   ? 'bg-yellow-500/70'
-          :                       'bg-hint';
+        const dot = status === 'building' ? 'bg-accent animate-pulse' : 'bg-hint';
         const pill =
           status === 'building' ? 'bg-accent/10 text-accent border border-accent/30'
-          : status === 'soon'   ? 'bg-yellow-500/10 text-yellow-500/90 border border-yellow-500/30'
           :                       'bg-surface text-hint border border-border';
-        const label =
-          status === 'building' ? 'building'
-          : status === 'soon'   ? 'soon'
-          :                       'planned';
+        const label = status === 'building' ? 'building' : 'planned';
         return (
           <div class={`section-reveal flex gap-5 p-6 rounded-2xl bg-surface border transition-colors ${cardBorder}`}>
             <div class={`mt-1 w-2 h-2 rounded-full shrink-0 ${dot}`}></div>
@@ -264,61 +260,6 @@ import '../../styles/global.css';
           </div>
         );
       })}
-    </div>
-  </section>
-
-  <!-- ── 04 GET IT ────────────────────────────────────────────────────────── -->
-  <section id="download" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
-    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
-    <div class="relative max-w-2xl mx-auto">
-      <div class="section-reveal text-center">
-        <SectionEyebrow num="04" label="GET IT" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Whispr</h2>
-        <p class="text-secondary mb-10">Available for Android. iOS coming soon. No account. No tracking. Just install and go.</p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
-          <DownloadButton
-            platform="android"
-            href="https://github.com/pointbreaklab-hub/Whispr/releases/latest/download/whispr-android.apk"
-            label="Android APK"
-          />
-          <DownloadButton platform="ios" href="#" label="iOS, Coming Soon" />
-        </div>
-
-        <!-- Download counter, fetched client-side from GitHub API, hidden until 1000+ -->
-        <div id="download-count" class="hidden text-xs font-mono text-hint mb-7"></div>
-
-        <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
-          <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.1.16</span></div>
-          <div class="flex gap-3"><span class="text-hint w-32">Released</span><span class="text-primary">2026</span></div>
-          <div class="flex gap-3"><span class="text-hint w-32">Cost</span><span class="text-primary/80">Free. No accounts, no ads, no tracking.</span></div>
-          <div class="flex gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint w-32">SHA-256 (APK)</span><span class="text-primary/60 break-all">3790f59b17c9d5886f77a79d985143cde8b62793aa73d781a177a75968eadf24</span></div>
-        </div>
-
-        <p class="text-hint text-xs mt-4">
-          Full release history: <a href="/whispr/changelog/" class="text-accent hover:underline">changelog</a>
-        </p>
-      </div>
-
-      <!-- ── Censored-region note ───────────────────────────────────────────
-           Brief mention only. The real getting-started guide is INSIDE the
-           app (Settings → Network → Bridges → tap the (i) icon) so users
-           don't have to leave the install flow to find it.                -->
-      <div class="section-reveal mt-16 p-6 rounded-2xl bg-bg border border-border">
-        <div class="flex items-start gap-4">
-          <div class="shrink-0 w-10 h-10 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center text-xl">🌐</div>
-          <div>
-            <p class="text-accent text-xs font-mono tracking-widest mb-2">USING WHISPR WHERE TOR IS BLOCKED</p>
-            <h3 class="text-lg font-bold text-primary mb-2">India · Iran · China · restrictive Wi-Fi</h3>
-            <p class="text-secondary text-sm leading-relaxed mb-3">
-              Some networks block Tor. If your messages don't deliver, install Whispr and open <span class="text-primary">Settings → Network → Bridges</span>. Tap the <span class="font-mono text-accent">(i)</span> icon there for a full step-by-step guide to setting up bridges for your region.
-            </p>
-            <p class="text-hint text-xs">
-              The instructions live in the app itself so you always have them with you, online or offline.
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
