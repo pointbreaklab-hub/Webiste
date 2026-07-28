@@ -5,20 +5,15 @@ import FeatureBlock            from '../../components/FeatureBlock.astro';
 import Footer                  from '../../components/Footer.astro';
 import SectionEyebrow          from '../../components/SectionEyebrow.astro';
 import KnotArchitectureDiagram from '../../components/KnotArchitectureDiagram.astro';
-import KnotMeshDiagram         from '../../components/KnotMeshDiagram.astro';
 import '../../styles/global.css';
 
-// Desktop-app screenshots for the showcase carousel (see "THE DESKTOP APP"
-// section below). Mirrors Heart's phone-mockup gallery, but framed in a desktop
-// window because Knot is a desktop app, not mobile.
-const screenshots = [
-  { src: '/screenshots/knot/dashboard.png', caption: 'Dashboard, lifetime commits, devices, storage, bridge health',  alt: 'Knot desktop dashboard with a total-commits counter and device, storage and bridge-health panels' },
-  { src: '/screenshots/knot/timeline.png',  caption: 'My Folders, per-project commit history & activity heatmap',     alt: 'Knot project view showing a commit activity heatmap and full commit history timeline' },
-  { src: '/screenshots/knot/graph.png',     caption: 'Code graph, see how any codebase fits together',                alt: 'Knot code dependency graph showing modules as nodes radiating from a central node' },
-  { src: '/screenshots/knot/activity.png',  caption: 'Activity, watch your AI agents coordinate across machines',      alt: 'Knot activity feed showing AI agents asking and answering across devices' },
-  { src: '/screenshots/knot/chat.png',      caption: 'Built-in chat, message your paired devices directly',           alt: 'Knot chat tab showing a conversation between paired devices' },
-  { src: '/screenshots/knot/settings.png',  caption: 'Settings, themes, on-device AI, go-dark, auto-save timing',      alt: 'Knot settings panel with theme, language, offline AI and notification options' },
-];
+// LEAN REWRITE 2026-07-28 (owner decision: "too much content is a dead end").
+// The page was ~10 sections; a fresh-eyes review (recruiter / developer /
+// skimmer) all bailed before the download. New job of this page: say what it
+// is, show it, say what it does, and get you to the download fast. Deep
+// material (full architecture spec, mesh diagram, benchmark methodology, long
+// roadmap, 7-question FAQ) is deliberately CUT from the page and will live in
+// the forthcoming Knot white paper. Do NOT restore the removed sections here.
 ---
 
 <Base
@@ -27,8 +22,8 @@ const screenshots = [
 >
   <Nav />
 
-  <!-- ── HERO (Knot-specific, slim) ──────────────────────────────────────── -->
-  <section class="relative pt-32 pb-20 px-6 overflow-hidden">
+  <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+  <section class="relative pt-32 pb-16 px-6 overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[28rem] bg-accent/[0.08] blur-3xl pointer-events-none"></div>
     <div aria-hidden="true" class="absolute top-1/3 right-0 w-72 h-72 bg-blue-500/[0.04] blur-3xl pointer-events-none"></div>
 
@@ -48,7 +43,7 @@ const screenshots = [
         Knot watches the folders you choose. Every save becomes a real git commit on your teammates' machines within seconds. No server, no account.
       </p>
       <p class="text-sm text-accent font-mono mb-10 max-w-xl mx-auto leading-relaxed">
-        Two machines, two AI agents, one repo: they build it together over your LAN, hands-free, while you watch.
+        Multiple machines, AI agents, one repo: they build it together over your LAN, hands-free, while you watch.
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -59,147 +54,49 @@ const screenshots = [
           Download for Mac / Linux
         </a>
         <a
-          href="#architecture"
+          href="#how"
           class="px-8 py-3.5 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all"
         >
-          See the architecture
+          How it works
         </a>
       </div>
-
     </div>
   </section>
 
-  <!-- ── THE DESKTOP APP (UI showcase, desktop-window carousel) ───────────── -->
-  <!-- Mirrors Heart's phone-mockup gallery, but in a desktop window frame
-       because Knot is a desktop app. Intentionally un-numbered so it doesn't
-       renumber the 01–08 chapter sequence below. -->
-  <section id="screens" class="relative pb-24 px-6 overflow-hidden">
+  <!-- ── PRODUCT SHOT (single static image, was a 6-slide carousel) ────────── -->
+  <section class="relative pb-24 px-6 overflow-hidden">
     <div aria-hidden="true" class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[70%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
-
-    <div class="relative max-w-5xl mx-auto">
-      <div class="section-reveal text-center mb-10">
-        <p class="text-accent text-xs font-mono tracking-widest mb-3">THE DESKTOP APP</p>
-        <h2 class="text-2xl md:text-4xl font-light text-primary tracking-tight mb-3">Everything in one window.</h2>
-        <p class="text-secondary text-sm max-w-xl mx-auto leading-relaxed">
-          A live dashboard, built-in chat, AI-agent activity across your machines, and on-device settings, running natively on Linux and macOS.
-        </p>
-      </div>
-
-      <div id="knot-carousel" class="section-reveal flex flex-col items-center select-none">
-        <!-- desktop window frame -->
-        <div class="w-full rounded-xl border border-border bg-[#0e0e11] overflow-hidden"
-             style="box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.025)">
-          <!-- window chrome -->
-          <div class="flex items-center gap-2 px-4 py-3 border-b border-border bg-surface">
-            <span class="w-3 h-3 rounded-full bg-error/70"></span>
-            <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
-            <span class="w-3 h-3 rounded-full bg-accent/70"></span>
-            <span class="ml-3 text-xs font-mono text-hint">Knot, peer-to-peer version control</span>
-          </div>
-          <!-- screen -->
-          <div class="relative" style="aspect-ratio:16/10">
-            {screenshots.map((s, i) => (
-              <img
-                src={s.src}
-                alt={s.alt}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                class="absolute inset-0 w-full h-full object-cover object-top"
-                style={`opacity:${i === 0 ? 1 : 0};z-index:${i === 0 ? 1 : 0};transition:opacity 0.45s ease`}
-                data-knot-slide={i}
-              />
-            ))}
-          </div>
+    <div class="relative max-w-4xl mx-auto section-reveal">
+      <div class="rounded-xl border border-border bg-[#0e0e11] overflow-hidden"
+           style="box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.025)">
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-border bg-surface">
+          <span class="w-3 h-3 rounded-full bg-error/70"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+          <span class="w-3 h-3 rounded-full bg-accent/70"></span>
+          <span class="ml-3 text-xs font-mono text-hint">Knot, peer-to-peer version control</span>
         </div>
-
-        <!-- caption -->
-        <div class="relative mt-6 w-full" style="height:32px">
-          {screenshots.map((s, i) => (
-            <p
-              class="absolute inset-0 flex items-center justify-center text-xs font-mono text-hint text-center px-4"
-              style={`opacity:${i === 0 ? 1 : 0};transition:opacity 0.35s ease`}
-              data-knot-caption={i}
-            >
-              {s.caption}
-            </p>
-          ))}
-        </div>
-
-        <!-- dots -->
-        <div class="flex gap-3 mt-4">
-          {screenshots.map((_, i) => (
-            <button
-              aria-label={`Screen ${i + 1} of ${screenshots.length}`}
-              data-knot-dot={i}
-              style={i === 0
-                ? 'width:8px;height:8px;border-radius:50%;background:#00d4aa;transform:scale(1.3);transition:all 0.3s ease;border:none;cursor:pointer;padding:0'
-                : 'width:8px;height:8px;border-radius:50%;background:#737373;transform:scale(1);transition:all 0.3s ease;border:none;cursor:pointer;padding:0'}
-            />
-          ))}
-        </div>
+        <img src="/screenshots/knot/dashboard.png" alt="Knot desktop dashboard, showing lifetime commits, paired devices, storage and bridge health" loading="lazy" class="w-full block" />
       </div>
     </div>
-
-    <script is:inline>
-    (function () {
-      var slides   = document.querySelectorAll('[data-knot-slide]');
-      var captions = document.querySelectorAll('[data-knot-caption]');
-      var dots     = document.querySelectorAll('[data-knot-dot]');
-      if (!slides.length) return;
-      var n = slides.length, cur = 0, timer = null;
-      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      function show(i) {
-        [slides, captions].forEach(function (col) {
-          col[cur].style.opacity = '0'; col[cur].style.zIndex = '0';
-          col[i].style.opacity   = '1'; col[i].style.zIndex   = '1';
-        });
-        dots[cur].style.background = '#737373'; dots[cur].style.transform = 'scale(1)';
-        dots[i].style.background   = '#00d4aa'; dots[i].style.transform   = 'scale(1.3)';
-        cur = i;
-      }
-      function advance() { show((cur + 1) % n); }
-      function start() { if (reduced || timer) return; timer = setInterval(advance, 4500); }
-      function stop()  { clearInterval(timer); timer = null; }
-      dots.forEach(function (dot, i) { dot.addEventListener('click', function () { stop(); show(i); start(); }); });
-      var c = document.getElementById('knot-carousel');
-      c.addEventListener('mouseenter', stop);
-      c.addEventListener('mouseleave', start);
-      start();
-    })();
-    </script>
   </section>
 
   <!-- ── 01 HOW IT WORKS ──────────────────────────────────────────────────── -->
-  <!-- THE PROBLEM and STORYBOARD sections were removed 2026-07-20 by owner
-       decision: the page was over-long and over-claimed. The page's job now:
-       what it is (hero) → how it works → what it does → receipts → get it. -->
-  <section id="how" class="relative py-28 px-6 bg-surface border-y border-border overflow-hidden">
+  <section id="how" class="relative py-24 px-6 bg-surface border-y border-border overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-4xl mx-auto">
-      <div class="section-reveal text-center mb-16">
+      <div class="section-reveal text-center mb-14">
         <SectionEyebrow num="01" label="HOW IT WORKS" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Three pieces. You only see one.</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          The folder and the peers are one-time setup. The save is the only piece in your day; a background helper and the encrypted Tor connection do the rest, invisibly.
+          The folder and the peers are one-time setup. The save is the only piece in your day.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
-          {
-            step: '01',
-            title: 'The folder',
-            body: 'Pick any folder on your machine. Tell Knot once. It now behaves like a git repository, because under the hood it is one. Existing `git` commands still work.',
-          },
-          {
-            step: '02',
-            title: 'The peers',
-            body: 'Anyone you want to collaborate with installs Knot. You give them a one-time pairing code; they accept it. From that moment, your two machines are paired.',
-          },
-          {
-            step: '03',
-            title: 'The save',
-            body: 'Open the file. Write code. Hit save. Knot notices the change, waits a moment for you to finish, makes a real git commit, and sends it to every paired teammate. They see it within seconds.',
-          },
+          { step: '01', title: 'The folder', body: 'Pick any folder. Tell Knot once. It now behaves like a git repository, because under the hood it is one. Existing `git` commands still work.' },
+          { step: '02', title: 'The peers',  body: 'Anyone you collaborate with installs Knot. You hand them a one-time pairing code; they accept. From that moment your machines are paired.' },
+          { step: '03', title: 'The save',   body: 'Write code. Hit save. Knot makes a real git commit and sends it to every paired teammate. They see it within seconds.' },
         ].map(({ step, title, body }) => (
           <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
             <span class="absolute -left-px top-0 w-0.5 h-8 bg-accent"></span>
@@ -209,26 +106,22 @@ const screenshots = [
           </div>
         ))}
       </div>
-
-      <p class="text-center text-hint text-xs mt-12 max-w-xl mx-auto leading-relaxed">
-        Same wire-format efficiency as `git fetch` (real pack files). Same content-addressing guarantees (SHA-256 hash chain). What changes is who owns the bytes in transit, only you and your peers.
-      </p>
     </div>
   </section>
 
-  <!-- ── 02 FEATURES ──────────────────────────────────────────────────────── -->
-  <section id="features" class="relative py-28 px-6 max-w-7xl mx-auto">
+  <!-- ── 02 WHAT IT DOES (4 features + who-it's-for chips) ─────────────────── -->
+  <section id="features" class="relative py-24 px-6 max-w-6xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 right-0 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
-    <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="02" label="FEATURES" />
+    <div class="section-reveal text-center mb-14">
+      <SectionEyebrow num="02" label="WHAT IT DOES" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Everything below is built and verified end-to-end on real hardware across networks.
+        Built and verified end-to-end on real hardware, across networks.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
       <FeatureBlock
         icon="🤝"
         title="AI agents build together"
@@ -236,401 +129,42 @@ const screenshots = [
       />
       <FeatureBlock
         icon="💾"
-        title="Saves are commits"
-        description="Knot turns every save into a real git commit a moment after you stop typing."
-      />
-      <FeatureBlock
-        icon="📡"
-        title="Reaches peers across networks"
-        description="Commits travel to every teammate over Tor, encrypted end-to-end, on home Wi-Fi or a mobile hotspot. No ports to open."
-      />
-      <FeatureBlock
-        icon="🪪"
-        title="Pairing codes, not accounts"
-        description="One code carries everything the other device needs. Paste it or scan the QR. Zero accounts, zero email."
+        title="Saves become synced commits"
+        description="Every save turns into a real git commit a moment after you stop typing, then reaches every teammate over Tor, encrypted end-to-end, with no ports to open."
       />
       <FeatureBlock
         icon="🪢"
         title="Real git underneath"
-        description="Knot uses git's real object format, so `git log`, `git diff`, and `git branch` all still work underneath, nothing to relearn."
+        description="Knot uses git's real object format, so `git log`, `git diff`, and `git branch` all still work. Nothing to relearn."
       />
       <FeatureBlock
         icon="🧾"
         title="Provable, governed AI"
-        description="Every commit is signed by the person and the AI session behind it, and each agent is scoped to the paths it may touch. Out-of-scope changes never commit; export a tamper-evident record anyone can verify."
-      />
-      <FeatureBlock
-        icon="📱"
-        title="Follow it from your phone"
-        description="A companion mobile app streams every synced repo read-only over your LAN, and notifies you when a commit lands or an agent finishes a task. Keep an eye on the work without opening a laptop."
+        description="Every commit is signed by the person and the AI session behind it, and each agent is scoped to the paths it may touch. Export a tamper-evident record anyone can verify."
       />
     </div>
+
+    <!-- who it's for, compressed from a full section to three chips -->
+    <div class="section-reveal flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-10">
+      <span class="px-4 py-2 rounded-full bg-surface border border-border text-xs text-secondary"><span class="text-accent font-mono">SOLO</span> · history + cross-device sync, on hardware you own</span>
+      <span class="px-4 py-2 rounded-full bg-surface border border-border text-xs text-secondary"><span class="text-accent font-mono">TEAMS</span> · a teammate added with one code, no per-seat bill</span>
+      <span class="px-4 py-2 rounded-full bg-surface border border-border text-xs text-secondary"><span class="text-accent font-mono">ENTERPRISE</span> · code never leaves the network, every commit signed</span>
+    </div>
+
+    <p class="section-reveal text-center text-hint text-xs mt-8 max-w-xl mx-auto leading-relaxed">
+      For AI agents, Knot maps a repo's whole shape in one call instead of many, measured ≥3.4× fewer tokens on a real codebase, and you can verify it on your own machine.
+    </p>
   </section>
 
-  <!-- ── 03 ARCHITECTURE ──────────────────────────────────────────────────── -->
-  <section id="architecture" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
-    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
-    <div class="relative max-w-4xl mx-auto">
-      <div class="section-reveal text-center mb-12">
-        <SectionEyebrow num="03" label="ARCHITECTURE" />
-        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Receipts, not claims.</h2>
-        <p class="text-secondary max-w-xl mx-auto">
-          The cryptographic and transport primitives Knot ships are open and inspectable. Built in Rust, self-contained builds, no central server to run.
-        </p>
-      </div>
-
-      <!-- ── Visual end-to-end diagram ──────────────────────────────────────
-           The conceptual map of "save → commit → propagate" for readers
-           who don't read terminal panels. The technical reference below
-           is the same content in primitive-by-primitive form. Both are
-           load-bearing, don't drop either. (Pattern mirrored from the
-           Whispr product page.) -->
-      <div class="section-reveal mb-12">
-        <KnotArchitectureDiagram />
-      </div>
-
-      <div class="section-reveal mb-12">
-        <p class="text-secondary text-center text-sm mb-1">That is two machines. Here is the same loop across a whole team:</p>
-        <KnotMeshDiagram />
-      </div>
-
-      <div class="section-reveal font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden">
-        <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
-          <div class="w-3 h-3 rounded-full bg-error/70"></div>
-          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
-          <div class="w-3 h-3 rounded-full bg-accent/70"></div>
-          <span class="ml-2 text-hint text-xs">knot-architecture.txt</span>
-        </div>
-        <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
-          {[
-            ['Identity',        'Ed25519 keypair · generated on-device · stored at OS-permission 0600'],
-            ['Pairing',         'Mutual `knot1:<base64>` blob exchange · explicit confirm on both sides'],
-            ['Wire auth',       'Ed25519 challenge–response · per-connection nonces · no replay'],
-            ['Transport',       'Tor · onion-v3 hidden services · no clearnet bytes'],
-            ['Object format',   'Real git pack files · libgit2 · `git` CLI works on a Knot folder'],
-            ['Push',            'Bundle over Tor · fast-forward only · non-FF lands in refs/knot-incoming/'],
-            ['Capabilities',    'Ed25519-signed grants · offline-verifiable · instant revocation'],
-            ['Coordinator',     'Optional · sees encrypted bytes only · cannot tamper with the hash chain'],
-            ['Server',          'None'],
-          ].map(([key, val]) => (
-            <div class="flex gap-4 items-baseline">
-              <span class="text-hint shrink-0 w-32">{key}</span>
-              <span class="text-accent">→</span>
-              <span class="text-primary/80">{val}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <p class="text-hint text-xs text-center mt-6 max-w-xl mx-auto leading-relaxed">
-        Same Tor primitives that route Whispr's messages. Same git object format that powers every git host on the internet. We didn't reinvent the cryptography; we removed the centralised server.
-      </p>
-    </div>
-  </section>
-
-  <!-- ── 04 PROOF ─────────────────────────────────────────────────────────── -->
-  <!-- Token-efficiency benchmark. Honest framing per the corrected
-       evidence doc: the A/B (same task, real counts) is the only benchmark
-       shown; the raw-size ceiling table was removed 2026-07-20 because it
-       invited overstatement. Every number here is reproducible by the reader. -->
-  <section id="proof" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
-    <div aria-hidden="true" class="absolute top-0 right-1/4 w-[45%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
-    <div class="relative max-w-4xl mx-auto">
-      <div class="section-reveal text-center mb-14">
-        <SectionEyebrow num="04" label="PROOF" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Measured, not claimed.</h2>
-        <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-          Knot's headline benefit for AI agents: one reads a repository's whole shape for a few thousand tokens, instead of paying several times that to list folders and open files to find its bearings. Every number below is reproducible on your own machine.
-        </p>
-      </div>
-
-      <!-- The A/B benchmark (the defensible centrepiece). -->
-      <div class="section-reveal mb-6">
-        <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">THE BENCHMARK · SAME REPO · SAME QUESTION · SAME AGENT</p>
-        <p class="text-secondary text-sm text-center max-w-2xl mx-auto mb-8">
-          A 56-file Python codebase the agent had never read. The question, both times:
-          <span class="text-primary/90">“What is this project, what are its main components, and where would a new forecasting model go?”</span> Both answers were correct against the source. Only the cost differed.
-        </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div class="p-6 rounded-2xl bg-bg border border-border">
-            <p class="text-hint text-xs font-mono tracking-widest mb-3">WITHOUT KNOT</p>
-            <p class="text-4xl font-black text-primary mb-1">≈ 5,185<span class="text-lg text-hint font-bold"> tokens</span></p>
-            <p class="text-hint text-xs font-mono mb-4">5+ tool calls</p>
-            <ul class="text-secondary text-sm space-y-1.5 leading-relaxed">
-              <li>list the files · read the README</li>
-              <li>open <code class="text-primary/70">base.py</code> · <code class="text-primary/70">registry.py</code> · a model</li>
-              <li class="text-hint">…and that's granting perfect first-try file picks</li>
-            </ul>
-          </div>
-          <div class="p-6 rounded-2xl bg-accent/[0.06] border border-accent/40">
-            <p class="text-accent text-xs font-mono tracking-widest mb-3">WITH KNOT</p>
-            <p class="text-4xl font-black text-accent mb-1">≈ 1,504<span class="text-lg text-accent/70 font-bold"> tokens</span></p>
-            <p class="text-accent/70 text-xs font-mono mb-4">1 tool call</p>
-            <ul class="text-secondary text-sm space-y-1.5 leading-relaxed">
-              <li>one call to <code class="text-primary/80">knot_repo_map</code></li>
-              <li>files ranked by importance, each with its symbols</li>
-              <li class="text-primary/80">complete, correct answer</li>
-            </ul>
-          </div>
-        </div>
-        <p class="text-secondary text-sm text-center mt-6 max-w-2xl mx-auto leading-relaxed">
-          <span class="text-primary font-semibold">≥ 3.4× fewer tokens, on a small repo, with every assumption biased against Knot.</span> The map is budget-capped (~2,000 tokens whether the repo has 56 files or 5,000), while ad-hoc exploration scales with the codebase, so the gap widens as projects grow.
-        </p>
-      </div>
-
-      <!-- Verify it yourself, the third-party-checkable protocol.
-           (The raw-size "ceiling" ratio table was removed 2026-07-20: the
-           A/B above is the defensible number; the ceiling invited
-           overstatement readings even with its honest label.) -->
-      <div class="section-reveal mt-12 p-6 rounded-2xl bg-bg border border-border max-w-2xl mx-auto">
-        <p class="text-accent text-xs font-mono tracking-widest mb-3">VERIFY IT YOURSELF</p>
-        <p class="text-secondary text-sm leading-relaxed mb-3">
-          Don't take our number. Generate your own. Run two fresh AI-agent sessions on the same repository: one with Knot's tools available, one without. Ask each the same orientation question, then compare the token cost the agent itself reports.
-        </p>
-        <p class="text-hint text-xs leading-relaxed">
-          Metered by the agent's own billing, not by us.
-        </p>
-      </div>
-
-      <p class="text-hint text-xs text-center mt-6 max-w-xl mx-auto leading-relaxed">
-        Honest limits: the map doesn't replace reading code you're about to <em>edit</em>. It replaces the hunt for <em>which</em> code that is. Per-file symbol extraction currently covers Rust, Python, JavaScript/TypeScript, and Dart.
-      </p>
-    </div>
-  </section>
-
-  <!-- ── KNOT AI (bridge to the dedicated /knot-ai/ page) ──────────────────────
-       Knot AI writes Knot's commit messages, so the Knot page names it once and
-       links out. The full pitch, benchmark, training and files live on /knot-ai/;
-       kept deliberately slim here to avoid duplicating that page. -->
-  <section id="knot-ai" class="relative py-20 px-6 overflow-hidden">
-    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-56 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
-    <div class="relative max-w-3xl mx-auto">
-      <div class="section-reveal flex flex-col md:flex-row items-center gap-6 p-6 md:p-8 rounded-2xl bg-surface border border-accent/25">
-        <img src="/knot-ai-logo.png" alt="Knot AI" width="60" height="60" class="rounded-xl shrink-0" />
-        <div class="flex-1 text-center md:text-left">
-          <p class="text-accent text-xs font-mono tracking-widest mb-2">POWERED BY KNOT SCRIBE</p>
-          <h3 class="text-xl font-bold text-primary mb-1.5">Every commit message is written on-device.</h3>
-          <p class="text-secondary text-sm leading-relaxed">
-            The messages Knot writes come from <span class="text-primary">Knot Scribe</span>: our open, on-device model that reads the diff and writes the message, also released standalone on Hugging Face and Ollama.
-          </p>
-        </div>
-        <a href="/knot-ai/" class="group shrink-0 inline-flex items-center gap-1.5 px-6 py-3 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105">
-          Explore Knot AI <span class="group-hover:translate-x-0.5 transition-transform">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 05 WHO IT'S FOR ──────────────────────────────────────────────────── -->
-  <section id="audiences" class="relative py-32 px-6 max-w-6xl mx-auto">
-    <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
-
-    <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="05" label="WHO IT'S FOR" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Three audiences, one tool.</h2>
-      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        The same install, three very different reasons to want it.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      <div class="p-6 rounded-2xl bg-surface border border-accent/30 glow-border">
-        <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">SOLO</div>
-        <h3 class="text-lg font-bold text-primary mb-2">Personal projects</h3>
-        <p class="text-secondary text-sm leading-relaxed mb-3">
-          You want version history and cross-device sync, without a subscription for an unfinished side-project, and without uploading it to a company's servers.
-        </p>
-        <p class="text-hint text-xs italic">
-          "I just want my code to exist on hardware I own and not be lost."
-        </p>
-      </div>
-      <div class="p-6 rounded-2xl bg-surface border border-accent/30 glow-border">
-        <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">STARTUP</div>
-        <h3 class="text-lg font-bold text-primary mb-2">Small distributed team</h3>
-        <p class="text-secondary text-sm leading-relaxed mb-3">
-          One-time install per laptop. Teammate added in 30 seconds with a pairing code. No org to administer, no per-seat bill that grows with every hire.
-        </p>
-        <p class="text-hint text-xs italic">
-          "We don't want to stand up a hosted org just to share code with five people who already trust each other."
-        </p>
-      </div>
-      <div class="p-6 rounded-2xl bg-surface border border-accent/30 glow-border">
-        <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">ENTERPRISE</div>
-        <h3 class="text-lg font-bold text-primary mb-2">Centralised office</h3>
-        <p class="text-secondary text-sm leading-relaxed mb-3">
-          Your code never leaves your machines, end-to-end encrypted in transit. Every commit is signed by the developer and the AI session behind it, and agents are scoped to the paths they may touch.
-        </p>
-        <p class="text-hint text-xs italic">
-          "Legal won't let our code leave the network, but we still want our developers to use modern AI tools."
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 06 STATUS & ROADMAP ──────────────────────────────────────────────── -->
-  <section id="roadmap" class="relative py-32 px-6 max-w-4xl mx-auto">
-    <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
-    <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="06" label="STATUS & ROADMAP" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Where we are.</h2>
-      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        The v1 loop is shipping as a free download for Mac and Linux. Everything marked shipped or verified has working code; the last two cards are what comes next.
-      </p>
-    </div>
-
-    <div class="space-y-4">
-      {[
-        {
-          tag: 'SHIPPED',
-          title: 'Free download, Mac + Linux, live now',
-          body: 'Save → commit → sync end-to-end across machines and networks, over Tor, in seconds. Verified Mac ↔ Linux on home Wi-Fi and a mobile hotspot. Grab it from the download section below.',
-          status: 'shipped',
-        },
-        {
-          tag: 'VERIFIED',
-          title: 'Knot AI writes your commit messages',
-          body: 'An on-device model reads your diff and writes the commit message, so even the commit text is hands-free.',
-          status: 'building',
-        },
-        {
-          tag: 'VERIFIED',
-          title: 'AI collaboration you can prove',
-          body: 'The full AI-collaboration stack, verified: cross-machine agent builds you watch live, signed exportable provenance, and per-agent path scopes.',
-          status: 'building',
-        },
-        {
-          tag: 'VERIFIED',
-          title: 'Built for non-developers',
-          body: 'Plain-language conflict resolution (keep mine / theirs / both, never raw git markers), a read-only mobile mirror over Wi-Fi, and a one-switch offline mode.',
-          status: 'building',
-        },
-        {
-          tag: 'IN PROGRESS',
-          title: 'First-run wizard, notarized installer, Windows',
-          body: 'Next up: a polished first-run wizard for non-developers, an Apple-notarized installer (no first-run warning), and a Windows build.',
-          status: 'soon',
-        },
-        {
-          tag: 'PLANNED',
-          title: 'Merge of divergent histories',
-          body: 'Single-file conflicts are handled today. Full three-way merge across diverged branches is still manual via `git`, which works, because it is a real git repo.',
-          status: 'planned',
-        },
-      ].map(({ tag, title, body, status }) => {
-        const cardBorder =
-          status === 'shipped'  ? 'border-accent/50 hover:border-accent/70 shadow-[0_0_24px_rgba(0,212,170,0.10)]'
-          : status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]'
-          : status === 'soon'   ? 'border-yellow-500/30 hover:border-yellow-500/50'
-          :                       'border-border hover:border-accent/20';
-        const dot =
-          status === 'shipped'  ? 'bg-accent'
-          : status === 'building' ? 'bg-accent animate-pulse'
-          : status === 'soon'   ? 'bg-yellow-500/70'
-          :                       'bg-hint';
-        const pill =
-          status === 'shipped'  ? 'bg-accent/15 text-accent border border-accent/40'
-          : status === 'building' ? 'bg-accent/10 text-accent border border-accent/30'
-          : status === 'soon'   ? 'bg-yellow-500/10 text-yellow-500/90 border border-yellow-500/30'
-          :                       'bg-surface text-hint border border-border';
-        const label =
-          status === 'shipped'  ? 'shipped'
-          : status === 'building' ? 'working'
-          : status === 'soon'   ? 'soon'
-          :                       'planned';
-        return (
-          <div class={`section-reveal flex gap-5 p-6 rounded-2xl bg-surface border transition-colors ${cardBorder}`}>
-            <div class={`mt-1 w-2 h-2 rounded-full shrink-0 ${dot}`}></div>
-            <div>
-              <p class="text-hint text-xs font-mono mb-1">{tag}</p>
-              <h3 class="text-base font-bold text-primary mb-1.5">{title}</h3>
-              <p class="text-secondary text-sm leading-relaxed">{body}</p>
-            </div>
-            <div class={`ml-auto shrink-0 self-start px-2 py-0.5 rounded text-xs font-mono ${pill}`}>
-              {label}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  </section>
-
-  <!-- ── 07 FAQ ───────────────────────────────────────────────────────────── -->
-  <!-- Seven plain-English answers to the questions every new visitor asks
-       within the first two minutes. Pattern: question as the bold lead,
-       short paragraph answer, no jargon unless it's load-bearing. Order
-       is the order people actually ask in. Don't reorder without thinking
-       about that. -->
-  <section id="faq" class="relative py-28 px-6 max-w-4xl mx-auto">
-    <div aria-hidden="true" class="absolute top-0 left-1/4 w-[50%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
-
-    <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="07" label="FAQ" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">The questions everyone asks.</h2>
-      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Plain-English answers. If something's still unclear, there's a contact link at the bottom of the page.
-      </p>
-    </div>
-
-    <div class="space-y-4">
-      {[
-        {
-          q: 'Who should use Knot?',
-          a: 'Three groups, roughly: (1) solo developers who want version history and cross-device sync without a subscription or uploading unfinished work to someone else\'s servers; (2) small teams who don\'t want a per-seat bill and an org to administer just to share code with people they already trust; (3) enterprises where compliance or contracts mean code legally can\'t leave the network.',
-        },
-        {
-          q: 'Is Knot safe?',
-          a: 'Every connection uses Ed25519 mutual authentication: both sides cryptographically prove their identity before any byte of code crosses the wire. The wire itself is Tor (.onion hidden services), so the bytes are encrypted end-to-end and relays only ever see ciphertext. Pairing a new device requires explicit confirmation on both sides; trust never happens by accident. The same cryptographic primitives we use are the ones Signal, Tor, and OpenSSH ship: not new crypto, but well-audited crypto.',
-        },
-        {
-          q: 'Does Knot use a server?',
-          a: 'No. Code transfer is always peer-to-peer; your machines talk directly to your teammates\' machines through Tor circuits. There is an optional small "coordinator" service that helps peers discover each other across the internet, but it never sees a single byte of your code, only "peer X says they host project Y." You can run it yourself on a $35 Raspberry Pi, or skip it entirely: peers reach each other over Tor by default, with no coordinator in the loop.',
-        },
-        {
-          q: 'Do I still get to use `git`?',
-          a: 'Yes. Knot uses git\'s real object format underneath, so a Knot-managed folder is also a real git repository. Every git command you already know, `git log`, `git diff`, `git branch`, `git checkout`, works on it. Knot is the layer above git that automates the save-commit-push ritual and removes the central server. It doesn\'t replace git; it makes git invisible when you don\'t need it.',
-        },
-        {
-          q: 'What if my collaborator is offline when I save?',
-          a: 'Nothing transfers until they come back online, same as any peer-to-peer protocol. Your commit lives safely on your machine; once your collaborator\'s daemon connects, the queued commits sync automatically. Common workaround: a third peer that\'s always online (a home server, a $5/month tiny VPS) holds a copy and bridges the gap. It runs the same free Linux build, reachable over Tor with no ports to forward. It pairs like any other peer, so it\'s a better-connected teammate, not a central server.',
-        },
-        {
-          q: 'What happens if I lose my keypair?',
-          a: 'The same thing that happens if you lose your SSH key today: you generate a new keypair and your collaborators issue you a new pairing code. There is no central account to "recover" because there is no central account. Your local repository is untouched. You can still read everything on your machine. You just have to re-establish trust with your peers, which takes about thirty seconds per peer.',
-        },
-        {
-          q: 'Can I use Knot for things that aren\'t code?',
-          a: 'Yes. Knot doesn\'t care what\'s in the folder: design assets, documents, datasets, screenplays, anything you want versioned and synced across machines. The one practical caveat is large binary files (videos, multi-gigabyte datasets): they\'ll work, but git\'s storage model is tuned for text, so very large binaries can bloat the history. Same caveat as git itself.',
-        },
-      ].map(({ q, a }) => (
-        <details class="section-reveal group p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">
-          <summary class="cursor-pointer list-none flex items-start gap-4">
-            <span class="text-accent text-xl font-mono shrink-0 transition-transform group-open:rotate-45">+</span>
-            <span class="text-base font-bold text-primary leading-snug">{q}</span>
-          </summary>
-          <p class="text-secondary text-sm leading-relaxed mt-3 pl-9">
-            {a}
-          </p>
-        </details>
-      ))}
-    </div>
-  </section>
-
-  <!-- ── 08 GET IT, public free download ─────────────────────────────────────
-       Free build for macOS + Linux. The user explicitly lifted the earlier
-       "no public download until notarized" gate on 2026-07-09 to ship free Knot
-       now, and dropped the "pre-alpha" label on 2026-07-09. Binaries are
-       ad-hoc-signed, NOT Apple-notarized, so the honest wave-past-Gatekeeper
-       framing stays (the first-run steps card), just without the pre-alpha
-       wording. Hosted on GitHub Releases (pointbreaklab-hub/knot); the
-       /releases/latest/download/ URLs auto-resolve to the newest release. -->
-  <section id="download" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+  <!-- ── 03 GET IT (moved up: this is what the page is for) ────────────────── -->
+  <section id="download" class="relative py-28 px-6 bg-surface border-y border-border overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-2xl mx-auto">
       <div class="section-reveal text-center">
-        <SectionEyebrow num="08" label="GET IT" />
+        <SectionEyebrow num="03" label="GET IT" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Knot</h2>
         <p class="text-secondary mb-10 leading-relaxed">
-          The free edition, for macOS and Linux. It's not yet notarized, so your system shows a one-time first-run warning. The steps to open it are below. Windows is coming.
+          Free, for macOS and Linux. Not yet notarized, so your system shows a one-time first-run warning; the steps to open it are below. Windows is coming.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -648,10 +182,8 @@ const screenshots = [
           </a>
         </div>
 
-        <!-- The VS Code extension: an editor surface for Knot, published on the
-             Marketplace. It's a client of the same daemon the download above
-             installs, not a separate binary — so it's framed as an add-on, not
-             a third platform. Live at PointBreakLab.knot-vcs. -->
+        <!-- The VS Code extension: a client of the same daemon, framed as an
+             add-on, not a third platform. Live at PointBreakLab.knot-vcs. -->
         <a
           href="https://marketplace.visualstudio.com/items?itemName=PointBreakLab.knot-vcs"
           class="flex items-center gap-4 text-left px-6 py-4 rounded-xl bg-bg border border-border hover:border-accent/40 hover:bg-accent/5 transition-all group mb-6"
@@ -676,35 +208,99 @@ const screenshots = [
           <div class="flex gap-3"><span class="text-hint w-28 shrink-0">SHA-256 linux</span><span class="text-primary/60 break-all">d328613d2b5a1f12591d34d4c39f8dbc562ba95eb1b6930eb347c793869e188f</span></div>
         </div>
 
-        <!-- First-run steps. The builds are self-contained (no Homebrew, no
-             system openssl) but ad-hoc-signed, not Apple-notarized, so macOS
-             shows a one-time Gatekeeper warning. Steps below clear it. -->
-        <div class="text-left mt-4 p-5 rounded-2xl bg-bg border border-border text-xs space-y-4">
-          <div>
-            <div class="font-mono text-hint uppercase tracking-widest mb-2">First run · macOS</div>
-            <p class="text-secondary leading-relaxed mb-2">Not yet notarized, so macOS blocks the first open. Clear it once, pick one:</p>
-            <ul class="text-secondary/90 leading-relaxed space-y-1.5 list-disc pl-4">
-              <li>Most reliable (any macOS): open Terminal and run<br><code class="text-primary/80 break-all">xattr -dr com.apple.quarantine "/Applications/Knot.app"</code></li>
-              <li>Or open Knot once (it's blocked), then <span class="text-primary/80">System Settings → Privacy &amp; Security → “Open Anyway”</span>.</li>
-              <li>Older macOS (pre-Sequoia): right-click Knot → Open → Open.</li>
-            </ul>
-          </div>
-          <div class="pt-3 border-t border-border">
-            <div class="font-mono text-hint uppercase tracking-widest mb-2">First run · Linux</div>
-            <p class="text-secondary leading-relaxed mb-2">Prebuilt, self-contained, no toolchain, no openssl. Needs glibc 2.31+ (Ubuntu 20.04+, Debian 11+, Fedora 33+).</p>
-            <pre class="text-primary/80 bg-surface rounded-lg p-3 overflow-x-auto leading-relaxed"><code>tar xzf knot-linux-x86_64.tar.gz &amp;&amp; cd knot-linux-x86_64
+        <!-- First-run steps (self-contained, ad-hoc-signed, not notarized). -->
+        <details class="section-reveal group text-left mt-4 p-5 rounded-2xl bg-bg border border-border">
+          <summary class="cursor-pointer list-none flex items-center gap-3 text-sm font-bold text-primary">
+            <span class="text-accent font-mono transition-transform group-open:rotate-45">+</span>
+            First-run steps (macOS &amp; Linux)
+          </summary>
+          <div class="text-xs space-y-4 mt-4">
+            <div>
+              <div class="font-mono text-hint uppercase tracking-widest mb-2">macOS</div>
+              <p class="text-secondary leading-relaxed mb-2">Not yet notarized, so macOS blocks the first open. Clear it once, pick one:</p>
+              <ul class="text-secondary/90 leading-relaxed space-y-1.5 list-disc pl-4">
+                <li>Most reliable (any macOS): open Terminal and run<br><code class="text-primary/80 break-all">xattr -dr com.apple.quarantine "/Applications/Knot.app"</code></li>
+                <li>Or open Knot once (it's blocked), then <span class="text-primary/80">System Settings → Privacy &amp; Security → “Open Anyway”</span>.</li>
+                <li>Older macOS (pre-Sequoia): right-click Knot → Open → Open.</li>
+              </ul>
+            </div>
+            <div class="pt-3 border-t border-border">
+              <div class="font-mono text-hint uppercase tracking-widest mb-2">Linux</div>
+              <p class="text-secondary leading-relaxed mb-2">Prebuilt, self-contained, no toolchain. Needs glibc 2.31+ (Ubuntu 20.04+, Debian 11+, Fedora 33+).</p>
+              <pre class="text-primary/80 bg-surface rounded-lg p-3 overflow-x-auto leading-relaxed"><code>tar xzf knot-linux-x86_64.tar.gz &amp;&amp; cd knot-linux-x86_64
 mkdir -p ~/.local/bin &amp;&amp; cp knotd knot knot-mcp knot-app ~/.local/bin/
 knotd --tor &amp;      # background daemon
 knot solo          # in any folder: save → commit → sync</code></pre>
-            <p class="text-hint mt-2 leading-relaxed">The optional GUI (<code class="text-primary/70">knot-app</code>) uses standard desktop libs at runtime: <code class="text-primary/70">libfontconfig1 libgl1 libxkbcommon0</code>.</p>
+            </div>
+            <p class="text-hint pt-1">Your code never leaves your machines regardless of the signature. Full three-way merge of diverged histories is still manual via `git` today.</p>
           </div>
-          <p class="text-hint pt-1">Your code never leaves your machines regardless of the signature.</p>
-        </div>
+        </details>
 
         <p class="text-hint text-xs mt-4">
           Full release history: <a href="/knot/changelog/" class="text-accent hover:underline">changelog</a>. Questions, or a use case to talk through? <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot" class="text-accent hover:underline">Get in touch</a>.
         </p>
       </div>
+    </div>
+  </section>
+
+  <!-- ── 04 ARCHITECTURE (one diagram; spec + mesh moved to the white paper) ── -->
+  <section id="architecture" class="relative py-28 px-6 max-w-4xl mx-auto overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+    <div class="relative">
+      <div class="section-reveal text-center mb-12">
+        <SectionEyebrow num="04" label="ARCHITECTURE" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Receipts, not claims.</h2>
+        <p class="text-secondary max-w-xl mx-auto">
+          Ed25519 identities, mutual authentication, Tor transport, real git objects. No central server to run, and nothing on the wire but encrypted bytes.
+        </p>
+      </div>
+      <div class="section-reveal">
+        <KnotArchitectureDiagram />
+      </div>
+      <p class="section-reveal text-hint text-xs text-center mt-6 max-w-xl mx-auto leading-relaxed">
+        The same Tor primitives that route Whispr's messages, the same git object format every git host runs on. We didn't reinvent the cryptography; we removed the centralised server.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 05 FAQ (trimmed 7 → 4) ───────────────────────────────────────────── -->
+  <section id="faq" class="relative py-24 px-6 max-w-4xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/4 w-[50%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+    <div class="section-reveal text-center mb-12">
+      <SectionEyebrow num="05" label="FAQ" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">The questions everyone asks.</h2>
+    </div>
+
+    <div class="space-y-4">
+      {[
+        {
+          q: 'Is Knot safe?',
+          a: 'Every connection uses Ed25519 mutual authentication: both sides cryptographically prove their identity before any byte of code crosses the wire. The wire itself is Tor (.onion hidden services), so bytes are encrypted end-to-end and relays only ever see ciphertext. Pairing a new device needs explicit confirmation on both sides; trust never happens by accident. Same well-audited primitives Signal, Tor, and OpenSSH ship, not new crypto.',
+        },
+        {
+          q: 'Does Knot use a server?',
+          a: 'No. Code transfer is always peer-to-peer, through Tor circuits. There is an optional small "coordinator" that helps peers find each other across the internet, but it never sees a byte of your code, only "peer X hosts project Y." You can run it on a $35 Raspberry Pi, or skip it entirely.',
+        },
+        {
+          q: 'Do I still get to use `git`?',
+          a: 'Yes. Knot uses git\'s real object format, so a Knot folder is also a real git repository. `git log`, `git diff`, `git branch`, `git checkout`, all work. Knot is the layer above git that automates the save-commit-push ritual and removes the central server. It doesn\'t replace git; it makes git invisible when you don\'t need it.',
+        },
+        {
+          q: 'What if my collaborator is offline when I save?',
+          a: 'Nothing transfers until they come back online, same as any peer-to-peer protocol. Your commit is safe on your machine; queued commits sync automatically when their daemon reconnects. Common workaround: a third always-on peer (a home server or a $5/month VPS running the same free build) that bridges the gap. It pairs like any other peer, so it\'s a better-connected teammate, not a central server.',
+        },
+      ].map(({ q, a }) => (
+        <details class="section-reveal group p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">
+          <summary class="cursor-pointer list-none flex items-start gap-4">
+            <span class="text-accent text-xl font-mono shrink-0 transition-transform group-open:rotate-45">+</span>
+            <span class="text-base font-bold text-primary leading-snug">{q}</span>
+          </summary>
+          <p class="text-secondary text-sm leading-relaxed mt-3 pl-9">
+            {a}
+          </p>
+        </details>
+      ))}
     </div>
   </section>
 
