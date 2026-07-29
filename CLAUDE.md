@@ -137,6 +137,45 @@ GitHub Pages auto-managed (don't touch):
 - **HTTPS enforce can only be enabled after the cert is issued.** API will return 404 ("certificate does not exist yet") until Let's Encrypt has issued the cert (5–30 min after DNS verifies).
 - **CNAME values must be FQDN.** Just `pointbreaklab-hub` doesn't work — needs the `.github.io`.
 
+## De-bloat campaign (2026-07-28) — READ BEFORE EDITING ANY PRODUCT PAGE
+
+Owner directive: *"Too much content leads to a dead end."* All three
+product pages were cut hard. This **overrides** any earlier instruction in
+this file that says a now-removed section is load-bearing or must not be
+dropped. If an older note contradicts a page's "LEAN REWRITE" block, the
+LEAN REWRITE block wins.
+
+**What triggered it.** A three-persona review of the live site (a
+recruiter, a skeptical developer, and a 45-second skimmer, each actually
+reading the pages) independently reported the same things: they gave up
+before reaching the download, the volume read as marketing rather than
+substance, and the deep technical material was buried where nobody got to
+it. All three named the same worst offenders: repeated architecture
+representations, big "who it's for" blocks, and long roadmaps.
+
+**The pattern applied to every page:**
+
+1. Say what it is, show it, say what it does, then **get to the download**.
+   The download now sits at section 02 or 03, never at the bottom.
+2. One representation per idea. If a diagram and a spec panel and a prose
+   block all say "no server, encrypted, peer to peer", keep the one that
+   lands best.
+3. Four feature cards, not six or eight.
+4. One static product shot instead of an auto-playing carousel.
+5. Deep technical detail goes behind a `<details>` toggle, or off the page
+   entirely.
+6. **Never cut the honesty.** Every disclaimer, limitation and
+   "not independently measured" line stays. The skeptical-developer
+   review called candour about maturity the single biggest trust signal on
+   the site. Trim volume, never trim honesty.
+
+**Results:** Knot 712 → 308 lines, Whispr 383 → 324, Heart 713 → 351.
+
+**Where the cut depth went:** into a forthcoming **Knot white paper**
+(published on pointbreaklab.com), which is the right home for the full
+architecture spec, the mesh topology, and the token-benchmark
+methodology. Don't re-inline that material into the product page.
+
 ## Layout / sections
 
 The site was split in two on 2026-05-07 (see "Studio + product split"
@@ -208,33 +247,33 @@ Three top-level chapters:
 
 ### `src/pages/whispr/index.astro` — product page (Whispr)
 
-All Whispr-specific content. Four chapters:
+> **LEAN REWRITE 2026-07-28 — see "De-bloat campaign" above. 383 → 324
+> lines. Download moved from section 04 to section 02. CUT: the 3-step
+> HOW IT WORKS block (the architecture diagram already shows how a
+> message travels) and 6 → 4 feature cards. Do NOT restore them.**
 
-- **Hero** — Whispr-specific headline ("Your messages, only yours.")
-  with Download / Architecture CTAs. Slim — no animated network, just
-  a centered headline + atmospheric glow.
-- **01 ─ FEATURES** — six FeatureBlock cards, plus the two
-  sub-sections HOW IT WORKS (3-step) and TRANSPORT LAYER (LAN / Tor /
-  BLE).
-- **02 ─ ARCHITECTURE** — opens with a visual `ArchitectureDiagram`
-  (inline SVG, no JS) showing how a message travels: plaintext on
-  Alice's device → X3DH + Double Ratchet → AES-256-GCM → encrypted
-  blob over LAN / Tor / BLE → decrypt on Bob's device, with an
-  explicit "NOT IN THE PICTURE: no server, no account, no telemetry"
-  band at the bottom. Below it sits the terminal-style
-  `security-architecture.txt` panel (the row-by-row primitives — the
-  diagram is the conceptual map, the panel is the technical
-  reference). Both are load-bearing for credibility; don't drop
-  either. h2 uses `font-light` for editorial contrast.
-- **03 ─ ROADMAP** — status-driven cards: `building` glows accent,
-  `soon` is amber, `planned` is muted. obfs4 bridge transport sits at
-  the top as the next "in progress" item.
-- **04 ─ GET IT** — download buttons, version + SHA-256 box, hidden
-  download counter, link to `/changelog/`, plus a small
-  censored-region note pointing users to the **in-app** bridges guide
-  (Settings → Network → Bridges → (i) icon). The note doesn't
-  duplicate the steps — instructions live inside the app so they're
-  available offline.
+Current structure:
+
+- **Hero** — "Your messages, only yours." + Download / Architecture CTAs.
+  Keeps the Signal-Protocol receipt line (X3DH + Double Ratchet + a
+  deep-link to `#architecture`); that line answers the skeptic above the
+  fold, don't strip it.
+- **01 ─ WHAT IT DOES** — four FeatureBlock cards (Zero servers · Signal
+  Protocol · No account · Encrypted email), then the THREE TRANSPORTS
+  block (LAN / Tor / BLE). The transports stay: "works with no internet"
+  is Whispr's real differentiator.
+- **02 ─ GET IT** — download buttons, version + SHA-256 box, hidden
+  download counter, changelog link, plus the censored-region note
+  pointing at the **in-app** bridges guide (Settings → Network →
+  Bridges → (i) icon). Instructions live in the app so they're available
+  offline; don't duplicate the steps here.
+- **03 ─ ARCHITECTURE** — the `ArchitectureDiagram` (inline SVG, no JS)
+  plus the terminal-style `security-architecture.txt` panel. **Both stay.**
+  For a privacy messenger the crypto proof IS the pitch, not bloat: the
+  diagram is the conceptual map, the panel is the primitive-by-primitive
+  reference. h2 uses `font-light` for editorial contrast.
+- **04 ─ ROADMAP** — status-driven cards (`building` accent, `planned`
+  muted). obfs4 bridge transport leads.
 
 The download counter script (~1 KB) lives at the bottom of this file,
 not on the homepage. SHA-256 lives in this file too — update on every
@@ -242,37 +281,37 @@ release, not in `index.astro`.
 
 ### `src/pages/heart/index.astro` — product page (Heart)
 
-All Heart-specific content. Four chapters, structurally parallel to
-the Whispr product page:
+> **LEAN REWRITE 2026-07-28 — see "De-bloat campaign" above. This was
+> the longest page on the site: 713 → 351 lines (−51%). Download moved
+> from section 04 to section 02. CUT and do NOT restore: the 5-slide
+> phone carousel (now one static shot), the "THE BAND IS JUST A SENSOR"
+> prose block, the 14-row Coospo-vs-Heart comparison table, the 3-step
+> HOW IT WORKS panel, and 8 → 4 feature cards.**
 
-- **Hero** — Heart-specific headline + Download / Architecture CTAs.
-  Slim, no animation.
-- **01 ─ FEATURES** — six FeatureBlock cards, then a `HOW IT WORKS`
-  panel and a `HARDWARE` panel. The HOW IT WORKS heading was
-  rewritten on 2026-05-13: it now says *"Pairs with what you
-  already own."* with a sub-line *"Heart speaks the standard BLE
-  Heart Rate Service (UUID 0x180D). Works with the Coospo HW9 —
-  worn on the chest or arm — and most modern chest straps."*
-  Don't revert this to the old *"Three steps. All on-device."*
-  framing — that one buried the compatibility story.
-- **02 ─ ARCHITECTURE** — opens with `HeartArchitectureDiagram`
-  (inline SVG, no JS — components/HeartArchitectureDiagram.astro),
-  then the terminal-style `heart-architecture.txt` panel. Same
-  rule as Whispr: the diagram is the conceptual map, the panel is
-  the technical reference. The "NOT IN THE PICTURE" band on the
-  diagram explicitly includes "No model file" (the Whispr diagram
-  has "No server / No account / etc." — Heart adds the
-  no-model-artifact bullet because the pitch differentiator is
-  auditable maths, not opaque AI).
-- **03 ─ ROADMAP** — same status-driven card pattern as Whispr
-  (`building` / `soon` / `planned`). One PLANNED item is the
-  auto-start-session geofence (added 2026-05-13, replacing two
-  earlier PLANNED cards for Wear OS / Apple Health bridges that
-  were deprioritised).
-- **04 ─ GET IT** — download buttons, version + SHA-256 box,
-  hidden download counter, link to `/heart/changelog/`. The
-  download button points at the GitHub release auto-resolved URL
-  `https://github.com/pointbreaklab-hub/Heart/releases/latest/download/heart-android.apk`.
+Current structure:
+
+- **Hero** — "Your heart, on your device." + Download / Algorithms CTAs.
+- **Product shot** — one static phone frame (`flutter_01.png`).
+- **01 ─ WHAT IT DOES** — four FeatureBlock cards (Live HR + HRV ·
+  Sleep/recovery/strain · On-device intelligence · No account, no cloud),
+  then the HARDWARE panel (Coospo HW9 / any BLE strap / wrist optical).
+- **02 ─ GET IT** — download buttons, version + SHA-256 box, changelog +
+  privacy links, then the chest-strap-vs-wrist accuracy card.
+- **03 ─ ARCHITECTURE** — `HeartArchitectureDiagram` + the **84-test-case
+  validation card**, both kept VISIBLE: "auditable maths, not an AI black
+  box" is Heart's whole pitch and the validation card is the strongest
+  credibility signal on the page. The deep detail (6-step pipeline, RMSSD
+  math, the formula/reference table) is collapsed behind ONE `<details>`
+  toggle. The diagram's "NOT IN THE PICTURE" band includes "No model
+  file", which is the differentiator; keep it.
+- **04 ─ ROADMAP** — status-driven cards, same pattern as Whispr.
+
+**Don't cut the closing disclaimer** (compressed 2026-07-29 from six
+sentences to three). It does two jobs: it stops the validation card from
+reading as an end-to-end accuracy claim, and the "wellness application,
+not a medical device … not diagnosis" sentence is the EU MDR 2017/745
+safe-harbour line. Heart does rhythm-anomaly detection, which sits close
+to regulated AFib-detection territory, so that sentence is load-bearing.
 
 **Don't describe the HW9 as chest-only.** It's a versatile band
 worn on the chest, upper arm, or forearm. The accuracy section
@@ -304,193 +343,73 @@ build time, scales to mobile without media queries.
 
 ### `src/pages/knot/index.astro` — product page (Knot)
 
-> **RESTRUCTURED 2026-07-20 (owner decision: "we shouldn't overstate; I
-> leave the Knot page up to you").** The page was cut from a manifesto to
-> a product page. CURRENT structure: HERO (pill + H1 + ONE plain subhead
-> "Knot watches the folders you choose. Every save becomes a real git
-> commit on your teammates' machines within seconds. No server, no
-> account." + one accent AI-agents line + CTAs) → THE DESKTOP APP
-> carousel (unnumbered) → 01 HOW IT WORKS → 02 FEATURES → 03 ARCHITECTURE
-> (2-machine diagram + mesh diagram + terminal panel) → 04 PROOF (A/B
-> benchmark + verify-yourself card ONLY) → Knot AI bridge (unnumbered) →
-> 05 WHO IT'S FOR → 06 STATUS & ROADMAP → 07 FAQ → 08 GET IT.
-> **DELETED by owner decision — do NOT restore:** the 01 THE PROBLEM
-> section (4 pain cards), the 02 STORYBOARD section (7-scene Roshan/Ammu
-> day), the Benchmark-2 raw-size "ceiling" table (194:1/325:1), the
-> "Voice calls" roadmap card, the "Hands-free sync, no server" roadmap
-> card, the IN TESTING hero pill, and the hero's save→commit→synced +
-> platform mono lines. Any structure description below that contradicts
-> this note is historical.
-> **Overstatement policy (binding):** claims must not exceed what is
-> verified. Specifically banned: org-scale numbers ("two-thousand-
-> engineer org", "two people or two thousand"), "six interface
-> languages" (4 of 6 are English fallback), marketing not-yet-designed
-> features (voice calls), enterprise "compliance answer" flourishes.
-> The A/B benchmark is the only efficiency number on the page.
+> **LEAN REWRITE 2026-07-28 — see "De-bloat campaign" above. 712 → 308
+> lines (−57%), the campaign's template. Download moved from section 08
+> to section 03. Everything below describes the CURRENT page; earlier
+> descriptions of a 9–10 chapter structure are historical and wrong.**
 
-> **SUPERSEDED 2026-07-08 — Knot now has a PUBLIC free download (Mac +
-> Linux).** The user lifted the "no public download until notarized"
-> gate for the free edition. The old EARLY-ACCESS story below (hero
-> "Request early access" CTA, the `#early-access` mailto section, and
-> the "No PUBLIC download button on /knot/" hard rule) is **no longer
-> in effect** and has been replaced in the code:
-> - Hero CTA → `#download` ("Download for Mac / Linux"); hero pill →
->   `IN TESTING · pre-alpha · free download below`.
-> - The `#early-access` section is now a **Download section**
->   (`id="download"`, eyebrow "GET IT") with Mac `.dmg` + Linux
->   `.tar.gz` buttons wired to
->   `github.com/pointbreaklab-hub/knot/releases/latest/download/...`,
->   per-asset SHA-256, and honest pre-alpha / un-notarized first-run
->   steps (Gatekeeper right-click-open on Mac; copy bins to
->   `~/.local/bin` on Linux).
-> - Nav CTA for `/knot` → `/knot/#download` (was the broken
->   `#early-access` anchor). Homepage updates-feed card reworded off
->   "request early access".
-> Still honest about pre-alpha: keep the `TESTING` AppCard badge and the
-> pre-alpha caveat card. What changed is ONLY that the download is public
-> and free — do NOT restore any "request early access" / mailto framing.
-> Releases live on `pointbreaklab-hub/knot` (lowercase repo), NOT a
-> `Knot`-repo; SHA-256s in the download box are updated per release.
+**CUT 2026-07-28, do NOT restore:** the 6-slide desktop carousel (now one
+static `dashboard.png` shot), 7 → 4 feature cards, the full PROOF /
+token-benchmark section (now one line; the detail belongs in the Knot
+white paper), the mid-page Knot AI cross-sell block (it has its own
+`/knot-ai/` page), the three big WHO IT'S FOR cards (now three chips),
+the whole STATUS & ROADMAP section, the `KnotMeshDiagram`, the
+`knot-architecture.txt` terminal panel, and FAQ 7 → 4.
 
-Added 2026-05-23, extended 2026-05-24 with the architecture diagram +
-FAQ. Knot is **pre-alpha** — the page reflects that everywhere it
-matters. Nine chapters (a STORYBOARD was inserted at 02 on 2026-06-06,
-shifting everything below it +1), structurally parallel to /whispr/ and
-/heart/ but with the pre-alpha framing throughout:
+Earlier owner decisions still in force: the 01 THE PROBLEM section, the
+02 STORYBOARD section, the raw-size "ceiling" ratio table, the "Voice
+calls" roadmap card, the `IN TESTING` hero pill, and the hero's
+save→commit→synced + platform mono lines were all deleted before this
+and stay deleted.
 
-- **Hero** — Knot-specific headline ("Your code. Your machines. No
-  middleman."). Two CTAs: `Request early access` (anchors to
-  `#early-access`) and `See the architecture` (anchors to
-  `#architecture`). **The yellow `IN TESTING` hero pill was REMOVED
-  2026-07-20 at the owner's request** (it last read `IN TESTING · free
-  download below`). Pre-alpha honesty is now carried lower on the page,
-  by the download section's not-yet-notarized / first-run-warning steps
-  and the STATUS & ROADMAP section, not by a top-of-hero caveat banner.
-  Don't re-add the pill.
-  The hero also carries an accent mono line below the `save→commit→synced`
-  line — the killer differentiator: "Two machines, two AI agents, one
-  repo — they build it together over your LAN, hands-free, while you
-  watch." Keep it; it's the headline thing no central host can do.
-- **01 ─ THE PROBLEM** — four cards: regulated teams, small teams,
-  solo devs, everyone. The fourth card is "Availability on someone
-  else's terms" — reframed 2026-06-06 AWAY from "GitHub outage" (GitHub
-  is Microsoft-backed and genuinely reliable, so leaning on its downtime
-  is a weak/disprovable hook) TOWARD dependency/independence: no account
-  to lock, no region to block, no provider's uptime to live by. **Don't
-  reintroduce "GitHub goes down / outage" framing anywhere on the Knot
-  page** — compete on independence, not on out-reliabilitying GitHub.
-  Sets up why a peer-to-peer alternative makes sense.
-- **02 ─ STORYBOARD** (added 2026-06-06, id=`#story`) — a real-world,
-  scene-by-scene scenario ("A day on a two-person team": Maya on a Mac,
-  Sam on Linux, same Wi-Fi). Seven timestamped scenes, each mapping to a
-  shipped capability; the load-bearing beats are **11:00** (two AI
-  agents build one repo together over the LAN, watched live — the
-  killer) and **16:00** ("nobody else's uptime, nobody else's rules" —
-  independence from any third party; reframed 2026-06-06 off the old
-  "GitHub goes down" beat).
-  Renders via a `.map` over a scenes array, same pattern as the roadmap.
-  This pushed HOW IT WORKS→03, FEATURES→04, ARCHITECTURE→05, WHO IT'S
-  FOR→06, STATUS→07, FAQ→08, EARLY ACCESS→09.
-- **03 ─ HOW IT WORKS** — three step cards (the folder · the peers ·
-  the save). Plain-English description of save→commit→propagate
-  for non-engineers. Same three-step pattern Heart uses for its
-  hardware story.
-- **03 ─ FEATURES** — FeatureBlock cards. The original six (saves are
-  commits, propagation over Tor, mutual cryptographic trust, pairing
-  codes `knot1:<base64>` blob, real git underneath, AI-session
-  attribution) PLUS the AI-era additions (2026-06-06), kept benefit-level
-  with NO trade-secret mechanics: "AI agents build together, machine to
-  machine" (the killer — listed FIRST), "Watch your AI agents work"
-  (glass box), "Provenance you can prove" (signed + independently
-  verifiable), "Agents stay in their lane" (enforced per-path scopes),
-  "Mirror to your phone or iPad" (read-only LAN view of a synced repo).
-- **04 ─ ARCHITECTURE** — opens with `KnotArchitectureDiagram`
-  (inline SVG, no JS — components/KnotArchitectureDiagram.astro),
-  then the terminal-style `knot-architecture.txt` panel. Same rule
-  as Whispr and Heart: the diagram is the conceptual map, the
-  terminal panel is the technical reference. Both are load-bearing;
-  don't drop either.
-- **06 ─ PROOF** (added 2026-06-11, id=`#proof`) — the token-efficiency
-  evidence for the AI-agent claim. TWO benchmarks, deliberately framed so
-  the honest one leads: **Benchmark 1** is an A/B (same 56-file repo, same
-  question, same agent, both answers correct) — *without Knot* ≈5,185 tokens
-  / 5+ calls vs *with Knot* (`knot_repo_map`) ≈1,504 tokens / 1 call →
-  "≥3.4× fewer, gap widens with repo size". **Benchmark 2** is a
-  `token_bench.sh` table (Heart 194:1, Knot 325:1 raw-source vs map) shown
-  as an EXPLICITLY-LABELLED CEILING ("not the everyday saving"). Plus a
-  "VERIFY IT YOURSELF" card (run two agent sessions, compare the agent's own
-  reported cost). **Hard rule: never promote the 194:1 / 325:1 ceiling ratio
-  to the headline — it's the raw-size bound, not realistic savings; the A/B
-  is the real claim. Numbers come from `knot/scripts/token_bench.sh` +
-  `knot/docs/benchmarks/token-orientation.md` (which also records that an
-  earlier inflated "6.9M tokens" figure was corrected to 390K).** This
-  pushed WHO IT'S FOR→07, STATUS→08, FAQ→09, EARLY ACCESS→10.
-- **07 ─ WHO IT'S FOR** — three accent-bordered cards (SOLO ·
-  STARTUP · ENTERPRISE), each with a quote that summarises the
-  conversion trigger. Mirrors the three-audience framing that lives
-  in knot/CLAUDE.md §14 and is binding product positioning.
-  **Don't merge these into one block.** The three-audience framing
-  is the canonical Knot commercial positioning.
-- **07 ─ STATUS & ROADMAP** — same status-driven card pattern as
-  Whispr/Heart (`building` / `soon` / `planned`). As of 2026-06-06 the
-  VERIFIED/`building` cards include the AI-era set (agents build across
-  machines together, signed/exportable provenance, enforced per-agent
-  scopes, mirror-to-phone/iPad) plus v1 sync + conflict resolution;
-  `soon` is the onboarding wizard; `planned` is full three-way merge +
-  a public notarized installer. NOTE: native mobile is no longer
-  "planned" — the mobile app + LAN mirror are done (user confirmed
-  2026-06-06), so don't re-add mobile to the planned list.
-- **07 ─ FAQ** — seven plain-English `<details>` disclosure cards.
-  Collapsed by default; native `<details>`/`<summary>` so the
-  page stays JS-free. The seven questions in order: who should use
-  Knot, is Knot safe, does Knot use a server, do I still get to use
-  `git`, what about offline collaborators, lost keypair recovery,
-  non-code files. **The order is the order people actually ask in
-  — don't reorder without thinking about that.** Order matters
-  for skimmers who stop reading after question three.
-- **08 ─ EARLY ACCESS** — `Request early access` mailto button to
-  `mail.roshankumargupta@gmail.com`. **Not a public download box.**
-  Still no public download button. CHANGED 2026-06-06: the invite now
-  *delivers a testing build* (macOS + Linux) to requesters — the
-  footnote says exactly that (no longer "build from source"). It's
-  pre-alpha + un-notarized, so the footnote notes you'll wave it past
-  the OS first-run/Gatekeeper warning (the invite includes how).
-  Below the CTA, a yellow pre-alpha caveat card explicitly lists
-  what's deferred: merge-of-divergent-histories, native mobile
-  clients, onboarding wizard, public notarized installer. Honest >
-  aspirational — this card is what makes the rest of the page credible.
+Current structure:
+
+- **Hero** — "Your code. Your machines. No middleman." + one plain
+  subhead + the accent AI line ("Multiple machines, AI agents, one repo:
+  they build it together over your LAN, hands-free, while you watch").
+  That AI line is the killer differentiator no central host can match;
+  keep it. CTAs: Download / How it works.
+- **Product shot** — one static desktop-window frame.
+- **01 ─ HOW IT WORKS** — three steps (the folder · the peers · the save).
+- **02 ─ WHAT IT DOES** — four FeatureBlock cards (AI agents build
+  together · Saves become synced commits · Real git underneath ·
+  Provable, governed AI), then the three-audience chips, then a single
+  line for the token benchmark.
+- **03 ─ GET IT** — macOS `.dmg` + Linux `.tar.gz` buttons wired to
+  `github.com/pointbreaklab-hub/knot/releases/latest/download/…`, the
+  **VS Code Marketplace card** (`PointBreakLab.knot-vcs`, framed as an
+  editor add-on, not a third platform), version + per-asset SHA-256, and
+  the first-run/Gatekeeper steps folded into a `<details>` toggle.
+- **04 ─ ARCHITECTURE** — the `KnotArchitectureDiagram` only.
+- **05 ─ FAQ** — four `<details>` cards (safe · server · git · offline
+  collaborator). Native `<details>`, no JS.
+
+**Overstatement policy (binding):** claims must not exceed what is
+verified. Specifically banned: org-scale numbers ("two-thousand-engineer
+org"), "six interface languages" (4 of 6 are English fallback), and
+marketing not-yet-designed features. The A/B benchmark is the only
+efficiency number, and it now appears as a single sentence.
 
 #### Hard rules for the Knot page
 
-- **`TESTING` badge, not `LIVE`.** The homepage AppCard uses
-  `status="TESTING"`. (The in-hero `IN TESTING` pill was removed
-  2026-07-20 at the owner's request; see the Hero note above.) Don't
-  promote the homepage badge to LIVE until there's a public, notarized
-  installer.
-- **No PUBLIC download button on `/knot/` until binaries are public +
-  notarized.** The early-access mailto is the substitute — and it now
-  *delivers a testing build to requesters* (macOS + Linux), gated by
-  request, NOT an open download button. (App is ad-hoc-signed, not
-  Apple-notarized; an open download would trigger Gatekeeper warnings —
-  that's the gate.) The Whispr / Heart pages are the model for an open
-  download box once notarized.
-- **Footer:** Knot is a plain link to `/knot/`. The `(Testing)` tag was
-  REMOVED 2026-07-21 (owner decision), matching the removed hero pill and
-  homepage badge — do not re-add a testing/soon tag. Pre-alpha honesty is
-  carried by the download section's first-run steps.
-- **No GitHub source link.** The Knot source is private during
-  pre-alpha. Don't add "View source" buttons until that changes.
-- **No `/knot/changelog/` subtree yet.** No public releases means
-  nothing to log. Add it as `src/pages/knot/changelog.astro` once
-  the first public binary ships, following the Heart/Whispr split
-  convention.
-- **No `free forever` / pricing language.** Same site-wide rule
-  that applies to Whispr/Heart. The eventual enterprise tier is in
-  flight; don't commit to permanent zero-cost.
-- **Three-audience framing is binding.** Section 05 (SOLO ·
-  STARTUP · ENTERPRISE) maps to knot/CLAUDE.md §14. Reordering or
-  merging audiences here drifts the marketing off-strategy.
-
+- **`TESTING` badge on the homepage AppCard, not `LIVE`.** Don't promote
+  it until there's a notarized installer. The in-hero `IN TESTING` pill
+  and the Footer `(Testing)` tag were removed by owner decision; don't
+  re-add either. Pre-alpha honesty is carried by the download section's
+  first-run steps.
+- **The public download is live and free** (macOS + Linux, ad-hoc-signed,
+  not notarized). The old "no public download until notarized" /
+  "request early access" gate is SUPERSEDED; don't restore mailto
+  early-access framing. Releases live on `pointbreaklab-hub/knot`
+  (lowercase repo); SHA-256s update per release.
+- **No GitHub source link.** The Knot source is private. Don't add "View
+  source" buttons until the owner decides otherwise. (Open-sourcing Knot
+  is under consideration as the highest-leverage trust unlock, but it is
+  the owner's call, not a copy change.)
+- **No `free forever` / pricing language.** Site-wide rule.
+- **Three-audience framing stays** (SOLO · TEAMS · ENTERPRISE, mapping to
+  knot/CLAUDE.md §14) but as compact chips now, not a full section. Keep
+  all three; don't re-expand them into cards.
 ### Knot's architecture diagram component
 
 `src/components/KnotArchitectureDiagram.astro` is the SVG-only
