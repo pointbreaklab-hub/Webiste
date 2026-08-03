@@ -1,0 +1,102 @@
+---
+// Custom cursor — "Tom and Jerry": a dot (Jerry) and a ring that chases it (Tom).
+//
+// THE KEY DECISION, learned the hard way:
+//   The dot is NOT a DOM element. It is the real system cursor, swapped for a
+//   dot image via CSS `cursor: url(...)`. The OS compositor draws it, so it
+//   tracks the hardware perfectly and CANNOT lag — no matter how busy the page
+//   is. Two earlier revisions drew the dot in JS and both felt laggy, because
+//   this homepage keeps the compositor busy (six blur-3xl layers, an animated
+//   42-node SVG hero, pulse animations). A JS-drawn pointer inherits every
+//   dropped frame; the native one never does.
+//
+//   Only the RING is JS-driven — and its lag is the intended effect, not a
+//   defect, so frame jitter reads as "chase" rather than "lag".
+//
+// Rest of the budget: one translate3d write per frame, rAF parks itself when
+// settled, no layout-animating properties, no backdrop-filter, passive
+// listeners, and a clean bail-out on coarse pointers / reduced motion.
+---
+
+<div id="pbl-cursor" aria-hidden="true">
+  <div id="pbl-cursor-ring"><i></i></div>
+</div>
+
+<style>
+  #pbl-cursor { position: fixed; inset: 0; pointer-events: none; z-index: 9999; display: none; }
+  :global(html.pbl-cursor-on) #pbl-cursor { display: block; }
+
+  /* Jerry: the system cursor itself, drawn by the OS. A 6px white dot with a
+     soft dark rim so it stays visible on light surfaces too. Hotspot centred. */
+  :global(html.pbl-cursor-on),
+  :global(html.pbl-cursor-on body) {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='4' fill='%23fff' stroke='rgba(0,0,0,.35)' stroke-width='1'/%3E%3C/svg%3E") 8 8, auto;
+  }
+  /* Keep the dot over interactive elements too (they'd otherwise show a hand). */
+  :global(html.pbl-cursor-on a), :global(html.pbl-cursor-on button),
+  :global(html.pbl-cursor-on summary), :global(html.pbl-cursor-on [role="button"]) {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='4' fill='%2300d4aa' stroke='rgba(0,0,0,.35)' stroke-width='1'/%3E%3C/svg%3E") 8 8, pointer;
+  }
+
+  /* Tom: the chasing ring. Outer does position only (layer is moved, never
+     re-rastered); inner owns the look + hover scale. */
+  #pbl-cursor-ring {
+    position: absolute; top: 0; left: 0; width: 0; height: 0;
+    will-change: transform;
+    transform: translate3d(-100px, -100px, 0);
+  }
+  #pbl-cursor-ring i {
+    display: block;
+    width: 34px; height: 34px; margin: -17px 0 0 -17px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: transform .25s cubic-bezier(.2,.8,.2,1),
+                border-color .2s ease, background-color .2s ease;
+    will-change: transform;
+  }
+  :global(html.pbl-cursor-hover) #pbl-cursor-ring i {
+    transform: scale(1.5);
+    border-color: rgba(0, 212, 170, 0.9);
+    background: rgba(0, 212, 170, 0.08);
+  }
+  :global(html.pbl-cursor-down) #pbl-cursor-ring i { transform: scale(0.75); }
+</style>
+
+<script>
+  (() => {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const ring = document.getElementById('pbl-cursor-ring');
+    if (!ring) return;
+
+    const root = document.documentElement;
+    root.classList.add('pbl-cursor-on');
+
+    let mx = -100, my = -100, rx = -100, ry = -100, raf = 0;
+
+    const frame = () => {
+      rx += (mx - rx) * 0.2;
+      ry += (my - ry) * 0.2;
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+      if (Math.abs(mx - rx) < 0.1 && Math.abs(my - ry) < 0.1) { raf = 0; return; }
+      raf = requestAnimationFrame(frame);
+    };
+    const wake = () => { if (!raf) raf = requestAnimationFrame(frame); };
+
+    window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; wake(); }, { passive: true });
+
+    const HOVER = 'a, button, summary, [role="button"], input, textarea, select, .cursor-hover';
+    document.addEventListener('mouseover', (e) => {
+      if ((e.target as Element)?.closest?.(HOVER)) root.classList.add('pbl-cursor-hover');
+    }, { passive: true });
+    document.addEventListener('mouseout', (e) => {
+      if ((e.target as Element)?.closest?.(HOVER)) root.classList.remove('pbl-cursor-hover');
+    }, { passive: true });
+
+    window.addEventListener('mousedown', () => root.classList.add('pbl-cursor-down'), { passive: true });
+    window.addEventListener('mouseup', () => root.classList.remove('pbl-cursor-down'), { passive: true });
+
+    document.addEventListener('mouseleave', () => { mx = my = -100; wake(); }, { passive: true });
+  })();
+</script>
