@@ -1,6 +1,4 @@
 ---
-import Cursor from '../components/Cursor.astro';
-
 export interface Props {
   title?: string;
   description?: string;
@@ -81,7 +79,6 @@ const appJsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(appJsonLd)} />
   </head>
   <body class="bg-bg text-primary font-sans antialiased overflow-x-hidden">
-    <Cursor />
     <slot />
     <script>
       // Intersection Observer for scroll reveal
