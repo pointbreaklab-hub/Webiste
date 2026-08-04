@@ -91,29 +91,53 @@ for (let i = 0; i < nodes.length; i++) {
 
   <!-- Content -->
   <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+    <!-- FLAGSHIP FRAMING (2026-08-04). The hero used to lead with the studio
+         thesis ("Apps that don't watch back") and a "See the apps" CTA. That
+         reads as a portfolio: five equal products and no answer to "what does
+         this company make?" A three-persona review of the live site confirmed
+         it ("five unrelated apps under one banner, my brain can't form a single
+         picture"). The hero now leads with Knot, the one product with a
+         business model, a category of its own, and the most investment. The
+         other apps stay one scroll down as proof of range. The studio thesis
+         is not deleted, it moves to section 03 where it belongs. -->
     <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
       <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-      PRIVACY-FIRST · NO SERVERS · NO METADATA
+      POINTBREAKLAB · LOCAL-FIRST SOFTWARE
     </div>
 
     <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-[1.05] mb-6">
-      <span class="text-primary">Apps that don't</span><br/>
-      <span class="text-gradient">watch back.</span>
+      <span class="text-primary">Your code never</span><br/>
+      <span class="text-gradient">leaves your machines.</span>
     </h1>
 
-    <!-- Single CTA, anchors down to the THE LAB section where Whispr,
-         Heart, Knot, and Elixir cards live. The old "Explore Whispr"
-         button was redundant with the Whispr card sitting one scroll
-         below, and it implied Whispr was the only thing on offer.
-         (Updated 2026-05-08.) -->
-    <div class="flex items-center justify-center">
+    <p class="text-lg text-secondary font-light max-w-2xl mx-auto leading-relaxed mb-3">
+      <span class="text-primary font-normal">Knot</span> turns any folder into a private repository shared straight between your team. Every save becomes a real git commit on their machines within seconds. No server, no account, no push ritual.
+    </p>
+    <p class="text-sm text-accent font-mono mb-10 max-w-2xl mx-auto leading-relaxed">
+      Built for the era where AI agents write code beside you, and you need to prove what they touched.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
       <a
-        href="#apps"
+        href="/knot/#download"
         class="px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
       >
-        See the apps
+        Download Knot, free
+      </a>
+      <a
+        href="/knot/"
+        class="px-8 py-3.5 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all"
+      >
+        How it works
       </a>
     </div>
+
+    <p class="text-hint text-xs mt-8">
+      Also from the lab:
+      <a href="/whispr/" class="text-secondary hover:text-accent transition-colors">Whispr</a> ·
+      <a href="/heart/" class="text-secondary hover:text-accent transition-colors">Heart</a> ·
+      <a href="/knot-ai/" class="text-secondary hover:text-accent transition-colors">Knot AI</a>
+    </p>
   </div>
 
   <!-- Scroll hint, anchored to the section, not the content. Hidden on

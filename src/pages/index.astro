@@ -12,16 +12,74 @@ import '../styles/global.css';
   <Nav />
   <Hero />
 
-  <!-- ── 01 THE LAB, apps lineup ──────────────────────────────────────── -->
-  <section id="apps" class="relative py-32 px-6 max-w-7xl mx-auto">
+  <!-- ── 01 THE FLAGSHIP + the rest of the lab ─────────────────────────────
+       Restructured 2026-08-04. This used to be five equal AppCards, which is
+       portfolio shape: it answers "what has this person made?" but never
+       "what does this company sell?". Knot now takes the top of the section
+       with real substance and a funnel; the others sit below as proof the
+       architecture generalises. Do NOT flatten this back into one equal grid,
+       the hierarchy IS the positioning.                                    -->
+  <section id="apps" class="relative py-28 px-6 max-w-7xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
-    <div class="section-reveal text-center mb-16">
-      <SectionEyebrow num="01" label="THE LAB" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What we build</h2>
+
+    <div class="section-reveal text-center mb-14">
+      <SectionEyebrow num="01" label="THE FLAGSHIP" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Knot</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Every application from PointBreakLab is built on the same principle: your data belongs to you.
+        Version control for teams whose code cannot leave their machines, and for the AI agents now writing half of it.
       </p>
     </div>
+
+    <!-- Flagship block: substance + a route to try it and a route to talk. -->
+    <div class="section-reveal rounded-2xl bg-surface border border-accent/25 p-7 md:p-10 mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7 mb-9">
+        {[
+          {
+            t: 'Saves become synced commits',
+            b: 'Hit save. Knot makes a real git commit and it reaches every teammate within seconds, over Tor, with no server in between and no push ritual.',
+          },
+          {
+            t: 'AI agents are first-class',
+            b: 'Agents on paired machines build one project between them while you watch. Every commit is signed by the person and the session behind it.',
+          },
+          {
+            t: 'Real git underneath',
+            b: 'Knot uses git’s own object format, so git log, git diff and git branch keep working exactly as they do today. Nothing to relearn, nothing to migrate.',
+          },
+        ].map(({ t, b }) => (
+          <div class="relative pl-5 border-l border-border">
+            <span class="absolute -left-px top-0 w-0.5 h-7 bg-accent"></span>
+            <h3 class="text-base font-bold text-primary mb-2">{t}</h3>
+            <p class="text-secondary text-sm leading-relaxed">{b}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-4 pt-7 border-t border-border">
+        <a href="/knot/#download"
+           class="px-6 py-3 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all">
+          Download for Mac / Linux
+        </a>
+        <a href="/knot/"
+           class="px-6 py-3 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all">
+          Read the architecture
+        </a>
+        <p class="sm:ml-auto text-hint text-xs leading-relaxed text-center sm:text-right">
+          Free for solo work and small teams.<br class="hidden sm:block" />
+          Running a larger org? <a href="#contact" class="text-accent hover:underline">Talk to us</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- The rest of the lab: range, not competition for the headline. -->
+    <div class="section-reveal text-center mb-8">
+      <p class="text-accent text-xs font-mono tracking-widest mb-3">ALSO FROM THE LAB</p>
+      <h3 class="text-2xl md:text-3xl font-black text-primary mb-3">Apps that don't watch back.</h3>
+      <p class="text-secondary text-sm max-w-xl mx-auto leading-relaxed">
+        The same architecture, applied to messaging, health, and on-device AI. Each one ships free, with no account and no server.
+      </p>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <AppCard
         name="Whispr"
@@ -38,15 +96,6 @@ import '../styles/global.css';
         icon="❤️"
         href="/heart/"
         active={true}
-      />
-      <AppCard
-        name="Knot"
-        tagline="PEER-TO-PEER VERSION CONTROL"
-        description="Save a file. A few seconds later it's a real commit on every teammate's machine. No GitHub account, no central server, no four-step push ritual. Peer-to-peer over Tor."
-        icon="🪢"
-        href="/knot/"
-        active={true}
-        status=""
       />
       <AppCard
         name="Knot AI"
@@ -117,7 +166,23 @@ import '../styles/global.css';
         </div>
       </div>
 
-      <div class="section-reveal text-center mt-10">
+      <!-- Verifiable artefacts. The models are genuinely open (Apache-2.0) but
+           the links only existed on /knot-ai/, so reviewers of the live site
+           concluded nothing here was inspectable. Something a stranger can
+           actually download and check is worth more than another claim. -->
+      <div class="section-reveal mt-8 p-5 rounded-2xl bg-bg border border-border text-center">
+        <p class="text-accent text-xs font-mono tracking-widest mb-2">CHECK IT YOURSELF</p>
+        <p class="text-secondary text-sm leading-relaxed">
+          Our two on-device models ship with open weights under Apache 2.0. Pull them and run them offline, no account:
+          <a href="https://huggingface.co/pointbreaklab" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Hugging Face</a>
+          ·
+          <a href="https://ollama.com/pointbreaklab" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Ollama</a>
+          ·
+          <a href="https://marketplace.visualstudio.com/items?itemName=PointBreakLab.knot-vcs" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">VS Code Marketplace</a>
+        </p>
+      </div>
+
+      <div class="section-reveal text-center mt-8">
         <a
           href="/whispr/#architecture"
           class="inline-flex items-center gap-2 text-accent text-sm font-semibold hover:gap-3 transition-all"
