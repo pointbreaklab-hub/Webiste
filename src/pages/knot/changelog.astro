@@ -24,6 +24,13 @@ interface Release {
 
 const releases: Release[] = [
   {
+    tag: 'v1.0.2',
+    date: '2026-08-26',
+    kind: 'fix',
+    title: 'Sending files over Tor now works — upgrade from v1.0.0 / v1.0.1',
+    body: 'Fixes the known issue from v1.0.1: sending a file attachment over Tor never worked (every transfer failed immediately), and transfers now also retry per network hiccup instead of giving up. Also fixed: cloning a project over Tor could leave an empty folder while reporting success when your git default branch name differed from the project\'s — the clone now checks out the right branch or refuses loudly. Verified by repeated soak runs over real onion circuits, both directions, checksummed end to end. Honest limit that remains: two machines both editing the same project over slow links will diverge and Knot refuses to merge silently — full merge support is the next major feature.',
+  },
+  {
     tag: 'v1.0.1',
     date: '2026-08-26',
     kind: 'fix',
