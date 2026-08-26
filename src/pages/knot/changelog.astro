@@ -24,6 +24,13 @@ interface Release {
 
 const releases: Release[] = [
   {
+    tag: 'v1.0.1',
+    date: '2026-08-26',
+    kind: 'fix',
+    title: 'Attachment transfer fix — upgrade from v1.0.0',
+    body: 'Fixes a defect where a file attachment sent over an established peer session was silently dropped: the sender saw "delivered" while the receiver got a message with no file. Two of the three session paths were missing the chunk-handling the third already had; the fix closes both, and a real 41 MB transfer now arrives byte-for-byte. If you are on v1.0.0, upgrade — reinstall the app (macOS) or `sudo apt install ./knot-vcs-amd64.deb` (Linux). Nothing else about your setup changes; your projects, identity, and pairings carry over.',
+  },
+  {
     tag: 'v1.0.0',
     date: '2026-08-26',
     kind: 'feature',
