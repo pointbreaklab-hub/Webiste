@@ -175,12 +175,16 @@ import '../../styles/global.css';
             Download for macOS
           </a>
           <a
-            href="https://github.com/pointbreaklab-hub/knot/releases/latest/download/knot-linux-x86_64.tar.gz"
+            href="https://github.com/pointbreaklab-hub/knot/releases/latest/download/knot-vcs-amd64.deb"
             class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
           >
             Download for Linux
           </a>
         </div>
+
+        <p class="text-xs text-secondary mb-6">
+          Step-by-step help: the <a href="/knot/docs/" class="text-accent hover:underline">installation guide</a> covers macOS, Linux, verifying your download, and your first synced save.
+        </p>
 
         <!-- The VS Code extension: a client of the same daemon, framed as an
              add-on, not a third platform. Live at PointBreakLab.knot-vcs. -->
@@ -201,11 +205,11 @@ import '../../styles/global.css';
         </a>
 
         <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
-          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Version</span><span class="text-primary">v0.1.0</span></div>
+          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Version</span><span class="text-primary">V1 · build 20260826</span></div>
           <div class="flex gap-3"><span class="text-hint w-28 shrink-0">macOS</span><span class="text-primary/80">Intel, and Apple Silicon via Rosetta · .dmg</span></div>
-          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Linux</span><span class="text-primary/80">x86_64 · .tar.gz (glibc 2.31+)</span></div>
-          <div class="flex gap-3 mt-2 pt-2 border-t border-border"><span class="text-hint w-28 shrink-0">SHA-256 mac</span><span class="text-primary/60 break-all">8d9f07ae9e9c8c29cd433f2477c6501e71de27d368e008c6b9c0b2a7db99a873</span></div>
-          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">SHA-256 linux</span><span class="text-primary/60 break-all">d328613d2b5a1f12591d34d4c39f8dbc562ba95eb1b6930eb347c793869e188f</span></div>
+          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Linux</span><span class="text-primary/80">x86_64 · .deb (Ubuntu 20.04+, Debian 11+)</span></div>
+          <div class="flex gap-3 mt-2 pt-2 border-t border-border"><span class="text-hint w-28 shrink-0">SHA-256 mac</span><span class="text-primary/60 break-all">06a4163e6ed32731f7801f743e40353da7518b596f30b6d2d526144b1f6778ba</span></div>
+          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">SHA-256 linux</span><span class="text-primary/60 break-all">1fdbe0235ba4c68c21eacc3cc9094d07f35fa4f14209e03d13fc87517094fcca</span></div>
         </div>
 
         <!-- First-run steps (self-contained, ad-hoc-signed, not notarized). -->
@@ -226,11 +230,11 @@ import '../../styles/global.css';
             </div>
             <div class="pt-3 border-t border-border">
               <div class="font-mono text-hint uppercase tracking-widest mb-2">Linux</div>
-              <p class="text-secondary leading-relaxed mb-2">Prebuilt, self-contained, no toolchain. Needs glibc 2.31+ (Ubuntu 20.04+, Debian 11+, Fedora 33+).</p>
-              <pre class="text-primary/80 bg-surface rounded-lg p-3 overflow-x-auto leading-relaxed"><code>tar xzf knot-linux-x86_64.tar.gz &amp;&amp; cd knot-linux-x86_64
-mkdir -p ~/.local/bin &amp;&amp; cp knotd knot knot-mcp knot-app ~/.local/bin/
-knotd --tor &amp;      # background daemon
-knot solo          # in any folder: save → commit → sync</code></pre>
+              <p class="text-secondary leading-relaxed mb-2">A real .deb: apt handles dependencies, systemd integration, and clean upgrades. Self-contained — Tor and the on-device AI runtime ship inside.</p>
+              <pre class="text-primary/80 bg-surface rounded-lg p-3 overflow-x-auto leading-relaxed"><code>sudo apt install ./knot-vcs-amd64.deb
+systemctl --user enable --now knot-vcs
+knot-app           # or `knot solo` in any folder</code></pre>
+              <p class="text-secondary leading-relaxed mt-2">Why a command and not a double-click: current Ubuntu ships no GUI that installs local .deb files (App Center is snap-only) — that limitation is Ubuntu-wide, not Knot's. Details in the <a href="/knot/docs/" class="text-accent hover:underline">installation guide</a>.</p>
             </div>
             <p class="text-hint pt-1">Your code never leaves your machines regardless of the signature. Full three-way merge of diverged histories is still manual via `git` today.</p>
           </div>

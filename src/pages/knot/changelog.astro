@@ -24,6 +24,13 @@ interface Release {
 
 const releases: Release[] = [
   {
+    tag: 'v1.0.0',
+    date: '2026-08-26',
+    kind: 'feature',
+    title: 'V1: a real Linux installer, signed commits, and a first run that cannot go wrong',
+    body: 'Knot\'s first complete release, verified end-to-end on real hardware on both platforms before shipping. Linux moves from a tarball to a proper .deb: one `sudo apt install` command handles dependencies, systemd service integration, and clean in-place upgrades. Every commit is now signed by your device identity and verifiable with plain `git log --show-signature` on any machine — no Knot tooling needed to check the receipt. The first-run welcome was hardened against the small stuff that ruins a first impression: a double-click can no longer skip the identity step or press hidden buttons, and security prompts (trust this network, accept this device) wait their turn instead of hiding behind the welcome. The app icon is now a proper macOS icon. New: a step-by-step installation guide covering macOS, Linux, download verification, and your first synced save. Still true and still stated plainly: macOS is not yet notarized (one-time Gatekeeper step), merges of diverged histories are manual via `git`, and Windows is in development.',
+  },
+  {
     tag: 'v0.1.0',
     date: '2026-07-12',
     kind: 'feature',
