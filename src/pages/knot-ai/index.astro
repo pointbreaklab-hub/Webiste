@@ -24,6 +24,12 @@ const metrics = [
   ['Exact title',            '6.7%',  '0.0%'],
   ['Generation errors / 60', '7',     '4'],
 ];
+// The n column here sums to 54, not 60: the `style` row is missing. gold-v1 has
+// 11 types and style is the eleventh (n=6). The v4/v5 scores for it are not in
+// any file on this machine, so it is not shown and the table caption says so.
+// OWNER: paste style's real v4/v5 numbers in and drop "10 of the 11 types" from
+// the caption, or confirm style was cut from gold-v1 and every 60 on this page
+// has to become 54.
 const byType = [
   ['feat', 6, '4/6', '4/6'],  ['fix', 6, '5/6', '4/6'],  ['refactor', 6, '0/6', '2/6'],
   ['perf', 6, '2/6', '2/6'],  ['test', 5, '4/5', '4/5'], ['docs', 6, '4/6', '5/6'],
@@ -32,16 +38,16 @@ const byType = [
 ];
 
 // ── KNOT DELTA (change-intelligence model, 9B) ──────────────────────────
-// Honest capability scorecard: every number measured against objective ground
+// Capability scorecard: every number measured against objective ground
 // truth (real git history), reported beside the baseline a lazy model scores.
 // Source: knot-delta/eval/SCORECARD.md, frozen held-out set of 325 commits
 // across 9 unseen real repos (vite, vue, svelte, astro, ionic, gumroad,
 // OpenDream, radicle, vllm). No aggregate "intelligence score" is quoted.
 const deltaScore = [
   { metric: 'Change-type F1 (intent read from code)', val: '0.409', base: 'vs 0.032 majority-class', note: '12.9× base rate · n=235' },
-  { metric: 'Cited files that exist in the diff',      val: '100%',  base: 'never hallucinates a file', note: 'holds on unseen Go' },
+  { metric: 'Cited files that exist in the diff',      val: '100%',  base: '0% hallucinated on four repos', note: 'holds on unseen Go' },
   { metric: 'Reports fully grounded',                  val: '98.5%', base: '325 held-out commits',      note: 'first-pass 88%' },
-  { metric: 'Exact-line precision',                    val: '0.64',  base: '0.94 lenient (right region)', note: 'honest: file + region reliable' },
+  { metric: 'Exact-line precision',                    val: '0.64',  base: '0.94 lenient (right region)', note: 'file and region reliable · exact line is not' },
 ];
 const deltaRepos = [
   { repo: 'flask',      lang: 'Python',      strict: 74, verified: '11/12' },
@@ -78,20 +84,21 @@ const deltaRepos = [
       </h1>
 
       <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-8">
-        Knot AI is PointBreakLab's on-device model family. Two specialists, no cloud: one writes your commit messages, the other explains what changed. Both run entirely on your hardware, no API, no code leaving your device.
+        Knot Scribe reads a diff and writes the commit message. Both models run entirely on your own hardware, with no code leaving your device. Knot Delta is the bigger one: hand it a change and it reports what actually moved and where the risk sits.
       </p>
+      {/* OWNER: a memory requirement belongs here, once measured. Something like "Scribe is 7B and Delta is 9B, so in 4-bit they want roughly N GB each". Needs the real figure from your own Mac before it ships. */}
 
       <!-- Two-model overview -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left mb-8">
         <a href="#scribe" class="p-5 rounded-2xl bg-surface border border-accent/25 hover:border-accent/50 transition-colors">
           <p class="text-accent text-xs font-mono tracking-widest mb-1.5">KNOT SCRIBE · 7B</p>
           <p class="text-primary font-bold mb-1">Writes your commits</p>
-          <p class="text-secondary text-sm leading-relaxed">Reads a diff, writes a correctly-typed Conventional-Commit message. Open weights on Hugging Face and Ollama.</p>
+          <p class="text-secondary text-sm leading-relaxed">Reads a diff and writes a Conventional-Commit message with the right type on it. Open weights, on Hugging Face and Ollama.</p>
         </a>
         <a href="#delta" class="p-5 rounded-2xl bg-surface border border-accent/25 hover:border-accent/50 transition-colors">
           <p class="text-accent text-xs font-mono tracking-widest mb-1.5">KNOT DELTA · 9B</p>
           <p class="text-primary font-bold mb-1">Explains what changed</p>
-          <p class="text-secondary text-sm leading-relaxed">Reads a change and writes a grounded report: what changed, why, and the risk. Built into Knot.</p>
+          <p class="text-secondary text-sm leading-relaxed">The bigger of the two, aimed at a different question: given a change, it says which files moved and where the risk sits.</p>
         </a>
       </div>
 
@@ -122,17 +129,16 @@ const deltaRepos = [
     <div class="relative max-w-4xl mx-auto">
       <div class="section-reveal text-center mb-16">
         <SectionEyebrow num="01" label="KNOT SCRIBE" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Diff in, commit out.</h2>
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Scribe only ever sees a diff</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          Knot Scribe reads the change and returns a structured message. No chat, no prompting, the same contract it was trained and evaluated against.
+          Knot Scribe reads the change and gives back a structured message, which is the same contract it was trained and evaluated against.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {[
-          { step: '01', title: 'Reads your diff', body: 'It takes the git diff, plus a little file context for big multi-file changes, packed so the model sees the whole commit\'s scope, not just the first file.' },
-          { step: '02', title: 'Runs on your hardware', body: 'Knot Scribe runs locally via llama.cpp or Ollama. Metal, CUDA, or CPU: same model file, same output, only speed scales. Works offline.' },
-          { step: '03', title: 'Writes the message', body: 'Structured JSON output constrained to {title, body}, a correctly-typed Conventional-Commit subject and body, with fabricated issue-refs and sign-offs stripped.' },
+          { step: '01', title: 'What it sees', body: 'It takes the git diff, plus a little file context for big multi-file changes, packed so the model sees the whole commit\'s scope, not just the first file.' },
+          { step: '02', title: 'Writes the message', body: 'Structured JSON output constrained to {title, body}, a correctly-typed Conventional-Commit subject and body, with fabricated issue-refs and sign-offs stripped.' },
         ].map(({ step, title, body }) => (
           <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
             <span class="absolute -left-px top-0 w-0.5 h-8 bg-accent"></span>
@@ -154,9 +160,10 @@ const deltaRepos = [
     <div aria-hidden="true" class="absolute top-0 right-1/4 w-[45%] h-72 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-14">
       <SectionEyebrow num="02" label="SCRIBE BENCHMARK" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Measured, not claimed.</h2>
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Sixty commits decide the Scribe numbers.</h2>
+      {/* OWNER DECISION: first person "I" proposed here, i.e. "I read and labelled each one by hand" */}
       <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-        Sixty hand-reviewed commits, balanced across all eleven commit types, scored through the shipping model. First, how Scribe has improved release over release. Then a head-to-head of the current model (v5) against the previous release (v4) on this set.
+        The set is called gold-v1: sixty hand-reviewed commits, balanced across all eleven commit types. v4 and v5 were both scored on it on 2026-07-21, through the shipping Ollama path.
       </p>
     </div>
 
@@ -214,7 +221,7 @@ const deltaRepos = [
         <div class="w-3 h-3 rounded-full bg-error/70"></div>
         <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
         <div class="w-3 h-3 rounded-full bg-accent/70"></div>
-        <span class="ml-2 text-hint text-xs font-mono">by-commit-type.txt · correct / n · gold-v1</span>
+        <span class="ml-2 text-hint text-xs font-mono">by-commit-type.txt · correct / n · gold-v1 · 10 of the 11 types</span>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-xs md:text-sm font-mono">
@@ -241,7 +248,8 @@ const deltaRepos = [
     </div>
 
     <p class="section-reveal text-hint text-xs text-center max-w-2xl mx-auto leading-relaxed">
-      Honest read: v5 lifts type accuracy (48 to 60) and scope (68 to 75) and cuts the format errors nearly in half (7 to 4), with the biggest gains on the types v4 got wrong, refactor (0 to 2) and ci and chore up to near-perfect. Title word-overlap and exact-title fall (27 to 19, and 7% to 0%) for one reason: v5 paraphrases. It writes its own titles, often more descriptive than the single human commit it is scored against, and exact-match penalizes that. build and revert stay hard (a convention clash and too few examples). Single-reference scoring understates real usefulness: a message marked wrong for not echoing the human's exact words is often still correct.
+      v5 lifts type accuracy (48 to 60) and scope (68 to 75) and cuts the format errors nearly in half (7 to 4), with the biggest gains on the types v4 got wrong, refactor (0 to 2) and ci and chore up to near-perfect. Title word-overlap and exact-title fall (27 to 19, and 7% to 0%) because v5 paraphrases. It writes its own titles, often more descriptive than the single human commit it is scored against, and exact-match penalizes that. build and revert stay hard (a convention clash and too few examples).
+      {/* OWNER DECISION: the page's one opinion, if you want it said out loud: exact match against a single human reference is a weak metric for this task, and a model card that drops a metric in the release it falls in is one to distrust. */}
     </p>
   </section>
 
@@ -250,9 +258,9 @@ const deltaRepos = [
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[45%] h-72 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-14">
       <SectionEyebrow num="03" label="KNOT DELTA" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">The model that explains what changed.</h2>
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What Delta gets right, and where it misses</h2>
       <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-        Where Scribe writes the commit, Knot Delta reads it: a 9B model that turns a change into a grounded report of what moved, why, and the risk. It runs on your machine, built into Knot and open below. Every number below is measured against real git history, beside the baseline a lazy model would score.
+        Knot Delta is the 9B half of the pair, and its report names which files moved and what the change was trying to do. It ships inside Knot. Every number below is measured against real git history, beside the baseline a lazy model would score. The scorecard comes from a frozen held-out set of 325 commits across nine repositories Delta never trained on: vite, radicle and svelte are among them. The grounding table underneath adds three single-repo runs on top of that set.
       </p>
     </div>
 
@@ -301,7 +309,7 @@ const deltaRepos = [
     </div>
 
     <p class="section-reveal text-hint text-xs text-center max-w-2xl mx-auto leading-relaxed">
-      Honest read: Delta never cites a file that isn't in the diff (100% across every repo, including Go, which is absent from its training data), and it always points at the right region. What it does not yet do reliably is pin the exact line: that lands 52 to 74% of the time, lowest on Rust. It knows which file and which part changed; the precise line is still improving. One capability, measured straight, with the parts that do not yet work said out loud.
+      Delta never cites a file that isn't in the diff (100% across every repo, including Go, which is absent from its training data), and it lands in the right region 92 to 100% of the time, depending on the repo. What it does not yet do reliably is pin the exact line: that lands 52 to 74% of the time, lowest on Rust. It knows which file and which part changed; the precise line is still improving.
     </p>
   </section>
 
@@ -311,9 +319,9 @@ const deltaRepos = [
     <div class="relative max-w-4xl mx-auto">
       <div class="section-reveal text-center mb-14">
         <SectionEyebrow num="04" label="TRAINING & FILES" />
-        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Built in the open, on one GPU.</h2>
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Trained on one RTX 3060.</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          Knot Scribe is a LoRA fine-tune of a permissively-licensed base, trained only on public commit history. No user data, no private code, ever.
+          Knot Scribe is a QLoRA fine-tune of a permissively-licensed base, trained on 3,227 diff-to-message pairs mined from permissive open-source repositories. No user data, no private code, ever.
         </p>
       </div>
 
@@ -325,11 +333,12 @@ const deltaRepos = [
           <span class="ml-2 text-hint text-xs">knot-scribe-model.txt</span>
         </div>
         <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
+          {/* OWNER DECISION: name the base model in this row, or say in one clause why it is not named */}
           {[
             ['Base model',  'A permissively-licensed open code model · Apache-2.0'],
             ['Method',      'QLoRA (4-bit) · completion-only SFT (loss on the message only)'],
             ['Hardware',    'A single NVIDIA RTX 3060 (12 GB)'],
-            ['Data',        '~3,227 diff→message pairs mined from permissive OSS · JS/TS, Python, Rust, Go'],
+            ['Data',        '3,227 diff→message pairs mined from permissive OSS · JS/TS, Python, Rust, Go'],
             ['Privacy',     'No user data · no private code · public commit history only'],
             ['Formats',     'LoRA adapter (PEFT safetensors) + LoRA GGUF (llama.cpp / Ollama)'],
             ['License',     'Apache-2.0 (open-base derivative)'],
@@ -354,10 +363,10 @@ const deltaRepos = [
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
     <div class="relative">
       <div class="section-reveal text-center mb-12">
-        <SectionEyebrow num="05" label="GET IT" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Run it in one line.</h2>
+        <SectionEyebrow num="05" label="RUN IT" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Running it</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          Both models are open weights, on Ollama and Hugging Face. Point Scribe at a staged diff for a commit message; run Delta on a diff for a change report.
+          Scribe only makes sense on a staged diff. Delta will read whatever diff you hand it.
         </p>
       </div>
 
@@ -383,7 +392,7 @@ const deltaRepos = [
           <pre class="p-5 text-xs md:text-sm font-mono text-primary/90 overflow-x-auto"><code>ollama run pointbreaklab/knot-delta "$(git diff)"</code></pre>
         </div>
         <p class="text-hint text-xs leading-relaxed px-1">
-          Prefer llama.cpp? Each model's GGUF, files, and exact command are on its Hugging Face model card, linked below.
+          llama.cpp also works, and Ollama is only the shorter path. The GGUF and the exact command for each model are on its Hugging Face card below. Metal, CUDA and CPU all load the same GGUF; they differ only in how long you wait.
         </p>
       </div>
 

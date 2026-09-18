@@ -17,8 +17,8 @@ import '../../styles/global.css';
 ---
 
 <Base
-  title="Knot · Peer-to-peer version control for the AI era"
-  description="Take any folder on your machine. Every save becomes a real git commit and reaches your teammates within seconds, no account, no central server, no four-step push ritual. Peer-to-peer over Tor: no ports to open, no server to run."
+  title="Knot · Peer-to-peer git that commits when you save"
+  description="Knot turns any folder into a git repository that commits when you save and syncs to your teammates' machines over Tor. For macOS and Linux."
 >
   <Nav />
 
@@ -30,7 +30,7 @@ import '../../styles/global.css';
     <div class="relative max-w-3xl mx-auto text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
         <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-        KNOT · PEER-TO-PEER VERSION CONTROL
+        KNOT · MACOS + LINUX
       </div>
 
       <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
@@ -40,10 +40,10 @@ import '../../styles/global.css';
       </h1>
 
       <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-4">
-        Knot watches the folders you choose. Every save becomes a real git commit on your teammates' machines within seconds. No server, no account.
+        Knot watches the folders you pick. You hit save, and ten seconds of quiet later there is a real commit, on its way to every machine you paired with.
       </p>
       <p class="text-sm text-accent font-mono mb-10 max-w-xl mx-auto leading-relaxed">
-        Multiple machines, AI agents, one repo: they build it together over your LAN, hands-free, while you watch.
+        If pushing to GitHub already works for you, you probably do not need this.
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -86,17 +86,14 @@ import '../../styles/global.css';
     <div class="relative max-w-4xl mx-auto">
       <div class="section-reveal text-center mb-14">
         <SectionEyebrow num="01" label="HOW IT WORKS" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Three pieces. You only see one.</h2>
-        <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          The folder and the peers are one-time setup. The save is the only piece in your day.
-        </p>
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Pairing is the only fiddly part</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
-          { step: '01', title: 'The folder', body: 'Pick any folder. Tell Knot once. It now behaves like a git repository, because under the hood it is one. Existing `git` commands still work.' },
-          { step: '02', title: 'The peers',  body: 'Anyone you collaborate with installs Knot. You hand them a one-time pairing code; they accept. From that moment your machines are paired.' },
-          { step: '03', title: 'The save',   body: 'Write code. Hit save. Knot makes a real git commit and sends it to every paired teammate. They see it within seconds.' },
+          { step: '01', title: 'The folder', body: 'Any folder works. You tell Knot once, and from then on it is a real git repository, because under the hood it always was one.' },
+          { step: '02', title: 'The peers',  body: 'The other person installs Knot too. You generate a one-time pairing code, send it however you normally send things, and then both machines show a confirmation that has to be clicked at both ends.' },
+          { step: '03', title: 'The save',   body: 'Write code. Hit save. The commit and the push happen without you.' },
         ].map(({ step, title, body }) => (
           <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
             <span class="absolute -left-px top-0 w-0.5 h-8 bg-accent"></span>
@@ -114,45 +111,53 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 right-0 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
     <div class="section-reveal text-center mb-14">
-      <SectionEyebrow num="02" label="WHAT IT DOES" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
+      <SectionEyebrow num="02" label="DAY TO DAY" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What Knot does once it is running</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Built and verified end-to-end on real hardware, across networks.
+        Built and tested on two machines, a MacBook and an HP EliteBook running Ubuntu: first over Wi-Fi, then over Tor between two different networks, which is where it first worked end to end, in May 2026.
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {/* OWNER DECISION: this card used to carry the AI-agents framing. What the repo
+           can back is the 2026-08-27 acceptance run: two paired daemons over real onions,
+           ~198 s, identical merge oid. An agent on each machine is proven for chat
+           (2026-05-31) but not for this merge, so that claim is not made here. */}
       <FeatureBlock
         icon="🤝"
-        title="AI agents build together"
-        description="AI assistants on your paired machines build one project between them, no human in the loop, and you watch every step live. The thing a central host can't do."
+        title="Both machines, the same merge commit"
+        description="On 27 August 2026 two paired peers whose histories had diverged merged over Tor four seconds apart, with nothing coordinating them, and both landed on the identical merge commit. About 198 seconds end to end."
       />
+      {/* OWNER DECISION: first person "I" proposed here. The strongest version of this
+           card is the story: "I once left mine at 170 by accident and spent an afternoon
+           wondering why nothing was committing." Needs the owner's yes on person, and on
+           the 170. */}
       <FeatureBlock
         icon="💾"
         title="Saves become synced commits"
-        description="Every save turns into a real git commit a moment after you stop typing, then reaches every teammate over Tor, encrypted end-to-end, with no ports to open."
+        description="Ten seconds after your last save in a folder, the change is a real git commit, and it goes out encrypted end to end to every paired machine. Neither end has to open a router port for that."
       />
       <FeatureBlock
         icon="🪢"
         title="Real git underneath"
-        description="Knot uses git's real object format, so `git log`, `git diff`, and `git branch` all still work. Nothing to relearn."
+        description="Knot uses git's real object format, so git log, git diff and git branch all still work, and so does anything else you already point at the folder."
       />
       <FeatureBlock
         icon="🧾"
-        title="Provable, governed AI"
-        description="Every commit is signed by the person and the AI session behind it, and each agent is scoped to the paths it may touch. Export a tamper-evident record anyone can verify."
+        title="What a commit carries"
+        description="The signature and the agent-session record sit in refs/notes, which does not replicate, so today the full chain can only be produced on the machine that wrote the commits, and moving both inside the commit object is in flight. The authoring device is already there: it rides in the commit itself, so every machine that receives one has it."
       />
     </div>
 
     <!-- who it's for, compressed from a full section to three chips -->
     <div class="section-reveal flex flex-col sm:flex-row flex-wrap justify-center gap-3 mt-10">
-      <span class="px-4 py-2 rounded-full bg-surface border border-border text-xs text-secondary"><span class="text-accent font-mono">SOLO</span> · history + cross-device sync, on hardware you own</span>
-      <span class="px-4 py-2 rounded-full bg-surface border border-border text-xs text-secondary"><span class="text-accent font-mono">TEAMS</span> · a teammate added with one code, no per-seat bill</span>
-      <span class="px-4 py-2 rounded-full bg-surface border border-border text-xs text-secondary"><span class="text-accent font-mono">ENTERPRISE</span> · code never leaves the network, every commit signed</span>
+      <span class="px-4 py-2 rounded-full bg-surface border border-border text-xs text-secondary"><span class="text-accent font-mono">SOLO</span> · your laptop and your home server</span>
+      <span class="px-4 py-2 rounded-full bg-surface border border-border text-xs text-secondary"><span class="text-accent font-mono">TEAMS</span> · one pairing code per person, no seats to buy</span>
+      <span class="px-4 py-2 rounded-full bg-surface border border-border text-xs text-secondary"><span class="text-accent font-mono">ENTERPRISE</span> · code stays inside the network; agents are scoped by path</span>
     </div>
 
     <p class="section-reveal text-center text-hint text-xs mt-8 max-w-xl mx-auto leading-relaxed">
-      For AI agents, Knot maps a repo's whole shape in one call instead of many, measured ≥3.4× fewer tokens on a real codebase, and you can verify it on your own machine.
+      For AI agents, Knot maps a repo's whole shape in one call instead of many: measured ≥3.4× fewer tokens on a 56-file repo the agent had never read, one knot map --tokens 1500 call against five or more files of reading, and you can run the comparison on your own machine.
     </p>
   </section>
 
@@ -161,10 +166,10 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-2xl mx-auto">
       <div class="section-reveal text-center">
-        <SectionEyebrow num="03" label="GET IT" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Knot</h2>
+        <SectionEyebrow num="03" label="INSTALL" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Install it</h2>
         <p class="text-secondary mb-10 leading-relaxed">
-          Free, for macOS and Linux. Not yet notarized, so your system shows a one-time first-run warning; the steps to open it are below. Windows is coming.
+          Free, for macOS and Linux. There is no Windows build, because the daemon and the app talk over Unix domain sockets, and nobody has ported that to named pipes. The macOS build is not notarized either, so the first open is blocked; clearing it takes one command, below.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -183,7 +188,7 @@ import '../../styles/global.css';
         </div>
 
         <p class="text-xs text-secondary mb-6">
-          Step-by-step help: the <a href="/knot/docs/" class="text-accent hover:underline">installation guide</a> covers macOS, Linux, verifying your download, and your first synced save.
+          The <a href="/knot/docs/" class="text-accent hover:underline">installation guide</a> covers macOS, Linux, verifying your download, and your first synced save.
         </p>
 
         <!-- The VS Code extension: a client of the same daemon, framed as an
@@ -197,7 +202,7 @@ import '../../styles/global.css';
           </svg>
           <span class="flex-1">
             <span class="block text-sm font-bold text-primary group-hover:text-accent transition-colors">Also on the VS Code Marketplace</span>
-            <span class="block text-xs text-secondary leading-relaxed">Knot's live sync, project intelligence, and AI memory inside your editor. Works alongside the app.</span>
+            <span class="block text-xs text-secondary leading-relaxed">Same daemon as the app, driven from the editor sidebar instead of a second window.</span>
           </span>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="text-hint group-hover:text-accent transition-colors shrink-0">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -221,7 +226,7 @@ import '../../styles/global.css';
           <div class="text-xs space-y-4 mt-4">
             <div>
               <div class="font-mono text-hint uppercase tracking-widest mb-2">macOS</div>
-              <p class="text-secondary leading-relaxed mb-2">Not yet notarized, so macOS blocks the first open. Clear it once, pick one:</p>
+              <p class="text-secondary leading-relaxed mb-2">macOS blocks the first open. You clear that once, and any of these does it:</p>
               <ul class="text-secondary/90 leading-relaxed space-y-1.5 list-disc pl-4">
                 <li>Most reliable (any macOS): open Terminal and run<br><code class="text-primary/80 break-all">xattr -dr com.apple.quarantine "/Applications/Knot.app"</code></li>
                 <li>Or open Knot once (it's blocked), then <span class="text-primary/80">System Settings → Privacy &amp; Security → “Open Anyway”</span>.</li>
@@ -230,18 +235,18 @@ import '../../styles/global.css';
             </div>
             <div class="pt-3 border-t border-border">
               <div class="font-mono text-hint uppercase tracking-widest mb-2">Linux</div>
-              <p class="text-secondary leading-relaxed mb-2">A real .deb: apt handles dependencies, systemd integration, and clean upgrades. Self-contained — Tor and the on-device AI runtime ship inside.</p>
+              <p class="text-secondary leading-relaxed mb-2">Tor and the on-device AI runtime ship inside the package. apt handles the dependencies, the systemd unit and upgrades.</p>
               <pre class="text-primary/80 bg-surface rounded-lg p-3 overflow-x-auto leading-relaxed"><code>sudo apt install ./knot-vcs-amd64.deb
 systemctl --user enable --now knot-vcs
 knot-app           # or `knot solo` in any folder</code></pre>
-              <p class="text-secondary leading-relaxed mt-2">Why a command and not a double-click: current Ubuntu ships no GUI that installs local .deb files (App Center is snap-only) — that limitation is Ubuntu-wide, not Knot's. Details in the <a href="/knot/docs/" class="text-accent hover:underline">installation guide</a>.</p>
+              <p class="text-secondary leading-relaxed mt-2">Current Ubuntu ships no GUI that installs a local .deb file; App Center is snap-only, and that is Ubuntu-wide, every vendor's .deb included. Details in the <a href="/knot/docs/" class="text-accent hover:underline">installation guide</a>.</p>
             </div>
-            <p class="text-hint pt-1">Your code never leaves your machines regardless of the signature. Full three-way merge of diverged histories is still manual via `git` today.</p>
+            <p class="text-hint pt-1">Your code never leaves your machines regardless of the signature.</p>
           </div>
         </details>
 
         <p class="text-hint text-xs mt-4">
-          Full release history: <a href="/knot/changelog/" class="text-accent hover:underline">changelog</a>. Questions, or a use case to talk through? <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot" class="text-accent hover:underline">Get in touch</a>.
+          Full release history: <a href="/knot/changelog/" class="text-accent hover:underline">changelog</a>. Bug reports and use cases both welcome: <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot" class="text-accent hover:underline">Get in touch</a>.
         </p>
       </div>
     </div>
@@ -253,16 +258,18 @@ knot-app           # or `knot solo` in any folder</code></pre>
     <div class="relative">
       <div class="section-reveal text-center mb-12">
         <SectionEyebrow num="04" label="ARCHITECTURE" />
-        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Receipts, not claims.</h2>
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">How a commit gets to the other machine</h2>
+        {/* CONFIRM before publishing: the date the alphabetical-base bug was found and
+             the size of the bundles it was shipping. */}
         <p class="text-secondary max-w-xl mx-auto">
-          Ed25519 identities, mutual authentication, Tor transport, real git objects. No central server to run, and nothing on the wire but encrypted bytes.
+          For a while every push shipped the whole history again, because the base commit was taken off a list that git sorts by branch name, and genesis always sorted first. The cryptography was the easy part: Ed25519 identities, mutual authentication, a Tor circuit carrying nothing but encrypted bytes, and real git objects at both ends.
         </p>
       </div>
       <div class="section-reveal">
         <KnotArchitectureDiagram />
       </div>
       <p class="section-reveal text-hint text-xs text-center mt-6 max-w-xl mx-auto leading-relaxed">
-        The same Tor primitives that route Whispr's messages, the same git object format every git host runs on. We didn't reinvent the cryptography; we removed the centralised server.
+        Whispr's messages travel over the same Tor primitives, and the objects on the wire are the same format git itself writes. None of that cryptography was invented for Knot; it is Tor's, and the Ed25519 that OpenSSH ships.
       </p>
     </div>
   </section>
@@ -273,26 +280,30 @@ knot-app           # or `knot solo` in any folder</code></pre>
 
     <div class="section-reveal text-center mb-12">
       <SectionEyebrow num="05" label="FAQ" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">The questions everyone asks.</h2>
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Safety, servers, git, and the offline case</h2>
     </div>
 
+    {/* OWNER DECISION: first person "I" proposed here. The safety answer currently ends
+         "...by anyone outside this project, which is one person in Würzburg." In the first
+         person it would read "...by anyone but me. I am one person in Würzburg", which is
+         blunter and is the same fact. */}
     <div class="space-y-4">
       {[
         {
           q: 'Is Knot safe?',
-          a: 'Every connection uses Ed25519 mutual authentication: both sides cryptographically prove their identity before any byte of code crosses the wire. The wire itself is Tor (.onion hidden services), so bytes are encrypted end-to-end and relays only ever see ciphertext. Pairing a new device needs explicit confirmation on both sides; trust never happens by accident. Same well-audited primitives Signal, Tor, and OpenSSH ship, not new crypto.',
+          a: 'Every connection uses Ed25519 mutual authentication: both sides cryptographically prove their identity before any byte of code crosses the wire. The wire itself is Tor (.onion hidden services), so bytes are encrypted end-to-end and relays only ever see ciphertext. Pairing a new device needs a confirmation click on both machines. The primitives are the ones Signal, Tor and OpenSSH ship; the code wiring them together has not been reviewed by anyone outside this project, which is one person in Würzburg.',
         },
         {
           q: 'Does Knot use a server?',
           a: 'No. Code transfer is always peer-to-peer, through Tor circuits. There is an optional small "coordinator" that helps peers find each other across the internet, but it never sees a byte of your code, only "peer X hosts project Y." You can run it on a $35 Raspberry Pi, or skip it entirely.',
         },
         {
-          q: 'Do I still get to use `git`?',
-          a: 'Yes. Knot uses git\'s real object format, so a Knot folder is also a real git repository. `git log`, `git diff`, `git branch`, `git checkout`, all work. Knot is the layer above git that automates the save-commit-push ritual and removes the central server. It doesn\'t replace git; it makes git invisible when you don\'t need it.',
+          q: 'Do I still get to use git?',
+          a: 'Yes. Knot uses git\'s real object format, so a Knot folder is also a real git repository. git log, git diff, git branch, git checkout, all work. When two histories diverge Knot merges them for you, and because the merge commit is built deterministically both machines end up on the identical one. If the same lines actually conflict it stops and parks the incoming side, and then you resolve it in plain git like anyone else.',
         },
         {
           q: 'What if my collaborator is offline when I save?',
-          a: 'Nothing transfers until they come back online, same as any peer-to-peer protocol. Your commit is safe on your machine; queued commits sync automatically when their daemon reconnects. Common workaround: a third always-on peer (a home server or a $5/month VPS running the same free build) that bridges the gap. It pairs like any other peer, so it\'s a better-connected teammate, not a central server.',
+          a: 'Nothing transfers until they come back online, same as any peer-to-peer protocol. Your commit is safe on your machine; queued commits sync automatically when their daemon reconnects. A third always-on peer bridges the gap: a home server or a $5/month VPS running the same free build.',
         },
       ].map(({ q, a }) => (
         <details class="section-reveal group p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">

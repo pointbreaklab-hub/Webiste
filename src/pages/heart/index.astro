@@ -1,4 +1,10 @@
 ---
+// OPEN QUESTIONS for the owner, parked here so they do not render on the page:
+//   - real battery life and reconnect delay
+//   - the source for these wrist figures
+//   - what WHOOP publishes about its sensor validation
+//   - the date the 84-case run was last executed
+//   - is this blocked on dataset access, and which corpus?
 import Base           from '../../layouts/Base.astro';
 import Nav            from '../../components/Nav.astro';
 import FeatureBlock   from '../../components/FeatureBlock.astro';
@@ -14,13 +20,13 @@ import '../../styles/global.css';
 // + Coospo-vs-Heart comparison table; the deep architecture (pipeline, RMSSD
 // math, 23-row formula reference) collapsed behind ONE toggle; download pulled
 // up from section 4 to section 2. KEPT the auditable-algorithm proof visible
-// (diagram + 84-case validation card + honest disclaimers) — for Heart that IS
+// (diagram + 84-case validation card + honest disclaimers). For Heart that IS
 // the pitch. Do NOT restore the removed sections.
 ---
 
 <Base
   title="Heart · Local-first wellness app for Bluetooth heart-rate bands"
-  description="A wellness app for Bluetooth heart-rate bands. Tracks HR, HRV, sleep stages, recovery, and strain, entirely on your device. No account, no cloud, no subscription. Pairs with the Coospo HW9 (worn on the chest or arm) and any standard BLE chest strap."
+  description="A wellness app for Bluetooth heart-rate bands. It reads R–R intervals off the strap and computes HRV, sleep stages, recovery and strain on the phone. Built and tested with the Coospo HW9, worn on the chest, upper arm or forearm; any BLE strap speaking 0x180D works, though wrist sensors give coarser HRV."
 >
   <Nav />
 
@@ -32,19 +38,19 @@ import '../../styles/global.css';
     <div class="relative max-w-3xl mx-auto text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
         <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-        HEART · LOCAL-FIRST WELLNESS
+        HEART · WELLNESS · NEEDS A BLE STRAP
       </div>
 
       <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
-        <span class="text-primary">Your heart,</span><br/>
-        <span class="text-gradient">on your device.</span>
+        <span class="text-primary">HRV, sleep and recovery,</span><br/>
+        <span class="text-gradient">computed on the phone.</span>
       </h1>
 
       <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-3">
-        A wellness app for Bluetooth heart-rate bands. Tracks HR, HRV, sleep, recovery, and strain, entirely on your device. No account, no cloud, no subscription.
+        Heart reads the R–R intervals off a Bluetooth chest strap and works out HRV, sleep stages, recovery and strain from them.
       </p>
       <p class="text-sm text-hint font-mono mb-10">
-        Free · on-device · auditable.
+        Needs a Bluetooth heart-rate strap. Android 7 or newer.
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -87,10 +93,13 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
     <div class="section-reveal text-center mb-14">
-      <SectionEyebrow num="01" label="WHAT IT DOES" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
-      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        All on-device. No subscription, no cloud, no black box.
+      <SectionEyebrow num="01" label="THE BAND" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What the band reads, and what I wanted out of it</h2>
+      <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
+        I bought a Coospo HW9 and wore it at the gym, running, and for sport. Its own app only showed me the live numbers. For a long time that was all I did with it. Then I started recording instead of watching, and the logs came out as CSV. I ran them in Python. Chasing a better answer took me into the research. The formulas were working in Python before there was an app, and Heart came out of that.
+      </p>
+      <p class="text-sm text-hint font-mono mt-3">
+        All of it comes off one BLE characteristic, 0x2A37.
       </p>
     </div>
 
@@ -98,35 +107,37 @@ import '../../styles/global.css';
       <FeatureBlock
         icon="❤️"
         title="Live HR + HRV"
-        description="Continuous heart rate, zones, and RMSSD heart-rate variability, computed directly from R–R intervals using the 1996 ESC/NASPE standard."
+        description="Heart rate, zones and RMSSD heart-rate variability, computed directly from R–R intervals using the 1996 ESC/NASPE standard."
       />
+      {/* OWNER DECISION: first person "I" proposed here (the tflite call is a
+          decision one person made, and reads oddly agentless in the third person). */}
       <FeatureBlock
         icon="🌙"
         title="Sleep, recovery & strain"
-        description="Four-stage sleep from overnight HR, a WHOOP-style recovery score (HRV percentile vs your 30-day baseline), and zone-weighted strain. All from published methodology, not black boxes."
+        description="Four-stage sleep off overnight HR, from 5-minute buckets and thresholds: running tflite all night would flatten the phone and the band together. Recovery ranks last night against your own previous 30 nights. Strain is zone-weighted."
       />
       <FeatureBlock
         icon="🧠"
         title="On-device intelligence"
-        description="A readiness forecast for tomorrow's HRV, rhythm-anomaly detection, and post-workout summaries with GPS routes, zones, and recovery impact, all computed on your phone."
+        description="The readiness forecast is Holt smoothing over a short series and it wobbles. The rhythm hint thresholds four RR features and flags a stretch worth looking at, nothing more. Post-workout summaries draw the GPS route and the recovery hit."
       />
       <FeatureBlock
         icon="🚫"
-        title="No account, no cloud"
-        description="Everything stays on your device: samples, scores, sleep history. One-tap JSON export for migration, one-tap delete-everything."
+        title="Export and delete"
+        description="Samples, scores, sleep history and the daily JSONL sit in the app sandbox. Export writes all of it into one JSON file, and delete-everything is one tap."
       />
     </div>
 
     <!-- Hardware compatibility (compressed from a full section). -->
     <div class="section-reveal">
       <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">HARDWARE</p>
-      <h3 class="text-2xl md:text-3xl font-black text-primary mb-4 text-center">Pairs with the band you already own.</h3>
+      <h3 class="text-2xl md:text-3xl font-black text-primary mb-4 text-center">Which bands work</h3>
       <p class="text-secondary max-w-2xl mx-auto mb-10 text-center leading-relaxed text-sm">
-        Heart speaks the standard BLE Heart Rate Service (UUID 0x180D). Pair once, wear it 24/7, get insights every morning.
+        Heart speaks the standard BLE Heart Rate Service (UUID 0x180D).
       </p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
-          { icon: '🟢', label: 'PRIMARY',  title: 'Coospo HW9',   body: 'Worn on the chest, upper arm, or forearm. Full support: live HR, RR-interval HRV, battery reporting. Heart was built and tested with this band.' },
+          { icon: '🟢', label: 'PRIMARY',  title: 'Coospo HW9',   body: 'Worn on the chest, upper arm, or forearm. It reports live HR, RR intervals and battery. This is the band I wear, and Heart was built and tested against it, in Würzburg.' },
           { icon: '🔵', label: 'STANDARD', title: 'Any BLE strap', body: 'Polar H10, Wahoo TICKR, Garmin HRM-Dual, anything speaking Heart Rate Service 0x180D + Measurement 0x2A37.' },
           { icon: '🟡', label: 'OPTICAL',  title: 'Wrist sensors', body: 'Live HR works on optical wrist straps, but RR-interval availability varies, so HRV is coarser than from a chest strap.' },
         ].map(({ icon, label, title, body }) => (
@@ -146,9 +157,9 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-2xl mx-auto">
       <div class="section-reveal text-center">
-        <SectionEyebrow num="02" label="GET IT" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Heart</h2>
-        <p class="text-secondary mb-10">Available for Android. iOS coming soon. Pair your band, wear it 24/7, get insights every morning.</p>
+        <SectionEyebrow num="02" label="DOWNLOAD" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What you need before it is useful</h2>
+        <p class="text-secondary mb-10">Without a strap the app opens and has nothing to read.</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
           <DownloadButton
@@ -156,18 +167,18 @@ import '../../styles/global.css';
             href="https://github.com/pointbreaklab-hub/Heart/releases/latest/download/heart-android.apk"
             label="Android APK"
           />
-          <DownloadButton platform="ios" href="#" label="iOS, Coming Soon" />
+          <DownloadButton platform="ios" href="#" label="iOS" />
         </div>
 
         <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
           <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.0.22</span></div>
           <div class="flex gap-3"><span class="text-hint w-32">Min Android</span><span class="text-primary">7.0 · API 24</span></div>
-          <div class="flex gap-3"><span class="text-hint w-32">Cost</span><span class="text-primary/80">Free. No accounts, no ads, no tracking.</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Cost</span><span class="text-primary/80">Free.</span></div>
           <div class="flex gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint w-32">SHA-256 (APK)</span><span class="text-primary/60 break-all">d56b58f6684e2144b7c687e0d183b93737c494500a9585ebf4aa2f70f281f958</span></div>
         </div>
 
         <p class="text-hint text-xs mt-4">
-          Full release history: <a href="/heart/changelog/" class="text-accent hover:underline">changelog</a>
+          Releases: <a href="/heart/changelog/" class="text-accent hover:underline">changelog</a>
           &nbsp;·&nbsp;
           <a href="/heart/privacy/" class="text-accent hover:underline">privacy policy</a>
         </p>
@@ -178,13 +189,13 @@ import '../../styles/global.css';
         <div class="flex items-start gap-4">
           <div class="shrink-0 w-10 h-10 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center text-xl">📏</div>
           <div>
-            <p class="text-accent text-xs font-mono tracking-widest mb-2">ACCURACY · CHEST STRAP VS WRIST</p>
-            <h3 class="text-lg font-bold text-primary mb-2">Better signal in, better signal out.</h3>
+            <p class="text-accent text-xs font-mono tracking-widest mb-2">CHEST STRAP VS WRIST</p>
+            <h3 class="text-lg font-bold text-primary mb-2">A chest strap reads closer to ECG.</h3>
             <p class="text-secondary text-sm leading-relaxed mb-3">
-              Published literature puts wrist optical sensors at <span class="text-primary">±5–15 bpm</span> against ECG during effort and <span class="text-primary">±10–20 ms</span> on overnight HRV. Chest straps as a category reach <span class="text-accent">±2 bpm</span> and <span class="text-accent">±3–5 ms</span>. Heart pairs with a chest strap by default, so the input it computes from is fundamentally cleaner.
+              Published literature puts wrist optical sensors at <span class="text-primary">±5–15 bpm</span> against ECG during effort and <span class="text-primary">±10–20 ms</span> on overnight HRV, while chest straps as a category reach <span class="text-accent">±2 bpm</span> and <span class="text-accent">±3–5 ms</span>.
             </p>
             <p class="text-hint text-xs">
-              Same algorithmic class as WHOOP and Oura for derived scores, without the subscription, the cloud, or the closed source.
+              Recovery here is the WHOOP-style score, an HRV percentile against your own baseline. WHOOP validates its own sensor. Heart has none and computes from whatever strap you already wear.
             </p>
           </div>
         </div>
@@ -197,10 +208,10 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
     <div class="relative">
       <div class="section-reveal text-center mb-14">
-        <SectionEyebrow num="03" label="ARCHITECTURE" />
-        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">A time-series engine,<br/>not an AI black box.</h2>
+        <SectionEyebrow num="03" label="THE MATHS" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">84 test cases check these formulas against numpy.</h2>
         <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-          Heart ingests raw R–R intervals off a BLE characteristic, runs classical signal processing on a 300-sample sliding window, and produces auditable scores. No neural network, no model weights, no remote inference. Every formula traces to a published paper.
+          Roughly once a second the band sends an R–R interval over BLE, and Heart discards anything outside 300 to 2000 ms because that is not a heartbeat, keeps the last 300 in a ring buffer, and computes every score on screen from a closed-form formula over that buffer. Those formulas were running in Python over recorded CSV logs before any of this was on a phone.
         </p>
       </div>
 
@@ -208,7 +219,7 @@ import '../../styles/global.css';
         <HeartArchitectureDiagram />
       </div>
 
-      <!-- Validation card — the killer credibility signal, kept visible. -->
+      <!-- Validation card: the killer credibility signal, kept visible. -->
       <div class="section-reveal mb-6 p-5 rounded-2xl bg-bg border border-accent/30">
         <div class="flex items-start gap-3">
           <div class="shrink-0 w-9 h-9 rounded-lg bg-accent/15 border border-accent/40 flex items-center justify-center text-base">✓</div>
@@ -234,7 +245,7 @@ import '../../styles/global.css';
             <span class="ml-2 text-hint text-xs font-mono">pipeline-math-and-references.txt</span>
           </div>
           <div class="flex items-center gap-2 font-mono text-xs select-none">
-            <span class="text-secondary">The pipeline, the math, every reference</span>
+            <span class="text-secondary">open this for the formulas</span>
             <span class="text-accent group-open:hidden">▶</span>
             <span class="text-accent hidden group-open:inline">▼</span>
           </div>
@@ -272,7 +283,7 @@ import '../../styles/global.css';
 
           <!-- FORMULA REFERENCE -->
           <div class="px-6 pt-8 pb-8">
-            <p class="text-accent text-xs font-mono tracking-widest mb-6 text-center">EVERY FORMULA, EVERY SOURCE</p>
+            <p class="text-accent text-xs font-mono tracking-widest mb-6 text-center">16 ROWS</p>
             <div class="p-2 space-y-2.5 text-xs leading-relaxed overflow-x-auto">
               {[
                 ['HRV',              'RMSSD · ESC/NASPE Task Force · Eur. Heart J. 17:354 · 1996'],
@@ -308,7 +319,7 @@ import '../../styles/global.css';
            accuracy) and the MDR safe-harbour line (wellness app, not a medical
            device, not for diagnosis). Don't cut the medical-device sentence. -->
       <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed">
-        The validation above proves the <span class="text-secondary">algorithm</span>, not end-to-end accuracy: sleep staging vs PSG and calories vs calorimetry haven't been independently measured yet. Heart is a wellness application, not a medical device. Scores are estimates from consumer-grade sensors, built for tracking trends, not diagnosis.
+        The validation above proves the <span class="text-secondary">algorithm</span>. It says nothing about end-to-end accuracy: sleep staging vs PSG and calories vs calorimetry haven't been independently measured yet. Heart is a wellness application, not a medical device. Scores are estimates from consumer-grade sensors, built for tracking trends, not diagnosis.
       </p>
     </div>
   </section>
@@ -317,14 +328,14 @@ import '../../styles/global.css';
   <section id="roadmap" class="relative py-24 px-6 max-w-4xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-14">
-      <SectionEyebrow num="04" label="ROADMAP" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What's coming</h2>
+      <SectionEyebrow num="04" label="TO FIX" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Still on the list</h2>
     </div>
 
     <div class="space-y-4">
       {[
-        { tag: 'IN PROGRESS', title: 'Personal heart-age calibration', body: 'Replace static population-norm tables with a personal regression fit once 30+ nights of baseline data exist, surfaced in the UI when calibration is reliable.', status: 'building' },
-        { tag: 'PLANNED', title: 'Sleep stager validation against PSG', body: 'Validate the rule-based + prior-calibrated stager against published polysomnography datasets and tighten it where deltas exceed ±10 minutes per stage.', status: 'planned' },
+        { tag: 'IN PROGRESS', title: 'Personal heart-age calibration', body: 'Static population-norm tables today, to be replaced by a regression fit on 30+ nights of your own baseline once the threshold for showing it is decided.', status: 'building' },
+        { tag: 'PLANNED', title: 'Sleep stager validation against PSG', body: 'Validate the rule-based, prior-calibrated stager against polysomnography datasets and tighten it where deltas exceed ±10 minutes per stage.', status: 'planned' },
       ].map(({ tag, title, body, status }) => {
         const cardBorder = status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]' : 'border-border hover:border-accent/20';
         const dot = status === 'building' ? 'bg-accent animate-pulse' : 'bg-hint';

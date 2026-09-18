@@ -14,11 +14,18 @@ import '../../styles/global.css';
 // feature cards; pulled the download up from section 4 to section 2. The
 // crypto proof (diagram + security-architecture.txt) and roadmap are kept
 // below the fold for the readers who want depth. Do NOT restore the cut bits.
+//
+// OPEN QUESTIONS FOR THE OWNER (kept here, not in HTML comments: Astro does
+// not strip <!-- --> and anything in one is readable in view-source).
+//  1. The real reason there is no iOS build. Most likely the Apple Developer
+//     Program fee; section 02 currently states the fact without the reason.
+//  2. Section 03's lead reads better in the first person. The we-free version
+//     ships until the owner decides the site-wide person question.
 ---
 
 <Base
   title="Whispr · Private messenger by PointBreakLab"
-  description="A messenger built so your conversations actually belong to you. No accounts, no servers, no phone numbers. End-to-end encrypted via Signal Protocol over LAN, Tor, and Bluetooth mesh."
+  description="A messenger with no account and no server. Signal Protocol end-to-end encryption over Wi-Fi or Tor, and over a Bluetooth mesh that relays phone to phone when there is no signal at all, slowly."
 >
   <Nav />
 
@@ -30,24 +37,20 @@ import '../../styles/global.css';
     <div class="relative max-w-3xl mx-auto text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
         <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-        WHISPR · PRIVATE BY DEFAULT
+        WHISPR · v1.1.16
       </div>
 
       <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
-        <span class="text-primary">Your messages,</span><br/>
-        <span class="text-gradient">only yours.</span>
+        <span class="text-primary">A messenger that works</span><br/>
+        <span class="text-gradient">with the internet off.</span>
       </h1>
 
       <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-3">
-        A messenger that doesn't need an account, a phone number, or even an internet connection. Encrypted end-to-end before it ever leaves your device.
+        With no signal at all a message hops from phone to phone over Bluetooth until it reaches the person it is for. That took about an hour in testing.
       </p>
-      <p class="text-sm text-hint font-mono mb-4">
-        Free · encrypted · never on a server.
-      </p>
-
       <p class="text-sm text-secondary font-mono leading-relaxed mb-10">
         End-to-end encrypted via the <span class="text-primary">Signal Protocol</span> · X3DH + Double Ratchet ·
-        <a href="#architecture" class="text-accent whitespace-nowrap hover:underline">see the architecture →</a>
+        <a href="#architecture" class="text-accent whitespace-nowrap hover:underline">see the crypto →</a>
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -61,7 +64,7 @@ import '../../styles/global.css';
           href="#architecture"
           class="px-8 py-3.5 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all"
         >
-          See the architecture
+          See the crypto
         </a>
       </div>
     </div>
@@ -72,46 +75,46 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
     <div class="section-reveal text-center mb-14">
-      <SectionEyebrow num="01" label="WHAT IT DOES" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it does</h2>
-      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Not features. The floor.
-      </p>
+      <SectionEyebrow num="01" label="TRANSPORTS" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Messages that travel without a server</h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-20">
       <FeatureBlock
         icon="🌐"
-        title="Zero servers"
-        description="Messages travel peer to peer. No company server to subpoena, no database to breach, no authority to comply with."
+        title="The other person still has it"
+        description="Messages go from one phone to the other with no company server in between. Encryption does not take the message back out of their phone."
       />
       <FeatureBlock
         icon="🔐"
         title="Signal Protocol"
-        description="X3DH + Double Ratchet, the same cryptography trusted by journalists, activists, and governments worldwide."
+        description="X3DH and a Double Ratchet, against Signal's published spec."
       />
       <FeatureBlock
         icon="🆔"
         title="No account"
-        description="Your identity is a locally-generated Ed25519 key pair. No email, no phone, no registration of any kind."
+        description="Your identity is an Ed25519 key pair made on the phone, and if you lose the phone the key goes with it, the way an SSH key does."
       />
       <FeatureBlock
         icon="📧"
         title="Encrypted email"
-        description="ECIES-encrypted email between Whispr users: threads, reply-all, forward, with full E2EE and no central server."
+        description="ECIES-encrypted mail between Whispr users, with threads and reply-all."
       />
     </div>
 
     <!-- The three transports (the real differentiator: works with no internet). -->
     <div class="section-reveal">
-      <p class="text-accent text-xs font-mono tracking-widest mb-3 text-center">THREE WAYS TO REACH ANYONE</p>
-      <h3 class="text-2xl md:text-3xl font-black text-primary mb-10 text-center">Even with no internet at all.</h3>
-
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
-          { icon: '🏠', label: 'LAN', title: 'Local network', body: 'On the same Wi-Fi, messages travel directly: sub-second delivery, zero internet required.' },
-          { icon: '🧅', label: 'TOR', title: 'Tor network',   body: 'Route through Tor hidden services for anonymous, censorship-resistant delivery across the internet.' },
-          { icon: '📶', label: 'BLE', title: 'BLE mesh',      body: 'Bluetooth Low Energy mesh: send to people nearby with no Wi-Fi, no internet, no infrastructure at all.' },
+          // CONFIRM: measured LAN delivery time in ms on the author's own Wi-Fi.
+          { icon: '🏠', label: 'LAN', title: 'Local network', body: 'On the same Wi-Fi the phones talk straight to each other.' },
+          // Owner-measured, n=1: Germany to India in under a minute. Still unconfirmed whether
+          // that run included the initial circuit build or reused a warm circuit.
+          { icon: '🧅', label: 'TOR', title: 'Tor network',   body: 'A Tor hidden service reaches someone who is not on your network. One message from Germany to India landed in under a minute. The first message of a session waits while the circuit builds.' },
+          // Owner-measured, n=2: under 5 km, ~1 h and 1 h 25 min. The route is whatever
+          // devices are in range, so the time is not controllable. Still unknown and worth
+          // measuring: the HOP COUNT on those runs, and whether anything beyond 5 km works.
+          { icon: '📶', label: 'BLE', title: 'BLE mesh',      body: 'Each hop is short, but a phone that receives a message passes it on, and nobody in the chain can read it. Tested twice under 5 km it arrived in about an hour, then in an hour and twenty-five minutes. The route is whatever devices happen to be in between, so that time is not something anyone controls.' },
         ].map(({ icon, label, title, body }) => (
           <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors text-center group">
             <div class="text-4xl mb-4">{icon}</div>
@@ -129,9 +132,9 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-2xl mx-auto">
       <div class="section-reveal text-center">
-        <SectionEyebrow num="02" label="GET IT" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Whispr</h2>
-        <p class="text-secondary mb-10">Available for Android. iOS coming soon. No account. No tracking. Just install and go.</p>
+        <SectionEyebrow num="02" label="GET THE APK" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Get the APK</h2>
+        <p class="text-secondary mb-10">Android only, and you will be sideloading the APK, so Android warns you before it installs; if you want to check the signature it should read CN=Whispr, not CN=Android Debug. There is no iOS build.</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
           <DownloadButton
@@ -139,7 +142,7 @@ import '../../styles/global.css';
             href="https://github.com/pointbreaklab-hub/Whispr/releases/latest/download/whispr-android.apk"
             label="Android APK"
           />
-          <DownloadButton platform="ios" href="#" label="iOS, Coming Soon" />
+          <DownloadButton platform="ios" href="#" />
         </div>
 
         <!-- Download counter, fetched client-side from GitHub API, hidden until 1000+ -->
@@ -147,8 +150,8 @@ import '../../styles/global.css';
 
         <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
           <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">1.1.16</span></div>
-          <div class="flex gap-3"><span class="text-hint w-32">Released</span><span class="text-primary">2026</span></div>
-          <div class="flex gap-3"><span class="text-hint w-32">Cost</span><span class="text-primary/80">Free. No accounts, no ads, no tracking.</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Released</span><span class="text-primary">2026-05-17</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Cost</span><span class="text-primary/80">Free.</span></div>
           <div class="flex gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint w-32">SHA-256 (APK)</span><span class="text-primary/60 break-all">3790f59b17c9d5886f77a79d985143cde8b62793aa73d781a177a75968eadf24</span></div>
         </div>
 
@@ -169,7 +172,7 @@ import '../../styles/global.css';
               Some networks block Tor. If your messages don't deliver, install Whispr and open <span class="text-primary">Settings → Network → Bridges</span>. Tap the <span class="font-mono text-accent">(i)</span> icon there for a full step-by-step guide to setting up bridges for your region.
             </p>
             <p class="text-hint text-xs">
-              The instructions live in the app itself so you always have them with you, online or offline.
+              The guide is in the app, because a website is unreachable from the network blocking you.
             </p>
           </div>
         </div>
@@ -182,10 +185,10 @@ import '../../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
     <div class="relative">
       <div class="section-reveal text-center mb-12">
-        <SectionEyebrow num="03" label="ARCHITECTURE" />
-        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Built right, by default.</h2>
+        <SectionEyebrow num="03" label="CRYPTO" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Plaintext that never leaves the two phones</h2>
         <p class="text-secondary max-w-xl mx-auto">
-          The same cryptography Signal uses, with one difference: there's no server in the middle. Even we couldn't read your messages if we wanted to.
+          No new cryptography was designed for Whispr, deliberately: rolling your own is how people who trusted a messenger get hurt, so this is Signal's published design implemented against their spec.
         </p>
       </div>
 
@@ -227,16 +230,19 @@ import '../../styles/global.css';
   <section id="roadmap" class="relative py-24 px-6 max-w-4xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-14">
-      <SectionEyebrow num="04" label="ROADMAP" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What's coming</h2>
+      <SectionEyebrow num="04" label="NEXT" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Not finished yet</h2>
     </div>
 
     <div class="space-y-4">
       {[
-        { tag: 'IN PROGRESS', title: 'obfs4 bridge transport', body: 'Pluggable-transport binary that disguises Tor as TLS, defeating deep-packet inspection in censored networks. Vanilla bridges already shipped in v1.1.14.', status: 'building' },
-        { tag: 'IN PROGRESS', title: 'Voice & video calls', body: 'End-to-end encrypted peer-to-peer calls over LAN and Tor. No relay server, no recording, no third party.', status: 'building' },
-        { tag: 'PLANNED', title: 'Group messaging', body: 'Multi-party encrypted group chats using a shared group key, derived without a central key server.', status: 'planned' },
-        { tag: 'PLANNED', title: 'Self-destructing messages', body: 'Per-message timers. Messages evaporate from both devices after the set duration, with no trace left.', status: 'planned' },
+        // The v1.1.14 changelog entry promised obfs4 for v1.1.15 and v1.1.15 shipped the in-app bridges guide instead.
+        // CONFIRM: the reason it slipped, most likely packaging a pluggable-transport binary inside the APK.
+        { tag: 'IN PROGRESS', title: 'obfs4 bridge transport', body: 'obfs4 hides Tor traffic from deep-packet inspection by making it look like ordinary TLS; vanilla bridges shipped in v1.1.14 and obfs4 was meant to follow in v1.1.15, which it did not.', status: 'building' },
+        { tag: 'IN PROGRESS', title: 'Voice & video calls', body: 'None of this works yet. Latency over Tor and NAT traversal without a relay are both unsolved.', status: 'building' },
+        // CONFIRM: whether group-key rotation on member exit is the blocker, or only one of them.
+        { tag: 'PLANNED', title: 'Group messaging', body: 'Rotating the key when someone leaves is the unsolved part. Everything else is a shared group key derived between the members.', status: 'planned' },
+        { tag: 'PLANNED', title: 'Self-destructing messages', body: 'Per-message timers that delete on both devices when they expire, though a screenshot beats them.', status: 'planned' },
       ].map(({ tag, title, body, status }) => {
         const cardBorder =
           status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]'

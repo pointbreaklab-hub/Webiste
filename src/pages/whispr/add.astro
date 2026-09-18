@@ -6,7 +6,7 @@ import '../../styles/global.css';
 
 <Base
   title="Add me on Whispr"
-  description="A friend wants to chat with you on Whispr, the private, serverless messenger."
+  description="Someone sent you a Whispr invite link. This page opens it."
 >
   <Nav />
 
@@ -19,7 +19,7 @@ import '../../styles/global.css';
 
       <h1 class="text-3xl md:text-4xl font-black text-primary mb-3">Add me on Whispr</h1>
       <p class="text-secondary leading-relaxed mb-8">
-        A friend has invited you to a private conversation on Whispr, the serverless, end-to-end encrypted messenger.
+        Someone wants to talk to you on Whispr. Messages go straight from their phone to yours, encrypted, with nothing to sign up for.
       </p>
 
       <!-- App-installed path: visible immediately if the app handles whispr:// links -->
@@ -56,14 +56,14 @@ import '../../styles/global.css';
           Download Whispr for Android
         </a>
         <p class="text-hint text-xs">
-          iOS coming soon. After you install Whispr, tap the invite link again to add your contact.
+          Android only, no iOS build. After you install Whispr, tap the invite link again to add your contact.
         </p>
       </div>
 
       <div class="mt-12 pt-8 border-t border-border text-left text-xs text-hint space-y-2">
-        <p><span class="text-primary">Private by default:</span> No accounts, no servers, no metadata.</p>
-        <p><span class="text-primary">End-to-end encrypted:</span> Same Signal Protocol the journalists use.</p>
-        <p><span class="text-primary">Free forever:</span> No ads, no tracking, no compromise.</p>
+        <p><span class="text-primary">What you are installing:</span> a messenger with no server in the middle. Messages go over Tor, over your local network when both phones are on one, or hop by hop over Bluetooth when there is no network at all, and whatever carries them in between is carrying ciphertext.</p>
+        <p><span class="text-primary">The encryption:</span> X3DH and the Double Ratchet, published by Signal and used by Signal itself.</p>
+        <p><span class="text-primary">Cost:</span> free. First launch asks to run unrestricted in the background; without that, Android throttles Tor once the screen goes off.</p>
       </div>
     </div>
   </main>

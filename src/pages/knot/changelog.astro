@@ -22,34 +22,49 @@ interface Release {
   kind: 'feature' | 'fix' | 'polish' | 'note';
 }
 
+// OWNER DECISION: first person "I" proposed in the v1.0.0 body. "I installed the
+// .deb on the Linux box and read dpkg's log to check it had landed" is the honest
+// version; shipped here agentless because the site has no "I" yet.
+//
+// OPEN QUESTIONS. They live here and not in the copy: Astro emits HTML comments
+// into the page and a bracketed marker inside a body string renders as visible
+// text, so an editorial note in the template ships to the reader.
+//  - v1.0.2: the internal record has the soak harness flagging five refusals,
+//    all five real. The figure is withheld here until the run and the date it
+//    came from can be stated next to it.
+//  - v1.0.2 / v1.0.1 / v1.0.0: "the Mac" and "the Linux box" are the two
+//    machines in the internal record. Confirm they can be named in public copy.
+//  - v0.1.0: which machine the self-contained binaries were launched on.
+//  - v1.0.0: whether Windows is missing for want of time or want of a
+//    toolchain, so the sentence can say which.
 const releases: Release[] = [
   {
     tag: 'v1.0.2',
     date: '2026-08-26',
     kind: 'fix',
-    title: 'Sending files over Tor now works — upgrade from v1.0.0 / v1.0.1',
-    body: 'Fixes the known issue from v1.0.1: sending a file attachment over Tor never worked (every transfer failed immediately), and transfers now also retry per network hiccup instead of giving up. Also fixed: cloning a project over Tor could leave an empty folder while reporting success when your git default branch name differed from the project\'s — the clone now checks out the right branch or refuses loudly. Verified by repeated soak runs over real onion circuits, both directions, checksummed end to end. Honest limit that remains: two machines both editing the same project over slow links will diverge and Knot refuses to merge silently — full merge support is the next major feature.',
+    title: 'Sending files over Tor now works',
+    body: 'Fixes the known issue from v1.0.1: sending a file attachment over Tor never worked (every transfer failed immediately). Transfers now retry after a network hiccup instead of giving up. Cloning a project over Tor could also leave an empty folder while reporting success when your git default branch name differed from the project\'s; the clone now checks out the right branch or refuses loudly. Both went through the soak harness, Mac to Linux box and back over Tor, with the file checksummed at each end. Two machines both editing the same project over slow links will still diverge, and Knot stops instead of merging behind your back. Full merge support is the next major feature. Upgrade from v1.0.0 or v1.0.1.',
   },
   {
     tag: 'v1.0.1',
     date: '2026-08-26',
     kind: 'fix',
-    title: 'Attachment transfer fix — upgrade from v1.0.0',
-    body: 'Fixes a defect where a file attachment sent over an established peer session was silently dropped: the sender saw "delivered" while the receiver got a message with no file. Two of the three session paths were missing the chunk-handling the third already had; the fix closes both, and a real 41 MB transfer now arrives byte-for-byte. If you are on v1.0.0, upgrade — reinstall the app (macOS) or `sudo apt install ./knot-vcs-amd64.deb` (Linux). Nothing else about your setup changes; your projects, identity, and pairings carry over.',
+    title: 'The receiver got the message and not the file',
+    body: 'The sender saw "delivered" and the receiver got a message with no file. A file attachment sent over an established peer session was being dropped silently: two of the three session paths were missing the chunk-handling the third already had. The fix closes both, and a 41 MB transfer from the Mac to the Linux box now arrives byte-for-byte. If you are on v1.0.0, upgrade: reinstall the app (macOS) or `sudo apt install ./knot-vcs-amd64.deb` (Linux). Nothing else about your setup changes. Your projects and your pairings are where you left them.',
   },
   {
     tag: 'v1.0.0',
     date: '2026-08-26',
     kind: 'feature',
-    title: 'V1: a real Linux installer, signed commits, and a first run that cannot go wrong',
-    body: 'Knot\'s first complete release, verified end-to-end on real hardware on both platforms before shipping. Linux moves from a tarball to a proper .deb: one `sudo apt install` command handles dependencies, systemd service integration, and clean in-place upgrades. Every commit is now signed by your device identity and verifiable with plain `git log --show-signature` on any machine — no Knot tooling needed to check the receipt. The first-run welcome was hardened against the small stuff that ruins a first impression: a double-click can no longer skip the identity step or press hidden buttons, and security prompts (trust this network, accept this device) wait their turn instead of hiding behind the welcome. The app icon is now a proper macOS icon. New: a step-by-step installation guide covering macOS, Linux, download verification, and your first synced save. Still true and still stated plainly: macOS is not yet notarized (one-time Gatekeeper step), merges of diverged histories are manual via `git`, and Windows is in development.',
+    title: 'V1: a proper .deb, signed commits, and a first run that no longer skips the identity step',
+    body: 'Knot\'s first complete release. Before it went out, the .dmg went on the Mac and the .deb on the Linux box, with dpkg\'s log read afterwards to check it had really landed. Linux moves from a tarball to a proper .deb: one `sudo apt install` command handles dependencies, systemd service integration, and clean in-place upgrades. Every commit is now signed by your device identity and verifiable with plain `git log --show-signature` on any machine, no Knot tooling needed to check the receipt. The welcome screen was the embarrassing part. A fast double-click could skip the identity step entirely or hit a button that had not appeared yet, and the security prompts (trust this network, accept this device) would surface behind the welcome instead of waiting their turn. Both fixed. The app icon is now a proper macOS icon. New: a step-by-step installation guide covering macOS, Linux, download verification, and your first synced save. macOS is not yet notarized (one-time Gatekeeper step), merges of diverged histories are manual via `git`, and there is no Windows build.',
   },
   {
     tag: 'v0.1.0',
     date: '2026-07-12',
     kind: 'feature',
     title: 'Public free download, macOS + Linux, self-contained',
-    body: 'The first public build of Knot that runs anywhere, with nothing to install first. Drop any folder into Knot and every save becomes a real git commit that syncs to your paired machines within seconds, peer-to-peer over Tor and your local network, no account, no cloud, no central server. The macOS app (.dmg) and the Linux tarball (x86_64, glibc 2.31+) are now fully self-contained: no Homebrew, no system openssl, no Rust toolchain, verified by launching the binaries on a clean machine. macOS is ad-hoc-signed (not yet Apple-notarized), so the first launch needs a one-time Gatekeeper wave-through, the steps are on the download page. Under the hood it is real git, so you can drop to plain git commands any time. Full three-way merge, a first-run wizard, on-device AI in the bundle, and a notarized installer + Windows build are still in flight.',
+    body: 'The first public build of Knot that runs anywhere, with nothing to install first. Drop any folder into Knot and every save becomes a real git commit that syncs to your paired machines, peer-to-peer over Tor and your local network. The macOS app (.dmg) and the Linux tarball (x86_64, glibc 2.31+) now carry their own openssl and their own runtime, so the binaries launch on a machine that has never had Homebrew or a Rust toolchain on it. macOS is ad-hoc-signed (not yet Apple-notarized), so the first launch needs a one-time Gatekeeper wave-through; the steps are on the download page. Under the hood it is real git, so you can drop to plain git commands any time. A first-run wizard and a notarized installer were both still ahead.',
   },
 ];
 
@@ -79,7 +94,7 @@ const latest = releases[0];
 
 <Base
   title="Changelog · Knot"
-  description="Release log for Knot, peer-to-peer version control. Save → commit → sync across your machines over Tor and LAN, with no central server."
+  description="Release log for Knot, the peer-to-peer version control app for macOS and Linux."
 >
   <Nav />
 
@@ -88,13 +103,13 @@ const latest = releases[0];
 
       <div aria-hidden="true" class="absolute top-24 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
-      <SectionEyebrow num="00" label="CHANGELOG" align="center" />
+      <SectionEyebrow num="00" label="SHIPPED" align="center" />
 
       <h1 class="text-4xl md:text-5xl font-black text-primary text-center mb-4 tracking-tight">
-        Knot, what changed
+        Knot releases
       </h1>
       <p class="text-secondary text-center max-w-xl mx-auto mb-3 leading-relaxed">
-        Every release of Knot, the features and fixes that landed on the app.
+        v1.0.0 through v1.0.2 all carry the same date, August 26, 2026. V1 shipped that day, and two fixes followed it before the day was over.
       </p>
       <p class="text-hint text-center text-xs font-mono mb-16">
         Latest: {latest.tag} · {fmtDate(latest.date)}
@@ -123,7 +138,7 @@ const latest = releases[0];
 
       <div class="mt-20 pt-10 border-t border-border text-center text-xs text-hint space-y-2">
         <p>
-          Full technical release notes (SHA-256s, build details, download counts) live on
+          Each download has a SHA-256 and build details on
           <a href="https://github.com/pointbreaklab-hub/knot/releases"
              class="text-accent hover:underline"
              rel="noopener">GitHub</a>.
