@@ -4,39 +4,46 @@ import Nav    from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 
+// [CONFIRM: exact day of the last revision, to match Heart's '5 May 2026']
 const lastUpdated = 'May 2026';
 const contactEmail = 'mail.roshankumargupta@gmail.com';
 
 const sections = [
   {
     n: '1',
-    title: 'Who We Are',
-    body: `Whispr is developed and maintained under the name PointBreakLab (pointbreaklab.com), a privacy-first independent software project based in Würzburg, Germany. The operator is the data controller for the purposes of applicable privacy law (GDPR / DSGVO).\n\nContact: ${contactEmail}`,
+    title: 'Who Operates Whispr',
+    body: `Whispr is written and maintained by one developer in Würzburg, Germany, publishing under the name PointBreakLab (pointbreaklab.com). The operator is the data controller for the purposes of applicable privacy law (GDPR / DSGVO).\n\nContact: ${contactEmail}`,
   },
   {
     n: '2',
     title: 'What Data We Collect',
-    body: `We collect nothing.\n\nWhispr has no backend servers, no registration system, no accounts in the cloud, and no analytics SDK. The app never connects to a PointBreakLab server.`,
+    body: `We collect nothing.\n\nWhispr has no registration step and no backend to register against. The build carries no analytics SDK, and the app never opens a connection to a PointBreakLab server.`,
   },
   {
     n: '3',
-    title: 'How the App Works (and Why It Is Private)',
-    body: `Whispr is a serverless, peer-to-peer messaging application. Messages travel directly between devices over three channels:\n\n• Local Wi-Fi (LAN), direct HTTP between devices on the same network, with every message wrapped in ECIES application-layer encryption so contents are invisible to other devices on the same network.\n\n• Bluetooth LE mesh, multi-hop relay between nearby devices for offline messaging. Payloads are end-to-end encrypted before entering the mesh.\n\n• Tor hidden services, over the internet via the Tor anonymity network. Your IP address is not revealed to your contact.\n\nAll three channels apply end-to-end encryption using the Signal Protocol (X3DH key agreement + Double Ratchet algorithm) before any data leaves your device. PointBreakLab cannot decrypt your messages even if compelled by law.`,
+    // Mesh relay measured by the owner, n=2: under 5 km in ~1 h and 1 h 25 min.
+    // The HOP COUNT on those runs is still unmeasured.
+    title: 'How a Message Travels',
+    body: `Messages travel directly between devices over three channels:\n\n• Local Wi-Fi (LAN), direct HTTP between devices on the same network, with every message wrapped in ECIES application-layer encryption so contents are invisible to everything else on that network.\n\n• Bluetooth LE mesh, multi-hop relay between nearby devices for offline messaging. Payloads are end-to-end encrypted before entering the mesh. This is the least dependable of the three: through walls, with people moving, a hop can simply fail.\n\n• Tor hidden services, over the internet via the Tor anonymity network. Your IP address is not revealed to your contact.\n\nAll three channels apply end-to-end encryption using the Signal Protocol (X3DH key agreement + Double Ratchet algorithm) before any data leaves your device. PointBreakLab cannot decrypt your messages even if compelled by law.`,
   },
   {
     n: '4',
     title: 'Local Data Storage',
-    body: `All app data is stored exclusively on your device:\n\n• Messages, contacts, and settings are stored in an SQLite database encrypted with SQLCipher (AES-256-CBC full-file encryption) on Android and iOS.\n\n• Cryptographic private keys are stored in your device's secure hardware enclave: Android Keystore on Android, iOS Keychain on iPhone.\n\n• The database encryption key is derived from your password using PBKDF2-SHA512 (200,000 iterations) and is never stored in plaintext.\n\n• Whispr does not use iCloud, Google Drive, or any cloud backup for message data. If you use the built-in encrypted backup feature, the backup file is saved to your local device storage, you control where it goes.`,
+    body: `All app data is stored exclusively on your device:\n\n• Messages, contacts, and settings are stored in an SQLite database encrypted with SQLCipher (AES-256-CBC full-file encryption) on Android and iOS.\n\n• Cryptographic private keys are stored in your device's secure hardware enclave: Android Keystore on Android, iOS Keychain on iPhone.\n\n• The database encryption key is derived from your password using PBKDF2-SHA512 (200,000 iterations) and is never stored in plaintext.\n\n• Whispr does not use iCloud, Google Drive, or any cloud backup for message data. If you use the built-in encrypted backup feature, the backup file is saved to your local device storage, and you pick the folder.`,
   },
   {
     n: '5',
+    // OWNER DECISION: first person "I" proposed here. The Firebase admission is the most
+    // human passage on the page and would land harder as "I could not find a QR scanner
+    // that does not drag Firebase in with it." Not shipped: site-wide person is unresolved.
+    // [CONFIRM: which QR libraries were tried before ML Kit]
     title: 'Third-Party Services',
-    body: `Whispr contains no advertising SDKs, no social login, and no third-party analytics.\n\nThe only third-party component that may contact an external server is the embedded Tor daemon, which connects to the Tor network for routing, not to any PointBreakLab server. The Tor Project's privacy policy applies to that connection (torproject.org).\n\nThe QR-code scanning library (Google ML Kit via mobile_scanner) includes Firebase Transport Runtime as a transitive dependency. This component is bundled but does not transmit data; it is used only for local barcode detection. No Firebase project is configured in Whispr.`,
+    body: `Whispr carries no ad SDK and no social-login button.\n\nThe only third-party component that may contact an external server is the embedded Tor daemon, which connects to the Tor network for routing, not to any PointBreakLab server. The Tor Project's privacy policy applies to that connection (torproject.org).\n\nThe QR-code scanning library (Google ML Kit via mobile_scanner) includes Firebase Transport Runtime as a transitive dependency. This component is bundled but does not transmit data; it is used only for local barcode detection. No Firebase project is configured in Whispr. The runtime is there because it arrives with ML Kit.`,
   },
   {
     n: '6',
     title: 'Device Permissions',
-    body: `Whispr requests the following device permissions and explains exactly why:`,
+    body: `The battery permission is the one worth arguing about: Android throttles the Tor service the moment the screen goes off, and Whispr has no server to hold a message in the meantime.`,
     table: [
       ['Bluetooth',     'Discover nearby Whispr contacts and exchange messages over BLE mesh without internet.'],
       ['Camera',        'Scan QR codes to add contacts or restore your account. No photos are taken or stored.'],
@@ -49,7 +56,7 @@ const sections = [
   {
     n: '7',
     title: 'Data Retention & Deletion',
-    body: `Because all data exists only on your device, you are in full control of deletion:\n\n• Uninstalling the app removes all stored data.\n\n• The "Data Burn" feature (Settings → Security → Panic Button) performs a 3-pass cryptographic wipe: the database encryption key is destroyed first (making all stored data permanently unreadable), all table rows are deleted, and the database file is overwritten three times before unlinking.\n\n• Disappearing messages are automatically deleted from your device after the timer you set expires.\n\nThere is no data stored with PointBreakLab to delete.`,
+    body: `Everything lives on your device, so you delete it yourself:\n\n• Uninstalling the app removes all stored data.\n\n• The "Data Burn" feature (Settings → Security → Panic Button) performs a 3-pass cryptographic wipe: the database encryption key is destroyed first (making all stored data permanently unreadable), all table rows are deleted, and the database file is overwritten three times before unlinking. On flash storage the overwrite is the weakest of those three steps; destroying the key is what actually makes the data unreadable.\n\n• Disappearing messages are automatically deleted from your device after the timer you set expires.\n\nThere is no data stored with PointBreakLab to delete.`,
   },
   {
     n: '8',
@@ -59,17 +66,18 @@ const sections = [
   {
     n: '9',
     title: 'Your Rights (GDPR / CCPA)',
-    body: `Under GDPR, CCPA, and similar laws you have rights including access, rectification, erasure, and portability of your personal data.\n\nBecause PointBreakLab holds no personal data about you, there is nothing for us to access, correct, export, or delete on our end. All such data exists only on your device and is entirely under your control.\n\nIf you have questions, contact us at ${contactEmail}.`,
+    body: `Under GDPR, CCPA, and similar laws you have rights including access, rectification, erasure, and portability of your personal data.\n\nPointBreakLab holds no personal data about you, so there is nothing on this end to access, correct, export, or delete, and everything those rights cover is already sitting in the encrypted database on your phone where you can reach it without asking anyone.`,
   },
   {
     n: '10',
     title: 'Security',
-    body: `Whispr is designed from the ground up for security:\n\n• End-to-end encryption: X3DH + Double Ratchet (Signal Protocol), AES-256-GCM per message.\n\n• At-rest encryption: SQLCipher AES-256 full-database encryption on mobile.\n\n• Key protection: private keys stored in Android Keystore / iOS Keychain with hardware-backed protection.\n\n• Transport: ECIES application-layer encryption on LAN; Tor hidden services for internet transport.\n\nNo security system is perfect. Whispr is provided as-is without warranty. See the in-app Security Guide for best practices.`,
+    body: `• End-to-end encryption: X3DH + Double Ratchet (Signal Protocol), AES-256-GCM per message.\n\n• At-rest encryption: SQLCipher AES-256 full-database encryption on mobile.\n\n• Key protection: private keys stored in Android Keystore / iOS Keychain with hardware-backed protection.\n\n• Transport: ECIES application-layer encryption on LAN; Tor hidden services for internet transport; BLE mesh, multi-hop, for offline relay.\n\nNo security system is perfect. Whispr is provided as-is without warranty. See the in-app Security Guide for best practices.`,
   },
   {
     n: '11',
+    // [CONFIRM: how many revisions since v1.0]
     title: 'Changes to This Policy',
-    body: `We may update this Privacy Policy when we release a new version of the app. The updated policy will be included in the new version and available at pointbreaklab.com. The date at the top of this document reflects the most recent revision.`,
+    body: `This document changes only when a new build of the app ships, because nothing can push it out on its own. The copy inside Whispr and the copy at pointbreaklab.com are edited together. The date at the top of this document reflects the most recent revision.`,
   },
   {
     n: '12',
@@ -79,20 +87,19 @@ const sections = [
 ];
 
 const dataTable = [
-  ['Messages',       'Stored encrypted on your device only (AES-256-GCM). Never transmitted to us.'],
-  ['Contacts',       'Stored encrypted on your device only. Never uploaded anywhere.'],
+  ['Messages',       'Encrypted on your device with AES-256-GCM, and never sent anywhere.'],
+  ['Contacts',       'In the same encrypted database as the messages, and no copy of it is uploaded.'],
   ['Identity key',   'Generated on your device, stored in your device keychain. We never see it.'],
   ['Display name',   'Stored locally. Shared only with contacts you explicitly message.'],
-  ['IP address',     'Used transiently for LAN peer discovery. Never logged or sent to us.'],
-  ['Crash reports',  'None. No crash reporting SDK is included.'],
-  ['Analytics',      'None. No analytics SDK is included.'],
+  ['IP address',     'Used only while finding peers on your own Wi-Fi. Never logged and never sent to us.'],
+  ['Crash + analytics', 'No crash-reporter SDK and no analytics SDK are in the build, so neither one runs.'],
   ['Advertising ID', 'Never accessed.'],
 ];
 ---
 
 <Base
-  title="Privacy Policy, Whispr"
-  description="Whispr collects zero personal data. Messages, contacts, and identity keys live only on your device. No analytics, no servers, no tracking."
+  title="Whispr Privacy Policy"
+  description="Whispr has no backend. Messages, contacts and identity keys stay in an encrypted database on your phone, and the app never connects to PointBreakLab."
 >
   <Nav />
 
@@ -106,7 +113,7 @@ const dataTable = [
         </span>
         <h1 class="text-4xl md:text-5xl font-black text-primary mb-5">Whispr Privacy Policy</h1>
         <p class="text-secondary leading-relaxed max-w-xl mx-auto">
-          Whispr is built on one principle: your conversations belong only to you. We have no servers, collect no data, and have no ability to read your messages.
+          There is no Whispr server. Messages go device to device over Wi-Fi, Bluetooth or Tor, and the keys that would decrypt them never leave your phone.
         </p>
       </header>
 
@@ -117,7 +124,7 @@ const dataTable = [
           <path d="M8 11l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <p class="text-secondary text-sm leading-relaxed">
-          Whispr collects zero personal data. Nothing is transmitted to PointBreakLab or any third party. Everything stays on your device.
+          The one component that reaches the internet on its own is the bundled Tor daemon, and it reaches the Tor network, never a PointBreakLab address.
         </p>
       </div>
 

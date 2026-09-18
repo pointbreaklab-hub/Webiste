@@ -9,7 +9,7 @@ export interface Props {
 
 const {
   title = 'PointBreakLab · Privacy-First Applications',
-  description = 'PointBreakLab builds privacy-first applications for a world that is watching. No servers. No surveillance. No compromise.',
+  description = 'PointBreakLab is one person building apps that keep your data on the devices you own. Whispr, Heart, Knot and Knot AI, all free.',
   ogImage = '/og-image.svg',
 } = Astro.props;
 
@@ -22,11 +22,11 @@ const orgJsonLd = {
   name: 'PointBreakLab',
   url: 'https://pointbreaklab.com',
   logo: 'https://pointbreaklab.com/favicon.svg',
-  description: 'Privacy-first software studio building applications that cannot be surveilled.',
+  description: 'One person building applications that keep your data on the devices you own.',
   founder: {
     '@type': 'Person',
     name: 'Roshan Kumar Gupta',
-    jobTitle: 'Software Engineer',
+    jobTitle: 'Student',
   },
   address: {
     '@type': 'PostalAddress',
@@ -46,8 +46,8 @@ const appJsonLd = {
   name: 'Whispr',
   applicationCategory: 'CommunicationApplication',
   operatingSystem: 'Android',
-  description: 'Serverless, P2P encrypted messenger. No accounts, no servers, no metadata.',
-  downloadUrl: 'https://pointbreaklab.com/downloads/whispr-android.apk',
+  description: 'Encrypted messenger with no account and no server. Signal Protocol over your LAN or over Tor, and a Bluetooth mesh that relays phone to phone when there is no signal.',
+  downloadUrl: 'https://github.com/pointbreaklab-hub/Whispr/releases/latest/download/whispr-android.apk',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   publisher: { '@type': 'Organization', name: 'PointBreakLab' },
 };

@@ -17,16 +17,16 @@ import '../styles/global.css';
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-16">
       <SectionEyebrow num="01" label="THE LAB" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What we build</h2>
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">The apps</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Every application from PointBreakLab is built on the same principle: your data belongs to you.
+        Four of these you can install today. Elixir is still being built.
       </p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <AppCard
         name="Whispr"
         tagline="PRIVATE BY DEFAULT"
-        description="A messenger built so your conversations actually belong to you. No accounts, no servers, no phone numbers."
+        description="Whispr runs the Signal Protocol over your LAN, or over Tor when you are not on the same network. With no network at all it goes by Bluetooth, hopping phone to phone until it reaches the right person, which took about an hour over a distance under 5 km. Your identity is a key the app generates on the phone."
         icon="🔒"
         href="/whispr/"
         active={true}
@@ -34,7 +34,7 @@ import '../styles/global.css';
       <AppCard
         name="Heart"
         tagline="LOCAL-FIRST WELLNESS"
-        description="A wellness app for Bluetooth heart-rate bands. HR, HRV, sleep stages, recovery, strain. All on-device. No account, no cloud, no subscription."
+        description="A wellness app for Bluetooth heart-rate bands. HR, HRV, sleep stages, recovery and strain, on the phone. No band, nothing to read."
         icon="❤️"
         href="/heart/"
         active={true}
@@ -42,7 +42,7 @@ import '../styles/global.css';
       <AppCard
         name="Knot"
         tagline="PEER-TO-PEER VERSION CONTROL"
-        description="Save a file. A few seconds later it's a real commit on every teammate's machine. No GitHub account, no central server, no four-step push ritual. Peer-to-peer over Tor."
+        description="Save a file. Knot waits until you stop typing, then makes a real commit. That commit goes to every paired machine over Tor."
         icon="🪢"
         href="/knot/"
         active={true}
@@ -51,7 +51,7 @@ import '../styles/global.css';
       <AppCard
         name="Knot AI"
         tagline="TWO ON-DEVICE MODELS"
-        description="A model family that runs on your machine: Knot Scribe writes your commit messages, Knot Delta explains what changed. Open weights on Hugging Face and Ollama."
+        description="Knot Scribe writes commit messages. Knot Delta explains what changed, and it pins the exact line 52 to 74% of the time, lowest on Rust. The weights are on Hugging Face and Ollama."
         icon="✍️"
         href="/knot-ai/"
         active={true}
@@ -60,14 +60,14 @@ import '../styles/global.css';
       <AppCard
         name="Elixir"
         tagline="OFFLINE VAULT · COMING LATER"
-        description="An encrypted secrets vault: passwords, recovery codes, anything you'd lose sleep over leaking. Lives only on your device."
+        description="An encrypted vault that stays on one device: passwords, recovery codes, anything you'd lose sleep over leaking."
         icon="🧪"
       />
     </div>
   </section>
 
   <!-- ── 02 PROOF ──────────────────────────────────────────────────────────
-       Receipts for the privacy claims in the hero. Privacy products carry a
+       Receipts for the no-server claim in the hero badge. Privacy products carry a
        higher proof burden than most product claims because users can't
        verify them by using the product, only by inspecting the
        architecture. The full architecture lives at /whispr/#architecture;
@@ -80,9 +80,9 @@ import '../styles/global.css';
     <div class="relative max-w-3xl mx-auto">
       <div class="section-reveal text-center mb-12">
         <SectionEyebrow num="02" label="PROOF" />
-        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Receipts, not claims.</h2>
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">What holds for every app here</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          Privacy claims need evidence. These guarantees hold for every PointBreakLab app, by architectural choice, not company policy.
+          Whispr, Heart and Knot were built without a server behind them, and Elixir will be the same. Knot was the hard one, because peer-to-peer version control is where a central server would have been the easy answer.
         </p>
       </div>
 
@@ -106,7 +106,7 @@ import '../styles/global.css';
             ['Server',      'None · peer-to-peer or local-only by design'],
             ['Accounts',    'None · no email, no phone, no registration'],
             ['Telemetry',   'None · no analytics, no crash reports, no usage pings'],
-            ['Trust model', 'Open algorithms · architecture, not policy'],
+            ['Trust model', 'Published algorithms · you cannot rebuild the binaries yourself'],
           ].map(([key, val]) => (
             <div class="flex gap-4 items-baseline">
               <span class="text-hint shrink-0 w-32">{key}</span>
@@ -136,11 +136,18 @@ import '../styles/global.css';
       <div>
         <div class="mb-3"><SectionEyebrow num="03" label="THE STUDIO" align="left" /></div>
         <h2 class="text-3xl md:text-4xl font-black text-primary mb-6">About PointBreakLab</h2>
+        {/* The only first-person block on the site. His photo, his name and the
+             university crest sit in the column beside it, and every fact here is
+             something only he can say. The rest of the site stays in the neutral
+             product voice. Owner confirmed the account this is written from. */}
         <p class="text-secondary leading-relaxed mb-5">
-          PointBreakLab is a studio building privacy-first applications. Every app ships free, with zero access to your data, by design, not by policy.
+          I started with Whispr. I wanted a chat app where nobody has to be scared someone is watching. Every one I found runs through a server, so Whispr has no physical server and your data stays with you. The website exists because Whispr needed a home.
+        </p>
+        <p class="text-secondary leading-relaxed mb-5">
+          The name was trouble. Nothing fit for a long time, then I heard Point Break in an Avengers film and liked it enough to keep it. Lab I mean literally. None of these apps happened by fluke and each one has research behind it. I believe one day people will look into it and recognise PointBreakLab.
         </p>
         <p class="text-secondary leading-relaxed mb-8">
-          Every tool starts from the same question: what would this app look like if we genuinely had no access to your data? Whispr is the answer for communication.
+          Heart I built for myself, off a cheap Coospo HW9 chest strap, to read my own body data. Then Knot, version control where your code belongs to your machine. There is honestly too much built here now and I keep shipping updates. They are free.
         </p>
         <div id="contact" class="flex gap-4">
           <a href="mailto:mail.roshankumargupta@gmail.com"
@@ -161,7 +168,7 @@ import '../styles/global.css';
         />
         <div class="text-center">
           <p class="text-primary font-bold">Roshan Kumar Gupta</p>
-          <p class="text-secondary text-sm">Software Engineer · PointBreakLab</p>
+          <p class="text-secondary text-sm">Student · builds and ships everything here</p>
           <!-- JMU affiliation: official UNI WÜ mark + historic seal + name. -->
           <a
             href="https://www.uni-wuerzburg.de/en/"
@@ -207,14 +214,15 @@ import '../styles/global.css';
   <!-- ── 04 UPDATES, "From the lab" news feed ───────────────────────────────
        Page-rendered list (no widget): always non-empty, no login, no tracker.
        To post an update, prepend an entry to the `updates` array below and
-       redeploy, same pattern as the per-product changelogs. -->
+       redeploy, same pattern as the per-product changelogs. The h2 names the
+       month the entries are from, so change it when you prepend. -->
   <section id="updates" class="relative py-32 px-6 max-w-3xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-12">
       <SectionEyebrow num="04" label="UPDATES" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">From the lab.</h2>
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Both of June's updates were Knot</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Product news as it ships.
+        New entries land here when something ships, which is not often.
       </p>
     </div>
 
@@ -224,13 +232,13 @@ import '../styles/global.css';
           date: 'Jun 2026',
           tag: 'KNOT',
           title: 'Knot is here',
-          body: 'Peer-to-peer version control for the AI era: save becomes commit becomes synced, with no central server. Free download for Mac and Linux on the Knot page.',
+          body: 'Syncs a folder between machines over Tor, and the two ends talk straight to each other. Mac and Linux, free on the Knot page.',
         },
         {
           date: 'Jun 2026',
           tag: 'KNOT',
           title: 'Follow Knot from your phone',
-          body: 'A companion mobile app streams every synced repo read-only over your LAN and pings you when a commit lands or an agent finishes a task. Keep an eye on the work from anywhere in the house.',
+          body: 'A phone app that mirrors every synced repo read-only over the LAN, so you can keep an eye on the work from anywhere in the house.',
         },
       ].map(({ date, tag, title, body }) => (
         <div class="section-reveal flex gap-5 p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">

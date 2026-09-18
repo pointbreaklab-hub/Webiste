@@ -2,7 +2,9 @@
 // Resolve the Download CTA target from the current URL so the button
 // always points at THIS product's download section instead of always
 // firing the user at Whispr's. Homepage (no product context) keeps
-// Whispr as the default since Whispr is the studio's flagship app.
+// Whispr as the default since Whispr is the most finished of them.
+// Changelogs live per product (/whispr/changelog/, /heart/changelog/),
+// so there is no top-level Changelog link in the nav.
 const path = Astro.url.pathname;
 let downloadHref = '/whispr/#download';
 let downloadLabel = 'Download';
@@ -30,10 +32,8 @@ if (path.startsWith('/heart')) {
       </span>
     </a>
 
-    <!-- Desktop links, full paths so they work from any page (homepage,
-         /whispr/, /heart/, /privacy/). Per-product changelogs live under
-         each app's subtree (/whispr/changelog/, /heart/changelog/) so
-         the global Nav doesn't need a top-level Changelog entry. -->
+    <!-- Absolute paths, never bare #anchors, which break from any page
+         that is not the homepage. -->
     <ul class="hidden md:flex items-center gap-8 text-sm text-secondary">
       <li><a href="/#apps"               class="hover:text-primary transition-colors">Apps</a></li>
       <li><a href="/whispr/"             class="hover:text-primary transition-colors">Whispr</a></li>
@@ -43,8 +43,7 @@ if (path.startsWith('/heart')) {
       <li><a href="/#about"              class="hover:text-primary transition-colors">About</a></li>
     </ul>
 
-    <!-- CTA, context-aware: routes to the current product's download
-         section. -->
+    <!-- CTA routes to the current product's download section. -->
     <a
       href={downloadHref}
       class="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-bg text-sm font-semibold hover:bg-white transition-colors"
