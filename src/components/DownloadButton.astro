@@ -18,7 +18,7 @@ const Tag = comingSoon ? 'div' : 'a';
 <Tag
   href={comingSoon ? undefined : href}
   aria-disabled={comingSoon ? 'true' : undefined}
-  class={`flex items-center gap-3 px-6 py-4 rounded-2xl bg-surface border border-border transition-all group ${comingSoon ? 'opacity-50 cursor-default select-none' : 'hover:border-accent/40 hover:bg-accent/5'}`}
+  class={`flex items-center gap-3 px-6 py-4 rounded-2xl bg-surface border border-border transition-all group ${comingSoon ? 'opacity-50 cursor-default select-none' : 'hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg'}`}
 >
   {isAndroid ? (
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" class="text-accent">

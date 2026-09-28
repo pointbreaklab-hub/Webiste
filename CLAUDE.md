@@ -281,33 +281,47 @@ release, not in `index.astro`.
 
 ### `src/pages/heart/index.astro` — product page (Heart)
 
-> **LEAN REWRITE 2026-07-28 — see "De-bloat campaign" above. This was
-> the longest page on the site: 713 → 351 lines (−51%). Download moved
-> from section 04 to section 02. CUT and do NOT restore: the 5-slide
-> phone carousel (now one static shot), the "THE BAND IS JUST A SENSOR"
-> prose block, the 14-row Coospo-vs-Heart comparison table, the 3-step
-> HOW IT WORKS panel, and 8 → 4 feature cards.**
+> **LANDING REWRITE 2026-09-28** (owner: "we still don't have a good
+> landing page"). Supersedes the 2026-07-28 lean layout below the hero.
+> Still honours the de-bloat rules: download reachable from the hero
+> (direct APK link) and at chapter 03, one real product shot, deep maths
+> behind ONE `<details>`, every disclaimer kept. The 04 ROADMAP section
+> and the chest-strap-vs-wrist accuracy card were dropped (the accuracy
+> card implied the HW9 is a chest strap).
 
 Current structure:
 
-- **Hero** — "Your heart, on your device." + Download / Algorithms CTAs.
-- **Product shot** — one static phone frame (`flutter_01.png`).
-- **01 ─ WHAT IT DOES** — four FeatureBlock cards (Live HR + HRV ·
-  Sleep/recovery/strain · On-device intelligence · No account, no cloud),
-  then the HARDWARE panel (Coospo HW9 / any BLE strap / wrist optical).
-- **02 ─ GET IT** — download buttons, version + SHA-256 box, changelog +
-  privacy links, then the chest-strap-vs-wrist accuracy card.
-- **03 ─ ARCHITECTURE** — `HeartArchitectureDiagram` + the **84-test-case
-  validation card**, both kept VISIBLE: "auditable maths, not an AI black
-  box" is Heart's whole pitch and the validation card is the strongest
-  credibility signal on the page. The deep detail (6-step pipeline, RMSSD
-  math, the formula/reference table) is collapsed behind ONE `<details>`
-  toggle. The diagram's "NOT IN THE PICTURE" band includes "No model
-  file", which is the differentiator; keep it.
-- **04 ─ ROADMAP** — status-driven cards, same pattern as Whispr.
+- **Hero** — two columns on lg. "Your heart, on your device." + one-line
+  value prop ("turns a Bluetooth heart-rate band into a private recovery,
+  sleep and strain tracker"), **Download APK** (direct to the Releases
+  URL) + "How to install" (`#install`), version/size mono line, and the
+  real `flutter_01.png` Home screenshot in a phone frame.
+- **01 ─ WORKS WITH YOUR STRAP** (`#compatibility`) — HW9 card with an
+  SVG figure showing chest / upper arm / forearm, plus the "any 0x180D
+  strap" card (Polar H9/H10, Garmin HRM-Dual, Wahoo TICKR; a user
+  confirmed Polar H9).
+- **02 ─ WHAT IT DOES** (`#features`) — three spotlights with CSS/SVG
+  mockups (Brief card, hypnogram, gym geofence + Push/Pull/Legs picker),
+  each captioned "Illustration" — they are NOT screenshots, keep the
+  captions. Then an "Also in the box" 6-item grid.
+- **03 ─ GET IT** (`#download`) — DownloadButton, version / min Android /
+  size / SHA-256 box. `APK_URL`, `VERSION`, `APK_SHA256`, `APK_SIZE` are
+  constants at the top of the frontmatter — update them per release.
+- **04 ─ INSTALL HELP** (`#install`) — 5 numbered sideload steps, the
+  Samsung "Blocked by Auto Blocker" callout, download-failed and
+  updating cards. Added after a Galaxy S24 Ultra user couldn't install.
+- **05 ─ PRIVACY** (`#privacy`) — `heart-privacy.txt` guarantees panel,
+  `HeartArchitectureDiagram` + the **84-test-case validation card**
+  (both kept VISIBLE), formula table behind one `<details>`, and the
+  "validation proves the algorithm, not end-to-end accuracy" line.
+  h2 is `font-light` (editorial counterpoint).
+- **06 ─ FAQ** (`#faq`) — native `<details>`, driven by the `faqs` array,
+  which is also emitted as FAQPage JSON-LD (plus a Heart
+  SoftwareApplication JSON-LD). Closing CTA + disclaimer below it.
 
-**Don't cut the closing disclaimer** (compressed 2026-07-29 from six
-sentences to three). It does two jobs: it stops the validation card from
+**Don't cut the closing disclaimer** (now at the end of 06 FAQ; it must
+contain "Heart shows wellness estimates from a consumer-grade heart-rate
+band. They are not medical advice or a diagnosis."). It does two jobs: it stops the validation card from
 reading as an end-to-end accuracy claim, and the "wellness application,
 not a medical device … not diagnosis" sentence is the EU MDR 2017/745
 safe-harbour line. Heart does rhythm-anomaly detection, which sits close
