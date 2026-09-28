@@ -288,12 +288,24 @@ release, not in `index.astro`.
 > behind ONE `<details>`, every disclaimer kept. The 04 ROADMAP section
 > and the chest-strap-vs-wrist accuracy card were dropped (the accuracy
 > card implied the HW9 is a chest strap).
+>
+> **COPY PASS 2026-09-28 (de-AI + fact check).** Headings are plain
+> descriptions, not slogans; no "X, not Y" punchlines; "no account, no
+> server" said once; first person where the owner speaks ("the band I
+> wear"). Every claim was checked against the app code: NO Brief/gym
+> sharing claims (only JSON export exists); the Network row must list ALL
+> opt-in network paths (Drive backup, ~806 MB Coach model from Hugging
+> Face, Wi-Fi phone sync); no Kubios-equivalence claim; backups are
+> "point Heart at Download/Heart after a reinstall", never "restores
+> automatically"; validation card numbers come from an actual run
+> (92 cases / 14 algorithms on 2026-09-28) — re-run before changing them.
 
 Current structure:
 
-- **Hero** — two columns on lg. "Your heart, on your device." + one-line
-  value prop ("turns a Bluetooth heart-rate band into a private recovery,
-  sleep and strain tracker"), **Download APK** (direct to the Releases
+- **Hero** — two columns on lg. "HRV, sleep and recovery, computed on the
+  phone." (the owner's own H1) + one plain line ("reads the R–R intervals
+  off a Bluetooth heart-rate band and works out HRV, sleep stages, recovery
+  and strain from them"), **Download APK** (direct to the Releases
   URL) + "How to install" (`#install`), version/size mono line, and the
   real `flutter_01.png` Home screenshot in a phone frame.
 - **01 ─ WORKS WITH YOUR STRAP** (`#compatibility`) — HW9 card with an

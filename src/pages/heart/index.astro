@@ -3,7 +3,7 @@
 //   - real battery life and reconnect delay
 //   - the source for these wrist figures
 //   - what WHOOP publishes about its sensor validation
-//   - the date the 84-case run was last executed
+//   - (answered 2026-09-28: validation re-run, 92 cases / 14 algorithms, max Δ 1.42e-14)
 //   - is this blocked on dataset access, and which corpus?
 import Base           from '../../layouts/Base.astro';
 import Nav            from '../../components/Nav.astro';
@@ -75,31 +75,31 @@ const asleepMinutes = stageMinutes.filter((s) => s.key !== 'awake').reduce((a, s
 const faqs: { q: string; a: string; href?: { url: string; text: string } }[] = [
   {
     q: 'Do I need the Coospo HW9?',
-    a: 'No. Heart was designed around the Coospo HW9, which you can wear on your chest, upper arm or forearm, but it works with any strap that speaks the standard Bluetooth Heart Rate Service: Polar H9 and H10, Garmin HRM-Dual, Wahoo TICKR and similar. A user has confirmed a Polar H9 works.',
+    a: 'No. I built Heart around the Coospo HW9, which you can wear on the chest, upper arm or forearm, but any strap that sends the standard Bluetooth Heart Rate Service works, such as the Polar H9 and H10, Garmin HRM-Dual or Wahoo TICKR. A user has confirmed the Polar H9.',
   },
   {
     q: 'Is there an iPhone version?',
-    a: 'Not yet. Heart is currently distributed for Android only (Android 7.0 or newer).',
+    a: 'No. Heart runs on Android 7.0 or newer only.',
   },
   {
     q: 'Does any of my data leave my phone?',
-    a: 'No. Every score is computed on your phone, and there is no account, no Heart server and no telemetry. The only network requests are OpenStreetMap map tiles, plus Google Drive backup if you choose to connect it.',
+    a: 'Only what you choose to send. Every score is computed on the phone, and Heart has no account, server or telemetry. The app fetches OpenStreetMap map tiles. Google Drive backup, the Coach model download and phone-to-phone sync over Wi-Fi only run if you turn them on.',
   },
   {
     q: 'What happens to my data if I uninstall or change phones?',
-    a: 'Heart backs itself up automatically to the Download/Heart folder on your phone, and that folder survives an uninstall. A fresh install restores from the most recent on-device backup. You can also connect your own Google Drive for an off-phone copy. To update, just install the new APK over the old one: your data is kept.',
+    a: 'Heart writes its backups to Download/Heart on the phone, and that folder is kept when you uninstall. After a reinstall, point Heart at that folder, or at a backup file you copied off the phone, and your history comes back. Nothing newer than the last backup comes back, so leave the automatic backups on. To update, install the new APK over the old one; your data is kept.',
   },
   {
     q: 'Do I need an account?',
-    a: 'No. There is nothing to sign up for. Install the app, pair your band and it starts recording.',
+    a: 'No. Accept the wellness disclaimer, pair your band, and it starts recording.',
   },
   {
     q: 'Is Heart a medical device?',
-    a: 'No. Heart shows wellness estimates from a consumer-grade heart-rate band. They are not medical advice or a diagnosis. Irregular-rhythm hints in particular are a nudge to pay attention, never a diagnosis; talk to a qualified healthcare professional about anything that worries you.',
+    a: 'No. Heart shows wellness estimates from a consumer-grade heart-rate band. They are not medical advice or a diagnosis. Irregular-rhythm hints in particular only mean something looked unusual; talk to a qualified healthcare professional about anything that worries you.',
   },
   {
     q: 'Why does Android warn me when I install it?',
-    a: 'Heart is installed from an APK file rather than an app store, so Android asks you to confirm the source the first time. The install steps above walk through every prompt you might see, including Samsung Auto Blocker and Play Protect.',
+    a: 'Heart is installed from an APK file rather than an app store, so Android asks you to confirm the source the first time. The install steps above cover the prompts people have run into, including Samsung Auto Blocker and Play Protect.',
     href: { url: '#install', text: 'See the install steps' },
   },
 ];
@@ -111,7 +111,7 @@ const heartJsonLd = {
   applicationCategory: 'HealthApplication',
   operatingSystem: 'Android 7.0+',
   softwareVersion: VERSION,
-  description: 'Private recovery, sleep and strain tracker for Bluetooth heart-rate bands. Everything is computed on the device: no account, no cloud server, no telemetry.',
+  description: 'HRV, sleep stages, recovery and strain from a Bluetooth heart-rate band, computed on the phone. No account and no server.',
   downloadUrl: APK_URL,
   publisher: { '@type': 'Organization', name: 'PointBreakLab' },
 };
@@ -127,8 +127,8 @@ const faqJsonLd = {
 ---
 
 <Base
-  title="Heart · Private recovery, sleep & strain tracker for Bluetooth heart-rate bands"
-  description="Heart turns a Bluetooth heart-rate band into a private recovery, sleep and strain tracker for Android. Built for the Coospo HW9 (chest, upper arm or forearm) and works with Polar, Garmin, Wahoo and any standard BLE strap. Computed on your phone: no account, no cloud, no telemetry."
+  title="Heart · HRV, sleep and recovery from a Bluetooth heart-rate band"
+  description="Android app that reads the R–R intervals off a Bluetooth heart-rate band and works out HRV, sleep stages, recovery and strain on the phone. Built with the Coospo HW9 (chest, upper arm or forearm); other straps that send the standard Heart Rate Service work too. No account and no server."
 >
   <Nav />
   <script type="application/ld+json" set:html={JSON.stringify(heartJsonLd)} />
@@ -148,15 +148,15 @@ const faqJsonLd = {
         </div>
 
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
-          <span class="text-primary">Your heart,</span><br/>
-          <span class="text-gradient">on your device.</span>
+          <span class="text-primary">HRV, sleep and recovery,</span><br/>
+          <span class="text-gradient">computed on the phone.</span>
         </h1>
 
         <p class="text-lg md:text-xl text-secondary font-light max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4">
-          Heart turns a Bluetooth heart-rate band into a <span class="text-primary">private recovery, sleep and strain tracker</span>. Everything is worked out on your phone. No account, no cloud.
+          Heart reads the R–R intervals off a Bluetooth heart-rate band and works out <span class="text-primary">HRV, sleep stages, recovery and strain</span> from them. There is no account, and no Heart server for your data to go to.
         </p>
         <p class="text-sm text-hint font-mono mb-10">
-          Coospo HW9 · Polar · Garmin · Wahoo · any BLE strap
+          Coospo HW9 · Polar · Garmin · Wahoo · any 0x180D strap
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
@@ -212,10 +212,10 @@ const faqJsonLd = {
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
     <div class="relative section-reveal text-center mb-14">
-      <SectionEyebrow num="01" label="WORKS WITH YOUR STRAP" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Pairs with the band you already own.</h2>
+      <SectionEyebrow num="01" label="THE BAND" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Which bands work</h2>
       <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-        Heart speaks the standard Bluetooth Heart Rate Service, so it isn't tied to one brand. Pair once and wear it day and night.
+        Heart reads the standard Bluetooth Heart Rate Service (0x180D), so straps from other brands work too.
       </p>
     </div>
 
@@ -248,10 +248,10 @@ const faqJsonLd = {
           <figcaption id="wear-caption" class="sr-only">The HW9 can be worn on the chest, upper arm or forearm.</figcaption>
         </figure>
         <div class="text-center sm:text-left">
-          <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">DESIGNED FOR</div>
+          <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">BUILT WITH</div>
           <h3 class="text-xl font-bold text-primary mb-2">Coospo HW9</h3>
           <p class="text-secondary text-sm leading-relaxed">
-            A versatile band you can wear on your <span class="text-primary">chest, upper arm or forearm</span>. Heart was built and tested with it: live heart rate, beat-to-beat intervals for HRV, and battery level.
+            Worn on the <span class="text-primary">chest, upper arm or forearm</span>. This is the band I wear, and Heart was built and tested against it. It reports live heart rate, beat-to-beat intervals for HRV, and battery level.
           </p>
         </div>
       </div>
@@ -282,9 +282,9 @@ const faqJsonLd = {
 
     <div class="relative section-reveal text-center mb-16">
       <SectionEyebrow num="02" label="WHAT IT DOES" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Wear it. Heart does the rest.</h2>
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">What it works out while you wear it</h2>
       <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-        Sleep, recovery and workouts are picked up automatically from your heart rate. You open the app to read the answer, not to log things.
+        Sleep and recovery come from the overnight heart rate. Gym sessions start from your saved location. Walks, runs and rides you start yourself.
       </p>
     </div>
 
@@ -293,15 +293,15 @@ const faqJsonLd = {
       <!-- Spotlight 1: the Brief -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
         <div class="section-reveal">
-          <p class="text-accent text-xs font-mono tracking-widest mb-3">DAILY BRIEF</p>
-          <h3 class="text-2xl md:text-3xl font-black text-primary mb-4">Your day in one card.</h3>
+          <p class="text-accent text-xs font-mono tracking-widest mb-3">THE BRIEF</p>
+          <h3 class="text-2xl md:text-3xl font-black text-primary mb-4">The Brief tab</h3>
           <p class="text-secondary leading-relaxed mb-5">
-            Each morning the Brief sums up how ready you are, suggests a focus for today, and shows your stress, strain and the distance you've travelled. A forecast estimates tomorrow's readiness from your recent nights, sleep and training load.
+            The Brief shows a readiness score, a suggested focus for the day, your stress, today's strain and how far you've travelled. Below it, a Holt forecast guesses tomorrow night's HRV from the last one to two weeks. It needs five nights before it starts, and it wobbles.
           </p>
           <ul class="space-y-2 text-sm text-secondary">
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Readiness, recovery and strain scores from your own baseline</li>
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Today's focus: push, maintain, easy or rest</li>
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Share it with a friend or coach when you want to</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Readiness and recovery are measured against your last 30 nights</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Focus is one of push, maintain, easy or rest; strain is zone-weighted effort on a 0–21 scale</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Tap the distance line to see the day's route on a map</li>
           </ul>
         </div>
 
@@ -343,9 +343,9 @@ const faqJsonLd = {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
         <div class="section-reveal md:order-2">
           <p class="text-accent text-xs font-mono tracking-widest mb-3">SLEEP &amp; RECOVERY</p>
-          <h3 class="text-2xl md:text-3xl font-black text-primary mb-4">Sleep that logs itself.</h3>
+          <h3 class="text-2xl md:text-3xl font-black text-primary mb-4">Sleep, from overnight heart rate</h3>
           <p class="text-secondary leading-relaxed mb-5">
-            Go to bed with the band on. Heart spots when you fell asleep and woke up, splits the night into awake, light, deep and REM, and tracks overnight HRV (RMSSD) and resting heart rate. That feeds a recovery score measured against your own 30-day baseline, not a population average.
+            Wear the band to bed. Heart looks for sleep in the overnight heart rate, in 5-minute buckets, and splits the night into awake, light, deep and REM. The stager is a set of thresholds rather than a trained model, and it hasn't been checked against a sleep lab; if a night is clearly wrong, you can correct it. Overnight HRV (RMSSD) and resting heart rate feed the recovery score, which compares last night with your previous 30.
           </p>
         </div>
 
@@ -387,12 +387,9 @@ const faqJsonLd = {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
         <div class="section-reveal">
           <p class="text-accent text-xs font-mono tracking-widest mb-3">WORKOUTS</p>
-          <h3 class="text-2xl md:text-3xl font-black text-primary mb-4">Gym sessions that start themselves.</h3>
+          <h3 class="text-2xl md:text-3xl font-black text-primary mb-4">Gym sessions start when you arrive</h3>
           <p class="text-secondary leading-relaxed mb-5">
-            Save your gym's location once. When you arrive with the band on, a session starts; when you leave, it ends. Label it Push, Pull or Legs and Heart remembers what you trained. Walks, runs and rides get a GPS route on an OpenStreetMap map.
-          </p>
-          <p class="text-xs text-hint leading-relaxed">
-            Want to show off a session? Share its insights straight from the app.
+            Save your gym's location once. Stay inside the radius (250 m by default, 100–500 m in Settings) for two minutes wearing the band, and a Gym session starts. It ends a few minutes after you leave, or once the band has stopped sending for a while. Tag it Push, Pull or Legs and Heart keeps track of what you trained. Walks, runs and rides you start yourself, and they get a GPS route on an OpenStreetMap map.
           </p>
         </div>
 
@@ -440,15 +437,15 @@ const faqJsonLd = {
 
     <!-- Also in the box -->
     <div class="relative mt-24">
-      <p class="section-reveal text-accent text-xs font-mono tracking-widest mb-6 text-center">ALSO IN THE BOX</p>
+      <p class="section-reveal text-accent text-xs font-mono tracking-widest mb-6 text-center">ALSO</p>
       <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
           { icon: '❤️', title: 'Live heart rate & zones', body: 'Your heart rate and current training zone, updating live on the Home screen.' },
-          { icon: '📈', title: 'HRV & resting heart rate', body: 'Overnight RMSSD and resting HR, trended over days and weeks against your own baseline.' },
-          { icon: '〰️', title: 'Irregular-rhythm hints', body: 'Flags stretches of unusually irregular beat-to-beat timing. A wellness hint, never a diagnosis.' },
-          { icon: '🔥', title: 'Active calories', body: 'An estimate of energy burned above resting, from heart rate plus your age, weight and sex.' },
-          { icon: '🗺️', title: 'Location timeline', body: "Optional. A private map of where you've been while wearing the band. It never records near your saved Home." },
-          { icon: '📤', title: 'Share insights', body: 'Send your Brief or a gym session to a friend or coach. You choose what is shared and where it goes.' },
+          { icon: '📈', title: 'HRV & resting heart rate', body: 'Overnight RMSSD and resting HR, charted over days and weeks next to your 30-day baseline.' },
+          { icon: '〰️', title: 'Irregular-rhythm hints', body: 'Four RR features (pNN50, CoV, RMSSD, range). If three cross their thresholds for 30 seconds, Heart logs the stretch as worth a look. It is a wellness hint and cannot diagnose anything.' },
+          { icon: '🔥', title: 'Active calories', body: 'Keytel 2005, counted only while your heart rate is at or above 90 bpm, where the formula holds. Below that it counts nothing, so this is active energy, not your whole day.' },
+          { icon: '🗺️', title: 'Location timeline', body: "On by default, off in Settings. While the band is connected it logs a point at most every 2 minutes or 50 m, kept on the phone. Nothing is recorded within 150 m of the Home location you save." },
+          { icon: '📤', title: 'Export and delete', body: 'Samples, scores, sleep history and the daily JSONL sit in the app sandbox. Export writes all of it into one JSON file, and delete-everything is one tap.' },
         ].map(({ icon, title, body }) => (
           <li class="section-reveal flex gap-4 p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 hover:-translate-y-0.5 hover:shadow-[0_6px_24px_-8px_rgba(0,212,170,0.25)] transition-all duration-300">
             <div aria-hidden="true" class="shrink-0 w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-lg">{icon}</div>
@@ -468,7 +465,7 @@ const faqJsonLd = {
     <div class="relative max-w-2xl mx-auto section-reveal text-center">
       <SectionEyebrow num="03" label="GET IT" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Download Heart</h2>
-      <p class="text-secondary mb-10">For Android phones. iOS isn't available yet.</p>
+      <p class="text-secondary mb-10">Android 7.0 or newer, no iPhone version. You also need a Bluetooth heart-rate strap: without one the app opens and has nothing to read.</p>
 
       <div class="max-w-sm mx-auto mb-4">
         <DownloadButton platform="android" href={APK_URL} label={`Heart ${VERSION} · APK`} />
@@ -500,7 +497,7 @@ const faqJsonLd = {
       <SectionEyebrow num="04" label="INSTALL HELP" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Installing on Android</h2>
       <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-        Heart comes as an APK file rather than from an app store, so Android asks a couple of extra questions the first time. Here's every prompt you might see.
+        Heart comes as an APK file rather than from an app store, so Android asks a couple of extra questions the first time. These are the prompts people have run into so far.
       </p>
     </div>
 
@@ -530,7 +527,7 @@ const faqJsonLd = {
           <p class="text-amber-300 text-xs font-mono tracking-widest mb-1.5">SAMSUNG GALAXY</p>
           <h3 class="text-base font-bold text-primary mb-2">"Blocked by Auto Blocker"?</h3>
           <p class="text-secondary text-sm leading-relaxed">
-            Samsung's Auto Blocker stops apps that don't come from an official app store. Open <span class="text-primary">Settings → Security and privacy → Auto Blocker</span>, turn it off, and install Heart. You can switch Auto Blocker back on once Heart is installed.
+            Samsung's Auto Blocker stops apps that don't come from an official app store. Open <span class="text-primary">Settings → Security and privacy → Auto Blocker</span>, turn it off, and install Heart. You can switch Auto Blocker back on once Heart is installed, but you'll need it off again for each update.
           </p>
         </div>
       </div>
@@ -554,9 +551,9 @@ const faqJsonLd = {
     <div class="relative">
       <div class="section-reveal text-center mb-12">
         <SectionEyebrow num="05" label="PRIVACY" />
-        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Everything stays<br/>on your phone.</h2>
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">What leaves your phone,<br/>and what doesn't</h2>
         <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-          Your heart data is some of the most personal data you have. Heart never sends it anywhere: every score is computed on the device, with published formulas you can check.
+          Every score is computed on the phone. Heart has no server and no account, so your data only goes somewhere if you send it. The formulas are listed below with their sources.
         </p>
       </div>
 
@@ -570,13 +567,13 @@ const faqJsonLd = {
         </div>
         <dl class="bg-bg p-5 md:p-6 font-mono text-xs md:text-sm space-y-3">
           {[
-            ['Compute',   'On your phone. Every score is calculated locally.'],
-            ['Account',   'None. No sign-up, no email, no login.'],
-            ['Server',    'None. There is no Heart cloud to send data to.'],
-            ['Telemetry', 'None. No analytics, no ads, no tracking.'],
-            ['Network',   'OpenStreetMap map tiles only, plus Google Drive backup if you connect it.'],
-            ['Backups',   'Automatic, to Download/Heart on your phone. They survive an uninstall.'],
-            ['Maths',     'Published, cited formulas. Auditable, not a black box.'],
+            ['Compute',   'Every score is calculated on the phone.'],
+            ['Account',   'None. There is nothing to sign up for.'],
+            ['Server',    'None. There is no Heart server to send data to.'],
+            ['Telemetry', 'None. No analytics and no ads.'],
+            ['Network',   'OpenStreetMap map tiles. Only if you turn them on: Google Drive backup, the Coach model download (~806 MB, from Hugging Face), and phone-to-phone sync over your own Wi-Fi.'],
+            ['Backups',   'Written to Download/Heart on the phone, which is kept when Heart is uninstalled. After a reinstall you point Heart at that folder. Anything newer than the last backup is lost.'],
+            ['Maths',     'Published formulas, each with its source (list below).'],
           ].map(([k, v]) => (
             <div class="flex flex-col sm:flex-row sm:gap-4">
               <dt class="text-hint sm:w-28 shrink-0">{k}</dt>
@@ -595,12 +592,12 @@ const faqJsonLd = {
         <div class="flex items-start gap-3">
           <div aria-hidden="true" class="shrink-0 w-9 h-9 rounded-lg bg-accent/15 border border-accent/40 flex items-center justify-center text-base">✓</div>
           <div class="min-w-0 w-full">
-            <p class="text-accent text-xs font-mono tracking-widest mb-1.5">VALIDATION · 13 ALGORITHMS · 84 TEST CASES</p>
+            <p class="text-accent text-xs font-mono tracking-widest mb-1.5">VALIDATION · 14 ALGORITHMS · 92 TEST CASES · RUN 2026-09-28</p>
             <p class="text-primary text-sm leading-relaxed mb-3">
-              Every closed-form algorithm in Heart produces output <span class="text-accent">matching the numpy reference</span> (the backend behind pyhrv, hrv-analysis, and Kubios HRV) to floating-point precision: global maximum deviation <span class="text-accent font-mono">1.42 × 10⁻¹⁴</span>, at the IEEE-754 double-precision noise floor.
+              Each closed-form algorithm in Heart gives the same output as <span class="text-accent">a numpy reference implementation of the same formula</span>, to within <span class="text-accent font-mono">1.42 × 10⁻¹⁴</span>, which is floating-point rounding.
             </p>
             <p class="text-secondary text-xs leading-relaxed">
-              Reproducible via <span class="text-primary/70 font-mono text-[11px] break-all">flutter test test/algorithm_validation_test.dart</span>. Because every formula is closed-form (Tanaka 2001, Uth 2004, Keytel 2005, Holt 1957, ESC/NASPE 1996, Banister 1975, Coyle 1998), "matches numpy" equals "matches Kubios" by mathematical identity.
+              The check is a test in the app's repository (<span class="text-primary/70 font-mono text-[11px] break-all">test/algorithm_validation_test.dart</span>); the source isn't public. The formulas come from Tanaka 2001, Uth 2004, Keytel 2005, Holt 1957, ESC/NASPE 1996, Banister 1975 and Coyle 1998.
             </p>
           </div>
         </div>
@@ -616,7 +613,7 @@ const faqJsonLd = {
             <span class="ml-2 text-hint text-xs font-mono">formulas-and-references.txt</span>
           </div>
           <div class="flex items-center gap-2 font-mono text-xs select-none">
-            <span class="text-secondary">Every formula, every source</span>
+            <span class="text-secondary">open this for the formulas</span>
             <span class="text-accent group-open:hidden" aria-hidden="true">▶</span>
             <span class="text-accent hidden group-open:inline" aria-hidden="true">▼</span>
           </div>
@@ -638,8 +635,8 @@ const faqJsonLd = {
               ['Recovery',      'Composite · HRV percentile vs your 30-day baseline'],
               ['Readiness',     'Holt linear exponential smoothing · Holt · ONR memo 52 · 1957'],
               ['Rhythm hint',   '4-feature thresholding · pNN50 + CoV(RR) + RMSSD + RR range'],
-              ['Storage',       'SharedPreferences + JSONL · app sandbox · OS-encrypted'],
-              ['Network',       'OpenStreetMap tiles · optional Google Drive backup you connect'],
+              ['Storage',       'SharedPreferences + JSONL · app sandbox · backups in Download/Heart'],
+              ['Network',       'OpenStreetMap tiles · opt-in: Google Drive backup, Coach model download, Wi-Fi phone sync'],
               ['Server',        'None'],
             ].map(([key, val]) => (
               <div class="flex flex-col sm:flex-row sm:gap-4 sm:items-baseline font-mono">
@@ -652,7 +649,7 @@ const faqJsonLd = {
       </details>
 
       <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed">
-        The validation above proves the <span class="text-secondary">algorithm</span>. It says nothing about end-to-end accuracy: sleep staging vs PSG and calories vs calorimetry haven't been independently measured yet.
+        The validation above only checks that the <span class="text-secondary">maths</span> is implemented correctly. It says nothing about end-to-end accuracy: sleep staging vs PSG and calories vs calorimetry haven't been independently measured yet.
       </p>
     </div>
   </section>
@@ -662,7 +659,7 @@ const faqJsonLd = {
     <div aria-hidden="true" class="absolute top-0 left-0 w-[50%] h-64 bg-blue-500/[0.04] blur-3xl pointer-events-none"></div>
     <div class="relative section-reveal text-center mb-12">
       <SectionEyebrow num="06" label="FAQ" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Questions, answered</h2>
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Straps, iPhone, your data, installing</h2>
     </div>
 
     <div class="relative space-y-3">
