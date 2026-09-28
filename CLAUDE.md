@@ -292,8 +292,10 @@ release, not in `index.astro`.
 > **COPY PASS 2026-09-28 (de-AI + fact check).** Headings are plain
 > descriptions, not slogans; no "X, not Y" punchlines; "no account, no
 > server" said once; first person where the owner speaks ("the band I
-> wear"). Every claim was checked against the app code: NO Brief/gym
-> sharing claims (only JSON export exists); the Network row must list ALL
+> wear"). Every claim was checked against the app code: sharing claims
+> must match the app: a finished session or the Brief shares as a Story
+> image + caption with per-share switches and Home-radius route cropping
+> (added 2026-09-28; no Instagram sticker, no notification share yet); the Network row must list ALL
 > opt-in network paths (Drive backup, ~806 MB Coach model from Hugging
 > Face, Wi-Fi phone sync); no Kubios-equivalence claim; backups are
 > "point Heart at Download/Heart after a reinstall", never "restores
