@@ -439,6 +439,35 @@ const faqJsonLd = {
       </div>
     </div>
 
+    <!-- Real screenshots from the app (owner's phone, 2026-09-28). No maps,
+         no location and no nutrition/weight screens: those show where the
+         owner lives or personal goals. Swipes sideways on phones. -->
+    <div class="relative mt-24">
+      <p class="section-reveal text-accent text-xs font-mono tracking-widest mb-3 text-center">FROM THE APP</p>
+      <p class="section-reveal text-secondary text-sm text-center max-w-xl mx-auto mb-8">
+        Screenshots from my own phone, with my own data.
+      </p>
+      <ul class="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0" aria-label="Screenshots of Heart">
+        {[
+          { src: '/screenshots/heart/app_brief.webp', caption: 'The Brief tab', alt: "Heart's Brief tab: today's focus Maintain, strain 0.5 of 21, recovery trending down 25%, resting heart rate up 12 bpm over 5 nights, and tomorrow's readiness forecast of 107 ms RMSSD, likely down." },
+          { src: '/screenshots/heart/app_detail.webp', caption: 'A gym session', alt: 'A 1 hour 36 minute gym session: average heart rate 108 bpm, max 150, min 77, a heart-rate trace over the session, and time in zones: 67% zone 1, 31% zone 2, 2% zone 3.' },
+          { src: '/screenshots/heart/app_share.webp', caption: 'Sharing it as a Story', alt: 'The share preview for the same gym session: a Story card with duration 1h 36m, average and max heart rate and a time-in-zones bar, with switches for heart rate, calories and times.' },
+        ].map(({ src, caption, alt }) => (
+          <li class="section-reveal shrink-0 w-[62%] sm:w-[40%] md:w-auto snap-center">
+            <figure>
+              <div class="mx-auto max-w-[240px] rounded-[34px] border-2 border-[#23232a] bg-[#0e0e11] p-2"
+                   style="box-shadow:0 24px 60px rgba(0,0,0,0.7)">
+                <div class="rounded-[27px] overflow-hidden" style="aspect-ratio:1080/2340">
+                  <img src={src} width="1080" height="2340" alt={alt} loading="lazy" decoding="async" class="w-full h-full object-cover" />
+                </div>
+              </div>
+              <figcaption class="text-center text-xs text-secondary mt-3">{caption}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+
     <!-- Also in the box -->
     <div class="relative mt-24">
       <p class="section-reveal text-accent text-xs font-mono tracking-widest mb-6 text-center">ALSO</p>

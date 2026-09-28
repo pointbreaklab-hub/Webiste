@@ -317,7 +317,13 @@ Current structure:
 - **02 ─ WHAT IT DOES** (`#features`) — three spotlights with CSS/SVG
   mockups (Brief card, hypnogram, gym geofence + Push/Pull/Legs picker),
   each captioned "Illustration" — they are NOT screenshots, keep the
-  captions. Then an "Also in the box" 6-item grid.
+  captions. Then a "FROM THE APP" row of three REAL screenshots
+  (`public/screenshots/heart/app_{brief,detail,share}.webp`, owner's phone,
+  added 2026-09-28 at the owner's request for "minimum 3" app images; this
+  overrides the one-product-shot de-bloat rule for Heart). Never add screens
+  that show maps, the location timeline, Home location, or nutrition/weight
+  goals — they expose where the owner lives or personal targets. Then an
+  "Also" 6-item grid.
 - **03 ─ GET IT** (`#download`) — DownloadButton, version / min Android /
   size / SHA-256 box. `APK_URL`, `VERSION`, `APK_SHA256`, `APK_SIZE` are
   constants at the top of the frontmatter — update them per release.
