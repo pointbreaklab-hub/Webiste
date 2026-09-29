@@ -10,7 +10,9 @@ export interface Props {
 const {
   title = 'PointBreakLab · Privacy-First Applications',
   description = 'PointBreakLab is one person building apps that keep your data on the devices you own. Whispr, Heart, Knot and Knot AI, all free.',
-  ogImage = '/og-image.svg',
+  // PNG, not SVG: WhatsApp, iMessage, LinkedIn and Facebook don't render SVG
+  // preview images (WhatsApp then fell back to a photo on the page).
+  ogImage = '/og-image.png',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
@@ -65,6 +67,10 @@ const appJsonLd = {
     <meta property="og:title"        content={title} />
     <meta property="og:description"  content={description} />
     <meta property="og:image"        content={ogImageUrl} />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type"   content="image/png" />
+    <meta property="og:image:alt"    content="PointBreakLab: privacy-first applications" />
     <meta property="og:url"          content={canonical} />
     <meta property="og:type"         content="website" />
     <meta property="og:site_name"    content="PointBreakLab" />
