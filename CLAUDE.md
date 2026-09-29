@@ -526,7 +526,12 @@ box pointed users to a Whispr release log:
 
 - `src/pages/whispr/changelog.astro` — Whispr release log (was
   `src/pages/changelog.astro` before the split).
-- `src/pages/heart/changelog.astro` — Heart release log.
+- `src/pages/heart/changelog.astro` — Heart release log. **Heart's release
+  entries now live in `src/data/heartReleases.ts`** (shared with the "What's
+  new" card in the download section of `/heart/`). An entry with
+  `upcoming: true` renders as "Coming next · in testing · not downloadable
+  yet" and is never shown as the current download; flip it to a dated
+  release in the same commit that publishes the APK + `version.json`.
 
 Both files share the same structural pattern: a `releases` array in
 the frontmatter, one object per release with `tag`, `date`, `kind`

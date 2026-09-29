@@ -11,6 +11,7 @@ import DownloadButton from '../../components/DownloadButton.astro';
 import Footer         from '../../components/Footer.astro';
 import HeartArchitectureDiagram from '../../components/HeartArchitectureDiagram.astro';
 import SectionEyebrow from '../../components/SectionEyebrow.astro';
+import { latestRelease, upcomingRelease } from '../../data/heartReleases';
 import '../../styles/global.css';
 
 // LANDING REWRITE 2026-09-28 (owner: "we still don't have a good landing
@@ -175,7 +176,7 @@ const faqJsonLd = {
           </a>
         </div>
         <p class="text-xs text-hint font-mono mt-5">
-          v{VERSION} · Android 7.0+ · {APK_SIZE} · free
+          v{VERSION} · Android 7.0+ · {APK_SIZE} · free · <a href="#whats-new" class={`text-accent hover:underline rounded ${focusRing}`}>what's new</a>
         </p>
       </div>
 
@@ -515,10 +516,29 @@ const faqJsonLd = {
       <p class="text-hint text-xs mt-5">
         First time installing an APK? <a href="#install" class={`text-accent hover:underline rounded ${focusRing}`}>Follow the install steps</a>
         &nbsp;·&nbsp;
-        <a href="/heart/changelog/" class={`text-accent hover:underline rounded ${focusRing}`}>changelog</a>
-        &nbsp;·&nbsp;
         <a href="/heart/privacy/" class={`text-accent hover:underline rounded ${focusRing}`}>privacy policy</a>
       </p>
+
+      <!-- What's new: read from src/data/heartReleases.ts, same list as
+           /heart/changelog/. An upcoming (in-testing) release is labelled as
+           such and never presented as downloadable. -->
+      <div id="whats-new" class="mt-8 text-left p-5 md:p-6 rounded-2xl bg-bg border border-border scroll-mt-24">
+        <div class="flex items-center justify-between gap-4 mb-4">
+          <p class="text-accent text-xs font-mono tracking-widest">WHAT'S NEW</p>
+          <a href="/heart/changelog/" class={`text-xs font-mono text-accent hover:underline rounded ${focusRing}`}>All releases →</a>
+        </div>
+        {upcomingRelease && (
+          <div class="mb-5 pb-5 border-b border-border">
+            <p class="text-amber-300 text-[11px] font-mono tracking-widest mb-1.5">COMING IN {upcomingRelease.tag.toUpperCase()} · IN TESTING</p>
+            <h3 class="text-primary font-semibold leading-snug mb-2">{upcomingRelease.title}</h3>
+            <p class="text-secondary text-sm leading-relaxed line-clamp-4">{upcomingRelease.body}</p>
+          </div>
+        )}
+        <p class="text-hint text-[11px] font-mono tracking-widest mb-1.5">{latestRelease.tag.toUpperCase()} · THE CURRENT DOWNLOAD</p>
+        <h3 class="text-primary font-semibold leading-snug mb-2">{latestRelease.title}</h3>
+        <p class="text-secondary text-sm leading-relaxed line-clamp-3">{latestRelease.body}</p>
+        <a href="/heart/changelog/" class={`inline-block mt-4 text-sm text-accent hover:underline rounded ${focusRing}`}>Read the full changelog →</a>
+      </div>
     </div>
   </section>
 

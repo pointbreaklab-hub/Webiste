@@ -1,0 +1,193 @@
+// Heart release log: the single source for /heart/changelog/ and the
+// "What's new" card on /heart/. Newest first. User-facing prose, one short
+// paragraph per release; skip releases that were pulled.
+//
+// `upcoming: true` marks a release that is built and in testing but NOT yet
+// downloadable: it renders with a "Coming in … · in testing" label and no
+// date, and must not be the "Latest" release. Flip it to false (and set the
+// date) in the same commit that publishes the APK and version.json.
+
+export interface Release {
+  tag: string;
+  date: string; // YYYY-MM-DD ('' while upcoming)
+  title: string;
+  body: string;
+  kind: 'feature' | 'fix' | 'polish' | 'note';
+  upcoming?: boolean;
+}
+
+// OWNER DECISION: first person "I" proposed for the intro line. The natural
+// version is "half of this list is me walking those thresholds back one at a
+// time", which is better writing but would be the site's first "I".
+//
+// OPEN QUESTIONS. They live here and not in the copy: Astro emits HTML comments
+// into the page and a bracketed marker inside a body string renders as visible
+// text, so an editorial note in the template ships to the reader.
+//  - v1.0.14 and v1.0.18 are both absent from this list. Why, in each case. An
+//    earlier draft said v1.0.14 was an abandoned band-vibration build; nothing
+//    in the record backs that, so it is not published.
+//  - v1.0.21: which phone the multi-hour lag was reproduced on.
+//  - v1.0.17: how many post-workout nights came back empty, out of how many.
+export const releases: Release[] = [
+  {
+    tag: 'v1.0.23',
+    date: '',
+    kind: 'feature',
+    upcoming: true,
+    title: 'The Brief, Story sharing, in-app updates, and gym sessions that end on time',
+    body: 'Coach becomes the Brief: one card with today’s readiness, focus, stress, strain and how far you travelled. You can share it, or any finished session, as a Story image for WhatsApp or email, with switches for what goes on it; a route is cut off around the Home location you save. Gym sessions start once you have been inside the radius for two minutes with the band on, and end a few minutes after you leave or when the band goes quiet, with a three-hour cap. The old sessions that never ended get trimmed once, using your own location timeline. Every session now shows its own calories, and Home shows the whole day: resting metabolism so far plus active energy. Two calorie bugs are gone: a band dropout no longer counts as exercise, and resting energy is no longer counted twice. Effort looks at the whole session now, so an hour spent mostly in zone 1 reads Easy. The notification can show your live heart rate on the lock screen, and you can switch that off in Settings. Backups go to Download/Heart and survive an uninstall; after a reinstall Heart asks you to point it at that folder. Heart also checks pointbreaklab.com for new versions and installs them itself after checking the download’s checksum; from this version on you won’t need to come back here for updates. Also: a new launch screen, less lag, and fixes for a minimum heart rate of 0 bpm, a resting estimate of 0 bpm, an old heart rate shown as live, and a Load that differed between the list and the session.',
+  },
+  {
+    tag: 'v1.0.22',
+    date: '2026-08-09',
+    kind: 'feature',
+    title: 'Coach: ask it about your own numbers in plain language',
+    body: 'The Insights tab becomes Coach. Ask it how you slept, or whether you are recovered enough to train today. Coach answers out of your own band data: calories and macros, BMI, HRV and resting-heart-rate trends, what you trained this week. No meal plans, and it will not pick your workout. It asks what you’re training today (Push, Pull, Legs, or Skip) and logs it. A firm safety layer sits underneath. It refuses crash diets and offers a safe pace instead, and it won’t coach anyone below a healthy weight. Anything that sounds medical, injury-related, or like a personal crisis gets steered toward professional help. Backups now capture your full session history, and a fresh install restores from the most recent on-device backup, so a new phone picks up where the old one stopped. Nothing newer than that last backup comes back, which is the argument for leaving the automatic ones on. New icon and splash too, a heart with a heartbeat through it.',
+  },
+  {
+    tag: 'v1.0.21',
+    date: '2026-06-04',
+    kind: 'polish',
+    title: 'Smooth long sessions, smarter gym exit, layout fixes, Home tab cleanup',
+    body: 'Long sessions on a mid-range phone were getting choppy, so this one is all performance. The active-route accumulator now batches GPS updates instead of rebuilding the route on every fix, so a 2-hour cycling session no longer pays an O(n²) penalty as the route grows. The live session banner, the Start/Stop FAB and the active-session status card stopped rebuilding their entire layout every second; only the elapsed-time text rebuilds now, which is the only thing that actually changes. The live HR chart and the route map are wrapped in repaint boundaries so heart-rate updates and tile redraws stop cascading into sibling widgets. Gym auto-end is smarter: when you leave the radius it counts down 30 seconds and ends the session; when the band powers off (or runs out of battery, or goes out of range) it also ends, same 30-second budget, just split across staleness detection and the exit dwell so a brief BLE blip doesn’t end the workout. The sleep card moved off Home into Trends → Sleep where it now leads with a circular ring showing last night against your target. Home is strictly today’s live story now. The Baseline card shows again on Home even with zero sessions. Settings → Gym surfaces a live status row that tells you what the detector is seeing right now (“at gym · session starts in 1:42”, “left gym · session ends in 0:30”, or “permission denied, tap to retry”). And the Home tab’s bottom padding finally reserves enough space to clear the floating Stop button when a session is running, so the last card doesn’t hide behind the FAB anymore.',
+  },
+  {
+    tag: 'v1.0.20',
+    date: '2026-05-23',
+    kind: 'feature',
+    title: 'Silent gym auto-start, overnight reliability fix, battery alerts, full-backup map tiles',
+    body: 'Arrive at your saved gym, stay 2 minutes, and a Gym session starts on its own with a quick snackbar. Gym detection no longer asks you to confirm first. The detection radius is configurable in Settings → Gym (100–500 m), and a live status row tells you exactly what the detector is seeing (“outside radius”, “session starts in 1:42”, or “permission needed, tap to retry”), so you never have to wonder if it’s working. The overnight no-recording bug is fixed as well: the background service now detects “zombie” GATT connections (the radio link looks alive but no heart-rate packets are arriving) and forces a clean reconnect within 5 minutes, so the band actually keeps recording through the night. Two gentle battery notifications, one at 15%, one at 5%, let you know when the band needs charging, then re-arm only after you charge it back above 20% so a hovering low battery doesn’t spam you. Backups (and QR device-to-device sync) now bundle your offline map tiles too, so a full migration to a new phone reproduces offline maps without re-downloading. And a small “Powered by PointBreakLab” credit lives at the bottom of Settings.',
+  },
+  {
+    tag: 'v1.0.19',
+    date: '2026-05-17',
+    kind: 'feature',
+    title: 'Post-workout analysis, gym auto-detection, and GPS map fix',
+    body: 'End a session and Heart now shows a full post-workout summary, HR zone breakdown, peak and avg BPM, active calories, a compare-to-last-session row, and an estimated overnight HRV impact, so you can see what the session cost you. Also in this build: go to Settings → Gym, pin your gym’s location, pick a detection radius (100 – 500 m), and Heart will offer to start a Gym session after you’ve been there for 10 minutes, no manual tap needed. The other fix: the “Waiting for GPS…” state that sometimes stuck on Walk/Run sessions even after a few minutes. The app now seeds the map from the device’s cached location instantly, falls back to a network fix in under two seconds, and only filters out genuinely bad accuracy rather than discarding early satellite fixes.',
+  },
+  {
+    tag: 'v1.0.17',
+    date: '2026-05-16',
+    kind: 'fix',
+    title: 'Sleep detection after post-workout nights',
+    body: 'Nights following a recorded workout session were coming back empty. Post-exercise sympathetic activation keeps overnight HR elevated by 8–15 bpm, which pushed the detection baseline above the hard gate. The stager now detects when a session ended within three hours of the night window and automatically raises the detection threshold for that night, which is the night you actually want the data for.',
+  },
+  {
+    tag: 'v1.0.16',
+    date: '2026-05-14',
+    kind: 'feature',
+    title: 'Session analysis: HR trace, zone breakdown, and next-night sleep',
+    body: 'Every session in Trends now has a Detail button that opens a full analysis screen: an interactive heart-rate trace with zone-boundary overlays, a stacked zone-time breakdown showing how many minutes you spent in each of the five zones, a stats grid (avg / max / min HR, duration, load score, active kcal), a GPS map for outdoor sessions, and a next-night sleep quality card. On Android, a one-tap banner on the home screen now alerts you when battery optimisation is blocking overnight recording. Tap “Fix it” to grant the exemption without digging through Settings.',
+  },
+  {
+    tag: 'v1.0.15',
+    date: '2026-05-13',
+    kind: 'feature',
+    title: 'On-device intelligence: rhythm hints, readiness forecast, personalized sleep',
+    body: 'Correct seven detected sleep windows by hand and Heart starts shifting future detections by your personal bedtime / wake offset. Live rhythm hints flag windows of unusually irregular beat-to-beat variability on the home screen, with an episode log in Insights. A new readiness forecast on the Insights tab predicts tomorrow’s overnight HRV from the last week of nights, with small adjustments for last night’s sleep and recent training load. All of it is closed-form maths running locally. No telemetry, no model file, no account.',
+  },
+  {
+    tag: 'v1.0.13',
+    date: '2026-05-10',
+    kind: 'feature',
+    title: 'Active calories on the home screen',
+    body: 'A new card under the live HR hero shows today’s running active-calorie total plus the live kcal/min rate, gated to HR ≥ 90 bpm so the resting band doesn’t add phantom calories. The card hides itself on sedentary days so the home screen never leads with a 3 kcal headline. Tap the (i) for the methodology and the Keytel formula caveats.',
+  },
+  {
+    tag: 'v1.0.12',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Sleep stager verified against realistic data',
+    body: 'The sleep stager now matches Kotlin’s thresholds (HR std max 8 bpm, sleep-onset gate 0.7) so Dart and the native background path agree on what counts as sleep. Trends → Sleep stops showing empty weeks for users whose real overnight std is in the 4–6 bpm range.',
+  },
+  {
+    tag: 'v1.0.11',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Sleep tab actually populates a week of nights',
+    body: 'Three thresholds in the sleep stager were set tight enough that real overnight data couldn’t pass them. Clean nights scored 0.85 against a 0.85 gate, which is failing by exactly nothing. The stability check rejected normal 4–6 bpm variance as too noisy, and disturbed-sleep nights under three hours were silently erased. Relaxed all three to match the actual signal the band produces. Trends → Sleep populates with the last week of nights as soon as you open the app.',
+  },
+  {
+    tag: 'v1.0.10',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Past nights stop showing zero minutes of sleep',
+    body: 'If you opened Trends → Sleep and saw older nights stuck at zero minutes even though raw HR samples were on disk, that’s fixed. The cached daily summary was being written by a legacy native formula that never picked up the Dart stager fixes. The app now recomputes the last seven nights at launch using the corrected pipeline, and the background service does the same for any future night it computes while Heart is closed.',
+  },
+  {
+    tag: 'v1.0.9',
+    date: '2026-05-09',
+    kind: 'polish',
+    title: 'No more morning sleep-validation prompt',
+    body: 'Asking you to remember last night’s bedtime to the minute, every morning, wasn’t earning its keep: most people don’t actually recall accurately, and the prompt added friction without a real payoff. It’s gone. The Sleep snapshot card in Insights now carries a Detection quality bar (Low / Medium / High) so you can see at a glance how confidently the stager classified the night, without having to log anything yourself.',
+  },
+  {
+    tag: 'v1.0.8',
+    date: '2026-05-09',
+    kind: 'feature',
+    title: 'Backup & restore your full history',
+    body: 'Settings → Backup & restore. Pack the device’s full Heart state, every HR sample and GPS route, every sleep summary and setting, into a single ZIP and share it via email / Drive / AirDrop. Restore it on a new phone and your full history follows you. Optional automatic backups on a daily / weekly / monthly cadence run quietly the next time you open the app.',
+  },
+  {
+    tag: 'v1.0.7',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'GPS works on Android, faster initial fix',
+    body: 'Android location permission is now requested at the right moment, and the GPS listener registers against both GPS and network providers, so the map gets a coarse fix indoors right away and refines to a precise outdoor fix once you’re under sky. The “Waiting for GPS…” stall is gone.',
+  },
+  {
+    tag: 'v1.0.6',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Sleep tab works for users with higher resting HR',
+    body: 'Second pass on the sleep stager. v1.0.5 forwarded your personalised resting HR into the detection threshold, but the cap was still pulling the threshold below the actual sleep BPM for default profiles. The cap now leaves enough headroom to detect real sleep up to ~75 bpm while still rejecting clearly-awake nights, so your past week of overnight data shows up correctly.',
+  },
+  {
+    tag: 'v1.0.5',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Sleep tab no longer empty, Energy no longer shows 6,000 kcal days',
+    body: 'Two fixes from the same screenshot. Sleep: the Trends → Sleep tab was hardcoding a 60 bpm resting reference instead of your personalised value, so users with a real resting HR above 60 saw nothing populate even with tens of thousands of overnight samples on disk. Energy: the daily kcal estimator was applying the Keytel formula at every HR ≥ 60 bpm, but the formula is only validated for 90–150 bpm. Integrated over 24 h, that produced phantom totals around 6,000 kcal for desk days. The Energy card now shows active energy above resting only (HR ≥ 90 bpm), matching how WHOOP and Polar present their training-load numbers.',
+  },
+  {
+    tag: 'v1.0.4',
+    date: '2026-05-09',
+    kind: 'fix',
+    title: 'Map tiles actually render',
+    body: 'v1.0.2 declared the INTERNET permission, which OpenStreetMap needs to serve tiles. v1.0.4 is the part that actually makes them load: a custom HTTP layer with a policy-compliant User-Agent so OSM doesn’t reject the requests. The route-map tile area in live and saved sessions stops being grey rectangles.',
+  },
+  {
+    tag: 'v1.0.3',
+    date: '2026-05-08',
+    kind: 'fix',
+    title: 'Routes record while the app is in the background',
+    body: 'Minimising Heart during a Walk / Run / Cycling session used to pause the GPS stream, so the saved route would render as straight lines connecting only the waypoints captured while the app was visible. The foreground service now keeps recording the full polyline whether the screen is on or off, and the saved-session map shows what you actually moved.',
+  },
+  {
+    tag: 'v1.0.2',
+    date: '2026-05-08',
+    kind: 'fix',
+    title: 'Internet permission for map tiles',
+    body: 'The Android manifest was missing the INTERNET permission. Heart needs it for exactly one thing: OpenStreetMap tile downloads in the map widget. Declared it (with a comment naming the one widget that uses it). This was the first half of a two-part fix; the tiles fully start loading once v1.0.4’s OSM-policy User-Agent lands too.',
+  },
+  {
+    tag: 'v1.0.1',
+    date: '2026-05-08',
+    kind: 'fix',
+    title: 'Insights and Trends populate on Android',
+    body: 'v1.0.0 on Android wrote HR samples to one directory and read them from a different one, so the Insights and Trends tabs would render empty (0 samples, 0 minutes wear, no sleep stages) even after the band had been streaming overnight. Live BPM kept working because it’s driven by the in-memory stream, which masked the bug. Fixed.',
+  },
+  {
+    tag: 'v1.0.0',
+    date: '2026-05-08',
+    kind: 'feature',
+    title: 'Initial public release',
+    body: 'Local-first wellness app for Bluetooth heart-rate bands. Pairs with the Coospo HW9 (chest, upper arm, or forearm) and any standard BLE heart-rate strap (Polar H10, Wahoo TICKR, Garmin HRM-Dual). Live HR with zones, continuous HRV from R-R intervals, and four-stage sleep tracking, plus one-tap export and delete-everything. All of it runs 100 % on-device: no account, no cloud, no telemetry. The sleep stager turned out to need the most work afterwards.',
+  },
+];
+
+/** Newest release users can actually download. */
+export const latestRelease = releases.find((r) => !r.upcoming)!;
+
+/** Built and in testing, not downloadable yet (at most one). */
+export const upcomingRelease = releases.find((r) => r.upcoming);
