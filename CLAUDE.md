@@ -242,8 +242,11 @@ Three top-level chapters:
   SimpleX) all show cryptography above the fold; we do too.
   (Originally added 2026-05-07 after a review pointed out the
   post-split homepage was claim-only.)
-- **03 ─ THE STUDIO** — RG monogram + about text + Contact button.
-  (User has not yet provided a real photo to replace the monogram.)
+- **03 ─ THE STUDIO** — about text + Contact button + avatar.
+  **Avatar = `public/avatar-identicon.png`, the owner's PointBreakLab GitHub
+  identicon (pink on light grey), chosen 2026-09-29. The owner asked for
+  their personal photo (`roshan.jpg`) to be REMOVED — never add a personal
+  photo of the owner back to the site.**
 
 ### `src/pages/whispr/index.astro` — product page (Whispr)
 
