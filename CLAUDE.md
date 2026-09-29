@@ -560,6 +560,36 @@ entirely from `Nav.astro` and replaced the single Footer link with
 two explicit ones ("Whispr changelog" / "Heart changelog"). Each
 product page's download box links to its own changelog.
 
+## Heart in-app updates — `public/heart/version.json` (UPDATE ON EVERY RELEASE)
+
+Heart (1.0.23+) checks `https://pointbreaklab.com/heart/version.json` at most
+every 12 h (user can switch it off) and offers to download + install a newer
+APK. The app compares `version` (dotted, numeric) with its own versionName,
+downloads `apk_url`, and REFUSES to install unless the file's SHA-256 equals
+`sha256`. So on every Heart release, in the same commit as the page's
+`VERSION` / `APK_SHA256` constants:
+
+```json
+{
+  "schema": 1,
+  "version": "1.0.23",
+  "published": "YYYY-MM-DD",
+  "apk_url": "https://github.com/pointbreaklab-hub/Heart/releases/download/v1.0.23/heart-android.apk",
+  "sha256": "<shasum -a 256 heart-android.apk>",
+  "size_bytes": <bytes>,
+  "min_android_sdk": 24,
+  "title": "<one-line headline>",
+  "notes": "<2–3 sentences, user-facing>",
+  "changelog_url": "https://pointbreaklab.com/heart/changelog/"
+}
+```
+
+Rules: `apk_url` must be the **versioned** download URL (not
+`/latest/download/`), https only; the APK must be **release-signed** (users
+installed the release build — a different key makes Android refuse the
+update); its versionCode must be higher than the one users have. Publish the
+GitHub release FIRST, then push this file — otherwise users get a 404.
+
 ## APK distribution — GitHub Releases (NOT in repo)
 
 The APK lives in **GitHub Releases**, not in `public/downloads/`.
