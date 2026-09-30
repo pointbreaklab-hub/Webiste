@@ -1,9 +1,9 @@
 ---
-import Base           from '../../layouts/Base.astro';
-import Nav            from '../../components/Nav.astro';
-import Footer         from '../../components/Footer.astro';
-import SectionEyebrow from '../../components/SectionEyebrow.astro';
-import '../../styles/global.css';
+import Base           from '../../../layouts/Base.astro';
+import Nav            from '../../../components/Nav.astro';
+import Footer         from '../../../components/Footer.astro';
+import SectionEyebrow from '../../../components/SectionEyebrow.astro';
+import '../../../styles/global.css';
 
 // ── KNOT SCRIBE (commit-message model, 7B) ──────────────────────────────
 // Benchmark = gold-v1: 60 hand-reviewed commits, balanced across all 11
@@ -13,21 +13,21 @@ import '../../styles/global.css';
 // release-over-release; v3/v4 there are the earlier JS/TS-only numbers, v5
 // is on this harder balanced set (v4 re-scores 48.3% here, see the note).
 const ladder = [
-  { name: 'v3',           pct: 40, fill: 'bg-accent/35', txt: 'text-secondary', note: 'JS/TS set' },
-  { name: 'v4',           pct: 55, fill: 'bg-accent/55', txt: 'text-secondary', note: 'JS/TS set' },
-  { name: 'v5 · current', pct: 60, fill: 'bg-accent',    txt: 'text-accent',    note: 'balanced set' },
+  { name: 'v3',           pct: 40, fill: 'bg-accent/35', txt: 'text-secondary', note: 'JS/TS-Set' },
+  { name: 'v4',           pct: 55, fill: 'bg-accent/55', txt: 'text-secondary', note: 'JS/TS-Set' },
+  { name: 'v5 · aktuell', pct: 60, fill: 'bg-accent',    txt: 'text-accent',    note: 'ausgewogenes Set' },
 ];
 const metrics = [
-  ['Type accuracy',          '48.3%', '60.0%'],
-  ['Scope accuracy',         '68.3%', '75.0%'],
-  ['Title word-overlap',     '27.2%', '19.1%'],
-  ['Exact title',            '6.7%',  '0.0%'],
-  ['Generation errors / 60', '7',     '4'],
+  ['Typ-Genauigkeit',          '48.3%', '60.0%'],
+  ['Scope-Genauigkeit',        '68.3%', '75.0%'],
+  ['Wortüberlappung Titel',    '27.2%', '19.1%'],
+  ['Titel exakt gleich',       '6.7%',  '0.0%'],
+  ['Generierungsfehler / 60',  '7',     '4'],
 ];
 // The n column here sums to 54, not 60: the `style` row is missing. gold-v1 has
 // 11 types and style is the eleventh (n=6). The v4/v5 scores for it are not in
 // any file on this machine, so it is not shown and the table caption says so.
-// OWNER: paste style's real v4/v5 numbers in and drop "10 of the 11 types" from
+// OWNER: paste style's real v4/v5 numbers in and drop "10 der 11 Typen" from
 // the caption, or confirm style was cut from gold-v1 and every 60 on this page
 // has to become 54.
 const byType = [
@@ -44,33 +44,33 @@ const byType = [
 // across 9 unseen real repos (vite, vue, svelte, astro, ionic, gumroad,
 // OpenDream, radicle, vllm). No aggregate "intelligence score" is quoted.
 const deltaScore = [
-  { metric: 'Change-type F1 (intent read from code)', val: '0.409', base: 'vs 0.032 majority-class', note: '12.9× base rate · n=235' },
-  { metric: 'Cited files that exist in the diff',      val: '100%',  base: '0% hallucinated on four repos', note: 'holds on unseen Go' },
-  { metric: 'Reports fully grounded',                  val: '98.5%', base: '325 held-out commits',      note: 'first-pass 88%' },
-  { metric: 'Exact-line precision',                    val: '0.64',  base: '0.94 lenient (right region)', note: 'file and region reliable · exact line is not' },
+  { metric: 'Änderungstyp-F1 (Absicht aus dem Code gelesen)', val: '0.409', base: 'vs 0.032 Mehrheitsklasse', note: '12.9× Basisrate · n=235' },
+  { metric: 'Zitierte Dateien, die im Diff vorkommen',        val: '100%',  base: '0% halluziniert auf vier Repos', note: 'hält auch bei ungesehenem Go' },
+  { metric: 'Vollständig belegte Berichte',                   val: '98.5%', base: '325 Held-out-Commits',      note: 'im ersten Durchlauf 88%' },
+  { metric: 'Präzision auf die exakte Zeile',                 val: '0.64',  base: '0.94 tolerant (richtige Region)', note: 'Datei und Region zuverlässig · exakte Zeile nicht' },
 ];
 const deltaRepos = [
-  { repo: 'flask',      lang: 'Python',      strict: 74, verified: '11/12' },
-  { repo: 'gin',        lang: 'Go · unseen', strict: 70, verified: '12/12' },
-  { repo: 'ripgrep',    lang: 'Rust',        strict: 52, verified: '12/12' },
-  { repo: 'frozen 325', lang: 'JS/TS +',     strict: 64, verified: '320/325' },
+  { repo: 'flask',      lang: 'Python',         strict: 74, verified: '11/12' },
+  { repo: 'gin',        lang: 'Go · ungesehen', strict: 70, verified: '12/12' },
+  { repo: 'ripgrep',    lang: 'Rust',           strict: 52, verified: '12/12' },
+  { repo: 'frozen 325', lang: 'JS/TS +',        strict: 64, verified: '320/325' },
 ];
 ---
 
 <Base
-  title="Knot AI · two on-device models: Knot Scribe and Knot Delta"
-  description="Knot AI is PointBreakLab's on-device model family. Knot Scribe writes your git commit messages (open weights on Hugging Face and Ollama); Knot Delta reads a change and writes a grounded report. Both run 100% on your machine, no API."
+  title="Knot AI · zwei On-Device-Modelle: Knot Scribe und Knot Delta"
+  description="Knot AI ist die On-Device-Modellfamilie von PointBreakLab. Knot Scribe schreibt deine git-Commit-Messages (offene Gewichte auf Hugging Face und Ollama). Knot Delta liest eine Änderung und schreibt einen belegten Bericht. Beide laufen zu 100% auf deinem Rechner, ohne API."
 >
   <Nav />
 
-  <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+  {/* ── HERO ─────────────────────────────────────────────────────────────── */}
   <section class="relative pt-32 pb-20 px-6 overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[28rem] bg-accent/[0.08] blur-3xl pointer-events-none"></div>
 
     <div class="relative max-w-3xl mx-auto text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
         <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-        OPEN MODEL · APACHE-2.0 · RUNS ON YOUR MACHINE
+        OFFENES MODELL · APACHE-2.0 · LÄUFT AUF DEINEM RECHNER
       </div>
 
       <div class="flex items-center justify-center gap-4 mb-6">
@@ -79,33 +79,33 @@ const deltaRepos = [
       </div>
 
       <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
-        <span class="text-primary">Two small models</span><br/>
-        <span class="text-gradient">that run on your machine.</span>
+        <span class="text-primary">Zwei kleine Modelle,</span><br/>
+        <span class="text-gradient">die auf deinem Rechner laufen.</span>
       </h1>
 
       <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-8">
-        Knot Scribe reads a diff and writes the commit message. Both models run entirely on your own hardware, with no code leaving your device. Knot Delta is the bigger one: hand it a change and it reports what actually moved and where the risk sits.
+        Knot Scribe liest einen Diff und schreibt die Commit-Message. Beide Modelle laufen komplett auf deiner eigenen Hardware, ohne dass Code dein Gerät verlässt. Knot Delta ist das größere: Gib ihm eine Änderung, und es sagt dir, was sich wirklich bewegt hat und wo das Risiko liegt.
       </p>
       {/* OWNER: a memory requirement belongs here, once measured. Something like "Scribe is 7B and Delta is 9B, so in 4-bit they want roughly N GB each". Needs the real figure from your own Mac before it ships. */}
 
-      <!-- Two-model overview -->
+      {/* Two-model overview */}
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left mb-8">
         <a href="#scribe" class="p-5 rounded-2xl bg-surface border border-accent/25 hover:border-accent/50 transition-colors">
           <p class="text-accent text-xs font-mono tracking-widest mb-1.5">KNOT SCRIBE · 7B</p>
-          <p class="text-primary font-bold mb-1">Writes your commits</p>
-          <p class="text-secondary text-sm leading-relaxed">Reads a diff and writes a Conventional-Commit message with the right type on it. Open weights, on Hugging Face and Ollama.</p>
+          <p class="text-primary font-bold mb-1">Schreibt deine Commits</p>
+          <p class="text-secondary text-sm leading-relaxed">Liest einen Diff und schreibt eine Conventional-Commit-Message mit dem richtigen Typ. Offene Gewichte, auf Hugging Face und Ollama.</p>
         </a>
         <a href="#delta" class="p-5 rounded-2xl bg-surface border border-accent/25 hover:border-accent/50 transition-colors">
           <p class="text-accent text-xs font-mono tracking-widest mb-1.5">KNOT DELTA · 9B</p>
-          <p class="text-primary font-bold mb-1">Explains what changed</p>
-          <p class="text-secondary text-sm leading-relaxed">The bigger of the two, aimed at a different question: given a change, it says which files moved and where the risk sits.</p>
+          <p class="text-primary font-bold mb-1">Erklärt, was sich geändert hat</p>
+          <p class="text-secondary text-sm leading-relaxed">Das größere der beiden, gebaut für eine andere Frage: Zu einer Änderung sagt es, welche Dateien sich bewegt haben und wo das Risiko liegt.</p>
         </a>
       </div>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
         <a href="https://ollama.com/pointbreaklab/knot-scribe" target="_blank" rel="noopener"
            class="px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]">
-          🦙 Get Scribe on Ollama
+          🦙 Scribe auf Ollama holen
         </a>
         <a href="https://huggingface.co/pointbreaklab/knot-scribe" target="_blank" rel="noopener"
            class="px-8 py-3.5 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all">
@@ -123,22 +123,22 @@ const deltaRepos = [
     </div>
   </section>
 
-  <!-- ── 01 KNOT SCRIBE ───────────────────────────────────────────────────── -->
+  {/* ── 01 KNOT SCRIBE ───────────────────────────────────────────────────── */}
   <section id="scribe" class="relative py-28 px-6 bg-surface border-y border-border overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-4xl mx-auto">
       <div class="section-reveal text-center mb-16">
         <SectionEyebrow num="01" label="KNOT SCRIBE" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Scribe only ever sees a diff</h2>
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Scribe sieht nur einen Diff</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          Knot Scribe reads the change and gives back a structured message, which is the same contract it was trained and evaluated against.
+          Knot Scribe liest die Änderung und gibt eine strukturierte Message zurück. Mit genau diesem Ein- und Ausgabeformat wurde es auch trainiert und evaluiert.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {[
-          { step: '01', title: 'What it sees', body: 'It takes the git diff, plus a little file context for big multi-file changes, packed so the model sees the whole commit\'s scope.' },
-          { step: '02', title: 'Writes the message', body: 'Structured JSON output constrained to {title, body}, a correctly-typed Conventional-Commit subject and body, with fabricated issue-refs and sign-offs stripped.' },
+          { step: '01', title: 'Was es sieht', body: 'Es bekommt den git diff, bei großen Änderungen über mehrere Dateien dazu etwas Dateikontext. Alles wird so gepackt, dass das Modell den Umfang des ganzen Commits sieht.' },
+          { step: '02', title: 'Schreibt die Message', body: 'Strukturierte JSON-Ausgabe, beschränkt auf {title, body}: eine Conventional-Commit-Betreffzeile mit korrektem Typ plus Body. Erfundene Issue-Referenzen und Sign-offs werden entfernt.' },
         ].map(({ step, title, body }) => (
           <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
             <span class="absolute -left-px top-0 w-0.5 h-8 bg-accent"></span>
@@ -150,26 +150,26 @@ const deltaRepos = [
       </div>
 
       <p class="text-center text-hint text-xs mt-12 max-w-xl mx-auto leading-relaxed">
-        It's the model behind <a href="/knot/" class="text-accent hover:underline">Knot</a>'s hands-free auto-commit, but it's open and standalone, so you can point it at any git workflow.
+        Es ist das Modell, das in <a href="/de/knot/" class="text-accent hover:underline">Knot</a> die Commits automatisch schreibt, ohne dass du etwas tun musst. Trotzdem ist es offen und eigenständig. Du kannst es also mit jedem git-Workflow nutzen.
       </p>
     </div>
   </section>
 
-  <!-- ── 02 BENCHMARK ─────────────────────────────────────────────────────── -->
+  {/* ── 02 BENCHMARK ─────────────────────────────────────────────────────── */}
   <section id="benchmark" class="relative py-32 px-6 max-w-4xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 right-1/4 w-[45%] h-72 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-14">
-      <SectionEyebrow num="02" label="SCRIBE BENCHMARK" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">How Scribe was scored</h2>
-      {/* OWNER DECISION: first person "I" proposed here, i.e. "I read and labelled each one by hand" */}
+      <SectionEyebrow num="02" label="SCRIBE-BENCHMARK" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">So wurde Scribe bewertet</h2>
+      {/* OWNER DECISION: first person "I" proposed here, i.e. "ich habe jeden einzelnen von Hand gelesen und gelabelt" */}
       <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-        The set is called gold-v1: sixty hand-reviewed commits, balanced across all eleven commit types. v4 and v5 were both scored on it on 2026-07-21, through the shipping Ollama path.
+        Das Testset heißt gold-v1: sechzig von Hand geprüfte Commits, gleichmäßig über alle elf Commit-Typen verteilt. v4 und v5 wurden beide am 2026-07-21 darauf bewertet, und zwar über denselben Ollama-Pfad, mit dem das Modell ausgeliefert wird.
       </p>
     </div>
 
-    <!-- Release ladder (type accuracy, v3 -> v4 -> v5) -->
+    {/* Release ladder (type accuracy, v3 -> v4 -> v5) */}
     <div class="section-reveal rounded-2xl bg-bg border border-border p-6 md:p-8 mb-6">
-      <p class="text-hint text-xs font-mono tracking-widest mb-6">TYPE ACCURACY, RELEASE OVER RELEASE</p>
+      <p class="text-hint text-xs font-mono tracking-widest mb-6">TYP-GENAUIGKEIT VON RELEASE ZU RELEASE</p>
       {ladder.map(({ name, pct, fill, txt, note }) => (
         <div class="flex items-center gap-3 md:gap-4 mb-4 last:mb-0">
           <span class="w-24 md:w-32 shrink-0 text-[11px] md:text-xs font-mono text-secondary text-right leading-tight">{name}</span>
@@ -181,23 +181,23 @@ const deltaRepos = [
         </div>
       ))}
       <p class="text-hint text-[11px] leading-relaxed mt-6 pt-4 border-t border-border/60">
-        The benchmark got harder at v5. v3 and v4 were scored on an earlier JS/TS-only set; v5 is scored on the balanced eleven-type set used everywhere below, where v4 re-scores <span class="text-secondary">48.3%</span>. So v5's real gain over v4 is <span class="text-accent">+11.7 points</span>, larger than the release numbers show.
+        Mit v5 wurde der Benchmark schwerer. v3 und v4 wurden auf einem früheren Set bewertet, das nur JS/TS enthielt. v5 wird auf dem ausgewogenen Set mit elf Typen bewertet, das überall weiter unten verwendet wird. Dort kommt v4 bei einer neuen Messung auf <span class="text-secondary">48.3%</span>. Der echte Vorsprung von v5 gegenüber v4 liegt also bei <span class="text-accent">+11.7 Punkten</span> und ist größer, als die Release-Zahlen zeigen.
       </p>
     </div>
 
-    <!-- Full metrics table -->
+    {/* Full metrics table */}
     <div class="section-reveal rounded-2xl bg-bg border border-border overflow-hidden mb-6">
       <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
         <div class="w-3 h-3 rounded-full bg-error/70"></div>
         <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
         <div class="w-3 h-3 rounded-full bg-accent/70"></div>
-        <span class="ml-2 text-hint text-xs font-mono">metrics.txt · gold-v1 · 60 commits, all 11 types</span>
+        <span class="ml-2 text-hint text-xs font-mono">metrics.txt · gold-v1 · 60 Commits, alle 11 Typen</span>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-xs md:text-sm font-mono">
           <thead>
             <tr class="text-hint border-b border-border">
-              <th class="text-left font-normal p-3 md:px-5">Metric</th>
+              <th class="text-left font-normal p-3 md:px-5">Metrik</th>
               <th class="text-right font-normal p-3 md:px-5">v4</th>
               <th class="text-right font-semibold p-3 md:px-5 text-accent">v5</th>
             </tr>
@@ -215,19 +215,19 @@ const deltaRepos = [
       </div>
     </div>
 
-    <!-- Full by-commit-type table (the complete breakdown) -->
+    {/* Full by-commit-type table (the complete breakdown) */}
     <div class="section-reveal rounded-2xl bg-bg border border-border overflow-hidden mb-6">
       <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
         <div class="w-3 h-3 rounded-full bg-error/70"></div>
         <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
         <div class="w-3 h-3 rounded-full bg-accent/70"></div>
-        <span class="ml-2 text-hint text-xs font-mono">by-commit-type.txt · correct / n · gold-v1 · 10 of the 11 types</span>
+        <span class="ml-2 text-hint text-xs font-mono">by-commit-type.txt · richtig / n · gold-v1 · 10 der 11 Typen</span>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-xs md:text-sm font-mono">
           <thead>
             <tr class="text-hint border-b border-border">
-              <th class="text-left font-normal p-3 md:px-5">Type</th>
+              <th class="text-left font-normal p-3 md:px-5">Typ</th>
               <th class="text-right font-normal p-3 md:px-5">n</th>
               <th class="text-right font-normal p-3 md:px-5">v4</th>
               <th class="text-right font-semibold p-3 md:px-5 text-accent">v5</th>
@@ -248,23 +248,23 @@ const deltaRepos = [
     </div>
 
     <p class="section-reveal text-hint text-xs text-center max-w-2xl mx-auto leading-relaxed">
-      v5 lifts type accuracy (48 to 60) and scope (68 to 75) and cuts the format errors nearly in half (7 to 4), with the biggest gains on the types v4 got wrong, refactor (0 to 2) and ci and chore up to near-perfect. Title word-overlap and exact-title fall (27 to 19, and 7% to 0%) because v5 paraphrases. It writes its own titles, often more descriptive than the single human commit it is scored against, and exact-match penalizes that. build and revert stay hard (a convention clash and too few examples).
+      v5 hebt die Typ-Genauigkeit (48 auf 60) und den Scope (68 auf 75) und halbiert fast die Formatfehler (7 auf 4). Am meisten gewinnt es bei den Typen, die v4 falsch hatte: refactor (0 auf 2), dazu ci und chore, die jetzt fast perfekt sind. Wortüberlappung im Titel und exakter Titel sinken (27 auf 19 und 7% auf 0%), weil v5 paraphrasiert. Es schreibt eigene Titel, oft aussagekräftiger als der eine menschliche Commit, an dem es gemessen wird. Ein exakter Abgleich bestraft genau das. build und revert bleiben schwer (ein Konflikt mit der Konvention und zu wenige Beispiele).
       {/* OWNER DECISION: the page's one opinion, if you want it said out loud: exact match against a single human reference is a weak metric for this task, and a model card that drops a metric in the release it falls in is one to distrust. */}
     </p>
   </section>
 
-  <!-- ── 03 KNOT DELTA ────────────────────────────────────────────────────── -->
+  {/* ── 03 KNOT DELTA ────────────────────────────────────────────────────── */}
   <section id="delta" class="relative py-32 px-6 max-w-4xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 left-1/4 w-[45%] h-72 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
     <div class="section-reveal text-center mb-14">
       <SectionEyebrow num="03" label="KNOT DELTA" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Delta's numbers</h2>
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Die Zahlen von Delta</h2>
       <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
-        Knot Delta is the 9B half of the pair, and its report names which files moved and what the change was trying to do. It ships inside Knot. Every number below is measured against real git history, beside the baseline a lazy model would score. The scorecard comes from a frozen held-out set of 325 commits across nine repositories Delta never trained on: vite, radicle and svelte are among them. The grounding table underneath adds three single-repo runs on top of that set.
+        Knot Delta ist die 9B-Hälfte des Paars. Sein Bericht nennt, welche Dateien sich bewegt haben und was die Änderung erreichen wollte. Es wird mit Knot ausgeliefert. Jede Zahl unten ist an echter git-Historie gemessen und steht neben der Baseline, die ein faules Modell erreichen würde. Die Scorecard stammt aus einem eingefrorenen Held-out-Set: 325 Commits aus neun Repositories, auf denen Delta nie trainiert wurde, darunter vite, radicle und svelte. Die Grounding-Tabelle darunter ergänzt dieses Set um drei Läufe auf je einem einzelnen Repo.
       </p>
     </div>
 
-    <!-- Scorecard cards -->
+    {/* Scorecard cards */}
     <div class="section-reveal grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
       {deltaScore.map(({ metric, val, base, note }) => (
         <div class="p-5 rounded-2xl bg-bg border border-border">
@@ -276,22 +276,22 @@ const deltaRepos = [
       ))}
     </div>
 
-    <!-- Multi-repo generalization -->
+    {/* Multi-repo generalization */}
     <div class="section-reveal rounded-2xl bg-bg border border-border overflow-hidden mb-6">
       <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
         <div class="w-3 h-3 rounded-full bg-error/70"></div>
         <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
         <div class="w-3 h-3 rounded-full bg-accent/70"></div>
-        <span class="ml-2 text-hint text-xs font-mono">grounding.txt · exact-line precision · 4 unseen repos</span>
+        <span class="ml-2 text-hint text-xs font-mono">grounding.txt · Präzision auf die exakte Zeile · 4 ungesehene Repos</span>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-xs md:text-sm font-mono">
           <thead>
             <tr class="text-hint border-b border-border">
-              <th class="text-left font-normal p-3 md:px-5">repo</th>
-              <th class="text-left font-normal p-3 md:px-5">language</th>
-              <th class="text-right font-normal p-3 md:px-5">verified</th>
-              <th class="text-right font-semibold p-3 md:px-5 text-accent">line precision</th>
+              <th class="text-left font-normal p-3 md:px-5">Repo</th>
+              <th class="text-left font-normal p-3 md:px-5">Sprache</th>
+              <th class="text-right font-normal p-3 md:px-5">verifiziert</th>
+              <th class="text-right font-semibold p-3 md:px-5 text-accent">Zeilenpräzision</th>
             </tr>
           </thead>
           <tbody>
@@ -309,19 +309,19 @@ const deltaRepos = [
     </div>
 
     <p class="section-reveal text-hint text-xs text-center max-w-2xl mx-auto leading-relaxed">
-      Delta never cites a file that isn't in the diff (100% across every repo, including Go, which is absent from its training data), and it lands in the right region 92 to 100% of the time, depending on the repo. It does not yet reliably pin the exact line: that lands 52 to 74% of the time, lowest on Rust.
+      Delta zitiert nie eine Datei, die nicht im Diff steht (100% in jedem Repo, auch bei Go, das in seinen Trainingsdaten fehlt). Je nach Repo trifft es in 92 bis 100% der Fälle die richtige Region. Die exakte Zeile trifft es noch nicht zuverlässig: Das gelingt in 52 bis 74% der Fälle, am seltensten bei Rust.
     </p>
   </section>
 
-  <!-- ── 04 TRAINING & FILES ──────────────────────────────────────────────── -->
+  {/* ── 04 TRAINING & FILES ──────────────────────────────────────────────── */}
   <section id="training" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
     <div class="relative max-w-4xl mx-auto">
       <div class="section-reveal text-center mb-14">
-        <SectionEyebrow num="04" label="TRAINING & FILES" />
-        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Trained on one RTX 3060</h2>
+        <SectionEyebrow num="04" label="TRAINING & DATEIEN" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Trainiert auf einer RTX 3060</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          Knot Scribe is a QLoRA fine-tune of a permissively-licensed base, trained on 3,227 diff-to-message pairs mined from permissive open-source repositories.
+          Knot Scribe ist ein QLoRA-Fine-Tune eines freizügig lizenzierten Basismodells. Trainiert wurde es auf 3.227 Paaren aus Diff und Commit-Message, gesammelt aus freizügig lizenzierten Open-Source-Repositories.
         </p>
       </div>
 
@@ -335,13 +335,13 @@ const deltaRepos = [
         <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
           {/* OWNER DECISION: name the base model in this row, or say in one clause why it is not named */}
           {[
-            ['Base model',  'A permissively-licensed open code model · Apache-2.0'],
-            ['Method',      'QLoRA (4-bit) · completion-only SFT (loss on the message only)'],
-            ['Hardware',    'A single NVIDIA RTX 3060 (12 GB)'],
-            ['Data',        '3,227 diff→message pairs mined from permissive OSS · JS/TS, Python, Rust, Go'],
-            ['Privacy',     'No user data · no private code · public commit history only'],
-            ['Formats',     'LoRA adapter (PEFT safetensors) + LoRA GGUF (llama.cpp / Ollama)'],
-            ['License',     'Apache-2.0 (open-base derivative)'],
+            ['Basismodell', 'Ein freizügig lizenziertes offenes Code-Modell · Apache-2.0'],
+            ['Methode',     'QLoRA (4-bit) · completion-only SFT (Loss nur auf der Message)'],
+            ['Hardware',    'Eine einzelne NVIDIA RTX 3060 (12 GB)'],
+            ['Daten',       '3,227 diff→message-Paare aus freizügig lizenzierter OSS · JS/TS, Python, Rust, Go'],
+            ['Datenschutz', 'Keine Nutzerdaten · kein privater Code · nur öffentliche Commit-Historie'],
+            ['Formate',     'LoRA-Adapter (PEFT safetensors) + LoRA-GGUF (llama.cpp / Ollama)'],
+            ['Lizenz',      'Apache-2.0 (abgeleitet von einer offenen Basis)'],
           ].map(([key, val]) => (
             <div class="flex gap-4 items-baseline">
               <span class="text-hint shrink-0 w-28">{key}</span>
@@ -353,62 +353,62 @@ const deltaRepos = [
       </div>
 
       <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed">
-        Every file (adapter weights, GGUF, tokenizer, and the full model card) is public on <a href="https://huggingface.co/pointbreaklab/knot-scribe" target="_blank" rel="noopener" class="text-accent hover:underline">Hugging Face</a>.
+        Alle Dateien (Adapter-Gewichte, GGUF, Tokenizer und die vollständige Model Card) liegen öffentlich auf <a href="https://huggingface.co/pointbreaklab/knot-scribe" target="_blank" rel="noopener" class="text-accent hover:underline">Hugging Face</a>.
       </p>
     </div>
   </section>
 
-  <!-- ── 05 GET IT ────────────────────────────────────────────────────────── -->
+  {/* ── 05 GET IT ────────────────────────────────────────────────────────── */}
   <section id="get" class="relative py-32 px-6 max-w-3xl mx-auto">
     <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
     <div class="relative">
       <div class="section-reveal text-center mb-12">
-        <SectionEyebrow num="05" label="RUN IT" />
-        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Running it</h2>
+        <SectionEyebrow num="05" label="AUSFÜHREN" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">So startest du es</h2>
         <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-          Scribe only makes sense on a staged diff. Delta will read whatever diff you hand it.
+          Scribe ergibt nur bei einem Diff aus der Staging-Area Sinn. Delta liest jeden Diff, den du ihm gibst.
         </p>
       </div>
 
       <div class="section-reveal space-y-4">
-        <!-- Knot Scribe -->
+        {/* Knot Scribe */}
         <div class="rounded-2xl bg-bg border border-border overflow-hidden">
           <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
             <div class="w-3 h-3 rounded-full bg-error/70"></div>
             <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
             <div class="w-3 h-3 rounded-full bg-accent/70"></div>
-            <span class="ml-2 text-hint text-xs font-mono">KNOT SCRIBE · commit message</span>
+            <span class="ml-2 text-hint text-xs font-mono">KNOT SCRIBE · Commit-Message</span>
           </div>
           <pre class="p-5 text-xs md:text-sm font-mono text-primary/90 overflow-x-auto"><code>ollama run pointbreaklab/knot-scribe "$(git diff --staged)"</code></pre>
         </div>
-        <!-- Knot Delta -->
+        {/* Knot Delta */}
         <div class="rounded-2xl bg-bg border border-border overflow-hidden">
           <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
             <div class="w-3 h-3 rounded-full bg-error/70"></div>
             <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
             <div class="w-3 h-3 rounded-full bg-accent/70"></div>
-            <span class="ml-2 text-hint text-xs font-mono">KNOT DELTA · change report</span>
+            <span class="ml-2 text-hint text-xs font-mono">KNOT DELTA · Änderungsbericht</span>
           </div>
           <pre class="p-5 text-xs md:text-sm font-mono text-primary/90 overflow-x-auto"><code>ollama run pointbreaklab/knot-delta "$(git diff)"</code></pre>
         </div>
         <p class="text-hint text-xs leading-relaxed px-1">
-          llama.cpp also works, and Ollama is only the shorter path. The GGUF and the exact command for each model are on its Hugging Face card below. Metal, CUDA and CPU all load the same GGUF.
+          llama.cpp funktioniert genauso. Ollama ist nur der kürzere Weg. Das GGUF und den genauen Befehl für jedes Modell findest du auf seiner Hugging-Face-Seite unten. Metal, CUDA und CPU laden alle dasselbe GGUF.
         </p>
       </div>
 
       <div class="section-reveal grid grid-cols-1 sm:grid-cols-2 gap-4 mt-10">
         <a href="https://huggingface.co/pointbreaklab/knot-scribe" target="_blank" rel="noopener"
            class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-border text-secondary text-sm font-mono hover:border-accent hover:text-primary transition-all">
-          🤗 Knot Scribe on Hugging Face
+          🤗 Knot Scribe auf Hugging Face
         </a>
         <a href="https://huggingface.co/pointbreaklab/knot-delta" target="_blank" rel="noopener"
            class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-border text-secondary text-sm font-mono hover:border-accent hover:text-primary transition-all">
-          🤗 Knot Delta on Hugging Face
+          🤗 Knot Delta auf Hugging Face
         </a>
       </div>
 
       <p class="section-reveal text-hint text-[11px] text-center mt-10 max-w-xl mx-auto leading-relaxed">
-        Knot Scribe writes every commit message inside <a href="/knot/" class="text-accent hover:underline">Knot</a>, and Knot Delta powers its change reports. Knot is PointBreakLab's peer-to-peer version control system.
+        Knot Scribe schreibt jede Commit-Message in <a href="/de/knot/" class="text-accent hover:underline">Knot</a>, und Knot Delta liefert dessen Änderungsberichte. Knot ist das Peer-to-Peer-Versionskontrollsystem von PointBreakLab.
       </p>
     </div>
   </section>

@@ -1,0 +1,182 @@
+---
+import Base   from '../../layouts/Base.astro';
+import Nav    from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/global.css';
+
+// [CONFIRM: exact day of the last revision, to match Heart's '5 May 2026']
+const lastUpdated = 'Mai 2026';
+const contactEmail = 'mail.roshankumargupta@gmail.com';
+
+const sections = [
+  {
+    n: '1',
+    title: 'Wer Whispr betreibt',
+    body: `Whispr wird von einem einzelnen Entwickler in Würzburg, Deutschland, geschrieben und gepflegt, der unter dem Namen PointBreakLab (pointbreaklab.com) veröffentlicht. Der Betreiber ist Verantwortlicher im Sinne des geltenden Datenschutzrechts (DSGVO / GDPR).\n\nKontakt: ${contactEmail}`,
+  },
+  {
+    n: '2',
+    title: 'Welche Daten wir erheben',
+    body: `Wir erheben nichts.\n\nWhispr hat keinen Registrierungsschritt und kein Backend, bei dem man sich registrieren könnte. Der Build enthält kein Analytics-SDK, und die App baut nie eine Verbindung zu einem Server von PointBreakLab auf.`,
+  },
+  {
+    n: '3',
+    // Mesh relay measured by the owner, n=2: under 5 km in ~1 h and 1 h 25 min.
+    // The HOP COUNT on those runs is still unmeasured.
+    title: 'Wie eine Nachricht übertragen wird',
+    body: `Nachrichten werden über drei Kanäle direkt zwischen Geräten übertragen:\n\n• Lokales WLAN (LAN): direktes HTTP zwischen Geräten im selben Netzwerk. Jede Nachricht steckt dabei in einer ECIES-Verschlüsselung auf Anwendungsebene, sodass ihr Inhalt für alles andere in diesem Netzwerk unsichtbar ist.\n\n• Bluetooth-LE-Mesh: Weiterleitung über mehrere Hops zwischen Geräten in der Nähe, für Nachrichten ohne Internetverbindung. Die Nutzdaten werden Ende-zu-Ende-verschlüsselt, bevor sie ins Mesh gelangen. Von den drei Kanälen ist dies der unzuverlässigste: Durch Wände hindurch und wenn Menschen sich bewegen, kann ein Hop einfach ausfallen.\n\n• Tor Hidden Services: über das Internet, via das Anonymisierungsnetzwerk Tor. Deine IP-Adresse wird deinem Kontakt nicht offengelegt.\n\nAlle drei Kanäle wenden Ende-zu-Ende-Verschlüsselung mit dem Signal Protocol an (Schlüsselvereinbarung: X3DH, Algorithmus: Double Ratchet), bevor irgendwelche Daten dein Gerät verlassen. PointBreakLab kann deine Nachrichten nicht entschlüsseln, auch dann nicht, wenn es rechtlich dazu gezwungen wird.`,
+  },
+  {
+    n: '4',
+    title: 'Lokale Datenspeicherung',
+    body: `Alle App-Daten werden ausschließlich auf deinem Gerät gespeichert:\n\n• Nachrichten, Kontakte und Einstellungen liegen unter Android und iOS in einer SQLite-Datenbank, die mit SQLCipher verschlüsselt ist (AES-256-CBC, Verschlüsselung der gesamten Datei).\n\n• Private kryptografische Schlüssel werden in der sicheren Hardware-Enklave deines Geräts gespeichert: Android Keystore unter Android, iOS Keychain auf dem iPhone.\n\n• Der Schlüssel für die Datenbankverschlüsselung wird mit PBKDF2-SHA512 (200.000 Iterationen) aus deinem Passwort abgeleitet und nie im Klartext gespeichert.\n\n• Whispr nutzt für Nachrichtendaten weder iCloud noch Google Drive noch irgendein anderes Cloud-Backup. Wenn du die eingebaute verschlüsselte Backup-Funktion nutzt, wird die Backup-Datei im lokalen Speicher deines Geräts abgelegt, und du wählst den Ordner aus.`,
+  },
+  {
+    n: '5',
+    // OWNER DECISION: first person "I" proposed here. The Firebase admission is the most
+    // human passage on the page and would land harder as "I could not find a QR scanner
+    // that does not drag Firebase in with it." Not shipped: site-wide person is unresolved.
+    // [CONFIRM: which QR libraries were tried before ML Kit]
+    title: 'Dienste von Drittanbietern',
+    body: `Whispr enthält kein Werbe-SDK und keinen Social-Login-Button.\n\nDie einzige Drittanbieter-Komponente, die einen externen Server kontaktieren kann, ist der eingebettete Tor-Daemon. Er verbindet sich zum Routing mit dem Tor-Netzwerk, nicht mit einem Server von PointBreakLab. Für diese Verbindung gilt die Datenschutzerklärung des Tor Project (torproject.org).\n\nDie Bibliothek zum Scannen von QR-Codes (Google ML Kit über mobile_scanner) bringt Firebase Transport Runtime als transitive Abhängigkeit mit. Diese Komponente ist enthalten, überträgt aber keine Daten. Sie wird nur für die lokale Barcode-Erkennung verwendet. In Whispr ist kein Firebase-Projekt konfiguriert. Die Runtime ist vorhanden, weil sie mit ML Kit mitgeliefert wird.`,
+  },
+  {
+    n: '6',
+    title: 'Geräteberechtigungen',
+    body: `Whispr fordert die folgenden Geräteberechtigungen aus den unten genannten Gründen an.\n\nDie Ausnahme von der Akku-Optimierung braucht die meiste Begründung: Android drosselt den Tor-Dienst, sobald der Bildschirm ausgeht, und Whispr hat keinen Server, der eine Nachricht in der Zwischenzeit vorhalten könnte.`,
+    table: [
+      ['Bluetooth',        'Whispr-Kontakte in der Nähe finden und Nachrichten ohne Internet über das BLE-Mesh austauschen.'],
+      ['Kamera',           'QR-Codes scannen, um Kontakte hinzuzufügen oder dein Konto wiederherzustellen. Es werden keine Fotos aufgenommen oder gespeichert.'],
+      ['Mikrofon',         'Verschlüsselte Sprachnachrichten aufnehmen. Audio wird vor dem Senden lokal verschlüsselt und nie an uns übertragen.'],
+      ['Lokales Netzwerk', 'Whispr-Peers im selben WLAN finden, für direkte Nachrichten über das LAN.'],
+      ['Mitteilungen',     'Hinweise auf eingehende Nachrichten lokal anzeigen. Kein Mitteilungsinhalt läuft über einen externen Server.'],
+      ['Akku-Opt.',        'Verhindern, dass Android den Tor-Dienst drosselt, wenn der Bildschirm aus ist.'],
+    ],
+  },
+  {
+    n: '7',
+    title: 'Speicherdauer und Löschung',
+    body: `Alles liegt auf deinem Gerät, also löschst du es selbst:\n\n• Wenn du die App deinstallierst, werden alle gespeicherten Daten entfernt.\n\n• Die Funktion „Data Burn“ (Settings → Security → Panic Button) führt eine kryptografische Löschung in 3 Durchgängen aus: Zuerst wird der Schlüssel für die Datenbankverschlüsselung vernichtet (dadurch werden alle gespeicherten Daten dauerhaft unlesbar), alle Tabellenzeilen werden gelöscht, und die Datenbankdatei wird dreimal überschrieben, bevor sie entfernt wird. Auf Flash-Speicher ist das Überschreiben der schwächste dieser drei Schritte. Was die Daten tatsächlich unlesbar macht, ist die Vernichtung des Schlüssels.\n\n• Selbstlöschende Nachrichten werden automatisch von deinem Gerät gelöscht, sobald der von dir eingestellte Timer abgelaufen ist.\n\nBei PointBreakLab sind keine Daten gespeichert, die gelöscht werden könnten.`,
+  },
+  {
+    n: '8',
+    title: 'Datenschutz bei Kindern',
+    body: `Whispr richtet sich nicht an Kinder unter 13 Jahren (im Europäischen Wirtschaftsraum unter 16 Jahren). Wir erheben nicht wissentlich Informationen von Kindern. Da Whispr von keinem Nutzer Daten erhebt, ist keine besondere Behandlung von Daten von Kindern erforderlich.`,
+  },
+  {
+    n: '9',
+    title: 'Deine Rechte (DSGVO / CCPA)',
+    body: `Nach der DSGVO, dem CCPA und vergleichbaren Gesetzen hast du Rechte in Bezug auf deine personenbezogenen Daten, darunter Auskunft, Berichtigung, Löschung und Datenübertragbarkeit.\n\nPointBreakLab hält keine personenbezogenen Daten über dich vor. Deshalb gibt es auf Betreiberseite nichts, worauf du zugreifen oder was du berichtigen, exportieren oder löschen könntest. Alle solchen Daten liegen in der verschlüsselten Datenbank auf deinem Gerät, wo du direkt darauf zugreifen kannst.\n\nWenn du Fragen hast, schreib uns an ${contactEmail}.`,
+  },
+  {
+    n: '10',
+    title: 'Sicherheit',
+    body: `• Ende-zu-Ende-Verschlüsselung: X3DH + Double Ratchet (Signal Protocol), AES-256-GCM pro Nachricht.\n\n• Verschlüsselung der gespeicherten Daten: SQLCipher AES-256, Verschlüsselung der gesamten Datenbank auf Mobilgeräten.\n\n• Schlüsselschutz: private Schlüssel liegen in Android Keystore / iOS Keychain, mit hardwaregestütztem Schutz.\n\n• Transport: ECIES-Verschlüsselung auf Anwendungsebene im LAN; Tor Hidden Services für den Transport über das Internet; BLE-Mesh über mehrere Hops für die Weiterleitung ohne Internet.\n\nKein Sicherheitssystem ist perfekt. Whispr wird im vorliegenden Zustand („as is“) und ohne Gewährleistung bereitgestellt. Empfehlungen für den sicheren Umgang findest du im Security Guide in der App.`,
+  },
+  {
+    n: '11',
+    // [CONFIRM: how many revisions since v1.0]
+    title: 'Änderungen an dieser Erklärung',
+    body: `Dieses Dokument ändert sich nur, wenn ein neuer Build der App ausgeliefert wird, weil nichts es von sich aus verteilen kann. Die Fassung in Whispr und die Fassung auf pointbreaklab.com werden gemeinsam bearbeitet. Das Datum oben in diesem Dokument gibt die letzte Überarbeitung an.`,
+  },
+  {
+    n: '12',
+    title: 'Kontakt',
+    body: `Fragen zu dieser Datenschutzerklärung:\n\nPointBreakLab\n${contactEmail}\npointbreaklab.com`,
+  },
+];
+
+const dataTable = [
+  ['Nachrichten',       'Auf deinem Gerät mit AES-256-GCM verschlüsselt und nirgendwohin gesendet.'],
+  ['Kontakte',          'In derselben verschlüsselten Datenbank wie die Nachrichten. Es wird keine Kopie davon hochgeladen.'],
+  ['Identitäts­schlüssel', 'Auf deinem Gerät erzeugt und im Schlüsselbund deines Geräts gespeichert. Wir sehen ihn nie.'],
+  ['Anzeigename',       'Lokal gespeichert. Wird nur mit Kontakten geteilt, denen du ausdrücklich schreibst.'],
+  ['IP-Adresse',        'Wird nur verwendet, während Peers in deinem eigenen WLAN gesucht werden. Wird nie protokolliert und nie an uns gesendet.'],
+  ['Crash + Analytics', 'Im Build ist weder ein SDK für Absturzberichte noch ein Analytics-SDK enthalten, also läuft keins von beiden.'],
+  ['Werbe-ID',          'Es wird nie darauf zugegriffen.'],
+];
+---
+
+<Base
+  title="Datenschutzerklärung für Whispr"
+  description="Whispr hat kein Backend. Nachrichten, Kontakte und Identitätsschlüssel bleiben in einer verschlüsselten Datenbank auf deinem Handy, und die App verbindet sich nie mit PointBreakLab."
+>
+  <Nav />
+
+  <main class="pt-32 pb-24 px-6">
+    <article class="max-w-3xl mx-auto">
+
+      {/* Header */}
+      <header class="section-reveal mb-12 text-center">
+        <span class="inline-block px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono tracking-wider mb-5">
+          Zuletzt aktualisiert: {lastUpdated}
+        </span>
+        <h1 class="text-4xl md:text-5xl font-black text-primary mb-5">Datenschutzerklärung für Whispr</h1>
+        <p class="text-secondary text-sm leading-relaxed max-w-xl mx-auto mb-5">
+          Dies ist eine Übersetzung zur besseren Verständlichkeit. Rechtlich verbindlich ist die <a href="/privacy/" lang="en" hreflang="en" class="text-accent hover:underline">englische Fassung</a>.
+        </p>
+        <p class="text-secondary leading-relaxed max-w-xl mx-auto">
+          Es gibt keinen Whispr-Server. Nachrichten gehen per WLAN, Bluetooth oder Tor von Gerät zu Gerät, und die Schlüssel, mit denen man sie entschlüsseln könnte, verlassen dein Handy nie.
+        </p>
+      </header>
+
+      {/* Highlight banner */}
+      <div class="section-reveal flex items-start gap-3 p-5 rounded-2xl bg-accent/5 border border-accent/30 mb-16">
+        <svg class="shrink-0 mt-0.5 text-accent" width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M11 2L4 5v6c0 4 3 7.5 7 9 4-1.5 7-5 7-9V5l-7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M8 11l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p class="text-secondary text-sm leading-relaxed">
+          Die einzige Komponente, die von sich aus das Internet erreicht, ist der mitgelieferte Tor-Daemon, und er erreicht das Tor-Netzwerk, nie eine Adresse von PointBreakLab.
+        </p>
+      </div>
+
+      {/* Sections */}
+      {sections.map(({ n, title, body, table }) => (
+        <section class="section-reveal mb-12">
+          <div class="flex items-baseline gap-3 mb-4">
+            <span class="shrink-0 w-7 h-7 rounded-full bg-accent text-bg flex items-center justify-center text-xs font-bold font-mono">{n}</span>
+            <h2 class="text-xl md:text-2xl font-bold text-primary">{title}</h2>
+          </div>
+          <div class="text-secondary text-sm md:text-[0.95rem] leading-relaxed whitespace-pre-line pl-10">
+            {body}
+          </div>
+
+          {n === '2' && (
+            <div class="pl-10 mt-5">
+              <div class="rounded-xl border border-border bg-surface overflow-hidden text-sm">
+                {dataTable.map(([k, v], i) => (
+                  <div class={`flex gap-4 px-4 py-3 ${i < dataTable.length - 1 ? 'border-b border-border' : ''}`}>
+                    <span class="shrink-0 w-32 text-hint font-mono text-xs">{k}</span>
+                    <span class="text-secondary text-xs md:text-sm leading-relaxed">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {table && (
+            <div class="pl-10 mt-5">
+              <div class="rounded-xl border border-border bg-surface overflow-hidden text-sm">
+                {table.map(([k, v], i) => (
+                  <div class={`flex gap-4 px-4 py-3 ${i < table.length - 1 ? 'border-b border-border' : ''}`}>
+                    <span class="shrink-0 w-32 text-hint font-mono text-xs">{k}</span>
+                    <span class="text-secondary text-xs md:text-sm leading-relaxed">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      ))}
+
+      {/* Footer note */}
+      <div class="section-reveal text-center pt-10 border-t border-border">
+        <p class="text-hint text-xs">© 2024–2026 PointBreakLab. Alle Rechte vorbehalten.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <Footer />
+</Base>

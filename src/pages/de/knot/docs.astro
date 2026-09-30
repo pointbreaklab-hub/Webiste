@@ -1,0 +1,237 @@
+---
+import Base           from '../../../layouts/Base.astro';
+import Nav            from '../../../components/Nav.astro';
+import Footer         from '../../../components/Footer.astro';
+import SectionEyebrow from '../../../components/SectionEyebrow.astro';
+import '../../../styles/global.css';
+
+// German twin of src/pages/knot/docs.astro. Same structure, anchors and
+// constants; only the visible prose is translated. The editorial rules and
+// the owner's open questions live in the English file's frontmatter.
+
+// Filenames and checksums are read from the English page at build time
+// (src/en-release.ts), so a release only ever edits the English file.
+import { releaseConst } from '../../../en-release';
+const EN = 'knot/docs.astro';
+const DEB_FILE  = releaseConst(EN, 'DEB_FILE');
+const DEB_SHA   = releaseConst(EN, 'DEB_SHA');
+const DMG_FILE  = releaseConst(EN, 'DMG_FILE');
+const DMG_SHA   = releaseConst(EN, 'DMG_SHA');
+const REL_BASE  = 'https://github.com/pointbreaklab-hub/knot/releases/latest/download';
+---
+
+<Base
+  title="Knot installieren · macOS, Linux, Windows"
+  description="Knot installieren unter macOS 13 oder neuer und unter Debian/Ubuntu mit glibc 2.31+: Download, Prüfsumme, Installation, Daemon starten, erstes synchronisiertes Speichern. Noch kein Windows-Build."
+>
+  <Nav />
+
+  <main class="min-h-screen pt-24 pb-24 px-6">
+    <div class="max-w-3xl mx-auto relative">
+
+      <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+      <SectionEyebrow num="00" label="DOKUMENTATION · INSTALLATION" align="center" />
+
+      <h1 class="text-4xl md:text-5xl font-black text-primary text-center mb-4 tracking-tight">
+        Knot installieren
+      </h1>
+      <p class="text-secondary text-center max-w-xl mx-auto mb-4 leading-relaxed">
+        So installierst du Knot unter macOS und Debian/Ubuntu, vom Download bis zum ersten
+        synchronisierten Speichern. Einen Windows-Build gibt es noch nicht (Abschnitt 03).
+      </p>
+      <p class="text-hint text-center text-xs font-mono mb-14">
+        <a href="#macos"   class="text-accent hover:underline">macOS</a> ·
+        <a href="#linux"   class="text-accent hover:underline">Linux</a> ·
+        <a href="#windows" class="text-accent hover:underline">Windows</a> ·
+        <a href="#verify"  class="text-accent hover:underline">Download prüfen</a> ·
+        <a href="#first-save" class="text-accent hover:underline">Erstes Speichern</a>
+      </p>
+
+      <section id="macos" class="relative mb-16 scroll-mt-24">
+        <SectionEyebrow num="01" label="MACOS" align="left" />
+        <h2 class="text-2xl font-black text-primary mb-4">macOS</h2>
+
+        <div class="text-sm text-secondary leading-relaxed space-y-4">
+          <div class="p-4 rounded-xl bg-surface border border-border font-mono text-xs space-y-1.5">
+            <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Benötigt</span><span class="text-primary/80">macOS 13 (Ventura) oder neuer</span></div>
+            <div class="flex gap-3"><span class="text-hint w-28 shrink-0">CPU</span><span class="text-primary/80">Intel nativ · Apple Silicon über Rosetta 2</span></div>
+            <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Enthält</span><span class="text-primary/80">Daemon, Desktop-App, CLI, Tor; eigenständig, vorher muss nichts installiert werden</span></div>
+          </div>
+
+          <div>
+            <h3 class="text-primary font-bold mb-1.5">1. Download</h3>
+            <p>Hol dir das Disk-Image aus dem <a href={`${REL_BASE}/Knot-macos.dmg`} class="text-accent hover:underline">neuesten Release</a> (auch auf der <a href="/de/knot/#download" class="text-accent hover:underline">Download-Seite</a>). Die Prüfsumme vorher zu kontrollieren ist optional: <a href="#verify" class="text-accent hover:underline">Schritte weiter unten</a>.</p>
+          </div>
+
+          <div>
+            <h3 class="text-primary font-bold mb-1.5">2. Installieren</h3>
+            <p>Öffne die .dmg, lies die beiliegende <span class="text-primary/80 font-mono">INSTALL.txt</span> und zieh <span class="text-primary/80">Knot</span> in den Ordner <span class="text-primary/80">Programme</span> (Applications).</p>
+          </div>
+
+          <div>
+            <h3 class="text-primary font-bold mb-1.5">3. Erstes Öffnen: der einmalige Gatekeeper-Schritt</h3>
+            <p class="mb-2">Knot ist signiert, aber noch nicht von Apple notarisiert. Deshalb blockiert macOS das erste Öffnen. Der xattr-Befehl entfernt das Quarantäne-Flag vor dem ersten Öffnen. Die Schaltfläche „Dennoch öffnen“ in den Systemeinstellungen erscheint erst, nachdem macOS Knot einmal blockiert hat. Räum die Sperre einmal aus dem Weg, auf eine dieser Arten:</p>
+            <p class="mb-1 text-xs font-mono text-hint uppercase tracking-widest">Am zuverlässigsten, jede macOS-Version</p>
+            <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs mb-2"><code>xattr -dr com.apple.quarantine "/Applications/Knot.app"</code></pre>
+            <ul class="list-disc pl-5 space-y-1 text-secondary/90">
+              <li>Oder: Öffne Knot einmal (es wird blockiert), dann <span class="text-primary/80">Systemeinstellungen → Datenschutz &amp; Sicherheit → „Dennoch öffnen“</span>.</li>
+              <li>Ältere macOS-Versionen (vor Sequoia): Rechtsklick auf Knot → Öffnen → Öffnen.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-primary font-bold mb-1.5">4. Erster Start</h3>
+            <p>Öffne Knot. Die Begrüßung in drei Schritten zeigt deine neue Geräte-Identität (kein Konto, kein Passwort: ein Ed25519-Schlüssel, der auf deinem Rechner erzeugt wird) und endet bei <span class="text-primary/80">Protect a folder</span>. Wähl einen beliebigen Ordner. Jedes Speichern darin wird zu einem echten Git-Commit. Der Daemon startet automatisch mit der App und läuft im Hintergrund weiter.</p>
+          </div>
+
+          <details class="group p-4 rounded-xl bg-surface border border-border">
+            <summary class="cursor-pointer list-none flex items-center gap-3 text-sm font-bold text-primary">
+              <span class="text-accent font-mono transition-transform group-open:rotate-45">+</span>
+              Aktualisieren · deinstallieren · wo was liegt
+            </summary>
+            <div class="text-xs text-secondary leading-relaxed space-y-2 mt-3">
+              <p><span class="text-primary/80 font-bold">Aktualisieren:</span> Lade die neue .dmg herunter und zieh Knot noch einmal in den Ordner Programme, sodass die alte Kopie ersetzt wird. Deine Projekte, deine Identität und deine Kopplungen bleiben unberührt: Sie liegen außerhalb des App-Bundles.</p>
+              <p><span class="text-primary/80 font-bold">Deinstallieren:</span> Beende Knot und lösche <span class="font-mono text-primary/80">/Applications/Knot.app</span>. Deine Repositorys bleiben, wo sie sind, als normale Ordner mit Git-Historie, die jedes Git-Tool lesen kann.</p>
+              <p><span class="text-primary/80 font-bold">Speicherorte:</span> Identität und Einstellungen liegen unter <span class="font-mono text-primary/80">~/Library/Application Support/knot/</span>. Dein Code bleibt genau dort, wo deine Ordner sind.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section id="linux" class="relative mb-16 scroll-mt-24">
+        <SectionEyebrow num="02" label="LINUX" align="left" />
+        <h2 class="text-2xl font-black text-primary mb-4">Linux (Debian / Ubuntu)</h2>
+
+        <div class="text-sm text-secondary leading-relaxed space-y-4">
+          <div class="p-4 rounded-xl bg-surface border border-border font-mono text-xs space-y-1.5">
+            <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Benötigt</span><span class="text-primary/80">Debian/Ubuntu auf x86_64, glibc 2.31+ (Ubuntu 20.04+, Debian 11+)</span></div>
+            <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Abhängigkeit</span><span class="text-primary/80">git (installiert apt automatisch, falls es fehlt)</span></div>
+            <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Enthält</span><span class="text-primary/80">Daemon, Desktop-App, CLI, Tor, KI-Laufzeit auf dem Gerät; eigenständig</span></div>
+          </div>
+
+          <div>
+            <h3 class="text-primary font-bold mb-1.5">1. Download</h3>
+            <p>Hol dir das Paket aus dem <a href={`${REL_BASE}/knot-vcs-amd64.deb`} class="text-accent hover:underline">neuesten Release</a> und <a href="#verify" class="text-accent hover:underline">vergleich danach optional die Prüfsumme</a>.</p>
+          </div>
+
+          <div>
+            <h3 class="text-primary font-bold mb-1.5">2. Installieren (ein Befehl)</h3>
+            <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs mb-2"><code>sudo apt install ./knot-vcs-amd64.deb</code></pre>
+            <p class="text-xs text-secondary/90 leading-relaxed">Das vorangestellte <span class="font-mono text-primary/80">./</span> sagt apt, dass es eine lokale Datei ist. Die git-Abhängigkeit löst apt für dich auf. <span class="text-primary/80">Ein Doppelklick auf die .deb installiert sie nicht.</span> Das aktuelle Ubuntu hat keine grafische Oberfläche, die lokale .deb-Dateien installiert. Das App&nbsp;Center installiert nur Snaps, und das betrifft die .deb jedes Anbieters.</p>
+          </div>
+
+          <div>
+            <h3 class="text-primary font-bold mb-1.5">3. Daemon starten</h3>
+            <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs mb-2"><code>systemctl --user daemon-reload
+systemctl --user enable --now knot-vcs</code></pre>
+            <p class="text-xs text-secondary/90">Das Paket registriert den Dienst für alle Benutzer. Diese Befehle schalten ihn für deinen Benutzer ein, sofort und bei jeder Anmeldung.</p>
+          </div>
+
+          <div>
+            <h3 class="text-primary font-bold mb-1.5">4. Erster Start</h3>
+            <p class="mb-2">Starte <span class="text-primary/80">Knot</span> über deinen App-Launcher (oder führ <span class="font-mono text-primary/80">knot-app</span> aus). Du bekommst dieselbe Begrüßung in drei Schritten wie unter macOS. Oder im Terminal, in einem beliebigen Ordner:</p>
+            <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs"><code>knot solo</code></pre>
+            <p class="text-xs text-secondary/90 mt-2">schaltet für diesen Ordner Dateiüberwachung, Auto-Commit und Sync ein.</p>
+          </div>
+
+          <details class="group p-4 rounded-xl bg-surface border border-border">
+            <summary class="cursor-pointer list-none flex items-center gap-3 text-sm font-bold text-primary">
+              <span class="text-accent font-mono transition-transform group-open:rotate-45">+</span>
+              Aktualisieren · deinstallieren · Diagnose · andere Distributionen
+            </summary>
+            <div class="text-xs text-secondary leading-relaxed space-y-2 mt-3">
+              <p><span class="text-primary/80 font-bold">Aktualisieren:</span> Lade die neuere .deb herunter und führ <span class="font-mono text-primary/80">sudo apt install ./…</span> noch einmal aus. apt aktualisiert an Ort und Stelle. Dein Daemon, deine Projekte und deine Kopplungen bleiben erhalten.</p>
+              <p><span class="text-primary/80 font-bold">Deinstallieren:</span> <span class="font-mono text-primary/80">sudo apt remove knot-vcs</span>. Dem Paket gehört nichts innerhalb deiner Projektordner. Jeder davon ist danach weiterhin ein Git-Repository, das du mit normalem git lesen kannst.</p>
+              <p><span class="text-primary/80 font-bold">Diagnose:</span> <span class="font-mono text-primary/80">knot doctor</span>.</p>
+              <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs"><code>  ✓ daemon reachable
+  ⚠ Tor onion not published yet (still bootstrapping, or started without --tor)
+  ○ no LAN detected (Tor-only)</code></pre>
+              <p>Jede Zeile ist eine eigene Prüfung. Auf einem gesunden Rechner siehst du nur die erste. Die Tor-Warnung ist in den ersten Minuten nach einem Kaltstart normal.</p>
+              <p><span class="text-primary/80 font-bold">Andere Distributionen (Fedora, Arch, …):</span> noch nicht paketiert. Die .deb ist heute das einzige Linux-Artefakt. Ein Snap oder Flatpak ist im Gespräch. Wenn du Knot jetzt auf einer anderen Distribution brauchst, <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot%20on%20another%20distro" class="text-accent hover:underline">schreib, welche es ist</a>.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section id="windows" class="relative mb-16 scroll-mt-24">
+        <SectionEyebrow num="03" label="WINDOWS" align="left" />
+        <h2 class="text-2xl font-black text-primary mb-4">Windows</h2>
+        <p class="text-sm text-secondary leading-relaxed">
+          Noch nicht verfügbar. Seit September 2026 lassen sich die Kommandozeile und der Daemon
+          unter Windows 11 bauen und ausführen, und Tor startet dort. Was noch nicht passiert ist:
+          ein Commit, der von einem Windows-Rechner auf einen anderen Rechner gelangt. Genau diese
+          Prüfung haben die macOS- und die Linux-Builds vor dem Release jeweils bestanden, auf dem
+          MacBook und auf dem HP EliteBook. Wenn Windows sie besteht, erscheint der Download hier
+          und im
+          <a href="/knot/changelog/" class="text-accent hover:underline">Changelog (EN)</a>. Die Desktop-App läuft unter Windows noch nicht.
+        </p>
+      </section>
+
+      <section id="verify" class="relative mb-16 scroll-mt-24">
+        <SectionEyebrow num="04" label="DOWNLOAD PRÜFEN" align="left" />
+        <h2 class="text-2xl font-black text-primary mb-4">Download überprüfen</h2>
+        <p class="text-sm text-secondary leading-relaxed mb-3">
+          Jedes Release veröffentlicht seine SHA-256-Prüfsummen. Der Vergleich braucht einen Befehl
+          und beweist, dass deine Datei Byte für Byte die Datei aus dem Release ist.
+        </p>
+        <p class="mb-1 text-xs font-mono text-hint uppercase tracking-widest">macOS</p>
+        <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs mb-3"><code>shasum -a 256 ~/Downloads/Knot-macos.dmg</code></pre>
+        <p class="mb-1 text-xs font-mono text-hint uppercase tracking-widest">Linux</p>
+        <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs mb-3"><code>sha256sum ~/Downloads/knot-vcs-amd64.deb</code></pre>
+        <div class="p-4 rounded-xl bg-surface border border-border font-mono text-[11px] space-y-1.5">
+          <div class="text-hint uppercase tracking-widest text-[10px] mb-1">Prüfsummen des aktuellen Release</div>
+          <div class="flex gap-3"><span class="text-hint w-16 shrink-0">macOS</span><span class="text-primary/60 break-all">{DMG_SHA}</span></div>
+          <div class="flex gap-3"><span class="text-hint w-16 shrink-0">Linux</span><span class="text-primary/60 break-all">{DEB_SHA}</span></div>
+          <div class="text-hint pt-1">Dateinamen mit Build-Stempel ({DMG_FILE} · {DEB_FILE}) hängen ebenfalls am Release: dieselben Bytes unter Namen, die festhalten, aus welchem Build sie stammen.</div>
+        </div>
+        <p class="text-sm text-secondary leading-relaxed mt-3">
+          Es gibt kein CI: Diese Builds werden auf einem einzigen Laptop kompiliert und
+          von Hand zu GitHub Releases hochgeladen.
+        </p>
+      </section>
+
+      <section id="first-save" class="relative mb-8 scroll-mt-24">
+        <SectionEyebrow num="05" label="DEIN ERSTES SYNCHRONISIERTES SPEICHERN" align="left" />
+        <h2 class="text-2xl font-black text-primary mb-4">Prüfen, ob es geklappt hat</h2>
+        <ol class="text-sm text-secondary leading-relaxed space-y-2 list-decimal pl-5 mb-4">
+          <li>Schütze einen Ordner (der letzte Schritt der Begrüßung oder <span class="font-mono text-primary/80">knot solo</span> im Terminal).</li>
+          <li>Öffne eine beliebige Datei in diesem Ordner, in einem beliebigen Editor. Ändere etwas. <span class="text-primary/80">Speichere.</span></li>
+          <li>Behalte das Dashboard im Blick. Zuerst läuft eine Debounce-Wartezeit, deshalb passiert es nicht sofort. Was ankommt, ist ein echter Commit, signiert mit deiner Geräte-Identität, und ein normales <span class="font-mono text-primary/80">git log</span> kann ihn lesen.</li>
+        </ol>
+        <p class="text-sm text-secondary leading-relaxed">
+          So synchronisierst du mit einem zweiten Rechner: Installier Knot auch dort und kopple die
+          beiden mit einem Einmalcode aus dem Devices-Tab. Danach wandert jedes Speichern von selbst
+          hinüber. In einem gemeinsamen LAN sprechen die beiden Rechner direkt miteinander, über Tor
+          ist es deutlich langsamer.
+          Auf beiden Wegen sind die Bytes mit Noise verschlüsselt, und jede Seite prüft den
+          Ed25519-Schlüssel der anderen, bevor sich irgendetwas bewegt.
+          Wenn auf beiden Seiten bearbeitet wurde und die Historien auseinandergelaufen sind, führt
+          Knot sie selbst zusammen. Der Merge-Commit wird deterministisch gebaut, aus sortierten
+          Eltern-Commits und einer festen Identität, sodass beide Rechner bei derselben Commit-ID
+          ankommen. Knot hält an, wenn auf beiden Seiten dieselben Zeilen geändert wurden oder wenn
+          die eingehende Seite Änderungen überschreiben würde, die du noch nicht committet hast. Der
+          Push meldet dann
+          <span class="font-mono text-primary/80">push refused: not a fast-forward</span>, die andere
+          Seite wartet unter <span class="font-mono text-primary/80">refs/knot-incoming/</span>, und
+          <span class="font-mono text-primary/80">knot incoming</span> zeigt dir, was dort geparkt ist.
+        </p>
+      </section>
+
+      <div class="mt-14 pt-8 border-t border-border text-center text-xs text-hint space-y-2">
+        <p>
+          Hängst du fest? <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot%20install" class="text-accent hover:underline">Schreib eine Mail</a>
+          mit deiner Betriebssystem-Version und dem, was das Terminal ausgegeben hat.
+        </p>
+        <p>
+          <a href="/de/knot/" class="text-accent hover:underline">← Knot</a> ·
+          <a href="/de/knot/#download" class="text-accent hover:underline">Downloads</a> ·
+          <a href="/knot/changelog/" class="text-accent hover:underline">Changelog (EN)</a>
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</Base>

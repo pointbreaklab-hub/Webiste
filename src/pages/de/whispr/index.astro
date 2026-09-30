@@ -1,0 +1,310 @@
+---
+import Base                 from '../../../layouts/Base.astro';
+import Nav                  from '../../../components/Nav.astro';
+import FeatureBlock         from '../../../components/FeatureBlock.astro';
+import DownloadButton       from '../../../components/DownloadButton.astro';
+import Footer               from '../../../components/Footer.astro';
+import SectionEyebrow       from '../../../components/SectionEyebrow.astro';
+import ArchitectureDiagram  from '../../../components/ArchitectureDiagram.astro';
+import '../../../styles/global.css';
+
+// German twin of src/pages/whispr/index.astro. Same structure, same ids, same
+// scripts; only the visible text is translated. When the English page changes
+// Version, date and SHA-256 are read from the English page at build time
+// (src/en-release.ts), so a release only ever edits the English file.
+import { releaseRow } from '../../../en-release';
+const EN = 'whispr/index.astro';
+---
+
+<Base
+  title="Whispr · Privater Messenger von PointBreakLab"
+  description="Ein Messenger ohne Konto und ohne Server. Ende-zu-Ende-Verschlüsselung mit dem Signal Protocol über WLAN oder Tor und über ein Bluetooth-Mesh, das Nachrichten von Handy zu Handy weiterreicht, wenn es gar kein Netz gibt, nur eben langsam."
+>
+  <Nav />
+
+  <section class="relative pt-32 pb-20 px-6 overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[28rem] bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div aria-hidden="true" class="absolute top-1/3 right-0 w-72 h-72 bg-blue-500/[0.04] blur-3xl pointer-events-none"></div>
+
+    <div class="relative max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+        WHISPR · v1.1.16
+      </div>
+
+      <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
+        <span class="text-primary">Ein Messenger, der auch</span><br/>
+        <span class="text-gradient">ohne Internet funktioniert.</span>
+      </h1>
+
+      <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-3">
+        Ohne jedes Netz springt eine Nachricht per Bluetooth von Handy zu Handy, bis sie bei der Person ankommt, für die sie gedacht ist. Im Test hat das etwa eine Stunde gedauert.
+      </p>
+      <p class="text-sm text-secondary font-mono leading-relaxed mb-10">
+        Ende-zu-Ende-verschlüsselt mit dem <span class="text-primary">Signal Protocol</span> · X3DH + Double Ratchet ·
+        <a href="#architecture" class="text-accent whitespace-nowrap hover:underline">zur Kryptografie →</a>
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="#download"
+          class="px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
+        >
+          Download für Android
+        </a>
+        <a
+          href="#architecture"
+          class="px-8 py-3.5 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all"
+        >
+          Zur Kryptografie
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="relative py-24 px-6 max-w-6xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+    <div class="section-reveal text-center mb-14">
+      <SectionEyebrow num="01" label="TRANSPORTWEGE" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Nachrichten, die ohne Server unterwegs sind</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-20">
+      <FeatureBlock
+        icon="🌐"
+        title="Die andere Person hat sie trotzdem"
+        description="Nachrichten gehen von einem Handy zum anderen, ohne Firmenserver dazwischen. Die Verschlüsselung holt die Nachricht aber nicht wieder aus dem Handy der anderen Person heraus."
+      />
+      <FeatureBlock
+        icon="🔐"
+        title="Signal Protocol"
+        description="X3DH und ein Double Ratchet, umgesetzt nach der veröffentlichten Spezifikation von Signal."
+      />
+      <FeatureBlock
+        icon="🆔"
+        title="Kein Konto"
+        description="Deine Identität ist ein Ed25519-Schlüsselpaar, das auf dem Handy erzeugt wird. Verlierst du das Handy, ist auch der Schlüssel weg, genau wie bei einem SSH-Schlüssel."
+      />
+      <FeatureBlock
+        icon="📧"
+        title="Verschlüsselte E-Mail"
+        description="ECIES-verschlüsselte Mails zwischen Whispr-Nutzern, mit Threads und „Allen antworten“."
+      />
+    </div>
+
+    <div class="section-reveal">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {[
+          // CONFIRM: measured LAN delivery time in ms on the author's own Wi-Fi.
+          { icon: '🏠', label: 'LAN', title: 'Lokales Netzwerk', body: 'Im selben WLAN sprechen die Handys direkt miteinander.' },
+          // Owner-measured, n=1: Germany to India in under a minute. Still unconfirmed whether
+          // that run included the initial circuit build or reused a warm circuit.
+          { icon: '🧅', label: 'TOR', title: 'Tor-Netzwerk',     body: 'Ein Tor-Hidden-Service erreicht auch jemanden, der nicht in deinem Netzwerk ist. Eine Nachricht von Deutschland nach Indien kam in unter einer Minute an. Die erste Nachricht einer Sitzung wartet, bis der Tor-Circuit aufgebaut ist.' },
+          // Owner-measured, n=2: under 5 km, ~1 h and 1 h 25 min. The route is whatever
+          // devices are in range, so the time is not controllable.
+          { icon: '📶', label: 'BLE', title: 'BLE-Mesh',         body: 'Jeder Sprung ist kurz, aber ein Handy, das eine Nachricht empfängt, gibt sie weiter, und niemand in der Kette kann sie lesen. Zweimal auf unter 5 km getestet: Einmal kam sie nach etwa einer Stunde an, beim zweiten Mal nach einer Stunde und fünfundzwanzig Minuten. Die Route besteht aus den Geräten, die gerade zufällig dazwischen sind. Diese Zeit kann also niemand steuern.' },
+        ].map(({ icon, label, title, body }) => (
+          <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors text-center group">
+            <div class="text-4xl mb-4">{icon}</div>
+            <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">{label}</div>
+            <h4 class="text-base font-bold text-primary mb-2">{title}</h4>
+            <p class="text-secondary text-sm leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="download" class="relative py-28 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-2xl mx-auto">
+      <div class="section-reveal text-center">
+        <SectionEyebrow num="02" label="APK LADEN" />
+        <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">APK herunterladen</h2>
+        <p class="text-secondary mb-10">Nur für Android. Du installierst die APK per Sideloading, deshalb warnt Android dich vor der Installation. Wenn du die Signatur prüfen willst: Dort sollte CN=Whispr stehen, nicht CN=Android Debug. Einen iOS-Build gibt es nicht.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+          <DownloadButton
+            platform="android"
+            href="https://github.com/pointbreaklab-hub/Whispr/releases/latest/download/whispr-android.apk"
+            label="Android APK"
+          />
+          <DownloadButton platform="ios" href="#" />
+        </div>
+
+        <div id="download-count" class="hidden text-xs font-mono text-hint mb-7"></div>
+
+        <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
+          <div class="flex gap-3"><span class="text-hint w-32">Version</span><span class="text-primary">{releaseRow(EN, 'Version')}</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Veröffentlicht</span><span class="text-primary">{releaseRow(EN, 'Released')}</span></div>
+          <div class="flex gap-3"><span class="text-hint w-32">Kosten</span><span class="text-primary/80">Kostenlos.</span></div>
+          <div class="flex gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint w-32">SHA-256 (APK)</span><span class="text-primary/60 break-all">{releaseRow(EN, 'SHA-256 (APK)')}</span></div>
+        </div>
+
+        <p class="text-hint text-xs mt-4">
+          Alle bisherigen Versionen: <a href="/whispr/changelog/" class="text-accent hover:underline">Changelog (EN)</a>
+        </p>
+      </div>
+
+      <div class="section-reveal mt-12 p-6 rounded-2xl bg-bg border border-border">
+        <div class="flex items-start gap-4">
+          <div class="shrink-0 w-10 h-10 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center text-xl">🌐</div>
+          <div>
+            <p class="text-accent text-xs font-mono tracking-widest mb-2">WHISPR NUTZEN, WO TOR BLOCKIERT IST</p>
+            <h3 class="text-lg font-bold text-primary mb-2">Indien · Iran · China · restriktives WLAN</h3>
+            <p class="text-secondary text-sm leading-relaxed mb-3">
+              Manche Netze blockieren Tor. Wenn deine Nachrichten nicht ankommen, installiere Whispr und öffne <span class="text-primary">Settings → Network → Bridges</span>. Tipp dort auf das <span class="font-mono text-accent">(i)</span>-Symbol, dann bekommst du eine Schritt-für-Schritt-Anleitung, wie du Bridges für deine Region einrichtest.
+            </p>
+            <p class="text-hint text-xs">
+              Die Anleitung steckt in der App, weil ein Netz, das Tor blockiert, auch diese Website blockieren kann.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="architecture" class="relative py-28 px-6 max-w-4xl mx-auto overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+    <div class="relative">
+      <div class="section-reveal text-center mb-12">
+        <SectionEyebrow num="03" label="KRYPTOGRAFIE" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Klartext, der die beiden Handys nie verlässt</h2>
+        <p class="text-secondary max-w-xl mx-auto">
+          Whispr nutzt keine selbstgebaute Kryptografie. Es ist das veröffentlichte Design von Signal, umgesetzt nach deren Spezifikation.
+        </p>
+      </div>
+
+      <div class="section-reveal mb-12">
+        <ArchitectureDiagram />
+      </div>
+
+      <div class="section-reveal font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden">
+        <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+          <div class="w-3 h-3 rounded-full bg-error/70"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+          <span class="ml-2 text-hint text-xs">security-architecture.txt</span>
+        </div>
+        <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
+          {[
+            ['Identität',          'Ed25519-Schlüsselpaar · auf dem Gerät erzeugt · in der Hardware-Enclave gespeichert'],
+            ['Schlüsseltausch',    'X3DH (Extended Triple Diffie-Hellman) · Forward Secrecy'],
+            ['Nachrichten-Krypto', 'Double Ratchet · AES-256-GCM · eigener Schlüssel pro Nachricht'],
+            ['Transport-Krypto',   'äußerer ECIES-Umschlag · UDP-Discovery mit AES-GCM'],
+            ['E-Mail-Krypto',      'paarweise ECIES-Verschlüsselung auf den Ed25519-Identitätsschlüssel des Empfängers'],
+            ['Datenbank',          'SQLCipher · AES-256 · komplette Dateiverschlüsselung auf dem Handy'],
+            ['Passwort',           'PBKDF2-SHA512 · 200.000 Iterationen · 256-Bit-Schlüssel'],
+            ['Metadaten',          'zufälliges Padding · ECIES-Umschlag · Absender/Empfänger auf der Leitung verborgen'],
+            ['Server',             'Keiner'],
+          ].map(([key, val]) => (
+            <div class="flex gap-4 items-baseline">
+              <span class="text-hint shrink-0 w-36">{key}</span>
+              <span class="text-accent">→</span>
+              <span class="text-primary/80">{val}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roadmap" class="relative py-24 px-6 max-w-4xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
+    <div class="section-reveal text-center mb-14">
+      <SectionEyebrow num="04" label="ALS NÄCHSTES" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Noch nicht fertig</h2>
+    </div>
+
+    <div class="space-y-4">
+      {[
+        { tag: 'IN ARBEIT', title: 'obfs4-Bridge-Transport', body: 'obfs4 tarnt Tor-Verkehr vor Deep Packet Inspection, indem es ihn wie zufällige Bytes aussehen lässt. Normale Bridges kamen mit v1.1.14, und obfs4 sollte in v1.1.15 folgen. Das ist nicht passiert.', status: 'building' },
+        { tag: 'IN ARBEIT', title: 'Sprach- und Videoanrufe', body: 'Nichts davon funktioniert bisher. Die Latenz über Tor und NAT-Traversal ohne Relay sind beide ungelöst.', status: 'building' },
+        { tag: 'GEPLANT', title: 'Gruppenchats', body: 'Ungelöst ist, den Schlüssel zu wechseln, wenn jemand die Gruppe verlässt. Der Rest ist ein gemeinsamer Gruppenschlüssel, den die Mitglieder untereinander ableiten.', status: 'planned' },
+        { tag: 'GEPLANT', title: 'Selbstlöschende Nachrichten', body: 'Ein Timer pro Nachricht, der sie nach Ablauf auf beiden Geräten löscht. Gegen einen Screenshot hilft das allerdings nicht.', status: 'planned' },
+      ].map(({ tag, title, body, status }) => {
+        const cardBorder =
+          status === 'building' ? 'border-accent/40 hover:border-accent/60 shadow-[0_0_24px_rgba(0,212,170,0.06)]'
+          :                       'border-border hover:border-accent/20';
+        const dot = status === 'building' ? 'bg-accent animate-pulse' : 'bg-hint';
+        const pill =
+          status === 'building' ? 'bg-accent/10 text-accent border border-accent/30'
+          :                       'bg-surface text-hint border border-border';
+        const label = status === 'building' ? 'in Arbeit' : 'geplant';
+        return (
+          <div class={`section-reveal flex gap-5 p-6 rounded-2xl bg-surface border transition-colors ${cardBorder}`}>
+            <div class={`mt-1 w-2 h-2 rounded-full shrink-0 ${dot}`}></div>
+            <div>
+              <p class="text-hint text-xs font-mono mb-1">{tag}</p>
+              <h3 class="text-base font-bold text-primary mb-1.5">{title}</h3>
+              <p class="text-secondary text-sm leading-relaxed">{body}</p>
+            </div>
+            <div class={`ml-auto shrink-0 self-start px-2 py-0.5 rounded text-xs font-mono ${pill}`}>
+              {label}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <Footer />
+</Base>
+
+<script>
+  // Download counter, fetched client-side from the GitHub Releases API.
+  // Hidden until total downloads ≥ 1000. Cached 1h in localStorage.
+  // Single fetch to a public endpoint, no third-party analytics.
+  const REPO    = 'pointbreaklab-hub/Whispr';
+  const KEY     = 'pbl_dl_count_v1';
+  const TTL_MS  = 60 * 60 * 1000;
+  const REVEAL  = 1000;
+
+  function readCache(): number | null {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      const { count, ts } = JSON.parse(raw);
+      if (typeof count !== 'number' || typeof ts !== 'number') return null;
+      if (Date.now() - ts > TTL_MS) return null;
+      return count;
+    } catch {
+      return null;
+    }
+  }
+
+  function writeCache(count: number) {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ count, ts: Date.now() }));
+    } catch { /* private mode / disabled, silently skip */ }
+  }
+
+  async function fetchTotalDownloads(): Promise<number> {
+    const res = await fetch(`https://api.github.com/repos/${REPO}/releases`);
+    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+    const releases = await res.json() as Array<{ assets: Array<{ download_count: number }> }>;
+    return releases.reduce(
+      (sum, r) => sum + r.assets.reduce((s, a) => s + (a.download_count || 0), 0),
+      0,
+    );
+  }
+
+  function reveal(count: number) {
+    if (count < REVEAL) return;
+    const el = document.getElementById('download-count');
+    if (!el) return;
+    el.textContent = `${count.toLocaleString('de-DE')} Downloads`;
+    el.classList.remove('hidden');
+  }
+
+  (async () => {
+    const cached = readCache();
+    if (cached != null) reveal(cached);
+    try {
+      const fresh = await fetchTotalDownloads();
+      writeCache(fresh);
+      reveal(fresh);
+    } catch { /* offline or rate-limited, leave as-is */ }
+  })();
+</script>

@@ -15,6 +15,13 @@
 //   - Wraps in <figure> with <figcaption> so screen readers get the
 //     plain-text equivalent without us hiding the SVG.
 //   - viewBox-based, so it scales down to mobile without media queries.
+//
+// Localised from the URL: on /de/ pages the prose labels switch to German.
+// Technical tokens (X3DH, AES-256-GCM, LAN, TOR, BLE) are the same in both.
+// English strings that contain an apostrophe sit in a fragment, not a JS
+// string, so they render unescaped and the English output stays identical.
+import { localeFromPath } from '../i18n';
+const de = localeFromPath(Astro.url.pathname) === 'de';
 ---
 
 <figure class="my-8">
@@ -24,14 +31,20 @@
     role="img"
     aria-labelledby="arch-diagram-title arch-diagram-desc"
   >
-    <title id="arch-diagram-title">Whispr architecture diagram</title>
-    <desc id="arch-diagram-desc">
+    <title id="arch-diagram-title">{de ? 'Whispr-Architekturdiagramm' : 'Whispr architecture diagram'}</title>
+    <desc id="arch-diagram-desc">{de ? <>
+      Eine Nachricht entsteht als Klartext auf dem Gerät des Absenders,
+      läuft durch eine Sitzung mit X3DH + Double Ratchet, wird mit AES-256-GCM
+      verschlüsselt und geht als Chiffretext über LAN, Tor oder BLE-Mesh
+      direkt an den Empfänger. Zwischen den beiden Geräten gibt es keinen
+      Server, kein Konto und keine Telemetrie.
+    </> : <>
       A message originates as plaintext on the sender's device, passes
       through an X3DH + Double Ratchet session, gets encrypted with
       AES-256-GCM, and travels as ciphertext over LAN, Tor, or BLE mesh
       directly to the recipient. There is no server, no account, and no
       telemetry between the two devices.
-    </desc>
+    </>}</desc>
 
     <!-- ── ALICE'S DEVICE ──────────────────────────────────────────── -->
     <g>
@@ -39,14 +52,14 @@
             fill="#131316" stroke="#23232a" stroke-width="1"/>
       <text x="150" y="68" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            letter-spacing="2" fill="#737373">ALICE'S DEVICE</text>
+            letter-spacing="2" fill="#737373">{de ? 'ALICES GERÄT' : <>ALICE'S DEVICE</>}</text>
 
       <!-- Plaintext -->
       <rect x="60" y="90" width="180" height="36" rx="6"
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="150" y="113" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#ffffff">Plaintext message</text>
+            fill="#ffffff">{de ? 'Klartext-Nachricht' : 'Plaintext message'}</text>
 
       <!-- arrow down -->
       <path d="M 150 130 L 150 144 M 146 140 L 150 144 L 154 140"
@@ -73,7 +86,7 @@
       <!-- E2EE boundary -->
       <text x="150" y="261" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="9"
-            letter-spacing="1.5" fill="#737373">END-TO-END BOUNDARY</text>
+            letter-spacing="1.5" fill="#737373">{de ? 'ENDE-ZU-ENDE-GRENZE' : 'END-TO-END BOUNDARY'}</text>
       <line x1="60" y1="270" x2="240" y2="270"
             stroke="#00d4aa" stroke-width="1" stroke-dasharray="3 3"
             stroke-opacity="0.55"/>
@@ -83,7 +96,7 @@
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="150" y="307" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#737373">Encrypted blob</text>
+            fill="#737373">{de ? 'Verschlüsselter Blob' : 'Encrypted blob'}</text>
 
       <!-- arrow exiting device -->
       <path d="M 150 332 L 150 374 M 146 370 L 150 374 L 154 370"
@@ -94,7 +107,7 @@
     <g>
       <text x="400" y="60" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="10"
-            letter-spacing="2" fill="#737373">DIRECT P2P · NO RELAY</text>
+            letter-spacing="2" fill="#737373">{de ? 'DIREKT P2P · KEIN RELAY' : 'DIRECT P2P · NO RELAY'}</text>
 
       <!-- LAN -->
       <line x1="260" y1="200" x2="540" y2="200"
@@ -126,10 +139,10 @@
       <!-- Wire-bytes annotation -->
       <text x="400" y="335" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="9"
-            letter-spacing="1.5" fill="#737373">ON THE WIRE</text>
+            letter-spacing="1.5" fill="#737373">{de ? 'AUF DER LEITUNG' : 'ON THE WIRE'}</text>
       <text x="400" y="352" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#a3a3a3">Encrypted bytes only</text>
+            fill="#a3a3a3">{de ? 'Nur verschlüsselte Bytes' : 'Encrypted bytes only'}</text>
     </g>
 
     <!-- ── BOB'S DEVICE ─────────────────────────────────────────────── -->
@@ -138,7 +151,7 @@
             fill="#131316" stroke="#23232a" stroke-width="1"/>
       <text x="650" y="68" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            letter-spacing="2" fill="#737373">BOB'S DEVICE</text>
+            letter-spacing="2" fill="#737373">{de ? 'BOBS GERÄT' : <>BOB'S DEVICE</>}</text>
 
       <!-- arrow entering device from below (rendered first so it's behind boxes) -->
       <path d="M 650 374 L 650 332 M 646 336 L 650 332 L 654 336"
@@ -149,7 +162,7 @@
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="650" y="307" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#737373">Encrypted blob</text>
+            fill="#737373">{de ? 'Verschlüsselter Blob' : 'Encrypted blob'}</text>
 
       <!-- E2EE boundary -->
       <line x1="560" y1="270" x2="740" y2="270"
@@ -157,7 +170,7 @@
             stroke-opacity="0.55"/>
       <text x="650" y="261" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="9"
-            letter-spacing="1.5" fill="#737373">END-TO-END BOUNDARY</text>
+            letter-spacing="1.5" fill="#737373">{de ? 'ENDE-ZU-ENDE-GRENZE' : 'END-TO-END BOUNDARY'}</text>
 
       <!-- AES-256-GCM -->
       <rect x="560" y="206" width="180" height="36" rx="6"
@@ -186,7 +199,7 @@
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="650" y="113" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#ffffff">Plaintext message</text>
+            fill="#ffffff">{de ? 'Klartext-Nachricht' : 'Plaintext message'}</text>
     </g>
 
     <!-- ── BOTTOM BAND · NOT IN THE PICTURE ────────────────────────── -->
@@ -195,14 +208,16 @@
             stroke="#23232a" stroke-width="1"/>
       <text x="400" y="438" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            letter-spacing="2" fill="#737373">NOT IN THE PICTURE</text>
+            letter-spacing="2" fill="#737373">{de ? 'NICHT BETEILIGT' : 'NOT IN THE PICTURE'}</text>
       <text x="400" y="468" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#a3a3a3">No server · No account · No phone number · No telemetry · No cloud</text>
+            fill="#a3a3a3">{de ? 'Kein Server · Kein Konto · Keine Telefonnummer · Keine Telemetrie · Keine Cloud' : 'No server · No account · No phone number · No telemetry · No cloud'}</text>
     </g>
   </svg>
 
-  <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">
+  <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">{de ? <>
+    Eine Nachricht entsteht als Klartext auf dem Gerät des Absenders, läuft durch eine Sitzung mit X3DH + Double Ratchet, wird mit AES-256-GCM verschlüsselt und geht als Chiffretext über LAN, Tor oder BLE-Mesh direkt an den Empfänger. Zwischen den beiden Geräten gibt es keinen Server, kein Konto und keine Telemetrie.
+  </> : <>
     A message originates as plaintext on the sender's device, passes through an X3DH + Double Ratchet session, is encrypted with AES-256-GCM, and travels as ciphertext over LAN, Tor, or BLE mesh, directly to the recipient. There is no server, account, or telemetry between the two devices.
-  </figcaption>
+  </>}</figcaption>
 </figure>

@@ -1,0 +1,230 @@
+---
+import Base           from '../../layouts/Base.astro';
+import Nav            from '../../components/Nav.astro';
+import Hero           from '../../components/Hero.astro';
+import AppCard        from '../../components/AppCard.astro';
+import Footer         from '../../components/Footer.astro';
+import SectionEyebrow from '../../components/SectionEyebrow.astro';
+import '../../styles/global.css';
+---
+
+<Base>
+  <Nav />
+  <Hero />
+
+  <section id="apps" class="relative py-32 px-6 max-w-7xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
+    <div class="section-reveal text-center mb-16">
+      <SectionEyebrow num="01" label="DAS LAB" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Die Apps</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Alle vier kannst du heute installieren.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <AppCard
+        name="Whispr"
+        tagline="STANDARDMÄSSIG PRIVAT"
+        description="Whispr nutzt das Signal Protocol in deinem LAN oder über Tor, wenn du nicht im selben Netz bist. Ganz ohne Netz geht es per Bluetooth weiter, von Handy zu Handy, bis die Nachricht bei der richtigen Person ankommt. Über eine Strecke von unter 5 km hat das etwa eine Stunde gedauert. Deine Identität ist ein Schlüssel, den die App auf dem Handy erzeugt."
+        icon="🔒"
+        href="/de/whispr/"
+        active={true}
+        cta="Ansehen"
+      />
+      <AppCard
+        name="Heart"
+        tagline="LOKALE WELLNESS"
+        description="Eine Wellness-App für Bluetooth-Pulsbänder. Puls, HRV, Schlafphasen, Erholung und Belastung, auf dem Handy. Ohne Band gibt es nichts auszulesen."
+        icon="❤️"
+        href="/de/heart/"
+        active={true}
+        cta="Ansehen"
+      />
+      <AppCard
+        name="Knot"
+        tagline="PEER-TO-PEER-VERSIONSKONTROLLE"
+        description="Speicher eine Datei. Knot wartet, bis du aufhörst zu tippen, und macht dann einen echten Commit. Dieser Commit geht über Tor an jeden gekoppelten Rechner."
+        icon="🪢"
+        href="/de/knot/"
+        active={true}
+        status="V1"
+        cta="Ansehen"
+      />
+      <AppCard
+        name="Knot AI"
+        tagline="ZWEI MODELLE AUF DEM GERÄT"
+        description="Knot Scribe schreibt Commit-Nachrichten. Knot Delta erklärt, was sich geändert hat, und trifft in 52 bis 74 % der Fälle die genaue Zeile, am seltensten bei Rust. Die Gewichte liegen auf Hugging Face und Ollama."
+        icon="✍️"
+        href="/de/knot-ai/"
+        active={true}
+        status="OFFENES MODELL"
+        cta="Ansehen"
+      />
+    </div>
+  </section>
+
+  <section id="proof" class="relative py-32 px-6 bg-surface border-y border-border overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-72 bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-3xl mx-auto">
+      <div class="section-reveal text-center mb-12">
+        <SectionEyebrow num="02" label="NACHWEIS" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Was für jede App hier gilt</h2>
+        <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+          Whispr, Heart und Knot sind ohne Server dahinter entstanden. Knot war am schwersten, weil ein zentraler Server bei Peer-to-Peer-Versionskontrolle die einfache Antwort gewesen wäre.
+        </p>
+      </div>
+
+      <div class="section-reveal font-mono text-sm rounded-2xl bg-bg border border-border overflow-hidden">
+        <div class="flex items-center gap-2 px-5 py-3 border-b border-border bg-surface">
+          <div class="w-3 h-3 rounded-full bg-error/70"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+          <span class="ml-2 text-hint text-xs">stack.txt</span>
+        </div>
+        <div class="p-6 space-y-2.5 text-xs md:text-sm leading-relaxed overflow-x-auto">
+          {[
+            ['Speicher',    'SQLCipher · AES-256 · Verschlüsselung der ganzen Datei · auf dem Gerät'],
+            ['Server',      'Keiner · Peer-to-Peer oder rein lokal, bewusst so gebaut'],
+            ['Konten',      'Keine · keine E-Mail, keine Telefonnummer, keine Registrierung'],
+            ['Telemetrie',  'Keine · keine Analytics, keine Absturzberichte, keine Nutzungs-Pings'],
+            ['Vertrauen',   'Veröffentlichte Algorithmen · die Binaries kannst du nicht selbst nachbauen'],
+          ].map(([key, val]) => (
+            <div class="flex gap-4 items-baseline">
+              <span class="text-hint shrink-0 w-32">{key}</span>
+              <span class="text-accent">→</span>
+              <span class="text-primary/80">{val}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="section-reveal text-center mt-10">
+        <a
+          href="/de/whispr/#architecture"
+          class="inline-flex items-center gap-2 text-accent text-sm font-semibold hover:gap-3 transition-all"
+        >
+          Kryptografie der einzelnen Apps (Whisprs Signal-Protocol-Stack usw.) <span>→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="relative py-32 px-6 max-w-5xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-0 w-[40%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
+    <div class="section-reveal grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+
+      <div>
+        <div class="mb-3"><SectionEyebrow num="03" label="DAS STUDIO" align="left" /></div>
+        <h2 class="text-3xl md:text-4xl font-black text-primary mb-6">Über PointBreakLab</h2>
+        <p class="text-secondary leading-relaxed mb-5">
+          Angefangen habe ich mit Whispr. Ich wollte eine Chat-App, bei der niemand Angst haben muss, beobachtet zu werden. Jede, die ich gefunden habe, läuft über einen Server. Deshalb hat Whispr keinen physischen Server, und deine Daten bleiben bei dir. Die Website gibt es, weil Whispr ein Zuhause brauchte.
+        </p>
+        <p class="text-secondary leading-relaxed mb-5">
+          Der Name war ein Problem. Lange passte nichts, dann hörte ich Point Break in einem Avengers-Film und mochte es so sehr, dass ich es behalten habe. Lab meine ich wörtlich. Keine dieser Apps ist zufällig entstanden, und hinter jeder steckt Forschung. Ich glaube, eines Tages sehen die Leute genauer hin, und dann ist PointBreakLab ein Begriff.
+        </p>
+        <p class="text-secondary leading-relaxed mb-8">
+          Heart habe ich für mich selbst gebaut, mit einem günstigen Brustgurt, dem Coospo HW9, um meine eigenen Körperdaten auszulesen. Dann kam Knot, Versionskontrolle, bei der dein Code deinem Rechner gehört. Ehrlich gesagt ist hier inzwischen zu viel entstanden, und ich bringe weiter Updates raus. Sie sind kostenlos.
+        </p>
+        <div id="contact" class="flex gap-4">
+          <a href="mailto:mail.roshankumargupta@gmail.com"
+             class="px-5 py-2.5 rounded-xl bg-surface border border-border text-sm text-secondary hover:border-accent hover:text-primary transition-all">
+            Kontakt
+          </a>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center gap-4">
+        <img
+          src="/avatar-identicon.png"
+          alt="GitHub-Identicon von Roshan Kumar Gupta"
+          width="176"
+          height="176"
+          loading="lazy"
+          class="w-44 h-44 rounded-full object-cover border-2 border-accent/30 glow-border animate-glow-pulse"
+        />
+        <div class="text-center">
+          <p class="text-primary font-bold">Roshan Kumar Gupta</p>
+          <p class="text-secondary text-sm">Student · baut und veröffentlicht alles hier</p>
+          <a
+            href="https://www.uni-wuerzburg.de/en/"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Julius-Maximilians-Universität Würzburg"
+            class="group flex flex-col items-center gap-2 mt-2.5 hover:opacity-90 transition-opacity"
+          >
+            <div class="flex items-center justify-center gap-2">
+              <img src="/jmu-uniwue.png" alt="Julius-Maximilians-Universität Würzburg" width="32" height="32" loading="lazy" class="h-8 w-8 rounded-[6px]" />
+              <span class="text-secondary text-sm group-hover:text-primary transition-colors">Julius-Maximilians</span>
+            </div>
+          </a>
+          <p class="text-hint text-xs font-mono mt-1.5">📍 Würzburg, Deutschland</p>
+          <a
+            href="https://www.openstreetmap.org/?mlat=49.7913&mlon=9.9534#map=12/49.7913/9.9534"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Würzburg, Deutschland, in OpenStreetMap öffnen"
+            class="group block mx-auto mt-3 w-44 rounded-xl overflow-hidden border border-border hover:border-accent/50 transition-colors"
+          >
+            <img
+              src="/wuerzburg-map.png"
+              alt="Karte mit Würzburg, Deutschland"
+              width="176"
+              height="176"
+              loading="lazy"
+              class="w-44 h-44 object-cover group-hover:scale-[1.03] transition-transform duration-300"
+            />
+          </a>
+          <p class="text-[10px] text-hint mt-1">
+            © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" class="hover:text-accent">OpenStreetMap</a>-Mitwirkende
+          </p>
+        </div>
+        <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          <span class="text-accent text-xs font-mono">Entwicklung öffentlich sichtbar</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* The h2 names the month the entries are from, so change it when you prepend. */}
+  <section id="updates" class="relative py-32 px-6 max-w-3xl mx-auto">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.07] blur-3xl pointer-events-none"></div>
+    <div class="section-reveal text-center mb-12">
+      <SectionEyebrow num="04" label="UPDATES" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Beide Juni-Updates drehten sich um Knot</h2>
+      <p class="text-secondary max-w-xl mx-auto leading-relaxed">
+        Neue Einträge landen hier, wenn etwas erscheint. Das passiert nicht oft.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {[
+        {
+          date: 'Jun 2026',
+          tag: 'KNOT',
+          title: 'Knot ist da',
+          body: 'Synchronisiert einen Ordner zwischen Rechnern über Tor, und die beiden Enden sprechen direkt miteinander. Mac und Linux, kostenlos auf der Knot-Seite.',
+        },
+        {
+          date: 'Jun 2026',
+          tag: 'KNOT',
+          title: 'Knot vom Handy aus verfolgen',
+          body: 'Eine Handy-App, die jedes synchronisierte Repo nur lesend über das LAN spiegelt. So behältst du die Arbeit von überall im Haus im Blick.',
+        },
+      ].map(({ date, tag, title, body }) => (
+        <div class="section-reveal flex gap-5 p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">
+          <div class="shrink-0 w-20 pt-1">
+            <p class="text-accent text-xs font-mono tracking-widest">{tag}</p>
+            <p class="text-hint text-xs font-mono mt-1">{date}</p>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-primary mb-1.5 leading-snug">{title}</h3>
+            <p class="text-secondary text-sm leading-relaxed">{body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Footer />
+</Base>

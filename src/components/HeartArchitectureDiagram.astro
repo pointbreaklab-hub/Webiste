@@ -16,6 +16,9 @@
 //   - Wraps in <figure> with <figcaption> so screen readers get a
 //     plain-text equivalent of the diagram.
 //   - viewBox-based, so it scales down to mobile without media queries.
+//   - Localised: German labels on /de/ pages, chosen to fit the same boxes.
+import { localeFromPath } from '../i18n';
+const de = localeFromPath(Astro.url.pathname) === 'de';
 ---
 
 <figure class="my-8">
@@ -25,9 +28,17 @@
     role="img"
     aria-labelledby="heart-arch-title heart-arch-desc"
   >
-    <title id="heart-arch-title">Heart architecture diagram</title>
-    <desc id="heart-arch-desc">
-      A heartbeat detected by the HW9 band, worn on the chest, upper
+    <title id="heart-arch-title">{de ? 'Heart-Architekturdiagramm' : 'Heart architecture diagram'}</title>
+    <desc id="heart-arch-desc">{de ? `Das HW9-Band, getragen an Brust, Oberarm oder Unterarm,
+      erkennt einen Herzschlag und sendet ihn über BLE GATT als bpm-
+      und RR-Intervallwerte. Ein Hintergrunddienst auf dem Handy nimmt
+      sie auf, hängt sie an ein JSONL-Log auf dem Gerät an und gibt sie
+      an eine Rechenpipeline auf dem Gerät weiter (HRV, Schlaf,
+      Rhythmus, Bereitschaft, Belastung), aus der die Live-Anzeige und
+      der Brief-Tab entstehen. Server, Konto, Cloud-Sync oder Telemetrie
+      kommen in diesem Bild nicht vor, und die Werte stammen aus festen
+      Formeln, nicht aus einem trainierten Modell.` : `
+A heartbeat detected by the HW9 band, worn on the chest, upper
       arm, or forearm, is broadcast over BLE GATT as bpm and
       RR-interval values, captured by a background service on the
       phone, appended to an on-disk JSONL log, and fed through an
@@ -35,7 +46,7 @@
       strain) that produces the live UI and the Brief. No server,
       account, cloud sync or telemetry is part of this picture, and the
       scores come from closed-form formulas, not a trained model.
-    </desc>
+`}</desc>
 
     <!-- ── HW9 BAND (CHEST OR ARM) ─────────────────────────────────── -->
     <g>
@@ -43,14 +54,14 @@
             fill="#131316" stroke="#23232a" stroke-width="1"/>
       <text x="150" y="68" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            letter-spacing="2" fill="#737373">HW9 BAND · CHEST OR ARM</text>
+            letter-spacing="2" fill="#737373">{de ? 'HW9 · BRUST ODER ARM' : 'HW9 BAND · CHEST OR ARM'}</text>
 
       <!-- Heartbeat (ECG) -->
       <rect x="60" y="90" width="180" height="36" rx="6"
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="150" y="113" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#ffffff">Heartbeat (ECG)</text>
+            fill="#ffffff">{de ? 'Herzschlag (EKG)' : 'Heartbeat (ECG)'}</text>
 
       <!-- arrow down -->
       <path d="M 150 130 L 150 144 M 146 140 L 150 144 L 154 140"
@@ -77,7 +88,7 @@
       <!-- Device boundary -->
       <text x="150" y="261" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="9"
-            letter-spacing="1.5" fill="#737373">DEVICE BOUNDARY</text>
+            letter-spacing="1.5" fill="#737373">{de ? 'GERÄTEGRENZE' : 'DEVICE BOUNDARY'}</text>
       <line x1="60" y1="270" x2="240" y2="270"
             stroke="#00d4aa" stroke-width="1" stroke-dasharray="3 3"
             stroke-opacity="0.55"/>
@@ -87,7 +98,7 @@
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="150" y="307" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#737373">BLE notify frame</text>
+            fill="#737373">{de ? 'BLE-Notify-Frame' : 'BLE notify frame'}</text>
 
       <!-- arrow exiting device -->
       <path d="M 150 332 L 150 374 M 146 370 L 150 374 L 154 370"
@@ -98,7 +109,7 @@
     <g>
       <text x="400" y="60" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="10"
-            letter-spacing="2" fill="#737373">BLE 4.0+ · LINK-LAYER ENCRYPTED</text>
+            letter-spacing="2" fill="#737373">{de ? 'BLE 4.0+ · VERSCHLÜSSELTER LINK' : 'BLE 4.0+ · LINK-LAYER ENCRYPTED'}</text>
 
       <!-- Single horizontal pipe -->
       <line x1="260" y1="240" x2="540" y2="240"
@@ -107,20 +118,20 @@
             fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.5"/>
       <text x="400" y="244" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="10"
-            fill="#00d4aa">BLE notify · ~1 Hz</text>
+            fill="#00d4aa">{de ? 'BLE-Notify · ~1 Hz' : 'BLE notify · ~1 Hz'}</text>
 
       <!-- Range annotation -->
       <text x="400" y="290" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="9"
-            letter-spacing="1.5" fill="#737373">DIRECT · NO RELAY · &lt; 10 m</text>
+            letter-spacing="1.5" fill="#737373">{de ? 'DIREKT · KEIN RELAY · < 10 m' : 'DIRECT · NO RELAY · < 10 m'}</text>
 
       <!-- Wire-bytes annotation -->
       <text x="400" y="335" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="9"
-            letter-spacing="1.5" fill="#737373">ON THE WIRE</text>
+            letter-spacing="1.5" fill="#737373">{de ? 'ÜBERTRAGEN' : 'ON THE WIRE'}</text>
       <text x="400" y="352" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#a3a3a3">bpm + RR ms only</text>
+            fill="#a3a3a3">{de ? 'nur bpm + RR ms' : 'bpm + RR ms only'}</text>
     </g>
 
     <!-- ── YOUR PHONE ──────────────────────────────────────────────── -->
@@ -129,7 +140,7 @@
             fill="#131316" stroke="#23232a" stroke-width="1"/>
       <text x="650" y="68" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            letter-spacing="2" fill="#737373">YOUR PHONE</text>
+            letter-spacing="2" fill="#737373">{de ? 'DEIN HANDY' : 'YOUR PHONE'}</text>
 
       <!-- arrow entering device from below -->
       <path d="M 650 374 L 650 332 M 646 336 L 650 332 L 654 336"
@@ -140,7 +151,7 @@
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="650" y="307" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#737373">BLE service · capture</text>
+            fill="#737373">{de ? 'BLE-Dienst · Empfang' : 'BLE service · capture'}</text>
 
       <!-- Device boundary -->
       <line x1="560" y1="270" x2="740" y2="270"
@@ -148,14 +159,14 @@
             stroke-opacity="0.55"/>
       <text x="650" y="261" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="9"
-            letter-spacing="1.5" fill="#737373">ON-DEVICE BOUNDARY</text>
+            letter-spacing="1.5" fill="#737373">{de ? 'GERÄTEGRENZE' : 'ON-DEVICE BOUNDARY'}</text>
 
       <!-- JSONL log -->
       <rect x="560" y="218" width="180" height="36" rx="6"
             fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
       <text x="650" y="241" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#00d4aa">JSONL log · sandboxed</text>
+            fill="#00d4aa">{de ? 'JSONL-Log · Sandbox' : 'JSONL log · sandboxed'}</text>
 
       <!-- arrow up -->
       <path d="M 650 214 L 650 200 M 646 204 L 650 200 L 654 204"
@@ -166,10 +177,10 @@
             fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
       <text x="650" y="164" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#00d4aa">HRV · Sleep · Rhythm</text>
+            fill="#00d4aa">{de ? 'HRV · Schlaf · Rhythmus' : 'HRV · Sleep · Rhythm'}</text>
       <text x="650" y="184" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#00d4aa">Readiness · Strain</text>
+            fill="#00d4aa">{de ? 'Bereitschaft · Belastung' : 'Readiness · Strain'}</text>
 
       <!-- arrow up -->
       <path d="M 650 138 L 650 124 M 646 128 L 650 124 L 654 128"
@@ -180,7 +191,7 @@
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="650" y="111" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#ffffff">Live UI · Brief</text>
+            fill="#ffffff">{de ? 'Live-Anzeige · Brief' : 'Live UI · Brief'}</text>
     </g>
 
     <!-- ── BOTTOM BAND · NOT IN THE PICTURE ────────────────────────── -->
@@ -189,14 +200,14 @@
             stroke="#23232a" stroke-width="1"/>
       <text x="400" y="438" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            letter-spacing="2" fill="#737373">NOT IN THE PICTURE</text>
+            letter-spacing="2" fill="#737373">{de ? 'NICHT DABEI' : 'NOT IN THE PICTURE'}</text>
       <text x="400" y="468" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#a3a3a3">No server · No account · No cloud sync · No telemetry</text>
+            fill="#a3a3a3">{de ? 'Kein Server · Kein Konto · Kein Cloud-Sync · Keine Telemetrie' : 'No server · No account · No cloud sync · No telemetry'}</text>
     </g>
   </svg>
 
-  <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">
-    A heartbeat detected by the HW9 band, worn on the chest, upper arm, or forearm, travels as bpm + RR-interval values over a short-range BLE link directly to your phone, where it is logged locally and fed through an on-device compute pipeline. No server, cloud sync or telemetry is involved, and the scores come from closed-form formulas rather than a trained model.
-  </figcaption>
+  <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">{de ? 'Das HW9-Band, getragen an Brust, Oberarm oder Unterarm, erkennt einen Herzschlag. Als bpm- und RR-Intervallwerte geht er über eine kurze BLE-Verbindung direkt an dein Handy. Dort wird er lokal gespeichert und von einer Rechenpipeline auf dem Gerät verarbeitet. Server, Cloud-Sync oder Telemetrie sind nicht beteiligt, und die Werte stammen aus festen Formeln statt aus einem trainierten Modell.' : `
+A heartbeat detected by the HW9 band, worn on the chest, upper arm, or forearm, travels as bpm + RR-interval values over a short-range BLE link directly to your phone, where it is logged locally and fed through an on-device compute pipeline. No server, cloud sync or telemetry is involved, and the scores come from closed-form formulas rather than a trained model.
+`}</figcaption>
 </figure>

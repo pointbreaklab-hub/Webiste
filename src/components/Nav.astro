@@ -1,4 +1,6 @@
 ---
+import { localeFromPath, englishPath, germanPath, href, t } from '../i18n';
+
 // Resolve the Download CTA target from the current URL so the button
 // always points at THIS product's download section instead of always
 // firing the user at Whispr's. Homepage (no product context) keeps
@@ -6,21 +8,40 @@
 // Changelogs live per product (/whispr/changelog/, /heart/changelog/),
 // so there is no top-level Changelog link in the nav.
 const path = Astro.url.pathname;
-let downloadHref = '/whispr/#download';
-let downloadLabel = 'Download';
-if (path.startsWith('/heart')) {
-  downloadHref = '/heart/#download';
-} else if (path.startsWith('/knot')) {
+const locale = localeFromPath(path);
+const enPath = englishPath(path);
+let downloadPath = '/whispr/#download';
+if (enPath.startsWith('/heart')) {
+  downloadPath = '/heart/#download';
+} else if (enPath.startsWith('/knot')) {
   // Knot is pre-alpha but now has a public free download (Mac + Linux),
   // so the CTA points at the download section like the other products.
-  downloadHref = '/knot/#download';
+  downloadPath = '/knot/#download';
 }
+const downloadHref = href(downloadPath, locale);
+const downloadLabel = t(locale, 'download');
+
+// Language switch. Both options are ordinary links, because switching
+// language navigates to another URL: not a role="switch", not a dropdown
+// (nobody uses a dropdown for exactly two languages). The current language
+// is a span with aria-current. On an English-only page (the changelogs) the
+// DE side is rendered disabled rather than linking to a German homepage.
+const enHref = enPath;
+const deHref = germanPath(path);
+const links = [
+  ['/#apps', t(locale, 'apps')],
+  ['/whispr/', 'Whispr'],
+  ['/heart/', 'Heart'],
+  ['/knot/', 'Knot'],
+  ['/knot-ai/', 'Knot AI'],
+  ['/#about', t(locale, 'about')],
+] as const;
 ---
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
   <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-2 group">
+    <a href={href('/', locale)} class="flex items-center gap-2 group">
       <div class="w-7 h-7 rounded-md bg-accent flex items-center justify-center">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M7 1L13 4V10L7 13L1 10V4L7 1Z" stroke="black" stroke-width="1.5" stroke-linejoin="round"/>
@@ -35,24 +56,49 @@ if (path.startsWith('/heart')) {
     <!-- Absolute paths, never bare #anchors, which break from any page
          that is not the homepage. -->
     <ul class="hidden md:flex items-center gap-8 text-sm text-secondary">
-      <li><a href="/#apps"               class="hover:text-primary transition-colors">Apps</a></li>
-      <li><a href="/whispr/"             class="hover:text-primary transition-colors">Whispr</a></li>
-      <li><a href="/heart/"              class="hover:text-primary transition-colors">Heart</a></li>
-      <li><a href="/knot/"               class="hover:text-primary transition-colors">Knot</a></li>
-      <li><a href="/knot-ai/"            class="hover:text-primary transition-colors">Knot AI</a></li>
-      <li><a href="/#about"              class="hover:text-primary transition-colors">About</a></li>
+      {links.map(([p, label]) => (
+        <li><a href={href(p, locale)} class="hover:text-primary transition-colors">{label}</a></li>
+      ))}
     </ul>
 
-    <!-- CTA routes to the current product's download section. -->
-    <a
-      href={downloadHref}
-      class="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-bg text-sm font-semibold hover:bg-white transition-colors"
-    >
-      {downloadLabel}
-    </a>
+    <!-- Right-hand group: the CTA routes to the current product's download
+         section, and the language switch sits in the top-right corner, where
+         people look for it. -->
+    <div class="hidden md:flex items-center gap-4">
+      <a
+        href={downloadHref}
+        class="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-bg text-sm font-semibold hover:bg-white transition-colors"
+      >
+        {downloadLabel}
+      </a>
+      <nav aria-label={t(locale, 'language')} class="lang-switch relative flex items-center rounded-full border border-border p-0.5 text-xs font-semibold tracking-wide" data-locale={locale}>
+        <span aria-hidden="true" class="lang-thumb absolute top-0.5 bottom-0.5 left-0.5 w-9 rounded-full bg-accent"></span>
+        {locale === 'en'
+          ? <span aria-current="true" lang="en" title="English" class="lang-opt is-current">EN<span class="sr-only"> (English)</span></span>
+          : <a href={enHref} hreflang="en" lang="en" title="English" class="lang-opt">EN<span class="sr-only"> (English)</span></a>}
+        {locale === 'de'
+          ? <span aria-current="true" lang="de" title="Deutsch" class="lang-opt is-current">DE<span class="sr-only"> (Deutsch)</span></span>
+          : deHref
+            ? <a href={deHref} hreflang="de" lang="de" title="Deutsch" class="lang-opt">DE<span class="sr-only"> (Deutsch)</span></a>
+            : <span aria-disabled="true" lang="de" title={t(locale, 'englishOnly')} class="lang-opt is-disabled">DE<span class="sr-only"> ({t(locale, 'englishOnly')})</span></span>}
+      </nav>
+    </div>
 
-    <!-- Mobile hamburger -->
-    <button id="menu-btn" class="md:hidden text-secondary hover:text-primary transition-colors" aria-label="Menu">
+    <!-- Mobile: the switch stays in the bar, left of the hamburger, so
+         changing language is one tap without opening the drawer. -->
+    <div class="flex md:hidden items-center gap-3">
+      <nav aria-label={t(locale, 'language')} class="lang-switch relative flex items-center rounded-full border border-border p-0.5 text-xs font-semibold tracking-wide" data-locale={locale}>
+          <span aria-hidden="true" class="lang-thumb absolute top-0.5 bottom-0.5 left-0.5 w-9 rounded-full bg-accent"></span>
+          {locale === 'en'
+            ? <span aria-current="true" lang="en" title="English" class="lang-opt is-current">EN<span class="sr-only"> (English)</span></span>
+            : <a href={enHref} hreflang="en" lang="en" title="English" class="lang-opt">EN<span class="sr-only"> (English)</span></a>}
+          {locale === 'de'
+            ? <span aria-current="true" lang="de" title="Deutsch" class="lang-opt is-current">DE<span class="sr-only"> (Deutsch)</span></span>
+            : deHref
+              ? <a href={deHref} hreflang="de" lang="de" title="Deutsch" class="lang-opt">DE<span class="sr-only"> (Deutsch)</span></a>
+              : <span aria-disabled="true" lang="de" title={t(locale, 'englishOnly')} class="lang-opt is-disabled">DE<span class="sr-only"> ({t(locale, 'englishOnly')})</span></span>}
+        </nav>
+    <button id="menu-btn" class="text-secondary hover:text-primary transition-colors" aria-label={t(locale, 'menu')}>
       <svg id="icon-open"  width="22" height="22" viewBox="0 0 22 22" fill="none">
         <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       </svg>
@@ -60,17 +106,15 @@ if (path.startsWith('/heart')) {
         <path d="M5 5l12 12M17 5L5 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       </svg>
     </button>
+    </div>
   </div>
 
   <!-- Mobile drawer -->
   <div id="mobile-menu" class="hidden md:hidden bg-surface border-t border-border">
     <ul class="flex flex-col px-6 py-4 gap-4 text-sm text-secondary">
-      <li><a href="/#apps"               class="block hover:text-primary transition-colors">Apps</a></li>
-      <li><a href="/whispr/"             class="block hover:text-primary transition-colors">Whispr</a></li>
-      <li><a href="/heart/"              class="block hover:text-primary transition-colors">Heart</a></li>
-      <li><a href="/knot/"               class="block hover:text-primary transition-colors">Knot</a></li>
-      <li><a href="/knot-ai/"            class="block hover:text-primary transition-colors">Knot AI</a></li>
-      <li><a href="/#about"              class="block hover:text-primary transition-colors">About</a></li>
+      {links.map(([p, label]) => (
+        <li><a href={href(p, locale)} class="block hover:text-primary transition-colors">{label}</a></li>
+      ))}
       <li><a href={downloadHref}         class="block text-accent font-semibold">{downloadLabel}</a></li>
     </ul>
   </div>
@@ -88,6 +132,15 @@ if (path.startsWith('/heart')) {
       nav.classList.toggle('nav-scrolled', next);
     }
   }, { passive: true });
+
+  // Language switch: carry the current #anchor across (the ids are identical
+  // in both languages), and slide the thumb before the page navigates.
+  document.querySelectorAll<HTMLAnchorElement>('.lang-switch a.lang-opt').forEach((a) => {
+    a.addEventListener('click', () => {
+      if (location.hash) a.href = a.href.split('#')[0] + location.hash;
+      a.closest('.lang-switch')?.classList.add('is-switching');
+    });
+  });
 
   // Mobile menu
   const btn   = document.getElementById('menu-btn')!;
@@ -108,6 +161,32 @@ if (path.startsWith('/heart')) {
 </script>
 
 <style>
+  /* Language switch: a two-segment pill with a sliding teal thumb. */
+  .lang-opt {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 1.75rem;
+    padding: 0 0.625rem;
+    border-radius: 9999px;
+    color: var(--lang-idle, #a3a3a3);
+    transition: color 150ms ease;
+  }
+  a.lang-opt:hover { color: #f5f5f5; }
+  a.lang-opt:focus-visible { outline: 2px solid #00d4aa; outline-offset: 2px; }
+  .lang-opt.is-current { color: #0b0b0d; }
+  .lang-opt.is-disabled { opacity: 0.35; cursor: not-allowed; }
+  .lang-thumb { transition: transform 180ms ease; }
+  .lang-switch[data-locale="de"] .lang-thumb { transform: translateX(100%); }
+  .lang-switch.is-switching[data-locale="en"] .lang-thumb { transform: translateX(100%); }
+  .lang-switch.is-switching[data-locale="de"] .lang-thumb { transform: translateX(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .lang-thumb, .lang-opt { transition: none; }
+  }
+
   /* Solid background instead of backdrop-blur, backdrop-filter is GPU-expensive
      and the #1 cause of scroll stutter on macOS / MBP. */
   #nav.nav-scrolled {

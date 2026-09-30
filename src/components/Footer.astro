@@ -1,5 +1,8 @@
 ---
+import { localeFromPath, href, t } from '../i18n';
 const year = new Date().getFullYear();
+const locale = localeFromPath(Astro.url.pathname);
+const l = (p: string) => href(p, locale);
 ---
 <footer class="border-t border-border bg-surface mt-32">
   <div class="max-w-7xl mx-auto px-6 py-16">
@@ -17,50 +20,50 @@ const year = new Date().getFullYear();
           <span class="font-bold text-sm text-primary">PointBreak<span class="text-accent">Lab</span></span>
         </div>
         <p class="text-secondary text-sm leading-relaxed">
-          Built by one person in Würzburg. Whatever these apps store, they store on your device.
+          {t(locale, 'footerTagline')}
         </p>
         {/* OWNER DECISION: first person "I" proposed here */}
       </div>
 
       <!-- Apps -->
       <div>
-        <h4 class="text-xs font-semibold text-hint uppercase tracking-widest mb-4">Apps</h4>
+        <h4 class="text-xs font-semibold text-hint uppercase tracking-widest mb-4">{t(locale, 'apps')}</h4>
         <ul class="space-y-3 text-sm text-secondary">
-          <li><a href="/whispr/" class="hover:text-primary transition-colors">Whispr</a></li>
-          <li><a href="/heart/"  class="hover:text-primary transition-colors">Heart</a></li>
-          <li><a href="/knot/" class="hover:text-primary transition-colors">Knot</a></li>
-          <li><a href="/knot-ai/" class="hover:text-primary transition-colors">Knot AI <span class="text-xs text-hint">(Open model)</span></a></li>
+          <li><a href={l('/whispr/')} class="hover:text-primary transition-colors">Whispr</a></li>
+          <li><a href={l('/heart/')}  class="hover:text-primary transition-colors">Heart</a></li>
+          <li><a href={l('/knot/')} class="hover:text-primary transition-colors">Knot</a></li>
+          <li><a href={l('/knot-ai/')} class="hover:text-primary transition-colors">Knot AI <span class="text-xs text-hint">{t(locale, 'openModel')}</span></a></li>
         </ul>
       </div>
 
       <!-- Resources -->
       <div>
-        <h4 class="text-xs font-semibold text-hint uppercase tracking-widest mb-4">Resources</h4>
+        <h4 class="text-xs font-semibold text-hint uppercase tracking-widest mb-4">{t(locale, 'resources')}</h4>
         <ul class="space-y-3 text-sm text-secondary">
-          <li><a href="/whispr/#architecture"   class="hover:text-primary transition-colors">Security</a></li>
-          <li><a href="/whispr/changelog/"      class="hover:text-primary transition-colors">Whispr changelog</a></li>
-          <li><a href="/heart/changelog/"       class="hover:text-primary transition-colors">Heart changelog</a></li>
-          <li><a href="/knot/changelog/"        class="hover:text-primary transition-colors">Knot changelog</a></li>
-          <li><a href="/knot/docs/"             class="hover:text-primary transition-colors">Knot install guide</a></li>
-          <li><a href="/whispr/#download"       class="hover:text-primary transition-colors">Download</a></li>
+          <li><a href={l('/whispr/#architecture')} class="hover:text-primary transition-colors">{t(locale, 'security')}</a></li>
+          <li><a href="/whispr/changelog/"      class="hover:text-primary transition-colors">{t(locale, 'whisprChangelog')}</a></li>
+          <li><a href="/heart/changelog/"       class="hover:text-primary transition-colors">{t(locale, 'heartChangelog')}</a></li>
+          <li><a href="/knot/changelog/"        class="hover:text-primary transition-colors">{t(locale, 'knotChangelog')}</a></li>
+          <li><a href={l('/knot/docs/')} class="hover:text-primary transition-colors">{t(locale, 'knotInstall')}</a></li>
+          <li><a href={l('/whispr/#download')} class="hover:text-primary transition-colors">{t(locale, 'download')}</a></li>
         </ul>
       </div>
 
       <!-- Legal -->
       <div>
-        <h4 class="text-xs font-semibold text-hint uppercase tracking-widest mb-4">Legal</h4>
+        <h4 class="text-xs font-semibold text-hint uppercase tracking-widest mb-4">{t(locale, 'legal')}</h4>
         <ul class="space-y-3 text-sm text-secondary">
-          <li><a href="/privacy/"        class="hover:text-primary transition-colors">Whispr privacy</a></li>
-          <li><a href="/heart/privacy/"  class="hover:text-primary transition-colors">Heart privacy</a></li>
-          <li><a href="/#about"          class="hover:text-primary transition-colors">Contact</a></li>
+          <li><a href={l('/privacy/')} class="hover:text-primary transition-colors">{t(locale, 'whisprPrivacy')}</a></li>
+          <li><a href={l('/heart/privacy/')} class="hover:text-primary transition-colors">{t(locale, 'heartPrivacy')}</a></li>
+          <li><a href={l('/#about')} class="hover:text-primary transition-colors">{t(locale, 'contact')}</a></li>
         </ul>
       </div>
     </div>
 
     <div class="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-hint">
-      <span>© {year} PointBreakLab. All rights reserved.</span>
-      <span class="font-mono">🇩🇪 Made in Würzburg, Germany</span>
-      <span class="font-mono">Static HTML on GitHub Pages. No analytics script on any page.</span>
+      <span>© {year} PointBreakLab. {t(locale, 'rights')}</span>
+      <span class="font-mono">🇩🇪 {t(locale, 'madeIn')}</span>
+      <span class="font-mono">{t(locale, 'staticNote')}</span>
     </div>
   </div>
 </footer>

@@ -4,7 +4,9 @@ export interface Props {
   href: string;
   label?: string;
 }
+import { localeFromPath, t } from '../i18n';
 const { platform, href, label } = Astro.props;
+const locale = localeFromPath(Astro.url.pathname);
 const isAndroid = platform === 'android';
 // href="#" means "not shipped yet": render a dimmed, non-clickable control
 // instead of an anchor, so it can't jump the page to the top. In that state
@@ -31,7 +33,7 @@ const Tag = comingSoon ? 'div' : 'a';
   )}
   <div class="text-left">
     <div class="text-xs text-secondary">
-      {comingSoon ? 'No build for' : isAndroid ? 'Download for' : 'Available on'}
+      {comingSoon ? t(locale, 'noBuildFor') : isAndroid ? t(locale, 'downloadFor') : t(locale, 'availableOn')}
     </div>
     <div class="text-sm font-bold text-primary group-hover:text-accent transition-colors">
       {comingSoon ? (isAndroid ? 'Android' : 'iOS') : (label ?? (isAndroid ? 'Android APK' : 'iOS'))}

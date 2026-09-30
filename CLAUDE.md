@@ -735,7 +735,27 @@ Configured 2026-05-06. All foundational files are generated/served:
 
 - **Generating a PNG version of `og-image.svg`** — most platforms render SVG fine. Only relevant if a specific platform's preview is broken.
 - **Per-page `<title>` and `<meta description>`** for `/privacy` — not implemented; privacy page falls back to default. Add only if it ever ranks for queries you care about.
-- **Translating to German** for local SEO — overkill for a portfolio.
+
+## German version (added 2026-09-29)
+
+English at `/`, German under `/de/` with the SAME slugs. `src/i18n.ts` owns the
+list of translated pages (`TRANSLATED`), the path helpers and the UI strings.
+
+- **Translated:** `/`, `/whispr/`, `/heart/`, `/knot/`, `/knot/docs/`, `/knot-ai/`,
+  `/privacy/`, `/heart/privacy/`. **English only, on purpose:** every changelog and
+  `/whispr/add/`. On those the DE switch is disabled and no `hreflang="de"` is emitted.
+- **Switch:** `EN | DE` segmented pill in `Nav.astro`, top right after Download; on
+  mobile it sits left of the hamburger. Plain links (not a toggle, not a dropdown,
+  no flags), `aria-current` on the active side, keeps the `#anchor` when switching.
+- **Editing copy:** an English edit to a translated page needs the same edit in
+  `src/pages/de/…`. Nothing enforces this.
+- **Release values are NOT duplicated.** The German pages read version, date and
+  SHA-256 from the English file at build time (`src/en-release.ts`), so the release
+  pipeline keeps editing only the English page. If a row label changes in the English
+  page the build FAILS on purpose rather than show a stale checksum.
+- The three architecture diagrams switch labels on `localeFromPath`; their English
+  output was verified byte-identical.
+- German uses „du“. The privacy pages say the English version is binding.
 
 ## What's intentionally *not* on the site
 

@@ -1,5 +1,6 @@
 ---
 import Cursor from '../components/Cursor.astro';
+import { localeFromPath, englishPath, germanPath } from '../i18n';
 
 export interface Props {
   title?: string;
@@ -7,15 +8,27 @@ export interface Props {
   ogImage?: string;
 }
 
+const locale = localeFromPath(Astro.url.pathname);
 const {
-  title = 'PointBreakLab · Privacy-First Applications',
-  description = 'PointBreakLab is one person building apps that keep your data on the devices you own. Whispr, Heart, Knot and Knot AI, all free.',
+  title = locale === 'de'
+    ? 'PointBreakLab · Apps ohne Server'
+    : 'PointBreakLab · Privacy-First Applications',
+  description = locale === 'de'
+    ? 'PointBreakLab ist eine Person, die Apps baut, deren Daten auf deinen eigenen Geräten bleiben. Whispr, Heart, Knot und Knot AI, alle kostenlos.'
+    : 'PointBreakLab is one person building apps that keep your data on the devices you own. Whispr, Heart, Knot and Knot AI, all free.',
   // PNG, not SVG: WhatsApp, iMessage, LinkedIn and Facebook don't render SVG
   // preview images (WhatsApp then fell back to a photo on the page).
   ogImage = '/og-image.png',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+
+// hreflang alternates, only when the page really has a German twin. Each
+// page lists both versions plus x-default (English), so the pair is
+// reciprocal, which Google requires before it trusts either side.
+const enUrl = new URL(englishPath(Astro.url.pathname), Astro.site).toString();
+const dePath = germanPath(Astro.url.pathname);
+const deUrl = dePath ? new URL(dePath, Astro.site).toString() : null;
 const ogImageUrl = new URL(ogImage, Astro.site).toString();
 
 const orgJsonLd = {
@@ -56,12 +69,15 @@ const appJsonLd = {
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang={locale} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {deUrl && <link rel="alternate" hreflang="en" href={enUrl} />}
+    {deUrl && <link rel="alternate" hreflang="de" href={deUrl} />}
+    {deUrl && <link rel="alternate" hreflang="x-default" href={enUrl} />}
 
     <!-- OG / Twitter -->
     <meta property="og:title"        content={title} />
@@ -70,10 +86,12 @@ const appJsonLd = {
     <meta property="og:image:width"  content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type"   content="image/png" />
-    <meta property="og:image:alt"    content="PointBreakLab: privacy-first applications" />
+    <meta property="og:image:alt"    content={locale === 'de' ? 'PointBreakLab: Apps, die deine Daten auf deinen Geräten lassen' : 'PointBreakLab: privacy-first applications'} />
     <meta property="og:url"          content={canonical} />
     <meta property="og:type"         content="website" />
     <meta property="og:site_name"    content="PointBreakLab" />
+    <meta property="og:locale"       content={locale === 'de' ? 'de_DE' : 'en_US'} />
+    {deUrl && <meta property="og:locale:alternate" content={locale === 'de' ? 'en_US' : 'de_DE'} />}
     <meta name="twitter:card"        content="summary_large_image" />
     <meta name="twitter:title"       content={title} />
     <meta name="twitter:description" content={description} />

@@ -169,10 +169,10 @@ import '../../styles/global.css';
             <p class="text-accent text-xs font-mono tracking-widest mb-2">USING WHISPR WHERE TOR IS BLOCKED</p>
             <h3 class="text-lg font-bold text-primary mb-2">India · Iran · China · restrictive Wi-Fi</h3>
             <p class="text-secondary text-sm leading-relaxed mb-3">
-              Some networks block Tor. If your messages don't deliver, install Whispr and open <span class="text-primary">Settings → Network → Bridges</span>. Tap the <span class="font-mono text-accent">(i)</span> icon there for a full step-by-step guide to setting up bridges for your region.
+              Some networks block Tor. If your messages don't deliver, install Whispr and open <span class="text-primary">Settings → Network → Bridges</span>. Tap the <span class="font-mono text-accent">(i)</span> icon there for a step-by-step guide to setting up bridges for your region.
             </p>
             <p class="text-hint text-xs">
-              The guide is in the app, because a website is unreachable from the network blocking you.
+              The guide is in the app because a network that blocks Tor can block this website too.
             </p>
           </div>
         </div>
@@ -188,7 +188,7 @@ import '../../styles/global.css';
         <SectionEyebrow num="03" label="CRYPTO" />
         <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Plaintext that never leaves the two phones</h2>
         <p class="text-secondary max-w-xl mx-auto">
-          No new cryptography was designed for Whispr, deliberately: rolling your own is how people who trusted a messenger get hurt, so this is Signal's published design implemented against their spec.
+          Whispr does not use any home-made cryptography. It is Signal's published design, implemented from their spec.
         </p>
       </div>
 
@@ -238,7 +238,7 @@ import '../../styles/global.css';
       {[
         // The v1.1.14 changelog entry promised obfs4 for v1.1.15 and v1.1.15 shipped the in-app bridges guide instead.
         // CONFIRM: the reason it slipped, most likely packaging a pluggable-transport binary inside the APK.
-        { tag: 'IN PROGRESS', title: 'obfs4 bridge transport', body: 'obfs4 hides Tor traffic from deep-packet inspection by making it look like ordinary TLS; vanilla bridges shipped in v1.1.14 and obfs4 was meant to follow in v1.1.15, which it did not.', status: 'building' },
+        { tag: 'IN PROGRESS', title: 'obfs4 bridge transport', body: 'obfs4 hides Tor traffic from deep-packet inspection by making it look like random bytes; vanilla bridges shipped in v1.1.14 and obfs4 was meant to follow in v1.1.15, which it did not.', status: 'building' },
         { tag: 'IN PROGRESS', title: 'Voice & video calls', body: 'None of this works yet. Latency over Tor and NAT traversal without a relay are both unsolved.', status: 'building' },
         // CONFIRM: whether group-key rotation on member exit is the blocker, or only one of them.
         { tag: 'PLANNED', title: 'Group messaging', body: 'Rotating the key when someone leaves is the unsolved part. Everything else is a shared group key derived between the members.', status: 'planned' },

@@ -72,8 +72,8 @@ const updated = '5 May 2026';
           <h2 class="text-xl font-bold text-primary mb-4">2. Where data is stored</h2>
           <p class="text-sm text-secondary leading-relaxed mb-4">All data is stored in your device's private application storage:</p>
           <ul class="space-y-2 text-sm text-secondary list-none">
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">iOS</strong>, the app sandbox (<code class="text-accent font-mono text-xs">Documents</code> and <code class="text-accent font-mono text-xs">NSUserDefaults</code>), automatically protected by iOS data protection.</span></li>
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Android</strong>, internal app storage (<code class="text-accent font-mono text-xs">SharedPreferences</code> and the documents directory). On Android 10+ this storage is hardware-encrypted by the OS using your screen-lock credential.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">iOS</strong>: the app sandbox (<code class="text-accent font-mono text-xs">Documents</code> and <code class="text-accent font-mono text-xs">NSUserDefaults</code>), automatically protected by iOS data protection.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Android</strong>: internal app storage (<code class="text-accent font-mono text-xs">SharedPreferences</code> and the documents directory). On Android 10+ this storage is hardware-encrypted by the OS using your screen-lock credential.</span></li>
           </ul>
           <p class="text-sm text-secondary leading-relaxed mt-4">Other apps cannot read this storage, and uninstalling Heart takes the whole directory with it.</p>
         </section>
@@ -139,7 +139,7 @@ const updated = '5 May 2026';
         <section>
           <h2 class="text-xl font-bold text-primary mb-4">5. Third-party services</h2>
           <p class="text-sm text-secondary leading-relaxed">Heart's only network requests are to <strong class="text-primary/80">OpenStreetMap tile servers</strong> when you download an offline map area in <strong class="text-primary/80">Settings → Offline Maps</strong>. Tile requests include your approximate map region but no Heart-specific identifiers. Map tiles are © OpenStreetMap contributors, ODbL license. Once downloaded, tiles are cached locally and used without further network access.</p>
-          <p class="text-sm text-secondary leading-relaxed mt-3">Heart contains no advertising SDKs, no analytics SDKs, and no crash-reporter SDKs that send data off-device. Apart from the tile requests above, nothing in the build is meant to reach a network. The crash log is written to a file by Heart's own code, so there is no reporter SDK in the path at all.</p>
+          <p class="text-sm text-secondary leading-relaxed mt-3">Heart contains no advertising SDKs, no analytics SDKs, and no crash-reporter SDKs that send data off-device. Apart from the tile requests above, nothing in the build is meant to reach a network. The crash log is written to a file by Heart's own code, so there is no reporter SDK in the path.</p>
         </section>
 
         <!-- §6 sharing -->
@@ -158,7 +158,7 @@ const updated = '5 May 2026';
               </li>
             ))}
           </ul>
-          <p class="text-sm text-secondary leading-relaxed mt-4">Nothing is sold, and no data goes to an advertiser, an insurer or an employer. The exports above happen because you tapped something, and no other data leaves the phone.</p>
+          <p class="text-sm text-secondary leading-relaxed mt-4">Nothing is sold, and no data goes to an advertiser, an insurer or an employer. Data leaves the phone only through the exports above, each of which you start yourself.</p>
         </section>
 
         <!-- §7 controls -->
@@ -168,7 +168,7 @@ const updated = '5 May 2026';
           <ul class="space-y-2 text-sm text-secondary list-none">
             {[
               'Toggle Anonymize exports, Crash reports opt-in, and Outbound telemetry.',
-              'Export to another device, JSON bundle of sessions and sleep data.',
+              'Export to another device: JSON bundle of sessions and sleep data.',
               'Export local bundle, training data, or CSV files.',
               'Create a diagnostic export.',
               'Clear heart-rate history. Deletes recorded HR samples and sleep corrections; sessions and settings are kept.',

@@ -1,0 +1,242 @@
+---
+import Base   from '../../../layouts/Base.astro';
+import Nav    from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import SectionEyebrow from '../../../components/SectionEyebrow.astro';
+import '../../../styles/global.css';
+
+const updated = '5. Mai 2026';
+---
+
+<Base
+  title="Datenschutzerklärung · Heart"
+  description="Datenschutzerklärung für Heart. Heart liest einen Bluetooth-Brustgurt aus und berechnet Erholung, Belastung und Schlaf auf dem Handy. Es gibt keinen Server, an den die Werte gehen könnten."
+>
+  <Nav />
+
+  <main class="min-h-screen pt-24 pb-24 px-6">
+    <div class="max-w-3xl mx-auto">
+
+      <div aria-hidden="true" class="absolute top-24 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+      <SectionEyebrow num="00" label="DATENSCHUTZERKLÄRUNG" align="center" />
+
+      <h1 class="text-4xl md:text-5xl font-black text-primary text-center mb-4 tracking-tight">
+        Datenschutzerklärung für Heart
+      </h1>
+      <p class="text-hint text-center text-xs mb-3 leading-relaxed">Dies ist eine Übersetzung zur besseren Verständlichkeit. Rechtlich verbindlich ist die <a href="/heart/privacy/" lang="en" hreflang="en" class="text-accent hover:underline">englische Fassung</a>.</p>
+      <p class="text-hint text-center text-xs font-mono mb-16">Zuletzt aktualisiert: {updated}</p>
+
+      {/* summary callout */}
+      <div class="p-5 rounded-2xl bg-surface border border-accent/30 mb-14 space-y-2">
+        <p class="text-accent text-xs font-mono tracking-widest mb-3">ZUSAMMENFASSUNG</p>
+        <ul class="space-y-2 text-sm text-secondary">
+          <li class="flex gap-2"><span class="text-accent shrink-0">→</span> Heart speichert alle Gesundheits- und Aktivitätsdaten <strong class="text-primary">ausschließlich auf deinem Gerät</strong>.</li>
+          <li class="flex gap-2"><span class="text-accent shrink-0">→</span> Wir betreiben <strong class="text-primary">keine</strong> Server, die deine Daten empfangen, und es gibt <strong class="text-primary">kein Konto und keine Anmeldung</strong>.</li>
+          <li class="flex gap-2"><span class="text-accent shrink-0">→</span> Wir verkaufen, vermieten oder geben deine Daten an <strong class="text-primary">niemanden</strong> weiter.</li>
+          <li class="flex gap-2"><span class="text-accent shrink-0">→</span> Du kannst deine Daten jederzeit unter <strong class="text-primary">Settings → Privacy &amp; export</strong> exportieren oder dauerhaft löschen.</li>
+        </ul>
+      </div>
+
+      <div class="prose-heart space-y-14">
+
+        {/* §1 */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">1. Welche Daten Heart erhebt</h2>
+
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-5">1.1 Gesundheits- und Fitnessdaten</h3>
+          <ul class="space-y-2 text-sm text-secondary leading-relaxed list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Herzfrequenz (BPM)</strong>, in Echtzeit von einem gekoppelten Bluetooth-Herzfrequenzmesser (z. B. Coospo HW9) über den Standard-BLE-Dienst <code class="text-accent font-mono text-xs">0x180D</code> gelesen (Heart Rate Measurement, Charakteristik <code class="text-accent font-mono text-xs">0x2A37</code>).</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">R–R-Intervalle</strong>, aus denen die Herzfrequenzvariabilität (HRV / RMSSD) berechnet wird.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Abgeleitete Werte</strong>: Erholungswert, Belastungswert, Kalorienschätzungen, Schlafphasen (wach / leicht / tief / REM), Schlafwert sowie gleitende 30-Tage-Basiswerte für Ruhepuls und HRV. Alle Berechnungen laufen auf dem Gerät.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Sitzungsverlauf</strong>: Startzeit, Dauer, durchschnittliche / maximale HF, Kalorien, Verteilung auf die Zonen und (wenn du es aktivierst) die GPS-Route bei Läufen / Radfahrten.</span></li>
+          </ul>
+
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.2 Profildaten, die du eingibst</h3>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Alter, Geschlecht, Gewicht und Größe (werden von den Formeln für Kalorien und HRV-Basiswert verwendet).</li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Schlafziel und Einstellungen zur Barrierefreiheit.</li>
+          </ul>
+
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.3 Gerätedaten</h3>
+          <p class="text-sm text-secondary leading-relaxed">Kennung, Name, Firmware-Version, Signalstärke und Akkustand gekoppelter Bluetooth-Herzfrequenzmesser.</p>
+
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.4 Standortdaten (nur, wenn du die Routenfunktion nutzt)</h3>
+          <p class="text-sm text-secondary leading-relaxed">GPS-Koordinaten während einer aktiven Sitzung, um die Routenkarte zu zeichnen. Außerhalb einer aktiven Sitzung wird der Standort <strong class="text-primary/80">nie</strong> gelesen.</p>
+
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.5 Diagnosedaten</h3>
+          <p class="text-sm text-secondary leading-relaxed">Ein fortlaufendes Protokoll der letzten 20 Sync- / BLE-Fehler (technische Zeichenketten, keine Gesundheitsdaten) und ein Absturzprotokoll in der App. Absturzberichte werden <strong class="text-primary/80">nur aufgezeichnet, wenn du</strong> unter <strong class="text-primary/80">Privacy &amp; export</strong> die Option „Crash reports opt-in“ <strong class="text-primary/80">einschaltest</strong>. Sie werden in eine Datei auf deinem Gerät geschrieben und <strong class="text-primary/80">nicht übertragen</strong>, es sei denn, du entscheidest dich, einen Diagnose-Export zu teilen.</p>
+        </section>
+
+        {/* §2 */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">2. Wo die Daten gespeichert werden</h2>
+          <p class="text-sm text-secondary leading-relaxed mb-4">Alle Daten liegen im privaten App-Speicher deines Geräts:</p>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">iOS</strong>: die App-Sandbox (<code class="text-accent font-mono text-xs">Documents</code> und <code class="text-accent font-mono text-xs">NSUserDefaults</code>), automatisch geschützt durch die Datenschutzfunktion von iOS (Data Protection).</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Android</strong>: interner App-Speicher (<code class="text-accent font-mono text-xs">SharedPreferences</code> und das Dokumentenverzeichnis). Unter Android 10 und neuer wird dieser Speicher vom Betriebssystem mithilfe der Anmeldedaten deiner Displaysperre hardwareverschlüsselt.</span></li>
+          </ul>
+          <p class="text-sm text-secondary leading-relaxed mt-4">Andere Apps können diesen Speicher nicht lesen, und wenn du Heart deinstallierst, wird das gesamte Verzeichnis mit entfernt.</p>
+        </section>
+
+        {/* §3 */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">3. Daten, die Heart <em>nicht</em> erhebt</h2>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            {[
+              'Heart fragt nie nach einem Namen, einer E-Mail-Adresse oder einer Telefonnummer.',
+              'Die Werbe-ID wird nie gelesen.',
+              'Der Build enthält kein Analyse-SDK und kein Tracking-Pixel. Er öffnet nie Kontakte, Fotos, Mikrofon oder Kamera, und kein Code darin erstellt Nutzerprofile.',
+              'Keine Telemetrie im Hintergrund an einen von uns kontrollierten Server. Der Schalter „Outbound telemetry“ unter Privacy & export ist standardmäßig aus und überträgt derzeit keine Daten.',
+            ].map(item => (
+              <li class="flex gap-2">
+                <span class="text-accent shrink-0">-</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* §4 permissions table */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-6">4. Berechtigungen</h2>
+          <div class="rounded-2xl border border-border overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-border bg-surface">
+                    <th class="text-left px-4 py-3 text-hint font-semibold tracking-wider">Berechtigung</th>
+                    <th class="text-left px-4 py-3 text-hint font-semibold tracking-wider">Plattform</th>
+                    <th class="text-left px-4 py-3 text-hint font-semibold tracking-wider">Zweck</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  {[
+                    ['Bluetooth (immer)',                                                           'iOS / Android', 'Deinen Herzfrequenzmesser finden und mit ihm verbinden; nötig, um die Herzfrequenz im Hintergrund zu erfassen.'],
+                    ['Standort (genau, immer)',                                                     'iOS / Android', '(Android) Vom Betriebssystem für BLE-Scans vorgeschrieben. Heart nutzt deinen Standort nicht, um einen Gurt zu finden; Android liefert ohne diese Berechtigung einfach keine Scan-Ergebnisse. (Beide) Deine Route bei Lauf- / Radeinheiten auf der Karte darstellen, wenn du diese Funktion nutzt.'],
+                    ['Mitteilungen',                                                                'iOS / Android', 'Schlafzusammenfassung und Warnungen bei niedrigem Akkustand.'],
+                    ['Hintergrundmodi, bluetooth-central, location',                               'iOS',           'Herzfrequenz-Streaming und Routenaufzeichnung aktiv halten, wenn der Bildschirm aus ist.'],
+                    ['FOREGROUND_SERVICE, FOREGROUND_SERVICE_CONNECTED_DEVICE, _LOCATION',         'Android',       'Den BLE-Collector und die Routenaufzeichnung in einem Vordergrunddienst ausführen, damit das Betriebssystem sie nicht beendet.'],
+                    ['RECEIVE_BOOT_COMPLETED, WAKE_LOCK',                                          'Android',       'Geplante Aufgaben nach einem Neustart des Geräts wieder einrichten.'],
+                    ['REQUEST_IGNORE_BATTERY_OPTIMIZATIONS',                                       'Android',       'Optional angefragt, damit die nächtliche Aufzeichnung nicht durch den Doze-Modus pausiert wird. Du kannst ablehnen.'],
+                  ].map(([perm, platform, purpose]) => (
+                    <tr class="hover:bg-surface/50 transition-colors">
+                      <td class="px-4 py-3 text-accent align-top whitespace-nowrap">{perm}</td>
+                      <td class="px-4 py-3 text-hint align-top whitespace-nowrap">{platform}</td>
+                      <td class="px-4 py-3 text-secondary align-top leading-relaxed">{purpose}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="text-xs text-hint mt-3 leading-relaxed">Heart liest den Standort nie außerhalb einer aktiven Sitzung mit Routenaufzeichnung. Die App spricht mit dem einen Bluetooth-Gerät, das du gekoppelt hast, und ignoriert alles andere, was ein Scan findet.</p>
+        </section>
+
+        {/* §5 third-party */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">5. Dienste Dritter</h2>
+          <p class="text-sm text-secondary leading-relaxed">Die einzigen Netzwerkanfragen von Heart gehen an <strong class="text-primary/80">OpenStreetMap-Kachelserver</strong>, wenn du unter <strong class="text-primary/80">Settings → Offline Maps</strong> einen Kartenbereich für die Offline-Nutzung herunterlädst. Kachelanfragen enthalten deine ungefähre Kartenregion, aber keine Heart-spezifischen Kennungen. Kartenkacheln © OpenStreetMap-Mitwirkende, Lizenz ODbL. Nach dem Download werden die Kacheln lokal zwischengespeichert und ohne weiteren Netzwerkzugriff verwendet.</p>
+          <p class="text-sm text-secondary leading-relaxed mt-3">Heart enthält keine Werbe-SDKs, keine Analyse-SDKs und keine Crash-Reporter-SDKs, die Daten vom Gerät senden. Abgesehen von den oben genannten Kachelanfragen ist nichts im Build dafür gedacht, ein Netzwerk zu erreichen. Das Absturzprotokoll schreibt Heart mit eigenem Code in eine Datei, es ist also kein Reporter-SDK beteiligt.</p>
+        </section>
+
+        {/* §6 sharing */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">6. Weitergabe von Daten</h2>
+          <p class="text-sm text-secondary leading-relaxed mb-4">Du kannst deine Daten <strong class="text-primary/80">nur durch eine ausdrückliche eigene Handlung</strong> an Dritte weitergeben:</p>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            {[
+              ['Export auf ein anderes Gerät', 'Erzeugt ein JSON-Paket, das du übertragen kannst.'],
+              ['Export als lokales Paket / Trainingsdaten / CSV', 'Erzeugt Dateien, die du speichern oder über das Teilen-Menü deines Betriebssystems weitergeben kannst.'],
+              ['Diagnose-Export', 'Fasst aktuelle technische Protokolle für Supportzwecke zusammen.'],
+            ].map(([label, desc]) => (
+              <li class="flex gap-2">
+                <span class="text-hint shrink-0">·</span>
+                <span><strong class="text-primary/80">{label}</strong>. {desc}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="text-sm text-secondary leading-relaxed mt-4">Es wird nichts verkauft, und keine Daten gehen an Werbetreibende, Versicherer oder Arbeitgeber. Daten verlassen das Handy nur über die oben genannten Exporte, die du jeweils selbst startest.</p>
+        </section>
+
+        {/* §7 controls */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">7. Was du selbst steuern kannst</h2>
+          <p class="text-sm text-secondary leading-relaxed mb-3">Unter <strong class="text-primary/80">Settings → Privacy &amp; export</strong> kannst du jederzeit:</p>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            {[
+              'Anonymize exports, Crash reports opt-in und Outbound telemetry ein- oder ausschalten.',
+              'Auf ein anderes Gerät exportieren: JSON-Paket mit Sitzungen und Schlafdaten.',
+              'Ein lokales Paket, Trainingsdaten oder CSV-Dateien exportieren.',
+              'Einen Diagnose-Export erstellen.',
+              'Den Herzfrequenzverlauf löschen. Entfernt die aufgezeichneten HF-Messwerte und Schlafkorrekturen; Sitzungen und Einstellungen bleiben erhalten.',
+              'Alle Daten löschen. Entfernt dauerhaft jeden Herzfrequenz-Messwert, jede Sitzung, Schlafkorrekturen, App-Einstellungen, Profil, gekoppelte Geräte und Absturzprotokolle von diesem Gerät. Diese Aktion kann nicht rückgängig gemacht werden.',
+            ].map(item => (
+              <li class="flex gap-2">
+                <span class="text-accent shrink-0">→</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="text-sm text-secondary leading-relaxed mt-3">Du kannst alle Heart-Daten auch entfernen, indem du die App deinstallierst.</p>
+        </section>
+
+        {/* §8 children */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">8. Kinder</h2>
+          <p class="text-sm text-secondary leading-relaxed">Heart richtet sich nicht an Kinder unter 13 Jahren (oder unter dem entsprechenden Mindestalter in deinem Land). Die Referenznormen für Kalorien und HRV, die die App verwendet, sind für Kinder nicht validiert und können ungenaue Ergebnisse liefern. Diese Normen stammen aus Erwachsenenpopulationen.</p>
+        </section>
+
+        {/* §9 wellness disclaimer */}
+        <section>
+          <div class="p-5 rounded-2xl bg-surface border border-yellow-500/20">
+            <h2 class="text-xl font-bold text-primary mb-4">9. Wellness, keine medizinische Beratung</h2>
+            <p class="text-sm text-secondary leading-relaxed mb-3">Heart ist eine <strong class="text-primary/80">Wellness- und Fitness-Anwendung</strong>. Heart ist <strong class="text-primary/80">kein</strong> Medizinprodukt, ist nicht dazu bestimmt, Krankheiten zu diagnostizieren, zu behandeln, zu heilen oder zu verhüten, und ersetzt keine professionelle medizinische Beratung. Alle Werte (Erholung, Belastung, Schlafwert, Kalorienverbrauch usw.) sind Schätzungen, die aus Consumer-Sensoren und Referenzdaten auf Bevölkerungsebene abgeleitet werden.</p>
+            <p class="text-sm text-secondary leading-relaxed">Insbesondere wird die <strong class="text-primary/80">Herzalter-Schätzung</strong>, sofern sie angezeigt wird, aus der nächtlichen HRV (RMSSD) und dem Ruhepuls berechnet und mit veröffentlichten Referenznormen für den Bevölkerungsdurchschnitt verglichen (Umetani 1998, Pikkujämsä 1999). Sie ist <strong class="text-primary/80">nicht</strong> auf deine individuelle Physiologie zugeschnitten. Sie ist nur als Indikator für den Langzeittrend gedacht und darf nicht für medizinische Entscheidungen verwendet werden. Wende dich bei medizinischen Fragen immer an qualifiziertes medizinisches Fachpersonal.</p>
+          </div>
+        </section>
+
+        {/* §10 security */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">10. Sicherheit</h2>
+          <ul class="space-y-2 text-sm text-secondary list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Unter Android 10 und neuer wird der Speicher vom Betriebssystem mithilfe der Anmeldedaten deiner Displaysperre hardwareverschlüsselt. Der Speicher unter iOS ist durch die Data-Protection-Klasse von iOS geschützt.</li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Heart überträgt deine Daten an keinen Server, daher sind Sicherheitsverletzungen auf dem Übertragungsweg hier nicht einschlägig.</li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Eine Sicherheitsmeldung erreicht eine einzelne Person unter der Adresse in Abschnitt 12. Bitte schreib, bevor du etwas öffentlich machst, und rechne mit einer langsamen Antwort und ohne Bug-Bounty-Zahlung.</li>
+          </ul>
+        </section>
+
+        {/* §11 changes */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">11. Änderungen dieser Datenschutzerklärung</h2>
+          <p class="text-sm text-secondary leading-relaxed">Wenn wir diese Datenschutzerklärung aktualisieren, ändern wir das Datum „Zuletzt aktualisiert“ oben. Bei wesentlichen Änderungen, die den Umfang der von Heart erhobenen Daten erweitern, zeigen wir die neue Erklärung beim nächsten Start in der App an.</p>
+        </section>
+
+        {/* §12 contact */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">12. Kontakt</h2>
+          <p class="text-sm text-secondary leading-relaxed mb-2">Fragen, Anfragen zum Datenexport, Löschanfragen oder Sicherheitsmeldungen:</p>
+          <p class="text-sm font-mono text-accent">mail.roshankumargupta@gmail.com</p>
+          <p class="text-xs text-hint mt-2">Bei Sicherheitsmeldungen schreib bitte, bevor du das Problem öffentlich machst, damit es reproduziert und behoben werden kann.</p>
+        </section>
+
+        {/* §13 jurisdictional */}
+        <section>
+          <h2 class="text-xl font-bold text-primary mb-4">13. Hinweise zu einzelnen Rechtsordnungen</h2>
+          <ul class="space-y-3 text-sm text-secondary list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">EWR / Vereinigtes Königreich (DSGVO / UK GDPR)</strong>. Heart verarbeitet personenbezogene Daten nur auf deinem eigenen Gerät, standardmäßig findet also keine Übermittlung statt. Über den Bildschirm Privacy &amp; export in der App behältst du uneingeschränkt deine Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Kalifornien (CCPA / CPRA)</strong>. Wir „verkaufen“ oder „teilen“ keine personenbezogenen Informationen im Sinne der Definitionen dieser Begriffe im CCPA / CPRA.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Gesetze zu Gesundheitsdaten (HIPAA usw.)</strong>. Heart ist eine Wellness-App für Verbraucher und keine unter HIPAA fallende Stelle („covered entity“). Daten, die du über Heart erfasst, sind keine geschützten Gesundheitsinformationen („protected health information“), es sei denn, du entscheidest dich, sie mit einer solchen Stelle zu teilen.</span></li>
+          </ul>
+        </section>
+
+      </div>
+
+      <div class="mt-20 pt-10 border-t border-border text-center text-xs text-hint">
+        <p>Diese Datenschutzerklärung gilt nur für die Heart-App. Die Datenschutzerklärung von Whispr findest du unter <a href="/de/privacy/" class="text-accent hover:underline">pointbreaklab.com/de/privacy/</a>.</p>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Base>

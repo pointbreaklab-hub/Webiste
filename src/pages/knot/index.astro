@@ -40,7 +40,7 @@ import '../../styles/global.css';
       </h1>
 
       <p class="text-lg text-secondary font-light max-w-xl mx-auto leading-relaxed mb-4">
-        Knot watches the folders you pick. You hit save, and ten seconds of quiet later there is a real commit, on its way to every machine you paired with.
+        Knot watches the folders you pick. When you stop saving for ten seconds, it makes a real commit and sends it to every machine you paired with.
       </p>
       <p class="text-sm text-accent font-mono mb-10 max-w-xl mx-auto leading-relaxed">
         If pushing to GitHub already works for you, you probably do not need this.
@@ -91,9 +91,9 @@ import '../../styles/global.css';
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
-          { step: '01', title: 'The folder', body: 'Any folder works. You tell Knot once, and from then on it is a real git repository, because under the hood it always was one.' },
+          { step: '01', title: 'The folder', body: 'Any folder works. You tell Knot once, and from then on it is a real git repository.' },
           { step: '02', title: 'The peers',  body: 'The other person installs Knot too. You generate a one-time pairing code, send it however you normally send things, and then both machines show a confirmation that has to be clicked at both ends.' },
-          { step: '03', title: 'The save',   body: 'Write code. Hit save. The commit and the push happen without you.' },
+          { step: '03', title: 'The save',   body: 'You save, and Knot does the commit and the push.' },
         ].map(({ step, title, body }) => (
           <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
             <span class="absolute -left-px top-0 w-0.5 h-8 bg-accent"></span>
@@ -145,7 +145,7 @@ import '../../styles/global.css';
       <FeatureBlock
         icon="🧾"
         title="What a commit carries"
-        description="The signature and the agent-session record sit in refs/notes, which does not replicate, so today the full chain can only be produced on the machine that wrote the commits, and moving both inside the commit object is in flight. The authoring device is already there: it rides in the commit itself, so every machine that receives one has it."
+        description="The authoring device is written into the commit itself, so every machine that gets the commit sees it. The signature and the agent-session record are still in refs/notes, which does not replicate, so for now the full chain can only be produced on the machine that made the commits. Moving both into the commit is in progress."
       />
     </div>
 
@@ -157,7 +157,7 @@ import '../../styles/global.css';
     </div>
 
     <p class="section-reveal text-center text-hint text-xs mt-8 max-w-xl mx-auto leading-relaxed">
-      For AI agents, Knot maps a repo's whole shape in one call instead of many: measured ≥3.4× fewer tokens on a 56-file repo the agent had never read, one knot map --tokens 1500 call against five or more files of reading, and you can run the comparison on your own machine.
+      For AI agents, one knot map --tokens 1500 call gives the agent a map of the repo, instead of reading five or more files. On a 56-file repo the agent had never read, that measured ≥3.4× fewer tokens. You can run the comparison on your own machine.
     </p>
   </section>
 
@@ -169,7 +169,7 @@ import '../../styles/global.css';
         <SectionEyebrow num="03" label="INSTALL" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Install it</h2>
         <p class="text-secondary mb-10 leading-relaxed">
-          Free, for macOS and Linux. There is no Windows build, because the daemon and the app talk over Unix domain sockets, and nobody has ported that to named pipes. The macOS build is not notarized either, so the first open is blocked; clearing it takes one command, below.
+          Free, for macOS and Linux. There is no Windows download yet. The command line and the daemon now build and run on Windows, and Tor starts there, but a commit has not yet been sent between Windows and another machine, and that is the test every release has to pass first. The macOS build is not notarized either, so the first open is blocked; clearing it takes one command, below.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -241,7 +241,7 @@ systemctl --user enable --now knot-vcs
 knot-app           # or `knot solo` in any folder</code></pre>
               <p class="text-secondary leading-relaxed mt-2">Current Ubuntu ships no GUI that installs a local .deb file; App Center is snap-only, and that is Ubuntu-wide, every vendor's .deb included. Details in the <a href="/knot/docs/" class="text-accent hover:underline">installation guide</a>.</p>
             </div>
-            <p class="text-hint pt-1">Your code never leaves your machines regardless of the signature.</p>
+            <p class="text-hint pt-1">Not being notarized does not change where your code goes.</p>
           </div>
         </details>
 
@@ -269,7 +269,7 @@ knot-app           # or `knot solo` in any folder</code></pre>
         <KnotArchitectureDiagram />
       </div>
       <p class="section-reveal text-hint text-xs text-center mt-6 max-w-xl mx-auto leading-relaxed">
-        Whispr's messages travel over the same Tor primitives, and the objects on the wire are the same format git itself writes. None of that cryptography was invented for Knot; it is Tor's, and the Ed25519 that OpenSSH ships.
+        Whispr's messages go over the same Tor primitives. None of the cryptography was invented for Knot: it is Tor's, and the Ed25519 that OpenSSH ships.
       </p>
     </div>
   </section>
@@ -291,7 +291,7 @@ knot-app           # or `knot solo` in any folder</code></pre>
       {[
         {
           q: 'Is Knot safe?',
-          a: 'Every connection uses Ed25519 mutual authentication: both sides cryptographically prove their identity before any byte of code crosses the wire. The wire itself is Tor (.onion hidden services), so bytes are encrypted end-to-end and relays only ever see ciphertext. Pairing a new device needs a confirmation click on both machines. The primitives are the ones Signal, Tor and OpenSSH ship; the code wiring them together has not been reviewed by anyone outside this project, which is one person in Würzburg.',
+          a: 'Both sides prove who they are with Ed25519 mutual authentication before any code is sent. The connection runs over Tor (.onion hidden services), so it is encrypted end to end and relays only see ciphertext. Pairing a new device needs a confirmation click on both machines. The primitives are the ones Signal, Tor and OpenSSH ship; the code wiring them together has not been reviewed by anyone outside this project, which is one person in Würzburg.',
         },
         {
           q: 'Does Knot use a server?',
@@ -299,11 +299,11 @@ knot-app           # or `knot solo` in any folder</code></pre>
         },
         {
           q: 'Do I still get to use git?',
-          a: 'Yes. Knot uses git\'s real object format, so a Knot folder is also a real git repository. git log, git diff, git branch, git checkout, all work. When two histories diverge Knot merges them for you, and because the merge commit is built deterministically both machines end up on the identical one. If the same lines actually conflict it stops and parks the incoming side, and then you resolve it in plain git like anyone else.',
+          a: 'Yes. Knot uses git\'s real object format, so a Knot folder is also a real git repository. git log, git diff, git branch, git checkout, all work. When two histories diverge Knot merges them for you, and because the merge commit is built deterministically both machines end up on the identical one. If the same lines conflict, or the incoming changes would overwrite edits you have not committed, it stops and parks the incoming side for you to resolve in plain git.',
         },
         {
           q: 'What if my collaborator is offline when I save?',
-          a: 'Nothing transfers until they come back online, same as any peer-to-peer protocol. Your commit is safe on your machine; queued commits sync automatically when their daemon reconnects. A third always-on peer bridges the gap: a home server or a $5/month VPS running the same free build.',
+          a: 'Nothing transfers until they come back online, same as any peer-to-peer protocol. Your commit stays on your machine and goes out when their daemon reconnects. An always-on third peer helps here: a home server or a $5/month VPS running the same free build.',
         },
       ].map(({ q, a }) => (
         <details class="section-reveal group p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">

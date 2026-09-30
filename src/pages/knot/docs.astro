@@ -63,8 +63,8 @@ const REL_BASE  = 'https://github.com/pointbreaklab-hub/knot/releases/latest/dow
         Installing Knot
       </h1>
       <p class="text-secondary text-center max-w-xl mx-auto mb-4 leading-relaxed">
-        Download to first synced save, per operating system: macOS and Debian/Ubuntu
-        only. If you are on Windows, section 03 is the whole answer and it is short.
+        How to install Knot on macOS and Debian/Ubuntu, from download to first synced
+        save. There is no Windows build yet (section 03).
       </p>
       <p class="text-hint text-center text-xs font-mono mb-14">
         <a href="#macos"   class="text-accent hover:underline">macOS</a> ·
@@ -98,7 +98,7 @@ const REL_BASE  = 'https://github.com/pointbreaklab-hub/knot/releases/latest/dow
 
           <div>
             <h3 class="text-primary font-bold mb-1.5">3. First open: the one-time Gatekeeper step</h3>
-            <p class="mb-2">Knot is signed but not yet Apple-notarized, so macOS blocks the very first open. The xattr command strips the quarantine flag before you ever double-click, whereas the System Settings route only offers you Open Anyway once macOS has already refused to open Knot and you have gone looking for the reason. Clear it once, any of these ways:</p>
+            <p class="mb-2">Knot is signed but not yet Apple-notarized, so macOS blocks the first open. The xattr command removes the quarantine flag before the first open. The Open Anyway button in System Settings only shows up after macOS has blocked Knot once. Clear it once, any of these ways:</p>
             <p class="mb-1 text-xs font-mono text-hint uppercase tracking-widest">Most reliable, any macOS version</p>
             <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs mb-2"><code>xattr -dr com.apple.quarantine "/Applications/Knot.app"</code></pre>
             <ul class="list-disc pl-5 space-y-1 text-secondary/90">
@@ -119,7 +119,7 @@ const REL_BASE  = 'https://github.com/pointbreaklab-hub/knot/releases/latest/dow
             </summary>
             <div class="text-xs text-secondary leading-relaxed space-y-2 mt-3">
               <p><span class="text-primary/80 font-bold">Update:</span> download the new .dmg and drag Knot to Applications again, replacing the old copy. Your projects, identity, and pairings are untouched: they live outside the app bundle.</p>
-              <p><span class="text-primary/80 font-bold">Uninstall:</span> quit Knot, delete <span class="font-mono text-primary/80">/Applications/Knot.app</span>. Your repositories stay where they are. They are plain folders with real git history, readable by any git tool, with or without Knot.</p>
+              <p><span class="text-primary/80 font-bold">Uninstall:</span> quit Knot, delete <span class="font-mono text-primary/80">/Applications/Knot.app</span>. Your repositories stay where they are, as plain folders with git history that any git tool can read.</p>
               <p><span class="text-primary/80 font-bold">Data locations:</span> identity and settings under <span class="font-mono text-primary/80">~/Library/Application Support/knot/</span>; your code stays exactly where your folders are.</p>
             </div>
           </details>
@@ -146,7 +146,7 @@ const REL_BASE  = 'https://github.com/pointbreaklab-hub/knot/releases/latest/dow
           <div>
             <h3 class="text-primary font-bold mb-1.5">2. Install (one command)</h3>
             <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs mb-2"><code>sudo apt install ./knot-vcs-amd64.deb</code></pre>
-            <p class="text-xs text-secondary/90 leading-relaxed">The leading <span class="font-mono text-primary/80">./</span> tells apt this is a local file; apt resolves the git dependency for you. <span class="text-primary/80">Double-clicking the .deb will not install it.</span> Current Ubuntu ships no GUI that installs local .deb files: App&nbsp;Center is snap-only by design, and this affects every vendor's .deb, not just Knot.</p>
+            <p class="text-xs text-secondary/90 leading-relaxed">The leading <span class="font-mono text-primary/80">./</span> tells apt this is a local file; apt resolves the git dependency for you. <span class="text-primary/80">Double-clicking the .deb will not install it.</span> Current Ubuntu has no GUI that installs local .deb files. App&nbsp;Center is snap-only, and that affects every vendor's .deb.</p>
           </div>
 
           <div>
@@ -175,8 +175,8 @@ systemctl --user enable --now knot-vcs</code></pre>
               <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs"><code>  ✓ daemon reachable
   ⚠ Tor onion not published yet (still bootstrapping, or started without --tor)
   ○ no LAN detected (Tor-only)</code></pre>
-              <p>Each line has its own condition, so a healthy run prints the first and neither of the others. The Tor warning is normal in the first minutes after a cold start.</p>
-              <p><span class="text-primary/80 font-bold">Other distros (Fedora, Arch, …):</span> not packaged yet. The .deb is the only Linux artifact today; a store-grade snap/flatpak is under consideration. If you need Knot on another distro now, <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot%20on%20another%20distro" class="text-accent hover:underline">say which one</a>. Real demand moves it up the list.</p>
+              <p>Each line is a separate check. On a healthy machine you only see the first one. The Tor warning is normal in the first minutes after a cold start.</p>
+              <p><span class="text-primary/80 font-bold">Other distros (Fedora, Arch, …):</span> not packaged yet. The .deb is the only Linux artifact today; a snap/flatpak is under consideration. If you need Knot on another distro now, <a href="mailto:mail.roshankumargupta@gmail.com?subject=Knot%20on%20another%20distro" class="text-accent hover:underline">say which one</a>.</p>
             </div>
           </details>
         </div>
@@ -187,11 +187,12 @@ systemctl --user enable --now knot-vcs</code></pre>
         <SectionEyebrow num="03" label="WINDOWS" align="left" />
         <h2 class="text-2xl font-black text-primary mb-4">Windows</h2>
         <p class="text-sm text-secondary leading-relaxed">
-          Not yet available. A Windows build is in development. Nobody has yet watched it land a
-          commit on a Windows machine, because there is no Windows machine here; the macOS and
-          Linux builds each got exactly that on the MacBook and on the Debian box before release,
-          and Knot does not ship what it has not verified. When it passes, it lands here and on
-          the <a href="/knot/changelog/" class="text-accent hover:underline">changelog</a> first.
+          Not yet available. Since September 2026 the command line and the daemon build and run on
+          Windows 11, and Tor starts there. What has not happened yet is a commit travelling from a
+          Windows machine to another one, which is the check the macOS and Linux builds each passed,
+          on the MacBook and on the HP EliteBook, before release. When Windows passes it, the
+          download will appear here and in the
+          <a href="/knot/changelog/" class="text-accent hover:underline">changelog</a>. The desktop app does not run on Windows yet.
         </p>
       </section>
 
@@ -214,7 +215,7 @@ systemctl --user enable --now knot-vcs</code></pre>
           <div class="text-hint pt-1">Build-stamped filenames ({DMG_FILE} · {DEB_FILE}) are attached to the release too, the same bytes under names that record which build they came from.</div>
         </div>
         <p class="text-sm text-secondary leading-relaxed mt-3">
-          No CI runner sits in the chain: these builds are compiled on one laptop and
+          There is no CI: these builds are compiled on one laptop and
           uploaded to GitHub Releases by hand.
         </p>
       </section>
@@ -236,9 +237,8 @@ systemctl --user enable --now knot-vcs</code></pre>
           key before anything moves.
           When both sides edited and the histories diverged, Knot merges them itself. The merge commit
           is built deterministically, from sorted parents and a fixed identity, so both machines arrive
-          at the same commit id rather than each inventing its own. What it will not do is guess at a
-          real conflict: if the same lines changed on both sides, or the incoming side would overwrite
-          edits you have not committed, it stops. The push says
+          at the same commit id. It stops if the same lines changed on both sides, or if the
+          incoming side would overwrite edits you have not committed. The push says
           <span class="font-mono text-primary/80">push refused: not a fast-forward</span>, the other
           side waits under <span class="font-mono text-primary/80">refs/knot-incoming/</span>, and
           <span class="font-mono text-primary/80">knot incoming</span> shows you what is parked.

@@ -24,7 +24,7 @@ const sections = [
     // Mesh relay measured by the owner, n=2: under 5 km in ~1 h and 1 h 25 min.
     // The HOP COUNT on those runs is still unmeasured.
     title: 'How a Message Travels',
-    body: `Messages travel directly between devices over three channels:\n\n• Local Wi-Fi (LAN), direct HTTP between devices on the same network, with every message wrapped in ECIES application-layer encryption so contents are invisible to everything else on that network.\n\n• Bluetooth LE mesh, multi-hop relay between nearby devices for offline messaging. Payloads are end-to-end encrypted before entering the mesh. This is the least dependable of the three: through walls, with people moving, a hop can simply fail.\n\n• Tor hidden services, over the internet via the Tor anonymity network. Your IP address is not revealed to your contact.\n\nAll three channels apply end-to-end encryption using the Signal Protocol (X3DH key agreement + Double Ratchet algorithm) before any data leaves your device. PointBreakLab cannot decrypt your messages even if compelled by law.`,
+    body: `Messages travel directly between devices over three channels:\n\n• Local Wi-Fi (LAN): direct HTTP between devices on the same network, with every message wrapped in ECIES application-layer encryption so contents are invisible to everything else on that network.\n\n• Bluetooth LE mesh: multi-hop relay between nearby devices for offline messaging. Payloads are end-to-end encrypted before entering the mesh. This is the least dependable of the three: through walls, with people moving, a hop can simply fail.\n\n• Tor hidden services: over the internet via the Tor anonymity network. Your IP address is not revealed to your contact.\n\nAll three channels apply end-to-end encryption using the Signal Protocol (X3DH key agreement + Double Ratchet algorithm) before any data leaves your device. PointBreakLab cannot decrypt your messages even if compelled by law.`,
   },
   {
     n: '4',
@@ -43,7 +43,7 @@ const sections = [
   {
     n: '6',
     title: 'Device Permissions',
-    body: `The battery permission is the one worth arguing about: Android throttles the Tor service the moment the screen goes off, and Whispr has no server to hold a message in the meantime.`,
+    body: `Whispr requests the following device permissions, for the reasons given below.\n\nThe battery-optimisation exemption needs the most justification: Android throttles the Tor service as soon as the screen goes off, and Whispr has no server to hold a message in the meantime.`,
     table: [
       ['Bluetooth',     'Discover nearby Whispr contacts and exchange messages over BLE mesh without internet.'],
       ['Camera',        'Scan QR codes to add contacts or restore your account. No photos are taken or stored.'],
@@ -66,7 +66,7 @@ const sections = [
   {
     n: '9',
     title: 'Your Rights (GDPR / CCPA)',
-    body: `Under GDPR, CCPA, and similar laws you have rights including access, rectification, erasure, and portability of your personal data.\n\nPointBreakLab holds no personal data about you, so there is nothing on this end to access, correct, export, or delete, and everything those rights cover is already sitting in the encrypted database on your phone where you can reach it without asking anyone.`,
+    body: `Under GDPR, CCPA, and similar laws you have rights including access, rectification, erasure, and portability of your personal data.\n\nPointBreakLab holds no personal data about you, so there is nothing on this end to access, correct, export, or delete. All such data is in the encrypted database on your device, where you can access it directly.\n\nIf you have questions, contact us at ${contactEmail}.`,
   },
   {
     n: '10',

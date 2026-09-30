@@ -52,6 +52,8 @@ for (let i = 0; i < nodes.length; i++) {
     }
   }
 }
+import { localeFromPath, t } from '../i18n';
+const locale = localeFromPath(Astro.url.pathname);
 ---
 
 <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden bg-bg">
@@ -96,12 +98,12 @@ for (let i = 0; i < nodes.length; i++) {
   <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
     <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
       <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-      EVERY APP HERE RUNS WITHOUT A SERVER
+      {t(locale, 'heroPill')}
     </div>
 
     <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-[1.05] mb-6">
-      <span class="text-primary">Apps that don't</span><br/>
-      <span class="text-gradient">watch back.</span>
+      <span class="text-primary">{t(locale, 'heroLine1')}</span><br/>
+      <span class="text-gradient">{t(locale, 'heroLine2')}</span>
     </h1>
 
     <!-- Single CTA, anchors down to the THE LAB section where Whispr,
@@ -114,7 +116,7 @@ for (let i = 0; i < nodes.length; i++) {
         href="#apps"
         class="px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)]"
       >
-        See the apps
+        {t(locale, 'heroCta')}
       </a>
     </div>
   </div>
@@ -123,7 +125,7 @@ for (let i = 0; i < nodes.length; i++) {
        narrow viewports because there's not enough vertical room and it
        overlaps the CTA buttons when the headline wraps. -->
   <div class="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-hint text-xs pointer-events-none">
-    <span>scroll</span>
+    <span>{t(locale, 'scroll')}</span>
     <div class="w-px h-8 bg-gradient-to-b from-hint to-transparent"></div>
   </div>
 </section>

@@ -1,0 +1,710 @@
+---
+// German twin of src/pages/heart/index.astro (LANDING REWRITE 2026-09-28).
+// Keep structure in sync with it. Open questions for the owner live in the
+// English file's frontmatter, not here.
+import Base           from '../../../layouts/Base.astro';
+import Nav            from '../../../components/Nav.astro';
+import DownloadButton from '../../../components/DownloadButton.astro';
+import Footer         from '../../../components/Footer.astro';
+import HeartArchitectureDiagram from '../../../components/HeartArchitectureDiagram.astro';
+import SectionEyebrow from '../../../components/SectionEyebrow.astro';
+import { latestRelease, upcomingRelease } from '../../../data/heartReleases';
+import '../../../styles/global.css';
+// Version, SHA-256 and size are read from the English page at build time
+// (src/en-release.ts), so a release only ever edits the English file.
+import { releaseConst } from '../../../en-release';
+
+// Keep this EXACT: GitHub Releases auto-resolves "latest" to the newest asset.
+const APK_URL = 'https://github.com/pointbreaklab-hub/Heart/releases/latest/download/heart-android.apk';
+const EN = 'heart/index.astro';
+const VERSION = releaseConst(EN, 'VERSION');
+const APK_SHA256 = releaseConst(EN, 'APK_SHA256');
+const APK_SIZE = releaseConst(EN, 'APK_SIZE');
+
+// Shared keyboard focus ring (the site had none on this page's controls).
+const focusRing = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg';
+
+// ── Illustrative hypnogram (example night, NOT user data) ─────────────────
+// Stage rows: 0 awake · 1 REM · 2 light · 3 deep. Units are 5-minute buckets,
+// matching the app's stager resolution.
+const stageMeta = [
+  { key: 'awake', label: 'Wach',   color: '#f59e0b' },
+  { key: 'rem',   label: 'REM',    color: '#a78bfa' },
+  { key: 'light', label: 'Leicht', color: '#60a5fa' },
+  { key: 'deep',  label: 'Tief',   color: '#00d4aa' },
+];
+const night: [number, number][] = [
+  [2,3],[3,6],[2,4],[1,2],[2,5],[3,5],[2,3],[0,1],[2,4],[1,4],
+  [2,6],[3,3],[2,4],[1,5],[2,5],[0,1],[2,3],[1,6],[2,3],[0,2],
+];
+const totalUnits = night.reduce((s, [, u]) => s + u, 0);
+const hypW = 320, rowH = 26, barH = 12, hypTop = 6;
+let cursor = 0;
+const hypSegments = night.map(([stage, units]) => {
+  const x = (cursor / totalUnits) * hypW;
+  const w = (units / totalUnits) * hypW;
+  cursor += units;
+  const y = hypTop + stage * rowH + (rowH - barH) / 2;
+  return { x, w, y, color: stageMeta[stage].color, stage };
+});
+// Thin connector line tracing stage changes.
+const hypPath = hypSegments
+  .map((s, i) => `${i === 0 ? 'M' : 'L'}${s.x.toFixed(1)},${(s.y + barH / 2).toFixed(1)} L${(s.x + s.w).toFixed(1)},${(s.y + barH / 2).toFixed(1)}`)
+  .join(' ');
+const stageMinutes = stageMeta.map((m, idx) => ({
+  ...m,
+  minutes: night.filter(([s]) => s === idx).reduce((a, [, u]) => a + u * 5, 0),
+}));
+// German fitness apps write durations as "1:25 h"; "1h 25m" would read "m" as metres.
+const fmtHM = (min: number) => (min < 60 ? `${min} min` : `${Math.floor(min / 60)}:${String(min % 60).padStart(2, '0')} h`);
+const asleepMinutes = stageMinutes.filter((s) => s.key !== 'awake').reduce((a, s) => a + s.minutes, 0);
+
+// ── FAQ (rendered + mirrored into JSON-LD so they never drift) ────────────
+const faqs: { q: string; a: string; href?: { url: string; text: string } }[] = [
+  {
+    q: 'Brauche ich den Coospo HW9?',
+    a: 'Nein. Ich habe Heart rund um den Coospo HW9 gebaut, den du an Brust, Oberarm oder Unterarm tragen kannst. Es funktioniert aber jeder Gurt, der den standardisierten Bluetooth Heart Rate Service sendet, zum Beispiel Polar H9 und H10, Garmin HRM-Dual oder Wahoo TICKR. Ein Nutzer hat den Polar H9 bestätigt.',
+  },
+  {
+    q: 'Gibt es eine iPhone-Version?',
+    a: 'Nein. Heart läuft nur auf Android 7.0 oder neuer.',
+  },
+  {
+    q: 'Verlassen meine Daten das Handy?',
+    a: 'Nur das, was du selbst verschickst. Jeder Wert wird auf dem Handy berechnet, und Heart hat kein Konto, keinen Server und keine Telemetrie. Die App lädt Kartenkacheln von OpenStreetMap und fragt höchstens alle 12 Stunden bei pointbreaklab.com nach einer neuen Version (eine kleine Versionsdatei; über dich wird dabei nichts gesendet, und du kannst es abschalten). Google-Drive-Backup, der Download des Coach-Modells und die Synchronisierung von Handy zu Handy über WLAN laufen nur, wenn du sie einschaltest.',
+  },
+  {
+    q: 'Was passiert mit meinen Daten, wenn ich die App deinstalliere oder das Handy wechsle?',
+    a: 'Heart schreibt seine Backups nach Download/Heart auf dem Handy, und dieser Ordner bleibt beim Deinstallieren erhalten. Nach einer Neuinstallation zeigst du Heart diesen Ordner oder eine Backup-Datei, die du vom Handy kopiert hast, und dein Verlauf ist wieder da. Was neuer ist als das letzte Backup, kommt nicht zurück. Lass die automatischen Backups deshalb eingeschaltet. Zum Aktualisieren installierst du die neue APK über die alte. Deine Daten bleiben dabei erhalten.',
+  },
+  {
+    q: 'Brauche ich ein Konto?',
+    a: 'Nein. Du bestätigst den Wellness-Hinweis, koppelst deinen Gurt, und die Aufzeichnung beginnt.',
+  },
+  {
+    q: 'Ist Heart ein Medizinprodukt?',
+    a: 'Nein. Heart zeigt Wellness-Schätzungen auf Basis eines Herzfrequenzgurts für Endverbraucher. Sie sind keine medizinische Beratung und keine Diagnose. Vor allem Hinweise auf einen unregelmäßigen Rhythmus bedeuten nur, dass etwas ungewöhnlich aussah. Sprich mit qualifiziertem medizinischem Fachpersonal über alles, was dir Sorgen macht.',
+  },
+  {
+    q: 'Warum warnt mich Android bei der Installation?',
+    a: 'Heart wird aus einer APK-Datei installiert und nicht aus einem App-Store. Deshalb bittet Android dich beim ersten Mal, die Quelle zu bestätigen. Die Installationsschritte weiter oben behandeln die Meldungen, auf die Leute bisher gestoßen sind, auch Samsung Auto Blocker und Play Protect.',
+    href: { url: '#install', text: 'Zu den Installationsschritten' },
+  },
+];
+
+const heartJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Heart',
+  applicationCategory: 'HealthApplication',
+  operatingSystem: 'Android 7.0+',
+  softwareVersion: VERSION,
+  description: 'HRV, Schlafphasen, Erholung und Belastung aus einem Bluetooth-Herzfrequenzgurt, berechnet auf dem Handy. Kein Konto und kein Server.',
+  downloadUrl: APK_URL,
+  publisher: { '@type': 'Organization', name: 'PointBreakLab' },
+};
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+
+<Base
+  title="Heart · HRV, Schlaf und Erholung mit einem Bluetooth-Herzfrequenzgurt"
+  description="Android-App, die die R–R-Intervalle von einem Bluetooth-Herzfrequenzgurt liest und daraus auf dem Handy HRV, Schlafphasen, Erholung und Belastung berechnet. Entwickelt mit dem Coospo HW9 (Brust, Oberarm oder Unterarm). Andere Gurte, die den standardisierten Heart Rate Service senden, funktionieren auch. Kein Konto und kein Server."
+>
+  <Nav />
+  <script type="application/ld+json" set:html={JSON.stringify(heartJsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+  <main>
+  <section class="relative pt-28 md:pt-36 pb-20 px-6 overflow-hidden">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[28rem] bg-accent/[0.08] blur-3xl pointer-events-none"></div>
+    <div aria-hidden="true" class="absolute top-1/3 right-0 w-72 h-72 bg-blue-500/[0.05] blur-3xl pointer-events-none"></div>
+
+    <div class="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-14 lg:gap-10 items-center">
+      <div class="text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-mono tracking-wider mb-8">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          HEART · FÜR ANDROID
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
+          <span class="text-primary">HRV, Schlaf und Erholung,</span><br/>
+          <span class="text-gradient">auf dem Handy berechnet.</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-secondary font-light max-w-xl mx-auto lg:mx-0 leading-relaxed mb-4">
+          Heart liest die R–R-Intervalle von einem Bluetooth-Herzfrequenzgurt und berechnet daraus <span class="text-primary">HRV, Schlafphasen, Erholung und Belastung</span>. Es gibt kein Konto und keinen Heart-Server, an den deine Daten gehen könnten.
+        </p>
+        <p class="text-sm text-hint font-mono mb-10">
+          Coospo HW9 · Polar · Garmin · Wahoo · jeder 0x180D-Gurt
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+          <a
+            href={APK_URL}
+            class={`inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)] ${focusRing}`}
+          >
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M3 13h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            APK herunterladen
+          </a>
+          <a
+            href="#install"
+            class={`px-8 py-3.5 rounded-xl border border-border text-secondary text-sm hover:border-accent hover:text-primary transition-all ${focusRing}`}
+          >
+            So installierst du es
+          </a>
+        </div>
+        <p class="text-xs text-hint font-mono mt-5">
+          v{VERSION} · Android 7.0+ · {APK_SIZE} · kostenlos · <a href="#whats-new" class={`text-accent hover:underline rounded ${focusRing}`}>was ist neu</a>
+        </p>
+      </div>
+
+      <div class="relative flex justify-center">
+        <div aria-hidden="true" class="absolute inset-x-10 top-10 bottom-10 bg-accent/[0.10] blur-3xl rounded-full pointer-events-none"></div>
+        <div class="relative w-[240px] sm:w-[260px]">
+          <div class="rounded-[38px] border-2 border-[#23232a] bg-[#0e0e11] p-2.5"
+               style="box-shadow:0 32px 80px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.025)">
+            <div class="rounded-[30px] overflow-hidden" style="aspect-ratio:1080/2340">
+              <img
+                src="/screenshots/heart/flutter_01.png"
+                width="1080" height="2340"
+                alt="Der Home-Bildschirm von Heart: ein verbundener HW9-Gurt mit 53% Akku, ein Live-Puls von 104 bpm in Zone 2 mit laufender Kurve und die aktiven Kalorien von heute"
+                class="w-full h-full object-cover"
+                fetchpriority="high"
+              />
+            </div>
+          </div>
+          <div aria-hidden="true" class="hidden xl:flex absolute -left-44 top-24 items-center gap-2 px-3 py-2 rounded-xl bg-surface border border-border text-xs text-secondary font-mono shadow-lg">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span> auf dem Gerät berechnet
+          </div>
+          <div aria-hidden="true" class="hidden xl:flex absolute -right-36 bottom-32 items-center gap-2 px-3 py-2 rounded-xl bg-surface border border-border text-xs text-secondary font-mono shadow-lg">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span> kein Konto
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="compatibility" class="relative py-24 px-6 max-w-6xl mx-auto scroll-mt-20">
+    <div aria-hidden="true" class="absolute top-0 left-1/4 w-[40%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+
+    <div class="relative section-reveal text-center mb-14">
+      <SectionEyebrow num="01" label="DER GURT" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Welche Gurte funktionieren</h2>
+      <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
+        Heart liest den standardisierten Bluetooth Heart Rate Service (0x180D). Deshalb funktionieren auch Gurte anderer Marken.
+      </p>
+    </div>
+
+    <div class="relative grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div class="section-reveal p-6 md:p-8 rounded-2xl bg-surface border border-accent/30 flex flex-col sm:flex-row gap-6 items-center">
+        <figure class="shrink-0" aria-labelledby="wear-caption">
+          <svg viewBox="0 0 160 200" width="150" height="188" role="img" aria-labelledby="wear-title">
+            <title id="wear-title">Figur mit drei Trageorten für den Coospo HW9: Brust, Oberarm und Unterarm</title>
+            <g fill="none" stroke="#3a3a44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="80" cy="26" r="15" />
+              <path d="M58 52 Q80 44 102 52 L106 118 Q80 124 54 118 Z" />
+              <path d="M58 54 L40 96 L34 140" />
+              <path d="M102 54 L120 96 L126 140" />
+              <path d="M62 120 L60 190 M98 120 L100 190" />
+            </g>
+            <path d="M57 72 Q80 78 103 72" stroke="#00d4aa" stroke-width="5" stroke-linecap="round" fill="none" />
+            <path d="M44 80 L54 85" stroke="#00d4aa" stroke-width="5" stroke-linecap="round" />
+            <path d="M121 110 L131 112" stroke="#00d4aa" stroke-width="5" stroke-linecap="round" />
+            <g font-family="JetBrains Mono, monospace" font-size="8" fill="#888888">
+              <text x="80" y="92" text-anchor="middle">BRUST</text>
+              <text x="4" y="70">OBER-</text><text x="4" y="79">ARM</text>
+              <text x="128" y="128">UNTER-</text><text x="128" y="137">ARM</text>
+            </g>
+          </svg>
+          <figcaption id="wear-caption" class="sr-only">Den HW9 kannst du an Brust, Oberarm oder Unterarm tragen.</figcaption>
+        </figure>
+        <div class="text-center sm:text-left">
+          <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">ENTWICKELT MIT</div>
+          <h3 class="text-xl font-bold text-primary mb-2">Coospo HW9</h3>
+          <p class="text-secondary text-sm leading-relaxed">
+            Getragen an <span class="text-primary">Brust, Oberarm oder Unterarm</span>. Das ist der Gurt, den ich selbst trage, und Heart wurde mit ihm entwickelt und getestet. Er liefert den Live-Puls, die Schlag-zu-Schlag-Intervalle für die HRV und den Akkustand.
+          </p>
+        </div>
+      </div>
+
+      <div class="section-reveal p-6 md:p-8 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">
+        <div class="inline-block px-2 py-0.5 rounded bg-accent/10 text-accent text-xs font-mono mb-3">FUNKTIONIERT AUCH MIT</div>
+        <h3 class="text-xl font-bold text-primary mb-2">Jeder Standard-Bluetooth-Gurt</h3>
+        <p class="text-secondary text-sm leading-relaxed mb-5">
+          Wenn er den Bluetooth Heart Rate Service (<span class="font-mono text-primary/80">0x180D</span>) sendet, kann Heart ihn lesen.
+        </p>
+        <ul class="flex flex-wrap gap-2 mb-5" aria-label="Beispiele für kompatible Gurte">
+          {['Polar H9', 'Polar H10', 'Garmin HRM-Dual', 'Wahoo TICKR'].map((s) => (
+            <li class="px-3 py-1.5 rounded-lg bg-bg border border-border text-sm text-primary/90">{s}</li>
+          ))}
+          <li class="px-3 py-1.5 rounded-lg border border-dashed border-border text-sm text-hint">und ähnliche</li>
+        </ul>
+        <p class="text-xs text-hint leading-relaxed">
+          <span class="text-accent" aria-hidden="true">✓</span> Ein Heart-Nutzer hat bestätigt, dass der Polar H9 funktioniert. Für die HRV braucht Heart Schlag-zu-Schlag-Intervalle (RR). Ein Gurt, der sie nicht sendet, liefert trotzdem den Live-Puls. Optische Sensoren am Handgelenk melden sie ungleichmäßig, deshalb ist ihre HRV gröber.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="relative py-24 px-6 max-w-6xl mx-auto scroll-mt-20">
+    <div aria-hidden="true" class="absolute top-10 right-0 w-[45%] h-72 bg-blue-500/[0.04] blur-3xl pointer-events-none"></div>
+
+    <div class="relative section-reveal text-center mb-16">
+      <SectionEyebrow num="02" label="WAS ES MACHT" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Was Heart berechnet, während du den Gurt trägst</h2>
+      <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
+        Schlaf und Erholung ergeben sich aus dem nächtlichen Puls. Gym-Sessions starten an deinem gespeicherten Standort. Spaziergänge, Läufe und Radtouren startest du selbst.
+      </p>
+    </div>
+
+    <div class="relative space-y-20 md:space-y-24">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
+        <div class="section-reveal">
+          <p class="text-accent text-xs font-mono tracking-widest mb-3">BRIEF-TAB</p>
+          <h3 class="text-2xl md:text-3xl font-black text-primary mb-4">Der Brief-Tab</h3>
+          <p class="text-secondary leading-relaxed mb-5">
+            Der Brief-Tab zeigt einen Bereitschaftswert, einen Vorschlag für den Schwerpunkt des Tages, deinen Stress, die heutige Belastung und wie weit du unterwegs warst. Darunter schätzt eine Holt-Prognose die HRV der nächsten Nacht aus den letzten ein bis zwei Wochen. Sie braucht fünf Nächte, bevor sie startet, und sie schwankt.
+          </p>
+          <ul class="space-y-2 text-sm text-secondary">
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Bereitschaft und Erholung werden an deinen letzten 30 Nächten gemessen</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Der Schwerpunkt ist einer von vier Werten: push, maintain, easy oder rest. Die Belastung ist zonengewichtete Anstrengung auf einer Skala von 0 bis 21</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Tipp auf die Distanzzeile, dann siehst du die Route des Tages auf einer Karte</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Teil die Tagesübersicht aus dem Brief-Tab als Story-Bild, samt den Gründen für den Wert</li>
+          </ul>
+        </div>
+
+        <figure class="section-reveal">
+          <div role="img" aria-label="Illustration der Karte im Brief-Tab von Heart: Bereitschaft 71%, Schwerpunkt Maintain, Stress ausgeglichen, Belastung 6.2 von 21, heute 4.2 km unterwegs, Prognose für morgen stabil." class="max-w-sm mx-auto rounded-3xl bg-[#101a19] border border-[#1f2e2c] p-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.9)]">
+            <div class="flex items-center gap-2 mb-4" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#00d4aa"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9z"/></svg>
+              <span class="text-primary text-sm font-semibold">Brief</span>
+              <span class="ml-auto text-xs text-secondary">Bereitschaft 71%</span>
+            </div>
+            <div class="space-y-2.5 text-sm" aria-hidden="true">
+              <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-accent/10 border border-accent/25">
+                <span class="w-2 h-2 rounded-full bg-accent"></span>
+                <span class="text-primary font-semibold">Maintain · gleichmäßig</span>
+              </div>
+              <div class="flex items-center gap-3 px-3 py-2">
+                <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+                <span class="text-secondary">Stress · ausgeglichen (42)</span>
+              </div>
+              <div class="flex items-center gap-3 px-3 py-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="text-secondary">Belastung · 6.2 / 21 (leichter Tag)</span>
+              </div>
+              <div class="flex items-center gap-3 px-3 py-2">
+                <span class="w-2 h-2 rounded-full bg-violet-400"></span>
+                <span class="text-secondary">Heute 4.2 km unterwegs</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-[#1f2e2c] flex items-center justify-between text-xs" aria-hidden="true">
+              <span class="text-secondary">Prognose für morgen</span>
+              <span class="px-2 py-0.5 rounded-full bg-sky-400/10 text-sky-300 border border-sky-400/25">Stabil</span>
+            </div>
+          </div>
+          <figcaption class="text-center text-[11px] text-hint font-mono mt-3">Illustration · Beispielwerte</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
+        <div class="section-reveal md:order-2">
+          <p class="text-accent text-xs font-mono tracking-widest mb-3">SCHLAF &amp; ERHOLUNG</p>
+          <h3 class="text-2xl md:text-3xl font-black text-primary mb-4">Schlaf aus dem nächtlichen Puls</h3>
+          <p class="text-secondary leading-relaxed mb-5">
+            Trag den Gurt im Bett. Heart sucht im nächtlichen Puls nach Schlaf, in Abschnitten von 5 Minuten, und teilt die Nacht in wach, leicht, tief und REM auf. Die Phasenerkennung besteht aus Schwellenwerten und ist kein trainiertes Modell. Mit einem Schlaflabor abgeglichen wurde sie nicht. Wenn eine Nacht offensichtlich falsch erkannt ist, kannst du sie korrigieren. Nächtliche HRV (RMSSD) und Ruhepuls fließen in den Erholungswert ein, der die letzte Nacht mit deinen 30 Nächten davor vergleicht.
+          </p>
+        </div>
+
+        <figure class="section-reveal md:order-1">
+          <div role="img" aria-label={`Illustration eines Schlafprofils für eine Beispielnacht: ${fmtHM(asleepMinutes)} Schlaf, aufgeteilt in die Phasen wach, REM, leicht und tief.`} class="max-w-md mx-auto rounded-3xl bg-surface border border-border p-5 md:p-6">
+            <div class="flex items-baseline justify-between mb-4" aria-hidden="true">
+              <div>
+                <p class="text-xs text-hint font-mono tracking-widest">LETZTE NACHT</p>
+                <p class="text-2xl font-black text-primary">{fmtHM(asleepMinutes)}</p>
+              </div>
+              <p class="text-xs text-secondary font-mono">23:40 → 06:55</p>
+            </div>
+            <svg viewBox={`0 0 ${hypW + 44} ${hypTop * 2 + rowH * 4}`} class="w-full h-auto" aria-hidden="true">
+              {stageMeta.map((m, i) => (
+                <text x={hypW + 8} y={hypTop + i * rowH + rowH / 2 + 3} font-size="9" fill="#737373" font-family="JetBrains Mono, monospace">{m.label}</text>
+              ))}
+              {stageMeta.map((_, i) => (
+                <line x1="0" x2={hypW} y1={hypTop + i * rowH + rowH / 2} y2={hypTop + i * rowH + rowH / 2} stroke="#23232a" stroke-width="1" stroke-dasharray="2 4" />
+              ))}
+              <path d={hypPath} stroke="#3a3a44" stroke-width="1" fill="none" />
+              {hypSegments.map((s) => (
+                <rect x={s.x} y={s.y} width={Math.max(s.w - 0.8, 1)} height={barH} rx="3" fill={s.color} />
+              ))}
+            </svg>
+            <ul class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4 text-xs" aria-hidden="true">
+              {stageMinutes.map((s) => (
+                <li class="flex items-center gap-1.5 text-secondary">
+                  <span class="w-2 h-2 rounded-sm" style={`background:${s.color}`}></span>
+                  {s.label} <span class="text-primary/80 font-mono whitespace-nowrap">{fmtHM(s.minutes)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <figcaption class="text-center text-[11px] text-hint font-mono mt-3">Illustration · Beispielnacht</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center">
+        <div class="section-reveal">
+          <p class="text-accent text-xs font-mono tracking-widest mb-3">TRAINING</p>
+          <h3 class="text-2xl md:text-3xl font-black text-primary mb-4">Gym-Sessions starten, wenn du ankommst</h3>
+          <p class="text-secondary leading-relaxed mb-5">
+            Speicher einmal den Standort deines Studios. Bleib zwei Minuten mit dem Gurt innerhalb des Radius (standardmäßig 250 m, in den Einstellungen 100 bis 500 m), dann startet eine Gym-Session. Sie endet ein paar Minuten, nachdem du gegangen bist, oder wenn der Gurt eine Weile nichts mehr gesendet hat. Markier sie als Push, Pull oder Legs, dann behält Heart im Blick, was du trainiert hast. Spaziergänge, Läufe und Radtouren startest du selbst, und sie bekommen eine GPS-Route auf einer OpenStreetMap-Karte.
+          </p>
+          <p class="text-sm text-hint leading-relaxed">
+            Eine beendete Session kannst du als Story-Bild mit Bildunterschrift teilen, etwa über WhatsApp oder per E-Mail. Du wählst aus, was draufkommt (Puls, Kalorien, Zeiten, Route), und eine Route wird rund um deinen gespeicherten Home-Standort abgeschnitten.
+          </p>
+        </div>
+
+        <figure class="section-reveal">
+          <div role="img" aria-label="Illustration: ein Stadtplan mit einem gestrichelten Kreis um einen gespeicherten Gym-Standort und einem Weg, der darin ankommt. Darunter ein Feld mit dem Text „Im Gym · Session startet in 1:42“ und einer Auswahl aus Push, Pull und Legs." class="max-w-sm mx-auto rounded-3xl bg-surface border border-border overflow-hidden">
+            <svg viewBox="0 0 320 170" class="w-full h-auto block" aria-hidden="true">
+              <rect width="320" height="170" fill="#0f1113" />
+              <g stroke="#1c1f24" stroke-width="10" stroke-linecap="round" fill="none">
+                <path d="M-10 120 Q90 100 170 110 T330 70" />
+                <path d="M60 -10 L90 180" />
+                <path d="M230 -10 Q220 80 250 180" />
+              </g>
+              <g stroke="#16181c" stroke-width="5" fill="none">
+                <path d="M0 40 L320 30" /><path d="M140 0 L130 170" />
+              </g>
+              <circle cx="190" cy="78" r="46" fill="rgba(0,212,170,0.07)" stroke="#00d4aa" stroke-width="1.5" stroke-dasharray="5 5" />
+              <path d="M40 160 Q70 130 100 122 T160 96 L182 84" stroke="#60a5fa" stroke-width="2.5" fill="none" stroke-dasharray="1 5" stroke-linecap="round" />
+              <circle cx="184" cy="83" r="5" fill="#60a5fa" stroke="#0f1113" stroke-width="2" />
+              <g transform="translate(190 70)">
+                <path d="M0 -20 C-9 -20 -12 -12 -12 -8 C-12 1 0 10 0 10 C0 10 12 1 12 -8 C12 -12 9 -20 0 -20 Z" fill="#00d4aa" />
+                <rect x="-5" y="-11" width="10" height="3" rx="1" fill="#0b0b0d" />
+              </g>
+              <text x="190" y="140" text-anchor="middle" font-size="9" fill="#00d4aa" font-family="JetBrains Mono, monospace">GESPEICHERTES GYM</text>
+            </svg>
+            <div class="p-5 space-y-4" aria-hidden="true">
+              <div class="flex items-center gap-3">
+                <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                <span class="text-sm text-primary">Im Gym · Session startet in <span class="font-mono">1:42</span></span>
+              </div>
+              <div>
+                <p class="text-xs text-hint mb-2">Was trainierst du heute?</p>
+                <div class="grid grid-cols-4 gap-2 text-xs">
+                  <span class="text-center py-2 rounded-lg bg-accent text-bg font-bold">Push</span>
+                  <span class="text-center py-2 rounded-lg border border-border text-secondary">Pull</span>
+                  <span class="text-center py-2 rounded-lg border border-border text-secondary">Legs</span>
+                  <span class="text-center py-2 rounded-lg border border-border text-hint">Keins</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <figcaption class="text-center text-[11px] text-hint font-mono mt-3">Illustration</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="relative mt-24">
+      <p class="section-reveal text-accent text-xs font-mono tracking-widest mb-3 text-center">AUS DER APP</p>
+      <p class="section-reveal text-secondary text-sm text-center max-w-xl mx-auto mb-8">
+        Screenshots von meinem eigenen Handy, mit meinen eigenen Daten.
+      </p>
+      <ul class="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0" aria-label="Screenshots von Heart">
+        {[
+          { src: '/screenshots/heart/app_brief.webp', caption: 'Der Brief-Tab', alt: 'Der Brief-Tab von Heart: Schwerpunkt für heute Maintain, Belastung 0.5 von 21, Erholung mit fallender Tendenz um 25%, Ruhepuls über 5 Nächte um 12 bpm gestiegen und die Bereitschaftsprognose für morgen mit 107 ms RMSSD, voraussichtlich sinkend.' },
+          { src: '/screenshots/heart/app_detail.webp', caption: 'Eine Gym-Session', alt: 'Eine Gym-Session von 1 Stunde 36 Minuten: Durchschnittspuls 108 bpm, maximal 150, minimal 77, eine Pulskurve über die ganze Session und die Zeit in den Zonen: 67% Zone 1, 31% Zone 2, 2% Zone 3.' },
+          { src: '/screenshots/heart/app_share.webp', caption: 'Als Story teilen', alt: 'Die Teilen-Vorschau für dieselbe Gym-Session: eine Story-Karte mit der Dauer 1h 36m, Durchschnitts- und Maximalpuls und einem Balken für die Zeit in den Zonen, dazu Schalter für Puls, Kalorien und Zeiten.' },
+        ].map(({ src, caption, alt }) => (
+          <li class="section-reveal shrink-0 w-[62%] sm:w-[40%] md:w-auto snap-center">
+            <figure>
+              <div class="mx-auto max-w-[240px] rounded-[34px] border-2 border-[#23232a] bg-[#0e0e11] p-2"
+                   style="box-shadow:0 24px 60px rgba(0,0,0,0.7)">
+                <div class="rounded-[27px] overflow-hidden" style="aspect-ratio:1080/2340">
+                  <img src={src} width="1080" height="2340" alt={alt} loading="lazy" decoding="async" class="w-full h-full object-cover" />
+                </div>
+              </div>
+              <figcaption class="text-center text-xs text-secondary mt-3">{caption}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="relative mt-24">
+      <p class="section-reveal text-accent text-xs font-mono tracking-widest mb-6 text-center">AUSSERDEM</p>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[
+          { icon: '❤️', title: 'Live-Puls & Zonen', body: 'Dein Puls und deine aktuelle Trainingszone, live auf dem Home-Bildschirm.' },
+          { icon: '📈', title: 'HRV & Ruhepuls', body: 'Nächtliche RMSSD und Ruhepuls als Verlauf über Tage und Wochen, neben deiner 30-Tage-Baseline.' },
+          { icon: '〰️', title: 'Hinweise auf unregelmäßigen Rhythmus', body: 'Vier RR-Merkmale (pNN50, CoV, RMSSD, Spannweite). Überschreiten drei davon 30 Sekunden lang ihre Schwellenwerte, markiert Heart den Abschnitt als einen Blick wert. Das ist ein Wellness-Hinweis und kann nichts diagnostizieren.' },
+          { icon: '🔥', title: 'Aktive Kalorien', body: 'Keytel 2005, nur gezählt, solange dein Puls bei oder über 90 bpm liegt, wo die Formel gilt. Darunter zählt Heart nichts. Das ist also aktive Energie, nicht dein ganzer Tag.' },
+          { icon: '🗺️', title: 'Standortverlauf', body: 'Standardmäßig an, in den Einstellungen abschaltbar. Solange der Gurt verbunden ist, speichert Heart höchstens alle 2 Minuten bzw. alle 50 m einen Punkt, und zwar auf dem Handy. Im Umkreis von 150 m um deinen gespeicherten Home-Standort wird nichts aufgezeichnet.' },
+          { icon: '📤', title: 'Export und Löschen', body: 'Messwerte, Werte, Schlafverlauf und die tägliche JSONL liegen in der App-Sandbox. Der Export schreibt alles in eine einzige JSON-Datei, und alles zu löschen braucht nur ein Tippen.' },
+        ].map(({ icon, title, body }) => (
+          <li class="section-reveal flex gap-4 p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 hover:-translate-y-0.5 hover:shadow-[0_6px_24px_-8px_rgba(0,212,170,0.25)] transition-all duration-300">
+            <div aria-hidden="true" class="shrink-0 w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-lg">{icon}</div>
+            <div>
+              <h3 class="text-sm font-bold text-primary mb-1">{title}</h3>
+              <p class="text-secondary text-sm leading-relaxed">{body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="download" class="relative py-28 px-6 bg-surface border-y border-border overflow-hidden scroll-mt-16">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-80 bg-accent/[0.10] blur-3xl pointer-events-none"></div>
+    <div class="relative max-w-2xl mx-auto section-reveal text-center">
+      <SectionEyebrow num="03" label="DOWNLOAD" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Heart herunterladen</h2>
+      <p class="text-secondary mb-10">Android 7.0 oder neuer, keine iPhone-Version. Außerdem brauchst du einen Bluetooth-Herzfrequenzgurt. Ohne ihn öffnet sich die App zwar, hat aber nichts zu lesen.</p>
+
+      <div class="max-w-sm mx-auto mb-4">
+        <DownloadButton platform="android" href={APK_URL} label={`Heart ${VERSION} · APK`} />
+      </div>
+
+      <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
+        <div class="flex gap-3"><span class="text-hint w-28 sm:w-32 shrink-0">Version</span><span class="text-primary">{VERSION}</span></div>
+        <div class="flex gap-3"><span class="text-hint w-28 sm:w-32 shrink-0">Min. Android</span><span class="text-primary">7.0 · API 24</span></div>
+        <div class="flex gap-3"><span class="text-hint w-28 sm:w-32 shrink-0">Größe</span><span class="text-primary">{APK_SIZE}</span></div>
+        <div class="flex gap-3"><span class="text-hint w-28 sm:w-32 shrink-0">Kosten</span><span class="text-primary/80">Kostenlos.</span></div>
+        <div class="flex flex-col sm:flex-row gap-1 sm:gap-3 mt-3 pt-3 border-t border-border"><span class="text-hint sm:w-32 shrink-0">SHA-256 (APK)</span><span class="text-primary/60 break-all">{APK_SHA256}</span></div>
+      </div>
+
+      <p class="text-hint text-xs mt-5">
+        Zum ersten Mal eine APK installieren? <a href="#install" class={`text-accent hover:underline rounded ${focusRing}`}>Hier sind die Installationsschritte</a>
+        &nbsp;·&nbsp;
+        <a href="/de/heart/privacy/" class={`text-accent hover:underline rounded ${focusRing}`}>Datenschutzerklärung</a>
+      </p>
+
+      {/* What's new: read from src/data/heartReleases.ts. The release text itself is English changelog content. */}
+      <div id="whats-new" class="mt-8 text-left p-5 md:p-6 rounded-2xl bg-bg border border-border scroll-mt-24">
+        <div class="flex items-center justify-between gap-4 mb-4">
+          <p class="text-accent text-xs font-mono tracking-widest">WAS IST NEU (EN)</p>
+          <a href="/heart/changelog/" class={`text-xs font-mono text-accent hover:underline rounded ${focusRing}`}>Alle Releases (EN) →</a>
+        </div>
+        {upcomingRelease && (
+          <div class="mb-5 pb-5 border-b border-border">
+            <p class="text-amber-300 text-[11px] font-mono tracking-widest mb-1.5">KOMMT MIT {upcomingRelease.tag.toUpperCase()} · IN DER TESTPHASE</p>
+            <h3 class="text-primary font-semibold leading-snug mb-2" lang="en">{upcomingRelease.title}</h3>
+            <p class="text-secondary text-sm leading-relaxed line-clamp-4" lang="en">{upcomingRelease.body}</p>
+          </div>
+        )}
+        <p class="text-hint text-[11px] font-mono tracking-widest mb-1.5">{latestRelease.tag.toUpperCase()} · DER AKTUELLE DOWNLOAD</p>
+        <h3 class="text-primary font-semibold leading-snug mb-2" lang="en">{latestRelease.title}</h3>
+        <p class="text-secondary text-sm leading-relaxed line-clamp-3" lang="en">{latestRelease.body}</p>
+        <a href="/heart/changelog/" class={`inline-block mt-4 text-sm text-accent hover:underline rounded ${focusRing}`}>Ganzen Changelog lesen (EN) →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="install" class="relative py-24 px-6 max-w-4xl mx-auto scroll-mt-16">
+    <div aria-hidden="true" class="absolute top-0 right-0 w-[50%] h-64 bg-accent/[0.05] blur-3xl pointer-events-none"></div>
+
+    <div class="relative section-reveal text-center mb-12">
+      <SectionEyebrow num="04" label="INSTALLATION" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Installation auf Android</h2>
+      <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
+        Heart kommt als APK-Datei und nicht aus einem App-Store. Deshalb stellt Android beim ersten Mal ein paar zusätzliche Fragen. Hier sind die Meldungen, auf die Leute bisher gestoßen sind.
+      </p>
+    </div>
+
+    <ol class="relative space-y-3 mb-10">
+      {[
+        { title: 'APK herunterladen', body: 'Öffne diese Seite in Chrome oder Samsung Internet und tippe auf „APK herunterladen“. Die Datei heißt heart-android.apk.' },
+        { title: 'Heruntergeladene Datei öffnen', body: 'Tippe in den Benachrichtigungen auf den fertigen Download oder such die Datei unter Eigene Dateien → Downloads.' },
+        { title: 'Installation aus dieser App erlauben', body: 'Wenn Android meldet, dass dein Browser oder Eigene Dateien keine Apps installieren darf, tippe auf Einstellungen und schalte „Aus dieser Quelle zulassen“ ein (Unbekannte Apps installieren). Geh dann zurück und tippe auf Installieren.' },
+        { title: 'Wenn Play Protect warnt', body: 'Play Protect bezeichnet Heart unter Umständen als unbekannte App, weil sie nicht aus dem Play Store kommt. Tippe auf Weitere Details → Trotzdem installieren.' },
+        { title: 'Heart öffnen und Gurt koppeln', body: 'Leg den Gurt an, öffne Heart und folge der Aufforderung zum Koppeln. Erlaube die Berechtigungen, nach denen die App fragt, damit sie deinen Gurt finden kann.' },
+      ].map(({ title, body }, i) => (
+        <li class="section-reveal flex gap-4 p-5 rounded-2xl bg-surface border border-border">
+          <span aria-hidden="true" class="shrink-0 w-8 h-8 rounded-full bg-accent/10 border border-accent/30 text-accent font-mono text-sm flex items-center justify-center">{i + 1}</span>
+          <div>
+            <h3 class="text-base font-bold text-primary mb-1">{title}</h3>
+            <p class="text-secondary text-sm leading-relaxed">{body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <div class="relative section-reveal p-5 md:p-6 rounded-2xl bg-bg border border-amber-400/30 mb-5">
+      <div class="flex items-start gap-4">
+        <div aria-hidden="true" class="shrink-0 w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-300 font-bold">!</div>
+        <div>
+          <p class="text-amber-300 text-xs font-mono tracking-widest mb-1.5">SAMSUNG GALAXY</p>
+          <h3 class="text-base font-bold text-primary mb-2">„Von Auto Blocker blockiert“?</h3>
+          <p class="text-secondary text-sm leading-relaxed">
+            Samsungs Auto Blocker stoppt Apps, die nicht aus einem offiziellen App-Store kommen. Öffne <span class="text-primary">Einstellungen → Sicherheit und Datenschutz → Auto Blocker</span>, schalte ihn aus und installiere Heart. Sobald Heart installiert ist, kannst du Auto Blocker wieder einschalten. Für jedes Update musst du ihn aber erneut ausschalten.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div class="section-reveal p-5 rounded-2xl bg-surface border border-border">
+        <h3 class="text-base font-bold text-primary mb-2">Download fehlgeschlagen?</h3>
+        <p class="text-secondary text-sm leading-relaxed">Versuch es noch einmal in einem anderen Browser, zum Beispiel in Samsung Internet statt Chrome oder umgekehrt.</p>
+      </div>
+      <div class="section-reveal p-5 rounded-2xl bg-surface border border-border">
+        <h3 class="text-base font-bold text-primary mb-2">Auf eine neue Version aktualisieren</h3>
+        <p class="text-secondary text-sm leading-relaxed">Ab 1.0.23 sucht Heart selbst nach neuen Versionen und bietet an, sie herunterzuladen und zu installieren. Android bittet dich dabei um eine Bestätigung. Ansonsten lädst du die neue APK herunter und installierst sie über die alte. So oder so bleiben deine Daten erhalten. Du musst also vorher nicht deinstallieren.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="privacy" class="relative py-24 px-6 max-w-4xl mx-auto overflow-hidden scroll-mt-16">
+    <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-72 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
+    <div class="relative">
+      <div class="section-reveal text-center mb-12">
+        <SectionEyebrow num="05" label="DATENSCHUTZ" />
+        <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Was dein Handy verlässt<br/>und was nicht</h2>
+        <p class="text-secondary max-w-2xl mx-auto leading-relaxed">
+          Jeder Wert wird auf dem Handy berechnet. Heart hat keinen Server und kein Konto. Deshalb gehen deine Daten nur dann irgendwohin, wenn du sie selbst verschickst. Die Formeln stehen unten, jeweils mit Quelle.
+        </p>
+      </div>
+
+      <div class="section-reveal rounded-2xl border border-border overflow-hidden mb-12">
+        <div class="flex items-center gap-2 px-5 py-3 bg-surface border-b border-border" aria-hidden="true">
+          <div class="w-3 h-3 rounded-full bg-error/70"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+          <span class="ml-2 text-hint text-xs font-mono">heart-privacy.txt</span>
+        </div>
+        <dl class="bg-bg p-5 md:p-6 font-mono text-xs md:text-sm space-y-3">
+          {[
+            ['Berechnung', 'Jeder Wert wird auf dem Handy berechnet.'],
+            ['Konto',      'Keins. Es gibt nichts, wofür du dich registrieren müsstest.'],
+            ['Server',     'Keiner. Es gibt keinen Heart-Server, an den Daten gehen könnten.'],
+            ['Telemetrie', 'Keine. Keine Analyse und keine Werbung.'],
+            ['Netzwerk',   'OpenStreetMap-Kartenkacheln und höchstens alle 12 Stunden eine Abfrage bei pointbreaklab.com nach einer neuen Heart-Version (eine kleine Versionsdatei; in den Einstellungen abschaltbar). Nur wenn du sie einschaltest: Google-Drive-Backup, der Download des Coach-Modells (~806 MB, von Hugging Face) und die Synchronisierung von Handy zu Handy über dein eigenes WLAN.'],
+            ['Backups',    'Werden nach Download/Heart auf dem Handy geschrieben. Dieser Ordner bleibt erhalten, wenn Heart deinstalliert wird. Nach einer Neuinstallation zeigst du Heart diesen Ordner. Alles, was neuer ist als das letzte Backup, ist verloren.'],
+            ['Mathematik', 'Veröffentlichte Formeln, jede mit ihrer Quelle (Liste unten).'],
+          ].map(([k, v]) => (
+            <div class="flex flex-col sm:flex-row sm:gap-4">
+              <dt class="text-hint sm:w-28 shrink-0">{k}</dt>
+              <dd class="text-primary/85 flex gap-2"><span class="text-accent hidden sm:inline" aria-hidden="true">→</span>{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <div class="section-reveal mb-12">
+        <HeartArchitectureDiagram />
+      </div>
+
+      <div class="section-reveal mb-6 p-5 rounded-2xl bg-bg border border-accent/30">
+        <div class="flex items-start gap-3">
+          <div aria-hidden="true" class="shrink-0 w-9 h-9 rounded-lg bg-accent/15 border border-accent/40 flex items-center justify-center text-base">✓</div>
+          <div class="min-w-0 w-full">
+            <p class="text-accent text-xs font-mono tracking-widest mb-1.5">VALIDIERUNG · 14 ALGORITHMEN · 92 TESTFÄLLE · LAUF VOM 2026-09-28</p>
+            <p class="text-primary text-sm leading-relaxed mb-3">
+              Jeder Algorithmus in Heart, der eine geschlossene Formel berechnet, liefert dieselbe Ausgabe wie <span class="text-accent">eine numpy-Referenzimplementierung derselben Formel</span>, bis auf höchstens <span class="text-accent font-mono">1.42 × 10⁻¹⁴</span>. Das ist Gleitkomma-Rundung.
+            </p>
+            <p class="text-secondary text-xs leading-relaxed">
+              Die Prüfung ist ein Test im Repository der App (<span class="text-primary/70 font-mono text-[11px] break-all">test/algorithm_validation_test.dart</span>). Der Quellcode ist nicht öffentlich. Die Formeln stammen aus Tanaka 2001, Uth 2004, Keytel 2005, Holt 1957, ESC/NASPE 1996, Banister 1975 und Coyle 1998.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <details class="group section-reveal rounded-2xl border border-border overflow-hidden mb-10">
+        <summary class={`flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 bg-surface cursor-pointer list-none [&::-webkit-details-marker]:hidden hover:bg-surface/60 transition-colors ${focusRing}`}>
+          <div class="flex items-center gap-2" aria-hidden="true">
+            <div class="w-3 h-3 rounded-full bg-error/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-accent/70"></div>
+            <span class="ml-2 text-hint text-xs font-mono">formulas-and-references.txt</span>
+          </div>
+          <div class="flex items-center gap-2 font-mono text-xs select-none">
+            <span class="text-secondary">aufklappen für die Formeln</span>
+            <span class="text-accent group-open:hidden" aria-hidden="true">▶</span>
+            <span class="text-accent hidden group-open:inline" aria-hidden="true">▼</span>
+          </div>
+        </summary>
+
+        <div class="border-t border-border bg-bg px-5 md:px-6 py-6">
+          <div class="space-y-2.5 text-xs leading-relaxed">
+            {[
+              ['HRV',              'RMSSD · ESC/NASPE Task Force · Eur. Heart J. 17:354 · 1996'],
+              ['HRmax',            'Altersbasiertes Maximum · Tanaka et al. · Med. Sci. Sports Exerc. 32:1591 · 2001'],
+              ['HF-Zonen',         'Aufteilung in 5 Zonen · HRmax × [0.60, 0.70, 0.80, 0.90]'],
+              ['VO2max',           'Herzfrequenz-Verhältnis-Methode · Uth et al. · Eur. J. Appl. Physiol. 91:111 · 2004'],
+              ['Kalorien',         'HF + Alter + Gewicht + Geschlecht · Keytel et al. · J. Sports Sci. 23:289 · 2005'],
+              ['Distanz',          'Haversine-Großkreis · Näherung mit kugelförmiger Erde'],
+              ['Kardialer Drift',  'HF im ersten gegen letztes Drittel · Ansatz nach Coyle · 1998'],
+              ['Belastung',        'TRIMP, zonengewichtete Last · Banister & Calvert · 1975'],
+              ['Schlafphasen',     'Regelbasierter Klassifikator auf 5-Minuten-HF-Abschnitten · 4 Phasen'],
+              ['Schlaf-Priors',    'Bayessche Nachkorrektur · Sleep-EDF · Kemp et al. 2000'],
+              ['Erholung',         'Zusammengesetzt · HRV-Perzentil gegen deine 30-Tage-Baseline'],
+              ['Bereitschaft',     'Lineare exponentielle Glättung nach Holt · Holt · ONR memo 52 · 1957'],
+              ['Rhythmus-Hinweis', 'Schwellenwerte auf 4 Merkmalen · pNN50 + CoV(RR) + RMSSD + RR-Spannweite'],
+              ['Speicher',         'SharedPreferences + JSONL · App-Sandbox · Backups in Download/Heart'],
+              ['Netzwerk',         'OpenStreetMap-Kacheln · Update-Prüfung (pointbreaklab.com, ≤ alle 12 h) · optional: Google-Drive-Backup, Download des Coach-Modells, Handy-Sync über WLAN'],
+              ['Server',           'Keiner'],
+            ].map(([key, val]) => (
+              <div class="flex flex-col sm:flex-row sm:gap-4 sm:items-baseline font-mono">
+                <span class="text-hint shrink-0 sm:w-32">{key}</span>
+                <span class="text-primary/80"><span class="text-accent hidden sm:inline" aria-hidden="true">→ </span>{val}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </details>
+
+      <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed">
+        Die Validierung oben prüft nur, ob die <span class="text-secondary">Mathematik</span> richtig umgesetzt ist. Über die Genauigkeit des Gesamtsystems sagt sie nichts: Schlafphasen gegenüber PSG und Kalorien gegenüber Kalorimetrie wurden noch nicht unabhängig gemessen.
+      </p>
+    </div>
+  </section>
+
+  <section id="faq" class="relative py-24 px-6 max-w-3xl mx-auto scroll-mt-16">
+    <div aria-hidden="true" class="absolute top-0 left-0 w-[50%] h-64 bg-blue-500/[0.04] blur-3xl pointer-events-none"></div>
+    <div class="relative section-reveal text-center mb-12">
+      <SectionEyebrow num="06" label="FAQ" />
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Gurte, iPhone, deine Daten, Installation</h2>
+    </div>
+
+    <div class="relative space-y-3">
+      {faqs.map(({ q, a, href }) => (
+        <details class="section-reveal group p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">
+          <summary class={`cursor-pointer list-none [&::-webkit-details-marker]:hidden flex items-start gap-4 rounded-lg ${focusRing}`}>
+            <span aria-hidden="true" class="text-accent text-xl font-mono leading-6 shrink-0 transition-transform group-open:rotate-45">+</span>
+            <span class="text-base font-bold text-primary leading-6">{q}</span>
+          </summary>
+          <p class="text-secondary text-sm leading-relaxed mt-3 pl-9">
+            {a}
+            {href && (<> <a href={href.url} class={`text-accent hover:underline rounded ${focusRing}`}>{href.text} →</a></>)}
+          </p>
+        </details>
+      ))}
+    </div>
+
+    {/* Closing CTA + disclaimer. The medical-device sentence is the EU MDR 2017/745 safe-harbour line: keep it. */}
+    <div class="relative section-reveal mt-16 text-center">
+      <a
+        href={APK_URL}
+        class={`inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl bg-accent text-bg font-bold text-sm hover:bg-white transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(0,212,170,0.4)] ${focusRing}`}
+      >
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M3 13h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Heart für Android herunterladen
+      </a>
+      <p class="text-hint text-xs max-w-xl mx-auto leading-relaxed mt-10">
+        Heart zeigt Wellness-Schätzungen auf Basis eines Herzfrequenzgurts für Endverbraucher. Sie sind keine medizinische Beratung und keine Diagnose. Heart ist eine Wellness-Anwendung und kein Medizinprodukt. Wende dich bei medizinischen Fragen an qualifiziertes medizinisches Fachpersonal.
+        <a href="/de/heart/privacy/" class={`text-accent hover:underline rounded ${focusRing}`}>Datenschutzerklärung</a>
+      </p>
+    </div>
+  </section>
+  </main>
+
+  <Footer />
+</Base>
