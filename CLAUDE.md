@@ -742,7 +742,7 @@ English at `/`, German under `/de/` with the SAME slugs. `src/i18n.ts` owns the
 list of translated pages (`TRANSLATED`), the path helpers and the UI strings.
 
 - **Translated:** `/`, `/whispr/`, `/heart/`, `/knot/`, `/knot/docs/`, `/knot-ai/`,
-  `/privacy/`, `/heart/privacy/`. **English only, on purpose:** every changelog and
+  `/privacy/`, `/heart/privacy/`, `/knot/privacy/`. **English only, on purpose:** every changelog and
   `/whispr/add/`. On those the DE switch is disabled and no `hreflang="de"` is emitted.
 - **Switch:** `EN | DE` segmented pill in `Nav.astro`, top right after Download; on
   mobile it sits left of the hamburger. Plain links (not a toggle, not a dropdown,
@@ -756,6 +756,13 @@ list of translated pages (`TRANSLATED`), the path helpers and the UI strings.
 - The three architecture diagrams switch labels on `localeFromPath`; their English
   output was verified byte-identical.
 - German uses „du“. The privacy pages say the English version is binding.
+- **`/knot/privacy/` (added 2026-09-30) states what the Knot CODE does**, checked
+  against the source that day: no telemetry or update check, Knot AI off by default
+  and local, Knot Ask cloud providers opt-in, Tor on by default via the installed
+  service, LAN presence gated by network trust but libp2p mDNS on every network
+  unless `KNOT_DISABLE_MDNS`, and commits carrying `Knot-Device: <login>@<os>`.
+  When any of that changes in Knot, change this page (both languages) in the same
+  release. The frontmatter comment lists the facts.
 
 ## What's intentionally *not* on the site
 

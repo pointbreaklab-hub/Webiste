@@ -44,8 +44,8 @@ const de = localeFromPath(Astro.url.pathname) === 'de';
     <title id="knot-arch-title">{de ? 'Architekturdiagramm von Knot' : 'Knot architecture diagram'}</title>
     <desc id="knot-arch-desc">{de ? <>
       Jemand speichert auf dem eigenen Rechner. Der Knot-Daemon bemerkt
-      die Änderung, macht daraus einen echten git-Commit und schickt ihn als
-      verschlüsseltes git-Pack direkt über Tor an jeden gekoppelten Rechner im Team.
+      die Änderung, macht daraus einen echten Git-Commit und schickt ihn als
+      verschlüsseltes Git-Pack direkt über Tor an jeden gekoppelten Rechner im Team.
       Dort prüft der Daemon die Signatur, importiert das Pack,
       und der neue Commit erscheint im lokalen git log, schnell im gemeinsamen Netz und langsamer über Tor.
       Kein GitHub, kein zentraler Server, kein Cloud-Konto, kein manueller Push.
@@ -93,7 +93,7 @@ const de = localeFromPath(Astro.url.pathname) === 'de';
             fill="#0b0b0d" stroke="#00d4aa" stroke-opacity="0.45"/>
       <text x="150" y="229" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#00d4aa">{de ? 'git-Commit (signiert)' : 'Real git commit (signed)'}</text>
+            fill="#00d4aa">{de ? 'Git-Commit (signiert)' : 'Real git commit (signed)'}</text>
 
       <!-- Device boundary -->
       <text x="150" y="261" text-anchor="middle"
@@ -108,7 +108,7 @@ const de = localeFromPath(Astro.url.pathname) === 'de';
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="150" y="307" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#737373">{de ? 'Verschlüsseltes git-Pack' : 'Encrypted git pack'}</text>
+            fill="#737373">{de ? 'Verschlüsseltes Git-Pack' : 'Encrypted git pack'}</text>
 
       <!-- arrow exiting device -->
       <path d="M 150 332 L 150 374 M 146 370 L 150 374 L 154 370"
@@ -167,7 +167,7 @@ const de = localeFromPath(Astro.url.pathname) === 'de';
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="650" y="307" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#737373">{de ? 'Verschlüsseltes git-Pack' : 'Encrypted git pack'}</text>
+            fill="#737373">{de ? 'Verschlüsseltes Git-Pack' : 'Encrypted git pack'}</text>
 
       <!-- Device boundary -->
       <line x1="560" y1="270" x2="740" y2="270"
@@ -221,7 +221,7 @@ const de = localeFromPath(Astro.url.pathname) === 'de';
   </svg>
 
   <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">{de ? <>
-    Was du im Editor speicherst, wird auf deinem Rechner zu einem echten git-Commit, als git-Pack verschlüsselt, geht über Tor direkt an jeden gekoppelten Rechner im Team und erscheint dort im lokalen git log. Dazwischen liegt weder GitHub noch irgendein Server, und niemand tippt einen Push-Befehl.
+    Was du im Editor speicherst, wird auf deinem Rechner zu einem echten Git-Commit. Der geht als verschlüsseltes Git-Pack über Tor direkt an jeden gekoppelten Rechner im Team und erscheint dort im lokalen git log. Dazwischen liegt weder GitHub noch irgendein Server, und niemand tippt einen Push-Befehl.
   </> : <>
     A save in your editor becomes a real git commit on your machine, encrypts as a git pack, travels over Tor directly to every paired teammate, and shows up in their local git log. Nothing passes through GitHub or any server in between, and nobody runs a push command.
   </>}</figcaption>

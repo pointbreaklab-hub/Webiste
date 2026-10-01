@@ -29,7 +29,7 @@ const de = localeFromPath(Astro.url.pathname) === 'de';
     aria-labelledby="heart-arch-title heart-arch-desc"
   >
     <title id="heart-arch-title">{de ? 'Heart-Architekturdiagramm' : 'Heart architecture diagram'}</title>
-    <desc id="heart-arch-desc">{de ? `Das HW9-Band, getragen an Brust, Oberarm oder Unterarm,
+    <desc id="heart-arch-desc">{de ? `Der HW9-Gurt, getragen an Brust, Oberarm oder Unterarm,
       erkennt einen Herzschlag und sendet ihn über BLE GATT als bpm-
       und RR-Intervallwerte. Ein Hintergrunddienst auf dem Handy nimmt
       sie auf, hängt sie an ein JSONL-Log auf dem Gerät an und gibt sie
@@ -191,7 +191,7 @@ A heartbeat detected by the HW9 band, worn on the chest, upper
             fill="#0b0b0d" stroke="#23232a"/>
       <text x="650" y="111" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            fill="#ffffff">{de ? 'Live-Anzeige · Brief' : 'Live UI · Brief'}</text>
+            fill="#ffffff">{de ? 'Live-Anzeige · Brief-Tab' : 'Live UI · Brief'}</text>
     </g>
 
     <!-- ── BOTTOM BAND · NOT IN THE PICTURE ────────────────────────── -->
@@ -200,14 +200,14 @@ A heartbeat detected by the HW9 band, worn on the chest, upper
             stroke="#23232a" stroke-width="1"/>
       <text x="400" y="438" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
-            letter-spacing="2" fill="#737373">{de ? 'NICHT DABEI' : 'NOT IN THE PICTURE'}</text>
+            letter-spacing="2" fill="#737373">{de ? 'NICHT BETEILIGT' : 'NOT IN THE PICTURE'}</text>
       <text x="400" y="468" text-anchor="middle"
             font-family="ui-monospace, monospace" font-size="11"
             fill="#a3a3a3">{de ? 'Kein Server · Kein Konto · Kein Cloud-Sync · Keine Telemetrie' : 'No server · No account · No cloud sync · No telemetry'}</text>
     </g>
   </svg>
 
-  <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">{de ? 'Das HW9-Band, getragen an Brust, Oberarm oder Unterarm, erkennt einen Herzschlag. Als bpm- und RR-Intervallwerte geht er über eine kurze BLE-Verbindung direkt an dein Handy. Dort wird er lokal gespeichert und von einer Rechenpipeline auf dem Gerät verarbeitet. Server, Cloud-Sync oder Telemetrie sind nicht beteiligt, und die Werte stammen aus festen Formeln statt aus einem trainierten Modell.' : `
+  <figcaption class="text-hint text-xs font-mono text-center mt-6 max-w-2xl mx-auto leading-relaxed">{de ? 'Der HW9-Gurt, getragen an Brust, Oberarm oder Unterarm, erkennt einen Herzschlag. Als bpm- und RR-Intervallwerte geht der Herzschlag über eine BLE-Verbindung mit kurzer Reichweite direkt an dein Handy. Dort wird er lokal gespeichert und von einer Rechenpipeline auf dem Gerät verarbeitet. Server, Cloud-Sync oder Telemetrie sind nicht beteiligt, und die Werte stammen aus festen Formeln statt aus einem trainierten Modell.' : `
 A heartbeat detected by the HW9 band, worn on the chest, upper arm, or forearm, travels as bpm + RR-interval values over a short-range BLE link directly to your phone, where it is logged locally and fed through an on-device compute pipeline. No server, cloud sync or telemetry is involved, and the scores come from closed-form formulas rather than a trained model.
 `}</figcaption>
 </figure>

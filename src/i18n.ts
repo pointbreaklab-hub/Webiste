@@ -19,6 +19,7 @@ export const TRANSLATED = new Set<string>([
   '/knot-ai/',
   '/privacy/',
   '/heart/privacy/',
+  '/knot/privacy/',
 ]);
 
 export function localeFromPath(path: string): Locale {
@@ -70,6 +71,7 @@ const STRINGS = {
     knotInstall: 'Knot install guide',
     whisprPrivacy: 'Whispr privacy',
     heartPrivacy: 'Heart privacy',
+    knotPrivacy: 'Knot privacy',
     contact: 'Contact',
     rights: 'All rights reserved.',
     madeIn: 'Made in Würzburg, Germany',
@@ -85,12 +87,12 @@ const STRINGS = {
   },
   de: {
     apps: 'Apps',
-    about: 'Über',
+    about: 'Über mich',
     download: 'Download',
     menu: 'Menü',
     language: 'Sprache',
     englishOnly: 'Diese Seite gibt es nur auf Englisch',
-    footerTagline: 'Gebaut von einer Person in Würzburg. Was diese Apps speichern, bleibt auf deinem Gerät.',
+    footerTagline: 'Gebaut von einer Person in Würzburg. Was diese Apps speichern, speichern sie auf deinem Gerät.',
     openModel: '(offenes Modell)',
     resources: 'Ressourcen',
     legal: 'Rechtliches',
@@ -101,10 +103,11 @@ const STRINGS = {
     knotInstall: 'Knot-Installationsanleitung',
     whisprPrivacy: 'Datenschutz Whispr',
     heartPrivacy: 'Datenschutz Heart',
+    knotPrivacy: 'Datenschutz Knot',
     contact: 'Kontakt',
     rights: 'Alle Rechte vorbehalten.',
     madeIn: 'Gemacht in Würzburg',
-    staticNote: 'Statisches HTML auf GitHub Pages. Kein Analyse-Skript auf irgendeiner Seite.',
+    staticNote: 'Statisches HTML auf GitHub Pages. Auf keiner Seite läuft ein Analyse-Skript.',
     heroPill: 'JEDE APP HIER LÄUFT OHNE SERVER',
     heroLine1: 'Apps, die dich nicht',
     heroLine2: 'beobachten.',

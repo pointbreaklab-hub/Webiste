@@ -31,7 +31,7 @@ const REL_BASE  = 'https://github.com/pointbreaklab-hub/knot/releases/latest/dow
 
       <div aria-hidden="true" class="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-64 bg-accent/[0.06] blur-3xl pointer-events-none"></div>
 
-      <SectionEyebrow num="00" label="DOKUMENTATION · INSTALLATION" align="center" />
+      <SectionEyebrow num="00" label="DOKU · INSTALLATION" align="center" />
 
       <h1 class="text-4xl md:text-5xl font-black text-primary text-center mb-4 tracking-tight">
         Knot installieren
@@ -88,7 +88,7 @@ const REL_BASE  = 'https://github.com/pointbreaklab-hub/knot/releases/latest/dow
           <details class="group p-4 rounded-xl bg-surface border border-border">
             <summary class="cursor-pointer list-none flex items-center gap-3 text-sm font-bold text-primary">
               <span class="text-accent font-mono transition-transform group-open:rotate-45">+</span>
-              Aktualisieren · deinstallieren · wo was liegt
+              Aktualisieren · Deinstallieren · wo was liegt
             </summary>
             <div class="text-xs text-secondary leading-relaxed space-y-2 mt-3">
               <p><span class="text-primary/80 font-bold">Aktualisieren:</span> Lade die neue .dmg herunter und zieh Knot noch einmal in den Ordner Programme, sodass die alte Kopie ersetzt wird. Deine Projekte, deine Identität und deine Kopplungen bleiben unberührt: Sie liegen außerhalb des App-Bundles.</p>
@@ -118,7 +118,7 @@ const REL_BASE  = 'https://github.com/pointbreaklab-hub/knot/releases/latest/dow
           <div>
             <h3 class="text-primary font-bold mb-1.5">2. Installieren (ein Befehl)</h3>
             <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs mb-2"><code>sudo apt install ./knot-vcs-amd64.deb</code></pre>
-            <p class="text-xs text-secondary/90 leading-relaxed">Das vorangestellte <span class="font-mono text-primary/80">./</span> sagt apt, dass es eine lokale Datei ist. Die git-Abhängigkeit löst apt für dich auf. <span class="text-primary/80">Ein Doppelklick auf die .deb installiert sie nicht.</span> Das aktuelle Ubuntu hat keine grafische Oberfläche, die lokale .deb-Dateien installiert. Das App&nbsp;Center installiert nur Snaps, und das betrifft die .deb jedes Anbieters.</p>
+            <p class="text-xs text-secondary/90 leading-relaxed">Das vorangestellte <span class="font-mono text-primary/80">./</span> sagt apt, dass es eine lokale Datei ist. Die Git-Abhängigkeit löst apt für dich auf. <span class="text-primary/80">Ein Doppelklick auf die .deb installiert sie nicht.</span> Das aktuelle Ubuntu hat keine grafische Oberfläche, die lokale .deb-Dateien installiert. Das App&nbsp;Center installiert nur Snaps, und das betrifft die .deb jedes Anbieters.</p>
           </div>
 
           <div>
@@ -138,11 +138,11 @@ systemctl --user enable --now knot-vcs</code></pre>
           <details class="group p-4 rounded-xl bg-surface border border-border">
             <summary class="cursor-pointer list-none flex items-center gap-3 text-sm font-bold text-primary">
               <span class="text-accent font-mono transition-transform group-open:rotate-45">+</span>
-              Aktualisieren · deinstallieren · Diagnose · andere Distributionen
+              Aktualisieren · Deinstallieren · Diagnose · andere Distributionen
             </summary>
             <div class="text-xs text-secondary leading-relaxed space-y-2 mt-3">
               <p><span class="text-primary/80 font-bold">Aktualisieren:</span> Lade die neuere .deb herunter und führ <span class="font-mono text-primary/80">sudo apt install ./…</span> noch einmal aus. apt aktualisiert an Ort und Stelle. Dein Daemon, deine Projekte und deine Kopplungen bleiben erhalten.</p>
-              <p><span class="text-primary/80 font-bold">Deinstallieren:</span> <span class="font-mono text-primary/80">sudo apt remove knot-vcs</span>. Dem Paket gehört nichts innerhalb deiner Projektordner. Jeder davon ist danach weiterhin ein Git-Repository, das du mit normalem git lesen kannst.</p>
+              <p><span class="text-primary/80 font-bold">Deinstallieren:</span> <span class="font-mono text-primary/80">sudo apt remove knot-vcs</span>. Dem Paket gehört nichts innerhalb deiner Projektordner. Jeder davon ist danach weiterhin ein Git-Repository, das du mit normalem Git lesen kannst.</p>
               <p><span class="text-primary/80 font-bold">Diagnose:</span> <span class="font-mono text-primary/80">knot doctor</span>.</p>
               <pre class="text-primary/80 bg-surface border border-border rounded-lg p-3 overflow-x-auto leading-relaxed text-xs"><code>  ✓ daemon reachable
   ⚠ Tor onion not published yet (still bootstrapping, or started without --tor)
@@ -186,16 +186,16 @@ systemctl --user enable --now knot-vcs</code></pre>
           <div class="text-hint pt-1">Dateinamen mit Build-Stempel ({DMG_FILE} · {DEB_FILE}) hängen ebenfalls am Release: dieselben Bytes unter Namen, die festhalten, aus welchem Build sie stammen.</div>
         </div>
         <p class="text-sm text-secondary leading-relaxed mt-3">
-          Es gibt kein CI: Diese Builds werden auf einem einzigen Laptop kompiliert und
-          von Hand zu GitHub Releases hochgeladen.
+          Es gibt keine CI: Diese Builds werden auf einem einzigen Laptop kompiliert und
+          von Hand auf GitHub Releases hochgeladen.
         </p>
       </section>
 
       <section id="first-save" class="relative mb-8 scroll-mt-24">
-        <SectionEyebrow num="05" label="DEIN ERSTES SYNCHRONISIERTES SPEICHERN" align="left" />
+        <SectionEyebrow num="05" label="DEIN ERSTER SYNC" align="left" />
         <h2 class="text-2xl font-black text-primary mb-4">Prüfen, ob es geklappt hat</h2>
         <ol class="text-sm text-secondary leading-relaxed space-y-2 list-decimal pl-5 mb-4">
-          <li>Schütze einen Ordner (der letzte Schritt der Begrüßung oder <span class="font-mono text-primary/80">knot solo</span> im Terminal).</li>
+          <li>Schütze einen Ordner („Protect a folder“, der letzte Schritt der Begrüßung, oder <span class="font-mono text-primary/80">knot solo</span> im Terminal).</li>
           <li>Öffne eine beliebige Datei in diesem Ordner, in einem beliebigen Editor. Ändere etwas. <span class="text-primary/80">Speichere.</span></li>
           <li>Behalte das Dashboard im Blick. Zuerst läuft eine Debounce-Wartezeit, deshalb passiert es nicht sofort. Was ankommt, ist ein echter Commit, signiert mit deiner Geräte-Identität, und ein normales <span class="font-mono text-primary/80">git log</span> kann ihn lesen.</li>
         </ol>
@@ -205,7 +205,7 @@ systemctl --user enable --now knot-vcs</code></pre>
           hinüber. In einem gemeinsamen LAN sprechen die beiden Rechner direkt miteinander, über Tor
           ist es deutlich langsamer.
           Auf beiden Wegen sind die Bytes mit Noise verschlüsselt, und jede Seite prüft den
-          Ed25519-Schlüssel der anderen, bevor sich irgendetwas bewegt.
+          Ed25519-Schlüssel der anderen, bevor irgendetwas übertragen wird.
           Wenn auf beiden Seiten bearbeitet wurde und die Historien auseinandergelaufen sind, führt
           Knot sie selbst zusammen. Der Merge-Commit wird deterministisch gebaut, aus sortierten
           Eltern-Commits und einer festen Identität, sodass beide Rechner bei derselben Commit-ID

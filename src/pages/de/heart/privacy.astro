@@ -5,12 +5,12 @@ import Footer from '../../../components/Footer.astro';
 import SectionEyebrow from '../../../components/SectionEyebrow.astro';
 import '../../../styles/global.css';
 
-const updated = '5. Mai 2026';
+const updated = '30. September 2026';
 ---
 
 <Base
   title="Datenschutzerklärung · Heart"
-  description="Datenschutzerklärung für Heart. Heart liest einen Bluetooth-Brustgurt aus und berechnet Erholung, Belastung und Schlaf auf dem Handy. Es gibt keinen Server, an den die Werte gehen könnten."
+  description="Datenschutzerklärung für Heart. Heart liest einen Bluetooth-Herzfrequenzgurt aus und berechnet Erholung, Belastung und Schlaf auf dem Handy. Es gibt keinen Heart-Server, an den die Werte gehen könnten."
 >
   <Nav />
 
@@ -21,17 +21,17 @@ const updated = '5. Mai 2026';
 
       <SectionEyebrow num="00" label="DATENSCHUTZERKLÄRUNG" align="center" />
 
-      <h1 class="text-4xl md:text-5xl font-black text-primary text-center mb-4 tracking-tight">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-black hyphens-auto break-words text-primary text-center mb-4 tracking-tight">
         Datenschutzerklärung für Heart
       </h1>
-      <p class="text-hint text-center text-xs mb-3 leading-relaxed">Dies ist eine Übersetzung zur besseren Verständlichkeit. Rechtlich verbindlich ist die <a href="/heart/privacy/" lang="en" hreflang="en" class="text-accent hover:underline">englische Fassung</a>.</p>
+      <p class="text-hint text-center text-xs mb-3 leading-relaxed">Diese Übersetzung dient nur dem besseren Verständnis. Rechtlich verbindlich ist die <a href="/heart/privacy/" lang="en" hreflang="en" class="text-accent hover:underline">englische Fassung</a>.</p>
       <p class="text-hint text-center text-xs font-mono mb-16">Zuletzt aktualisiert: {updated}</p>
 
       {/* summary callout */}
       <div class="p-5 rounded-2xl bg-surface border border-accent/30 mb-14 space-y-2">
         <p class="text-accent text-xs font-mono tracking-widest mb-3">ZUSAMMENFASSUNG</p>
         <ul class="space-y-2 text-sm text-secondary">
-          <li class="flex gap-2"><span class="text-accent shrink-0">→</span> Heart speichert alle Gesundheits- und Aktivitätsdaten <strong class="text-primary">ausschließlich auf deinem Gerät</strong>.</li>
+          <li class="flex gap-2"><span class="text-accent shrink-0">→</span> Heart speichert deine Gesundheits-, Aktivitäts- und Standortdaten <strong class="text-primary">auf deinem Gerät</strong>. Sie verlassen das Handy nur über etwas, das du selbst startest oder einschaltest: einen Export, ein geteiltes Bild, ein Google-Drive-Backup oder einen WLAN-Sync.</li>
           <li class="flex gap-2"><span class="text-accent shrink-0">→</span> Wir betreiben <strong class="text-primary">keine</strong> Server, die deine Daten empfangen, und es gibt <strong class="text-primary">kein Konto und keine Anmeldung</strong>.</li>
           <li class="flex gap-2"><span class="text-accent shrink-0">→</span> Wir verkaufen, vermieten oder geben deine Daten an <strong class="text-primary">niemanden</strong> weiter.</li>
           <li class="flex gap-2"><span class="text-accent shrink-0">→</span> Du kannst deine Daten jederzeit unter <strong class="text-primary">Settings → Privacy &amp; export</strong> exportieren oder dauerhaft löschen.</li>
@@ -49,7 +49,7 @@ const updated = '5. Mai 2026';
             <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Herzfrequenz (BPM)</strong>, in Echtzeit von einem gekoppelten Bluetooth-Herzfrequenzmesser (z. B. Coospo HW9) über den Standard-BLE-Dienst <code class="text-accent font-mono text-xs">0x180D</code> gelesen (Heart Rate Measurement, Charakteristik <code class="text-accent font-mono text-xs">0x2A37</code>).</span></li>
             <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">R–R-Intervalle</strong>, aus denen die Herzfrequenzvariabilität (HRV / RMSSD) berechnet wird.</span></li>
             <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Abgeleitete Werte</strong>: Erholungswert, Belastungswert, Kalorienschätzungen, Schlafphasen (wach / leicht / tief / REM), Schlafwert sowie gleitende 30-Tage-Basiswerte für Ruhepuls und HRV. Alle Berechnungen laufen auf dem Gerät.</span></li>
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Sitzungsverlauf</strong>: Startzeit, Dauer, durchschnittliche / maximale HF, Kalorien, Verteilung auf die Zonen und (wenn du es aktivierst) die GPS-Route bei Läufen / Radfahrten.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Sitzungsverlauf</strong>: Startzeit, Dauer, durchschnittliche / maximale HF, Kalorien, Verteilung auf die Zonen die GPS-Route von Spaziergängen, Läufen und Radfahrten, die du startest, und Gym-Sessions, die über den gespeicherten Standort deines Gyms erkannt werden.</span></li>
           </ul>
 
           <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.2 Profildaten, die du eingibst</h3>
@@ -61,8 +61,14 @@ const updated = '5. Mai 2026';
           <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.3 Gerätedaten</h3>
           <p class="text-sm text-secondary leading-relaxed">Kennung, Name, Firmware-Version, Signalstärke und Akkustand gekoppelter Bluetooth-Herzfrequenzmesser.</p>
 
-          <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.4 Standortdaten (nur, wenn du die Routenfunktion nutzt)</h3>
-          <p class="text-sm text-secondary leading-relaxed">GPS-Koordinaten während einer aktiven Sitzung, um die Routenkarte zu zeichnen. Außerhalb einer aktiven Sitzung wird der Standort <strong class="text-primary/80">nie</strong> gelesen.</p>
+          <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.4 Standortdaten</h3>
+          <p class="text-sm text-secondary leading-relaxed mb-2">Heart liest deinen Standort für drei Dinge:</p>
+          <ul class="space-y-2 text-sm text-secondary leading-relaxed list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Routen</strong>: GPS-Koordinaten, solange ein Spaziergang, Lauf oder eine Radfahrt läuft, die du gestartet hast, um die Routenkarte zu zeichnen.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Gym-Erkennung</strong>: Wenn du den Standort deines Gyms speicherst, prüft Heart im Hintergrund deinen Standort, um zu bemerken, dass du dich zwei Minuten lang mit angelegtem Gurt im Radius aufhältst (standardmäßig 250 m, in den Einstellungen 100 bis 500 m). Dann startet eine Gym-Session.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Standortverlauf</strong>: <strong class="text-primary/80">standardmäßig eingeschaltet</strong>, abschaltbar in den Einstellungen. Solange der Gurt verbunden ist, speichert Heart höchstens alle 2 Minuten oder alle 50 m einen Punkt. Im Umkreis von 150 m um den Home-Standort, den du speicherst, wird nichts aufgezeichnet.</span></li>
+          </ul>
+          <p class="text-sm text-secondary leading-relaxed mt-2">Standortdaten bleiben auf dem Handy. Sie verlassen es nur in einem Backup, das du einschaltest, oder als Route, die du auf ein geteiltes Bild setzt. Dort wird die Route im Umkreis deines Home-Standorts abgeschnitten.</p>
 
           <h3 class="text-sm font-semibold text-primary mb-2 mt-6">1.5 Diagnosedaten</h3>
           <p class="text-sm text-secondary leading-relaxed">Ein fortlaufendes Protokoll der letzten 20 Sync- / BLE-Fehler (technische Zeichenketten, keine Gesundheitsdaten) und ein Absturzprotokoll in der App. Absturzberichte werden <strong class="text-primary/80">nur aufgezeichnet, wenn du</strong> unter <strong class="text-primary/80">Privacy &amp; export</strong> die Option „Crash reports opt-in“ <strong class="text-primary/80">einschaltest</strong>. Sie werden in eine Datei auf deinem Gerät geschrieben und <strong class="text-primary/80">nicht übertragen</strong>, es sei denn, du entscheidest dich, einen Diagnose-Export zu teilen.</p>
@@ -76,7 +82,8 @@ const updated = '5. Mai 2026';
             <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">iOS</strong>: die App-Sandbox (<code class="text-accent font-mono text-xs">Documents</code> und <code class="text-accent font-mono text-xs">NSUserDefaults</code>), automatisch geschützt durch die Datenschutzfunktion von iOS (Data Protection).</span></li>
             <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Android</strong>: interner App-Speicher (<code class="text-accent font-mono text-xs">SharedPreferences</code> und das Dokumentenverzeichnis). Unter Android 10 und neuer wird dieser Speicher vom Betriebssystem mithilfe der Anmeldedaten deiner Displaysperre hardwareverschlüsselt.</span></li>
           </ul>
-          <p class="text-sm text-secondary leading-relaxed mt-4">Andere Apps können diesen Speicher nicht lesen, und wenn du Heart deinstallierst, wird das gesamte Verzeichnis mit entfernt.</p>
+          <p class="text-sm text-secondary leading-relaxed mt-4">Andere Apps können diesen Speicher nicht lesen, und wenn du Heart deinstallierst, wird er entfernt.</p>
+          <p class="text-sm text-secondary leading-relaxed mt-3"><strong class="text-primary/80">Bei Backups ist das anders.</strong> Heart schreibt seine Backups nach <code class="text-accent font-mono text-xs">Download/Heart</code> im gemeinsamen Speicher des Handys, damit sie eine Deinstallation überstehen. Dieser Ordner <strong class="text-primary/80">bleibt erhalten, wenn du Heart deinstallierst</strong>, und andere Apps, denen du Zugriff auf deine Dateien gegeben hast, können ihn lesen. Lösch ihn selbst, wenn du jede Kopie loswerden willst.</p>
         </section>
 
         {/* §3 */}
@@ -87,7 +94,7 @@ const updated = '5. Mai 2026';
               'Heart fragt nie nach einem Namen, einer E-Mail-Adresse oder einer Telefonnummer.',
               'Die Werbe-ID wird nie gelesen.',
               'Der Build enthält kein Analyse-SDK und kein Tracking-Pixel. Er öffnet nie Kontakte, Fotos, Mikrofon oder Kamera, und kein Code darin erstellt Nutzerprofile.',
-              'Keine Telemetrie im Hintergrund an einen von uns kontrollierten Server. Der Schalter „Outbound telemetry“ unter Privacy & export ist standardmäßig aus und überträgt derzeit keine Daten.',
+              'Keine Telemetrie im Hintergrund. Die einzige Anfrage im Hintergrund an einen von uns kontrollierten Server ist die Update-Prüfung aus Abschnitt 5, und sie sendet nichts über dich. Der Schalter „Outbound telemetry“ unter Privacy & export ist standardmäßig aus und überträgt derzeit keine Daten.',
             ].map(item => (
               <li class="flex gap-2">
                 <span class="text-accent shrink-0">-</span>
@@ -113,8 +120,8 @@ const updated = '5. Mai 2026';
                 <tbody class="divide-y divide-border">
                   {[
                     ['Bluetooth (immer)',                                                           'iOS / Android', 'Deinen Herzfrequenzmesser finden und mit ihm verbinden; nötig, um die Herzfrequenz im Hintergrund zu erfassen.'],
-                    ['Standort (genau, immer)',                                                     'iOS / Android', '(Android) Vom Betriebssystem für BLE-Scans vorgeschrieben. Heart nutzt deinen Standort nicht, um einen Gurt zu finden; Android liefert ohne diese Berechtigung einfach keine Scan-Ergebnisse. (Beide) Deine Route bei Lauf- / Radeinheiten auf der Karte darstellen, wenn du diese Funktion nutzt.'],
-                    ['Mitteilungen',                                                                'iOS / Android', 'Schlafzusammenfassung und Warnungen bei niedrigem Akkustand.'],
+                    ['Standort (genau, immer)',                                                     'iOS / Android', '(Android) Vom Betriebssystem für BLE-Scans vorgeschrieben. Heart nutzt deinen Standort nicht, um einen Gurt zu finden; Android liefert ohne diese Berechtigung einfach keine Scan-Ergebnisse. (Beide) Die Route von Einheiten, die du startest, die Gym-Erkennung, wenn du ein Gym gespeichert hast, und der Standortverlauf, solange du ihn nicht abschaltest (siehe 1.4).'],
+                    ['Benachrichtigungen',                                                          'iOS / Android', 'Schlafzusammenfassung, Warnungen bei niedrigem Akkustand und die dauerhafte Benachrichtigung, die deinen aktuellen Puls auf dem Sperrbildschirm zeigen kann (abschaltbar in den Einstellungen).'],
                     ['Hintergrundmodi, bluetooth-central, location',                               'iOS',           'Herzfrequenz-Streaming und Routenaufzeichnung aktiv halten, wenn der Bildschirm aus ist.'],
                     ['FOREGROUND_SERVICE, FOREGROUND_SERVICE_CONNECTED_DEVICE, _LOCATION',         'Android',       'Den BLE-Collector und die Routenaufzeichnung in einem Vordergrunddienst ausführen, damit das Betriebssystem sie nicht beendet.'],
                     ['RECEIVE_BOOT_COMPLETED, WAKE_LOCK',                                          'Android',       'Geplante Aufgaben nach einem Neustart des Geräts wieder einrichten.'],
@@ -130,14 +137,19 @@ const updated = '5. Mai 2026';
               </table>
             </div>
           </div>
-          <p class="text-xs text-hint mt-3 leading-relaxed">Heart liest den Standort nie außerhalb einer aktiven Sitzung mit Routenaufzeichnung. Die App spricht mit dem einen Bluetooth-Gerät, das du gekoppelt hast, und ignoriert alles andere, was ein Scan findet.</p>
+          <p class="text-xs text-hint mt-3 leading-relaxed">Heart liest den Standort nur für die drei Zwecke aus 1.4. Die App spricht mit dem einen Bluetooth-Gerät, das du gekoppelt hast, und ignoriert alles andere, was ein Scan findet.</p>
         </section>
 
         {/* §5 third-party */}
         <section>
-          <h2 class="text-xl font-bold text-primary mb-4">5. Dienste Dritter</h2>
-          <p class="text-sm text-secondary leading-relaxed">Die einzigen Netzwerkanfragen von Heart gehen an <strong class="text-primary/80">OpenStreetMap-Kachelserver</strong>, wenn du unter <strong class="text-primary/80">Settings → Offline Maps</strong> einen Kartenbereich für die Offline-Nutzung herunterlädst. Kachelanfragen enthalten deine ungefähre Kartenregion, aber keine Heart-spezifischen Kennungen. Kartenkacheln © OpenStreetMap-Mitwirkende, Lizenz ODbL. Nach dem Download werden die Kacheln lokal zwischengespeichert und ohne weiteren Netzwerkzugriff verwendet.</p>
-          <p class="text-sm text-secondary leading-relaxed mt-3">Heart enthält keine Werbe-SDKs, keine Analyse-SDKs und keine Crash-Reporter-SDKs, die Daten vom Gerät senden. Abgesehen von den oben genannten Kachelanfragen ist nichts im Build dafür gedacht, ein Netzwerk zu erreichen. Das Absturzprotokoll schreibt Heart mit eigenem Code in eine Datei, es ist also kein Reporter-SDK beteiligt.</p>
+          <h2 class="text-xl font-bold text-primary mb-4">5. Netzwerkanfragen und Dienste Dritter</h2>
+          <p class="text-sm text-secondary leading-relaxed mb-3">Hier steht jede Anfrage, die Heart ins Netz schickt. Wie bei jeder Webanfrage sieht der jeweilige Server dabei deine IP-Adresse.</p>
+          <ul class="space-y-2 text-sm text-secondary leading-relaxed list-none">
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">OpenStreetMap-Kachelserver</strong>: Kartenkacheln für Routenkarten und für Offline-Kartenbereiche, die du unter <strong class="text-primary/80">Settings → Offline Maps</strong> herunterlädst. Kachelanfragen enthalten die Kartenregion, aber keine Heart-spezifischen Kennungen. Nach dem Download werden die Kacheln lokal zwischengespeichert. Kartenkacheln © OpenStreetMap-Mitwirkende, Lizenz ODbL.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Update-Prüfung</strong> (ab Version 1.0.23): Höchstens alle 12 Stunden lädt Heart eine kleine Versionsdatei von pointbreaklab.com, das auf GitHub Pages liegt. Dabei wird nichts über dich gesendet, und du kannst die Prüfung in den Einstellungen abschalten. Wenn du ein Update annimmst, lädt Heart die neue Version herunter und prüft ihre Prüfsumme, bevor Android dich um die Installation bittet.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Nur wenn du sie einschaltest</strong>: das Google-Drive-Backup (gespeichert in deinem eigenen Google-Konto, dort gelten die Bedingungen von Google), der Download des Coach-Modells (etwa 806 MB, von Hugging Face) und der Sync von Handy zu Handy über dein eigenes WLAN, der direkt zwischen deinen Handys läuft.</span></li>
+          </ul>
+          <p class="text-sm text-secondary leading-relaxed mt-3">Heart enthält keine Werbe-SDKs, keine Analyse-SDKs und keine Crash-Reporter-SDKs, die Daten vom Gerät senden. Das Absturzprotokoll schreibt Heart mit eigenem Code in eine Datei, es ist also kein Reporter-SDK beteiligt.</p>
         </section>
 
         {/* §6 sharing */}
@@ -149,6 +161,9 @@ const updated = '5. Mai 2026';
               ['Export auf ein anderes Gerät', 'Erzeugt ein JSON-Paket, das du übertragen kannst.'],
               ['Export als lokales Paket / Trainingsdaten / CSV', 'Erzeugt Dateien, die du speichern oder über das Teilen-Menü deines Betriebssystems weitergeben kannst.'],
               ['Diagnose-Export', 'Fasst aktuelle technische Protokolle für Supportzwecke zusammen.'],
+              ['Als Story-Bild teilen', 'Teilt eine beendete Session oder die Tagesübersicht aus dem Brief-Tab als Bild. Du legst mit Schaltern fest, was darauf erscheint (Puls, Kalorien, Zeiten, Route). Eine Route wird im Umkreis deines Home-Standorts abgeschnitten.'],
+              ['Google-Drive-Backup', 'Nur wenn du es einschaltest. Kopiert dein Backup in dein eigenes Google-Konto.'],
+              ['Sync von Handy zu Handy', 'Nur wenn du ihn startest. Kopiert deine Daten über dein eigenes WLAN auf dein anderes Handy.'],
             ].map(([label, desc]) => (
               <li class="flex gap-2">
                 <span class="text-hint shrink-0">·</span>
@@ -156,7 +171,7 @@ const updated = '5. Mai 2026';
               </li>
             ))}
           </ul>
-          <p class="text-sm text-secondary leading-relaxed mt-4">Es wird nichts verkauft, und keine Daten gehen an Werbetreibende, Versicherer oder Arbeitgeber. Daten verlassen das Handy nur über die oben genannten Exporte, die du jeweils selbst startest.</p>
+          <p class="text-sm text-secondary leading-relaxed mt-4">Es wird nichts verkauft, und keine Daten gehen an Werbetreibende, Versicherer oder Arbeitgeber. Deine Daten verlassen das Handy nur über die oben genannten Aktionen, die du jeweils selbst startest oder einschaltest.</p>
         </section>
 
         {/* §7 controls */}
@@ -166,11 +181,11 @@ const updated = '5. Mai 2026';
           <ul class="space-y-2 text-sm text-secondary list-none">
             {[
               'Anonymize exports, Crash reports opt-in und Outbound telemetry ein- oder ausschalten.',
-              'Auf ein anderes Gerät exportieren: JSON-Paket mit Sitzungen und Schlafdaten.',
+              'Auf ein anderes Gerät exportieren („Export to another device“): JSON-Paket mit Sitzungen und Schlafdaten.',
               'Ein lokales Paket, Trainingsdaten oder CSV-Dateien exportieren.',
               'Einen Diagnose-Export erstellen.',
-              'Den Herzfrequenzverlauf löschen. Entfernt die aufgezeichneten HF-Messwerte und Schlafkorrekturen; Sitzungen und Einstellungen bleiben erhalten.',
-              'Alle Daten löschen. Entfernt dauerhaft jeden Herzfrequenz-Messwert, jede Sitzung, Schlafkorrekturen, App-Einstellungen, Profil, gekoppelte Geräte und Absturzprotokolle von diesem Gerät. Diese Aktion kann nicht rückgängig gemacht werden.',
+              'Den Herzfrequenzverlauf löschen („Clear heart-rate history“). Entfernt die aufgezeichneten HF-Messwerte und Schlafkorrekturen; Sitzungen und Einstellungen bleiben erhalten.',
+              'Alle Daten löschen („Delete all data“). Entfernt dauerhaft jeden Herzfrequenz-Messwert, jede Sitzung, Schlafkorrekturen, App-Einstellungen, Profil, gekoppelte Geräte und Absturzprotokolle von diesem Gerät. Diese Aktion kann nicht rückgängig gemacht werden.',
             ].map(item => (
               <li class="flex gap-2">
                 <span class="text-accent shrink-0">→</span>
@@ -178,7 +193,7 @@ const updated = '5. Mai 2026';
               </li>
             ))}
           </ul>
-          <p class="text-sm text-secondary leading-relaxed mt-3">Du kannst alle Heart-Daten auch entfernen, indem du die App deinstallierst.</p>
+          <p class="text-sm text-secondary leading-relaxed mt-3">Wenn du Heart deinstallierst, wird der App-Speicher entfernt. Backups in <code class="text-accent font-mono text-xs">Download/Heart</code> und, falls eingeschaltet, in Google Drive bleiben, bis du sie selbst löschst.</p>
         </section>
 
         {/* §8 children */}
@@ -191,7 +206,7 @@ const updated = '5. Mai 2026';
         <section>
           <div class="p-5 rounded-2xl bg-surface border border-yellow-500/20">
             <h2 class="text-xl font-bold text-primary mb-4">9. Wellness, keine medizinische Beratung</h2>
-            <p class="text-sm text-secondary leading-relaxed mb-3">Heart ist eine <strong class="text-primary/80">Wellness- und Fitness-Anwendung</strong>. Heart ist <strong class="text-primary/80">kein</strong> Medizinprodukt, ist nicht dazu bestimmt, Krankheiten zu diagnostizieren, zu behandeln, zu heilen oder zu verhüten, und ersetzt keine professionelle medizinische Beratung. Alle Werte (Erholung, Belastung, Schlafwert, Kalorienverbrauch usw.) sind Schätzungen, die aus Consumer-Sensoren und Referenzdaten auf Bevölkerungsebene abgeleitet werden.</p>
+            <p class="text-sm text-secondary leading-relaxed mb-3">Heart ist eine <strong class="text-primary/80">Wellness- und Fitness-Anwendung</strong>. Heart ist <strong class="text-primary/80">kein</strong> Medizinprodukt, ist nicht dazu bestimmt, Krankheiten zu diagnostizieren, zu behandeln, zu heilen oder zu verhüten, und ersetzt keine professionelle medizinische Beratung. Alle Werte (Erholung, Belastung, Schlafwert, Kalorienverbrauch usw.) sind Schätzungen, die aus Sensoren für Endverbraucher und Referenzdaten auf Bevölkerungsebene abgeleitet werden.</p>
             <p class="text-sm text-secondary leading-relaxed">Insbesondere wird die <strong class="text-primary/80">Herzalter-Schätzung</strong>, sofern sie angezeigt wird, aus der nächtlichen HRV (RMSSD) und dem Ruhepuls berechnet und mit veröffentlichten Referenznormen für den Bevölkerungsdurchschnitt verglichen (Umetani 1998, Pikkujämsä 1999). Sie ist <strong class="text-primary/80">nicht</strong> auf deine individuelle Physiologie zugeschnitten. Sie ist nur als Indikator für den Langzeittrend gedacht und darf nicht für medizinische Entscheidungen verwendet werden. Wende dich bei medizinischen Fragen immer an qualifiziertes medizinisches Fachpersonal.</p>
           </div>
         </section>
@@ -201,8 +216,8 @@ const updated = '5. Mai 2026';
           <h2 class="text-xl font-bold text-primary mb-4">10. Sicherheit</h2>
           <ul class="space-y-2 text-sm text-secondary list-none">
             <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Unter Android 10 und neuer wird der Speicher vom Betriebssystem mithilfe der Anmeldedaten deiner Displaysperre hardwareverschlüsselt. Der Speicher unter iOS ist durch die Data-Protection-Klasse von iOS geschützt.</li>
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Heart überträgt deine Daten an keinen Server, daher sind Sicherheitsverletzungen auf dem Übertragungsweg hier nicht einschlägig.</li>
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Eine Sicherheitsmeldung erreicht eine einzelne Person unter der Adresse in Abschnitt 12. Bitte schreib, bevor du etwas öffentlich machst, und rechne mit einer langsamen Antwort und ohne Bug-Bounty-Zahlung.</li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Heart hat keinen eigenen Server, der deine Daten empfängt. Die einzigen Kopien außerhalb des Handys sind die, die du selbst erzeugst: Exporte, geteilte Bilder, ein Google-Drive-Backup oder ein WLAN-Sync.</li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span> Eine Sicherheitsmeldung erreicht eine einzelne Person unter der Adresse in Abschnitt 12. Bitte schreib, bevor du etwas öffentlich machst, und rechne mit einer langsamen Antwort. Eine Bug-Bounty-Zahlung gibt es nicht.</li>
           </ul>
         </section>
 
@@ -224,7 +239,7 @@ const updated = '5. Mai 2026';
         <section>
           <h2 class="text-xl font-bold text-primary mb-4">13. Hinweise zu einzelnen Rechtsordnungen</h2>
           <ul class="space-y-3 text-sm text-secondary list-none">
-            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">EWR / Vereinigtes Königreich (DSGVO / UK GDPR)</strong>. Heart verarbeitet personenbezogene Daten nur auf deinem eigenen Gerät, standardmäßig findet also keine Übermittlung statt. Über den Bildschirm Privacy &amp; export in der App behältst du uneingeschränkt deine Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch.</span></li>
+            <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">EWR / Vereinigtes Königreich (DSGVO / UK GDPR)</strong>. Heart verarbeitet deine Gesundheits- und Standortdaten auf deinem eigenen Gerät. Übermittelt werden sie nur, wenn du ein Google-Drive-Backup oder den WLAN-Sync einschaltest oder selbst einen Export oder ein Bild teilst. Deine Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch behältst du uneingeschränkt; die meisten davon kannst du direkt über den Bildschirm Privacy &amp; export in der App wahrnehmen.</span></li>
             <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Kalifornien (CCPA / CPRA)</strong>. Wir „verkaufen“ oder „teilen“ keine personenbezogenen Informationen im Sinne der Definitionen dieser Begriffe im CCPA / CPRA.</span></li>
             <li class="flex gap-2"><span class="text-hint shrink-0">·</span><span><strong class="text-primary/80">Gesetze zu Gesundheitsdaten (HIPAA usw.)</strong>. Heart ist eine Wellness-App für Verbraucher und keine unter HIPAA fallende Stelle („covered entity“). Daten, die du über Heart erfasst, sind keine geschützten Gesundheitsinformationen („protected health information“), es sei denn, du entscheidest dich, sie mit einer solchen Stelle zu teilen.</span></li>
           </ul>

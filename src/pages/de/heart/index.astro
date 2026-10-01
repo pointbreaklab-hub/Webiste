@@ -63,7 +63,7 @@ const asleepMinutes = stageMinutes.filter((s) => s.key !== 'awake').reduce((a, s
 const faqs: { q: string; a: string; href?: { url: string; text: string } }[] = [
   {
     q: 'Brauche ich den Coospo HW9?',
-    a: 'Nein. Ich habe Heart rund um den Coospo HW9 gebaut, den du an Brust, Oberarm oder Unterarm tragen kannst. Es funktioniert aber jeder Gurt, der den standardisierten Bluetooth Heart Rate Service sendet, zum Beispiel Polar H9 und H10, Garmin HRM-Dual oder Wahoo TICKR. Ein Nutzer hat den Polar H9 bestätigt.',
+    a: 'Nein. Ich habe Heart mit dem Coospo HW9 entwickelt, den du an Brust, Oberarm oder Unterarm tragen kannst. Es funktioniert aber jeder Gurt, der den standardisierten Bluetooth Heart Rate Service sendet, zum Beispiel Polar H9 und H10, Garmin HRM-Dual oder Wahoo TICKR. Ein Nutzer hat bestätigt, dass der Polar H9 funktioniert.',
   },
   {
     q: 'Gibt es eine iPhone-Version?',
@@ -75,7 +75,7 @@ const faqs: { q: string; a: string; href?: { url: string; text: string } }[] = [
   },
   {
     q: 'Was passiert mit meinen Daten, wenn ich die App deinstalliere oder das Handy wechsle?',
-    a: 'Heart schreibt seine Backups nach Download/Heart auf dem Handy, und dieser Ordner bleibt beim Deinstallieren erhalten. Nach einer Neuinstallation zeigst du Heart diesen Ordner oder eine Backup-Datei, die du vom Handy kopiert hast, und dein Verlauf ist wieder da. Was neuer ist als das letzte Backup, kommt nicht zurück. Lass die automatischen Backups deshalb eingeschaltet. Zum Aktualisieren installierst du die neue APK über die alte. Deine Daten bleiben dabei erhalten.',
+    a: 'Heart schreibt seine Backups nach Download/Heart auf dem Handy, und dieser Ordner bleibt beim Deinstallieren erhalten. Nach einer Neuinstallation wählst du in Heart diesen Ordner oder eine Backup-Datei aus, die du vom Handy kopiert hast, und dein Verlauf ist wieder da. Was neuer ist als das letzte Backup, kommt nicht zurück. Lass die automatischen Backups deshalb eingeschaltet. Zum Aktualisieren installierst du die neue APK über die alte. Deine Daten bleiben dabei erhalten.',
   },
   {
     q: 'Brauche ich ein Konto?',
@@ -182,7 +182,7 @@ const faqJsonLd = {
             </div>
           </div>
           <div aria-hidden="true" class="hidden xl:flex absolute -left-44 top-24 items-center gap-2 px-3 py-2 rounded-xl bg-surface border border-border text-xs text-secondary font-mono shadow-lg">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span> auf dem Gerät berechnet
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span> lokal berechnet
           </div>
           <div aria-hidden="true" class="hidden xl:flex absolute -right-36 bottom-32 items-center gap-2 px-3 py-2 rounded-xl bg-surface border border-border text-xs text-secondary font-mono shadow-lg">
             <span class="w-1.5 h-1.5 rounded-full bg-accent"></span> kein Konto
@@ -277,13 +277,13 @@ const faqJsonLd = {
           <ul class="space-y-2 text-sm text-secondary">
             <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Bereitschaft und Erholung werden an deinen letzten 30 Nächten gemessen</li>
             <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Der Schwerpunkt ist einer von vier Werten: push, maintain, easy oder rest. Die Belastung ist zonengewichtete Anstrengung auf einer Skala von 0 bis 21</li>
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Tipp auf die Distanzzeile, dann siehst du die Route des Tages auf einer Karte</li>
-            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Teil die Tagesübersicht aus dem Brief-Tab als Story-Bild, samt den Gründen für den Wert</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Tippe auf die Distanzzeile, dann siehst du die Route des Tages auf einer Karte</li>
+            <li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>Teile die Tagesübersicht aus dem Brief-Tab als Story-Bild, samt den Gründen für den Wert</li>
           </ul>
         </div>
 
         <figure class="section-reveal">
-          <div role="img" aria-label="Illustration der Karte im Brief-Tab von Heart: Bereitschaft 71%, Schwerpunkt Maintain, Stress ausgeglichen, Belastung 6.2 von 21, heute 4.2 km unterwegs, Prognose für morgen stabil." class="max-w-sm mx-auto rounded-3xl bg-[#101a19] border border-[#1f2e2c] p-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.9)]">
+          <div role="img" aria-label="Illustration der Karte im Brief-Tab von Heart: Bereitschaft 71%, Schwerpunkt Maintain, Stress ausgeglichen, Belastung 6,2 von 21, heute 4,2 km unterwegs, Prognose für morgen stabil." class="max-w-sm mx-auto rounded-3xl bg-[#101a19] border border-[#1f2e2c] p-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.9)]">
             <div class="flex items-center gap-2 mb-4" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="#00d4aa"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9z"/></svg>
               <span class="text-primary text-sm font-semibold">Brief</span>
@@ -300,11 +300,11 @@ const faqJsonLd = {
               </div>
               <div class="flex items-center gap-3 px-3 py-2">
                 <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                <span class="text-secondary">Belastung · 6.2 / 21 (leichter Tag)</span>
+                <span class="text-secondary">Belastung · 6,2 / 21 (leichter Tag)</span>
               </div>
               <div class="flex items-center gap-3 px-3 py-2">
                 <span class="w-2 h-2 rounded-full bg-violet-400"></span>
-                <span class="text-secondary">Heute 4.2 km unterwegs</span>
+                <span class="text-secondary">Heute 4,2 km unterwegs</span>
               </div>
             </div>
             <div class="mt-4 pt-4 border-t border-[#1f2e2c] flex items-center justify-between text-xs" aria-hidden="true">
@@ -364,7 +364,7 @@ const faqJsonLd = {
           <p class="text-accent text-xs font-mono tracking-widest mb-3">TRAINING</p>
           <h3 class="text-2xl md:text-3xl font-black text-primary mb-4">Gym-Sessions starten, wenn du ankommst</h3>
           <p class="text-secondary leading-relaxed mb-5">
-            Speicher einmal den Standort deines Studios. Bleib zwei Minuten mit dem Gurt innerhalb des Radius (standardmäßig 250 m, in den Einstellungen 100 bis 500 m), dann startet eine Gym-Session. Sie endet ein paar Minuten, nachdem du gegangen bist, oder wenn der Gurt eine Weile nichts mehr gesendet hat. Markier sie als Push, Pull oder Legs, dann behält Heart im Blick, was du trainiert hast. Spaziergänge, Läufe und Radtouren startest du selbst, und sie bekommen eine GPS-Route auf einer OpenStreetMap-Karte.
+            Speichere einmal den Standort deines Gyms. Bleib zwei Minuten mit dem Gurt innerhalb des Radius (standardmäßig 250 m, in den Einstellungen 100 bis 500 m), dann startet eine Gym-Session. Sie endet ein paar Minuten, nachdem du gegangen bist, oder wenn der Gurt eine Weile nichts mehr gesendet hat. Markier sie als Push, Pull oder Legs, dann behält Heart im Blick, was du trainiert hast. Spaziergänge, Läufe und Radtouren startest du selbst, und sie bekommen eine GPS-Route auf einer OpenStreetMap-Karte.
           </p>
           <p class="text-sm text-hint leading-relaxed">
             Eine beendete Session kannst du als Story-Bild mit Bildunterschrift teilen, etwa über WhatsApp oder per E-Mail. Du wählst aus, was draufkommt (Puls, Kalorien, Zeiten, Route), und eine Route wird rund um deinen gespeicherten Home-Standort abgeschnitten.
@@ -420,9 +420,9 @@ const faqJsonLd = {
       </p>
       <ul class="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0" aria-label="Screenshots von Heart">
         {[
-          { src: '/screenshots/heart/app_brief.webp', caption: 'Der Brief-Tab', alt: 'Der Brief-Tab von Heart: Schwerpunkt für heute Maintain, Belastung 0.5 von 21, Erholung mit fallender Tendenz um 25%, Ruhepuls über 5 Nächte um 12 bpm gestiegen und die Bereitschaftsprognose für morgen mit 107 ms RMSSD, voraussichtlich sinkend.' },
+          { src: '/screenshots/heart/app_brief.webp', caption: 'Der Brief-Tab', alt: 'Der Brief-Tab von Heart: Schwerpunkt für heute Maintain, Belastung 0,5 von 21, Erholung mit fallender Tendenz um 25%, Ruhepuls über 5 Nächte um 12 bpm gestiegen und die Bereitschaftsprognose für morgen mit 107 ms RMSSD, voraussichtlich sinkend.' },
           { src: '/screenshots/heart/app_detail.webp', caption: 'Eine Gym-Session', alt: 'Eine Gym-Session von 1 Stunde 36 Minuten: Durchschnittspuls 108 bpm, maximal 150, minimal 77, eine Pulskurve über die ganze Session und die Zeit in den Zonen: 67% Zone 1, 31% Zone 2, 2% Zone 3.' },
-          { src: '/screenshots/heart/app_share.webp', caption: 'Als Story teilen', alt: 'Die Teilen-Vorschau für dieselbe Gym-Session: eine Story-Karte mit der Dauer 1h 36m, Durchschnitts- und Maximalpuls und einem Balken für die Zeit in den Zonen, dazu Schalter für Puls, Kalorien und Zeiten.' },
+          { src: '/screenshots/heart/app_share.webp', caption: 'Als Story teilen', alt: 'Die Teilen-Vorschau für dieselbe Gym-Session: eine Story-Karte mit der Dauer 1 Stunde 36 Minuten, Durchschnitts- und Maximalpuls und einem Balken für die Zeit in den Zonen, dazu Schalter für Puls, Kalorien und Zeiten.' },
         ].map(({ src, caption, alt }) => (
           <li class="section-reveal shrink-0 w-[62%] sm:w-[40%] md:w-auto snap-center">
             <figure>
@@ -445,10 +445,10 @@ const faqJsonLd = {
         {[
           { icon: '❤️', title: 'Live-Puls & Zonen', body: 'Dein Puls und deine aktuelle Trainingszone, live auf dem Home-Bildschirm.' },
           { icon: '📈', title: 'HRV & Ruhepuls', body: 'Nächtliche RMSSD und Ruhepuls als Verlauf über Tage und Wochen, neben deiner 30-Tage-Baseline.' },
-          { icon: '〰️', title: 'Hinweise auf unregelmäßigen Rhythmus', body: 'Vier RR-Merkmale (pNN50, CoV, RMSSD, Spannweite). Überschreiten drei davon 30 Sekunden lang ihre Schwellenwerte, markiert Heart den Abschnitt als einen Blick wert. Das ist ein Wellness-Hinweis und kann nichts diagnostizieren.' },
+          { icon: '〰️', title: 'Hinweise auf unregelmäßigen Rhythmus', body: 'Vier RR-Merkmale (pNN50, CoV, RMSSD, Spannweite). Überschreiten drei davon 30 Sekunden lang ihre Schwellenwerte, vermerkt Heart den Abschnitt, damit du ihn dir ansehen kannst. Das ist ein Wellness-Hinweis und kann nichts diagnostizieren.' },
           { icon: '🔥', title: 'Aktive Kalorien', body: 'Keytel 2005, nur gezählt, solange dein Puls bei oder über 90 bpm liegt, wo die Formel gilt. Darunter zählt Heart nichts. Das ist also aktive Energie, nicht dein ganzer Tag.' },
           { icon: '🗺️', title: 'Standortverlauf', body: 'Standardmäßig an, in den Einstellungen abschaltbar. Solange der Gurt verbunden ist, speichert Heart höchstens alle 2 Minuten bzw. alle 50 m einen Punkt, und zwar auf dem Handy. Im Umkreis von 150 m um deinen gespeicherten Home-Standort wird nichts aufgezeichnet.' },
-          { icon: '📤', title: 'Export und Löschen', body: 'Messwerte, Werte, Schlafverlauf und die tägliche JSONL liegen in der App-Sandbox. Der Export schreibt alles in eine einzige JSON-Datei, und alles zu löschen braucht nur ein Tippen.' },
+          { icon: '📤', title: 'Export und Löschen', body: 'Rohmesswerte, berechnete Werte, Schlafverlauf und die tägliche JSONL liegen in der App-Sandbox. Der Export schreibt alles in eine einzige JSON-Datei, und mit einem Tippen ist alles gelöscht.' },
         ].map(({ icon, title, body }) => (
           <li class="section-reveal flex gap-4 p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 hover:-translate-y-0.5 hover:shadow-[0_6px_24px_-8px_rgba(0,212,170,0.25)] transition-all duration-300">
             <div aria-hidden="true" class="shrink-0 w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-lg">{icon}</div>
@@ -553,7 +553,7 @@ const faqJsonLd = {
     <div class="relative grid grid-cols-1 sm:grid-cols-2 gap-5">
       <div class="section-reveal p-5 rounded-2xl bg-surface border border-border">
         <h3 class="text-base font-bold text-primary mb-2">Download fehlgeschlagen?</h3>
-        <p class="text-secondary text-sm leading-relaxed">Versuch es noch einmal in einem anderen Browser, zum Beispiel in Samsung Internet statt Chrome oder umgekehrt.</p>
+        <p class="text-secondary text-sm leading-relaxed">Versuche es noch einmal in einem anderen Browser, zum Beispiel in Samsung Internet statt Chrome oder umgekehrt.</p>
       </div>
       <div class="section-reveal p-5 rounded-2xl bg-surface border border-border">
         <h3 class="text-base font-bold text-primary mb-2">Auf eine neue Version aktualisieren</h3>
@@ -585,9 +585,9 @@ const faqJsonLd = {
             ['Berechnung', 'Jeder Wert wird auf dem Handy berechnet.'],
             ['Konto',      'Keins. Es gibt nichts, wofür du dich registrieren müsstest.'],
             ['Server',     'Keiner. Es gibt keinen Heart-Server, an den Daten gehen könnten.'],
-            ['Telemetrie', 'Keine. Keine Analyse und keine Werbung.'],
+            ['Telemetrie', 'Keine. Keine Analytics und keine Werbung.'],
             ['Netzwerk',   'OpenStreetMap-Kartenkacheln und höchstens alle 12 Stunden eine Abfrage bei pointbreaklab.com nach einer neuen Heart-Version (eine kleine Versionsdatei; in den Einstellungen abschaltbar). Nur wenn du sie einschaltest: Google-Drive-Backup, der Download des Coach-Modells (~806 MB, von Hugging Face) und die Synchronisierung von Handy zu Handy über dein eigenes WLAN.'],
-            ['Backups',    'Werden nach Download/Heart auf dem Handy geschrieben. Dieser Ordner bleibt erhalten, wenn Heart deinstalliert wird. Nach einer Neuinstallation zeigst du Heart diesen Ordner. Alles, was neuer ist als das letzte Backup, ist verloren.'],
+            ['Backups',    'Werden nach Download/Heart auf dem Handy geschrieben. Dieser Ordner bleibt erhalten, wenn Heart deinstalliert wird. Nach einer Neuinstallation wählst du diesen Ordner in Heart aus. Alles, was neuer ist als das letzte Backup, ist verloren.'],
             ['Mathematik', 'Veröffentlichte Formeln, jede mit ihrer Quelle (Liste unten).'],
           ].map(([k, v]) => (
             <div class="flex flex-col sm:flex-row sm:gap-4">
@@ -608,7 +608,7 @@ const faqJsonLd = {
           <div class="min-w-0 w-full">
             <p class="text-accent text-xs font-mono tracking-widest mb-1.5">VALIDIERUNG · 14 ALGORITHMEN · 92 TESTFÄLLE · LAUF VOM 2026-09-28</p>
             <p class="text-primary text-sm leading-relaxed mb-3">
-              Jeder Algorithmus in Heart, der eine geschlossene Formel berechnet, liefert dieselbe Ausgabe wie <span class="text-accent">eine numpy-Referenzimplementierung derselben Formel</span>, bis auf höchstens <span class="text-accent font-mono">1.42 × 10⁻¹⁴</span>. Das ist Gleitkomma-Rundung.
+              Jeder Algorithmus in Heart, der eine Formel in geschlossener Form auswertet, liefert dieselbe Ausgabe wie <span class="text-accent">eine numpy-Referenzimplementierung derselben Formel</span>, bis auf höchstens <span class="text-accent font-mono">1,42 × 10⁻¹⁴</span>. Das ist Gleitkomma-Rundung.
             </p>
             <p class="text-secondary text-xs leading-relaxed">
               Die Prüfung ist ein Test im Repository der App (<span class="text-primary/70 font-mono text-[11px] break-all">test/algorithm_validation_test.dart</span>). Der Quellcode ist nicht öffentlich. Die Formeln stammen aus Tanaka 2001, Uth 2004, Keytel 2005, Holt 1957, ESC/NASPE 1996, Banister 1975 und Coyle 1998.
@@ -626,7 +626,7 @@ const faqJsonLd = {
             <span class="ml-2 text-hint text-xs font-mono">formulas-and-references.txt</span>
           </div>
           <div class="flex items-center gap-2 font-mono text-xs select-none">
-            <span class="text-secondary">aufklappen für die Formeln</span>
+            <span class="text-secondary">Formeln aufklappen</span>
             <span class="text-accent group-open:hidden" aria-hidden="true">▶</span>
             <span class="text-accent hidden group-open:inline" aria-hidden="true">▼</span>
           </div>
@@ -637,11 +637,11 @@ const faqJsonLd = {
             {[
               ['HRV',              'RMSSD · ESC/NASPE Task Force · Eur. Heart J. 17:354 · 1996'],
               ['HRmax',            'Altersbasiertes Maximum · Tanaka et al. · Med. Sci. Sports Exerc. 32:1591 · 2001'],
-              ['HF-Zonen',         'Aufteilung in 5 Zonen · HRmax × [0.60, 0.70, 0.80, 0.90]'],
+              ['HF-Zonen',         'Aufteilung in 5 Zonen · HRmax × [0,60; 0,70; 0,80; 0,90]'],
               ['VO2max',           'Herzfrequenz-Verhältnis-Methode · Uth et al. · Eur. J. Appl. Physiol. 91:111 · 2004'],
               ['Kalorien',         'HF + Alter + Gewicht + Geschlecht · Keytel et al. · J. Sports Sci. 23:289 · 2005'],
               ['Distanz',          'Haversine-Großkreis · Näherung mit kugelförmiger Erde'],
-              ['Kardialer Drift',  'HF im ersten gegen letztes Drittel · Ansatz nach Coyle · 1998'],
+              ['Kardialer Drift',  'HF im ersten vs. im letzten Drittel · Ansatz nach Coyle · 1998'],
               ['Belastung',        'TRIMP, zonengewichtete Last · Banister & Calvert · 1975'],
               ['Schlafphasen',     'Regelbasierter Klassifikator auf 5-Minuten-HF-Abschnitten · 4 Phasen'],
               ['Schlaf-Priors',    'Bayessche Nachkorrektur · Sleep-EDF · Kemp et al. 2000'],
@@ -649,7 +649,7 @@ const faqJsonLd = {
               ['Bereitschaft',     'Lineare exponentielle Glättung nach Holt · Holt · ONR memo 52 · 1957'],
               ['Rhythmus-Hinweis', 'Schwellenwerte auf 4 Merkmalen · pNN50 + CoV(RR) + RMSSD + RR-Spannweite'],
               ['Speicher',         'SharedPreferences + JSONL · App-Sandbox · Backups in Download/Heart'],
-              ['Netzwerk',         'OpenStreetMap-Kacheln · Update-Prüfung (pointbreaklab.com, ≤ alle 12 h) · optional: Google-Drive-Backup, Download des Coach-Modells, Handy-Sync über WLAN'],
+              ['Netzwerk',         'OpenStreetMap-Kacheln · Update-Prüfung (pointbreaklab.com, ≤ alle 12 h) · nur wenn eingeschaltet: Google-Drive-Backup, Download des Coach-Modells, Handy-Sync über WLAN'],
               ['Server',           'Keiner'],
             ].map(([key, val]) => (
               <div class="flex flex-col sm:flex-row sm:gap-4 sm:items-baseline font-mono">
@@ -662,7 +662,7 @@ const faqJsonLd = {
       </details>
 
       <p class="text-hint text-xs text-center max-w-xl mx-auto leading-relaxed">
-        Die Validierung oben prüft nur, ob die <span class="text-secondary">Mathematik</span> richtig umgesetzt ist. Über die Genauigkeit des Gesamtsystems sagt sie nichts: Schlafphasen gegenüber PSG und Kalorien gegenüber Kalorimetrie wurden noch nicht unabhängig gemessen.
+        Die Validierung oben prüft nur, ob die <span class="text-secondary">Mathematik</span> richtig umgesetzt ist. Über die Genauigkeit des Gesamtsystems sagt sie nichts: Die Schlafphasen wurden noch nicht unabhängig mit PSG verglichen, die Kalorien nicht mit Kalorimetrie.
       </p>
     </div>
   </section>

@@ -17,8 +17,8 @@ const EN = 'knot/index.astro';
 ---
 
 <Base
-  title="Knot · Peer-to-Peer-git, das beim Speichern committet"
-  description="Knot macht aus jedem Ordner ein git-Repository, das beim Speichern committet und sich über Tor mit den Rechnern deines Teams synchronisiert. Für macOS und Linux."
+  title="Knot · Peer-to-Peer-Git, das beim Speichern committet"
+  description="Knot macht aus jedem Ordner ein Git-Repository, das beim Speichern committet und sich über Tor mit den Rechnern deines Teams synchronisiert. Für macOS und Linux."
 >
   <Nav />
 
@@ -42,7 +42,7 @@ const EN = 'knot/index.astro';
         Knot beobachtet die Ordner, die du auswählst. Wenn du zehn Sekunden lang nichts mehr speicherst, macht es einen echten Commit und schickt ihn an jeden Rechner, mit dem du gekoppelt bist.
       </p>
       <p class="text-sm text-accent font-mono mb-10 max-w-xl mx-auto leading-relaxed">
-        Wenn Pushen zu GitHub für dich schon gut funktioniert, brauchst du das hier wahrscheinlich nicht.
+        Wenn dir das Pushen nach GitHub schon reicht, brauchst du das hier wahrscheinlich nicht.
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -73,7 +73,7 @@ const EN = 'knot/index.astro';
           <span class="w-3 h-3 rounded-full bg-accent/70"></span>
           <span class="ml-3 text-xs font-mono text-hint">Knot, Peer-to-Peer-Versionskontrolle</span>
         </div>
-        <img src="/screenshots/knot/dashboard.png" alt="Knot-Dashboard auf dem Desktop mit geschützten Ordnern, gekoppelten Geräten, allen bisherigen Speicherungen und der Aktivität dieser Woche" loading="lazy" class="w-full block" />
+        <img src="/screenshots/knot/dashboard.png" alt="Knot-Dashboard auf dem Desktop mit geschützten Ordnern, gekoppelten Geräten, allen bisherigen Speichervorgängen und der Aktivität dieser Woche" loading="lazy" class="w-full block" />
       </div>
     </div>
   </section>
@@ -88,8 +88,8 @@ const EN = 'knot/index.astro';
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
-          { step: '01', title: 'Der Ordner',    body: 'Jeder Ordner geht. Du sagst es Knot einmal, und ab dann ist er ein echtes git-Repository.' },
-          { step: '02', title: 'Die Peers',     body: 'Die andere Person installiert Knot ebenfalls. Du erzeugst einen einmaligen Kopplungscode und schickst ihn auf dem Weg, auf dem du sonst auch Dinge verschickst. Danach zeigen beide Rechner eine Bestätigung, die auf beiden Seiten angeklickt werden muss.' },
+          { step: '01', title: 'Der Ordner',    body: 'Jeder Ordner geht. Du sagst es Knot einmal, und ab dann ist er ein echtes Git-Repository.' },
+          { step: '02', title: 'Die Peers',     body: 'Die andere Person installiert Knot ebenfalls. Du erzeugst einen einmaligen Kopplungscode und schickst ihn auf dem Weg, den du sonst auch nimmst. Danach zeigen beide Rechner eine Bestätigung, die auf beiden Seiten angeklickt werden muss.' },
           { step: '03', title: 'Das Speichern', body: 'Du speicherst, und Knot erledigt Commit und Push.' },
         ].map(({ step, title, body }) => (
           <div class="section-reveal relative pl-8 border-l border-border hover:border-accent/40 transition-colors">
@@ -110,7 +110,7 @@ const EN = 'knot/index.astro';
       <SectionEyebrow num="02" label="IM ALLTAG" />
       <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Was Knot tut, sobald es läuft</h2>
       <p class="text-secondary max-w-xl mx-auto leading-relaxed">
-        Gebaut und getestet auf zwei Rechnern, einem MacBook und einem HP EliteBook mit Ubuntu: zuerst über WLAN, dann über Tor zwischen zwei verschiedenen Netzen. Dort hat es im Mai 2026 zum ersten Mal von Anfang bis Ende funktioniert.
+        Gebaut und getestet auf zwei Rechnern, einem MacBook und einem HP EliteBook mit Ubuntu: zuerst über WLAN, dann über Tor zwischen zwei verschiedenen Netzen. Auf diesem Weg hat es im Mai 2026 zum ersten Mal komplett funktioniert.
       </p>
     </div>
 
@@ -118,22 +118,22 @@ const EN = 'knot/index.astro';
       <FeatureBlock
         icon="🤝"
         title="Beide Rechner, derselbe Merge-Commit"
-        description="Am 27. August 2026 haben zwei gekoppelte Peers, deren Historien auseinandergelaufen waren, im Abstand von vier Sekunden über Tor gemergt, ohne dass irgendetwas sie koordiniert hat. Beide sind beim identischen Merge-Commit gelandet. Von Anfang bis Ende etwa 198 Sekunden."
+        description="Am 27. August 2026 haben zwei gekoppelte Peers, deren Historien auseinandergelaufen waren, im Abstand von vier Sekunden über Tor gemergt, ohne dass irgendetwas sie koordiniert hat. Beide sind beim identischen Merge-Commit gelandet. Insgesamt etwa 198 Sekunden."
       />
       <FeatureBlock
         icon="💾"
         title="Speichern wird zum synchronisierten Commit"
-        description="Zehn Sekunden nach deinem letzten Speichern in einem Ordner ist die Änderung ein echter git-Commit, und der geht Ende-zu-Ende-verschlüsselt an jeden gekoppelten Rechner. Dafür muss keine der beiden Seiten einen Port im Router öffnen."
+        description="Zehn Sekunden nach deinem letzten Speichern in einem Ordner ist die Änderung ein echter Git-Commit, und der geht Ende-zu-Ende-verschlüsselt an jeden gekoppelten Rechner. Dafür muss keine der beiden Seiten einen Port im Router öffnen."
       />
       <FeatureBlock
         icon="🪢"
-        title="Darunter echtes git"
-        description="Knot nutzt das echte Objektformat von git. git log, git diff und git branch funktionieren also weiter, genau wie alles andere, was du schon auf den Ordner loslässt."
+        title="Darunter echtes Git"
+        description="Knot nutzt das echte Objektformat von Git. git log, git diff und git branch funktionieren also weiter, genau wie alles andere, was du schon auf den Ordner loslässt."
       />
       <FeatureBlock
         icon="🧾"
         title="Was ein Commit mitbringt"
-        description="Das Gerät, auf dem der Commit entstanden ist, steht im Commit selbst. Jeder Rechner, der den Commit bekommt, sieht es also. Die Signatur und der Eintrag zur Agent-Session liegen noch in refs/notes, und das wird nicht repliziert. Deshalb lässt sich die vollständige Kette vorerst nur auf dem Rechner erzeugen, der die Commits gemacht hat. Beides in den Commit zu verlegen ist in Arbeit."
+        description="Das Gerät, auf dem der Commit entstanden ist, steht im Commit selbst. Jeder Rechner, der den Commit bekommt, sieht es also. Die Signatur und der Eintrag zur Agent-Session liegen noch in refs/notes, und das wird nicht repliziert. Deshalb lässt sich die vollständige Kette vorerst nur auf dem Rechner vorlegen, der die Commits gemacht hat. Beides in den Commit zu verlegen ist in Arbeit."
       />
     </div>
 
@@ -144,7 +144,7 @@ const EN = 'knot/index.astro';
     </div>
 
     <p class="section-reveal text-center text-hint text-xs mt-8 max-w-xl mx-auto leading-relaxed">
-      Für KI-Agenten: Ein einziger Aufruf von knot map --tokens 1500 gibt dem Agenten eine Karte des Repos, statt dass er fünf oder mehr Dateien liest. Auf einem Repo mit 56 Dateien, das der Agent noch nie gelesen hatte, waren das gemessen ≥3.4× weniger Tokens. Du kannst den Vergleich auf deinem eigenen Rechner nachmessen.
+      Für KI-Agenten: Ein einziger Aufruf von knot map --tokens 1500 gibt dem Agenten eine Karte des Repos, statt dass er fünf oder mehr Dateien liest. Auf einem Repo mit 56 Dateien, das der Agent noch nie gelesen hatte, waren das gemessen ≥3,4× weniger Tokens. Du kannst den Vergleich auf deinem eigenen Rechner nachmessen.
     </p>
   </section>
 
@@ -155,7 +155,7 @@ const EN = 'knot/index.astro';
         <SectionEyebrow num="03" label="INSTALLATION" />
         <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Installieren</h2>
         <p class="text-secondary mb-10 leading-relaxed">
-          Kostenlos, für macOS und Linux. Einen Windows-Download gibt es noch nicht. Die Kommandozeile und der Daemon lassen sich inzwischen unter Windows bauen und laufen dort, und Tor startet dort auch. Es wurde aber noch kein Commit zwischen Windows und einem anderen Rechner übertragen, und genau diesen Test muss jedes Release zuerst bestehen. Auch der macOS-Build ist nicht notarisiert, deshalb wird das erste Öffnen blockiert. Das zu beheben kostet einen Befehl, siehe unten.
+          Kostenlos, für macOS und Linux. Einen Windows-Download gibt es noch nicht. Die Kommandozeile und der Daemon lassen sich inzwischen unter Windows bauen und ausführen, und auch Tor startet dort. Es wurde aber noch kein Commit zwischen Windows und einem anderen Rechner übertragen, und genau diesen Test muss jedes Release zuerst bestehen. Auch der macOS-Build ist nicht notarisiert, deshalb wird das erste Öffnen blockiert. Das zu beheben kostet einen Befehl, siehe unten.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -174,7 +174,7 @@ const EN = 'knot/index.astro';
         </div>
 
         <p class="text-xs text-secondary mb-6">
-          Die <a href="/de/knot/docs/" class="text-accent hover:underline">Installationsanleitung</a> erklärt macOS, Linux, das Prüfen deines Downloads und dein erstes synchronisiertes Speichern.
+          Die <a href="/de/knot/docs/" class="text-accent hover:underline">Installationsanleitung</a> behandelt macOS, Linux, das Prüfen deines Downloads und dein erstes synchronisiertes Speichern.
         </p>
 
         <a
@@ -195,7 +195,7 @@ const EN = 'knot/index.astro';
 
         <div class="text-left p-5 rounded-2xl bg-bg border border-border font-mono text-xs space-y-1.5">
           <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Version</span><span class="text-primary">{releaseRow(EN, 'Version')}</span></div>
-          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">macOS</span><span class="text-primary/80">Intel, und Apple Silicon über Rosetta · .dmg</span></div>
+          <div class="flex gap-3"><span class="text-hint w-28 shrink-0">macOS</span><span class="text-primary/80">Intel; Apple Silicon über Rosetta · .dmg</span></div>
           <div class="flex gap-3"><span class="text-hint w-28 shrink-0">Linux</span><span class="text-primary/80">x86_64 · .deb (Ubuntu 20.04+, Debian 11+)</span></div>
           <div class="flex gap-3 mt-2 pt-2 border-t border-border"><span class="text-hint w-28 shrink-0">SHA-256 mac</span><span class="text-primary/60 break-all">{releaseRow(EN, 'SHA-256 mac')}</span></div>
           <div class="flex gap-3"><span class="text-hint w-28 shrink-0">SHA-256 linux</span><span class="text-primary/60 break-all">{releaseRow(EN, 'SHA-256 linux')}</span></div>
@@ -242,7 +242,7 @@ knot-app           # oder `knot solo` in einem beliebigen Ordner</code></pre>
         <SectionEyebrow num="04" label="ARCHITEKTUR" />
         <h2 class="text-3xl md:text-5xl font-light text-primary mb-4 tracking-tight">Wie ein Commit zum anderen Rechner kommt</h2>
         <p class="text-secondary max-w-xl mx-auto">
-          Eine Zeit lang hat jeder Push die gesamte Historie noch einmal verschickt. Der Basis-Commit wurde nämlich aus einer Liste genommen, die git nach Branch-Namen sortiert, und der Genesis-Commit stand dort immer ganz vorn. Die Kryptografie war der einfache Teil: Ed25519-Identitäten, gegenseitige Authentifizierung, ein Tor-Circuit, der nichts als verschlüsselte Bytes transportiert, und echte git-Objekte an beiden Enden.
+          Eine Zeit lang hat jeder Push die gesamte Historie noch einmal verschickt. Der Basis-Commit wurde nämlich aus einer Liste genommen, die Git nach Branch-Namen sortiert, und der Genesis-Commit stand dort immer ganz vorn. Die Kryptografie war der einfache Teil: Ed25519-Identitäten, gegenseitige Authentifizierung, eine Tor-Verbindung, die nichts als verschlüsselte Bytes transportiert, und echte Git-Objekte an beiden Enden.
         </p>
       </div>
       <div class="section-reveal">
@@ -259,26 +259,26 @@ knot-app           # oder `knot solo` in einem beliebigen Ordner</code></pre>
 
     <div class="section-reveal text-center mb-12">
       <SectionEyebrow num="05" label="FAQ" />
-      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Sicherheit, Server, git und der Offline-Fall</h2>
+      <h2 class="text-3xl md:text-5xl font-black text-primary mb-4">Sicherheit, Server, Git und der Offline-Fall</h2>
     </div>
 
     <div class="space-y-4">
       {[
         {
           q: 'Ist Knot sicher?',
-          a: 'Beide Seiten weisen per gegenseitiger Ed25519-Authentifizierung nach, wer sie sind, bevor irgendwelcher Code übertragen wird. Die Verbindung läuft über Tor (.onion-Hidden-Services). Sie ist also Ende-zu-Ende verschlüsselt, und Relays sehen nur Chiffretext. Ein neues Gerät zu koppeln braucht einen Bestätigungsklick auf beiden Rechnern. Die Bausteine sind die, die Signal, Tor und OpenSSH ausliefern. Der Code, der sie zusammensetzt, wurde von niemandem außerhalb dieses Projekts geprüft, und dieses Projekt ist eine Person in Würzburg.',
+          a: 'Beide Seiten weisen per gegenseitiger Ed25519-Authentifizierung nach, wer sie sind, bevor Code übertragen wird. Die Verbindung läuft über Tor (.onion-Dienste). Sie ist also Ende-zu-Ende-verschlüsselt, und Relays sehen nur Chiffretext. Ein neues Gerät zu koppeln braucht einen Bestätigungsklick auf beiden Rechnern. Die Bausteine sind die, die Signal, Tor und OpenSSH ausliefern. Der Code, der sie zusammensetzt, wurde von niemandem außerhalb dieses Projekts geprüft, und dieses Projekt ist eine Person in Würzburg.',
         },
         {
           q: 'Nutzt Knot einen Server?',
-          a: 'Nein. Code wird immer direkt von Peer zu Peer übertragen, über Tor-Circuits. Es gibt einen optionalen kleinen „Coordinator“, der Peers hilft, sich übers Internet zu finden. Er sieht aber nie auch nur ein Byte deines Codes, nur „Peer X hostet Projekt Y“. Du kannst ihn auf einem Raspberry Pi für $35 laufen lassen oder ganz weglassen.',
+          a: 'Nein. Code wird immer direkt von Peer zu Peer übertragen, über Tor-Verbindungen. Es gibt einen optionalen kleinen „Coordinator“, der Peers hilft, sich übers Internet zu finden. Er sieht aber nie auch nur ein Byte deines Codes, nur „Peer X hostet Projekt Y“. Du kannst ihn auf einem Raspberry Pi für 35 Dollar laufen lassen oder ganz weglassen.',
         },
         {
-          q: 'Kann ich weiterhin git benutzen?',
-          a: 'Ja. Knot nutzt das echte Objektformat von git, ein Knot-Ordner ist also auch ein echtes git-Repository. git log, git diff, git branch, git checkout: Alles funktioniert. Wenn zwei Historien auseinanderlaufen, mergt Knot sie für dich, und weil der Merge-Commit deterministisch gebaut wird, landen beide Rechner beim identischen Commit. Wenn dieselben Zeilen kollidieren oder die eingehenden Änderungen Bearbeitungen überschreiben würden, die du noch nicht committet hast, hält es an und stellt die eingehende Seite zurück. Die löst du dann in ganz normalem git auf.',
+          q: 'Kann ich weiterhin Git benutzen?',
+          a: 'Ja. Knot nutzt das echte Objektformat von Git, ein Knot-Ordner ist also auch ein echtes Git-Repository. git log, git diff, git branch, git checkout: Alles funktioniert. Wenn zwei Historien auseinanderlaufen, mergt Knot sie für dich, und weil der Merge-Commit deterministisch gebaut wird, landen beide Rechner beim identischen Commit. Wenn dieselben Zeilen kollidieren oder die eingehenden Änderungen Bearbeitungen überschreiben würden, die du noch nicht committet hast, hält es an und stellt die eingehende Seite zurück. Die löst du dann mit ganz normalem Git auf.',
         },
         {
           q: 'Was ist, wenn die andere Person offline ist, während ich speichere?',
-          a: 'Dann wird nichts übertragen, bis sie wieder online ist, wie bei jedem Peer-to-Peer-Protokoll. Dein Commit bleibt auf deinem Rechner und geht raus, sobald ihr Daemon sich wieder verbindet. Ein dritter Peer, der immer läuft, hilft hier: ein Heimserver oder ein VPS für $5 im Monat, auf dem derselbe kostenlose Build läuft.',
+          a: 'Dann wird nichts übertragen, bis sie wieder online ist, wie bei jedem Peer-to-Peer-Protokoll. Dein Commit bleibt auf deinem Rechner und geht raus, sobald ihr Daemon sich wieder verbindet. Ein dritter Peer, der immer läuft, hilft hier: ein Heimserver oder ein VPS für 5 Dollar im Monat, auf dem derselbe kostenlose Build läuft.',
         },
       ].map(({ q, a }) => (
         <details class="section-reveal group p-5 rounded-2xl bg-surface border border-border hover:border-accent/30 transition-colors">

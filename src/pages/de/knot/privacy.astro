@@ -1,0 +1,156 @@
+---
+import Base   from '../../../layouts/Base.astro';
+import Nav    from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import '../../../styles/global.css';
+
+// German twin of src/pages/knot/privacy.astro. The English version is binding.
+// Change both together; the facts behind every sentence are listed in the
+// English file's frontmatter.
+const lastUpdated = '30. September 2026';
+const contactEmail = 'mail.roshankumargupta@gmail.com';
+
+const sections = [
+  {
+    n: '1',
+    title: 'Wer Knot macht',
+    body: `Knot wird von einem einzelnen Entwickler in Würzburg geschrieben und gepflegt, der unter dem Namen PointBreakLab (pointbreaklab.com) veröffentlicht.\n\nPointBreakLab bekommt die Daten, mit denen du in Knot arbeitest, nicht. Sie bleiben auf deinen Rechnern und auf den Rechnern der Leute, mit denen du ein Projekt teilst. Was mit ihnen passiert, entscheidest also du oder das Team oder Unternehmen, für das du Knot nutzt.\n\nKontakt: ${contactEmail}`,
+  },
+  {
+    n: '2',
+    title: 'Was PointBreakLab erhebt',
+    body: `Nichts.\n\nKnot hat kein Konto und keine Registrierung. Es enthält keine Analytics, keinen Crash-Reporter und keine Update-Prüfung, und es baut nie eine Verbindung zu einem Server von PointBreakLab auf, weil es keinen gibt.\n\nDu lädst Knot über GitHub Releases herunter; für den Download selbst gilt die Datenschutzerklärung von GitHub. Die Website pointbreaklab.com verwendet kein Analyse-Skript.`,
+  },
+  {
+    n: '3',
+    title: 'Was auf deinem Rechner bleibt',
+    body: `Das hier verlässt deinen Computer nur, wenn du es selbst kopierst:`,
+    table: [
+      ['Identität',      'Der Ed25519-Schlüssel, der dein Gerät ausweist, erzeugt beim ersten Start. Du kannst ihn mit einer Passphrase schützen (Argon2id und XChaCha20-Poly1305).'],
+      ['Einstellungen',  '~/Library/Application Support/knot unter macOS; ~/.config/knot und ~/.local/share/knot unter Linux.'],
+      ['.knot-Ordner',   'Das Ereignisprotokoll jedes Projekts und die Aufzeichnungen von Agent-Sessions, einschließlich des Prompts, den ein Coding-Agent bekommen hat, wenn du den Hook von Knot installiert hast. Nicht Teil der Commits.'],
+      ['Logs',           'Das Log des Daemons, nur auf deinem Rechner.'],
+      ['API-Schlüssel',  'Schlüssel für einen Cloud-KI-Anbieter, den du selbst hinzufügst. Sie liegen im Schlüsselbund des Betriebssystems, nie in einer Einstellungsdatei.'],
+    ],
+  },
+  {
+    n: '4',
+    title: 'Was an deine Peers geht',
+    body: `Knot sendet Daten nur an Geräte, mit denen du gekoppelt bist, und an Leute, denen du Zugriff auf ein Projekt gegeben hast. Auf dem Weg sind sie verschlüsselt (Tor-Onion-Dienste oder, im eigenen Netz, das Noise-Protokoll von libp2p). Das bekommen sie:\n\n• Die Dateien und Commits der Projekte, die du mit ihnen teilst, und, wenn die Spiegelung eingeschaltet ist, deine Änderungen, sobald du speicherst.\n\n• Mit jedem Commit den Autorennamen (und die E-Mail-Adresse, falls du eine eingetragen hast) aus deinen Knot-Einstellungen, dazu eine Gerätekennung aus dem Anmeldenamen deines Computers, seinem Betriebssystem und einem kurzen Fingerabdruck deines öffentlichen Schlüssels, zum Beispiel „alex@macos (pubkey:1a2b3c4d5e6f)“. Das wird dauerhaft Teil der Projekthistorie, in jeder Kopie.\n\n• Chatnachrichten, Sprachnachrichten und Dateien, die du schickst, und die Projekt-Memory-Datei (knot.md).\n\n• Ob du online bist, an welchen Dateien du gerade arbeitest und den Spitznamen, den du deinem Gerät gegeben hast.\n\nWas ein Peer einmal bekommen hat, hat er als eigene Kopie. Wenn du ihm den Zugriff entziehst, stoppt das die weitere Synchronisation; zurückholen kann es nichts.`,
+  },
+  {
+    n: '5',
+    title: 'Das Netzwerk',
+    body: `Außer zu deinen Peers baut Knot nur diese Verbindungen auf:`,
+    table: [
+      ['Tor',            'In der installierten App standardmäßig eingeschaltet. Das mitgelieferte Tor verbindet sich mit dem Tor-Netzwerk und veröffentlicht eine Onion-Adresse für dein Gerät. Die Tor-Relays, über die du dich verbindest, sehen deine IP-Adresse, aber nicht deine Inhalte, und deine Peers sehen deine IP-Adresse nicht. Für diese Verbindung gilt die Datenschutzerklärung des Tor Project (torproject.org).'],
+      ['LAN-Präsenz',    'Knot gibt im lokalen Netz den Spitznamen deines Geräts, deinen öffentlichen Schlüssel, deine Onion-Adresse und die Knot-Version bekannt, aber nur in Netzen, die du als vertrauenswürdig markiert hast, und nie im Offline-Modus.'],
+      ['mDNS',           'Die Peer-to-Peer-Schicht meldet sich außerdem per mDNS, und zwar derzeit in jedem lokalen Netz, auch in nicht vertrauenswürdigen: mit einer technischen Peer-ID, die aus deinem Geräteschlüssel abgeleitet ist, und den lokalen Adressen, auf denen Knot lauscht. Jeder im selben Netz kann das sehen. Mit der Umgebungsvariable KNOT_DISABLE_MDNS=1 schaltest du es ab.'],
+      ['Koordinator',    'Nur wenn du einen einrichtest, deinen eigenen oder den von jemand anderem. Er erfährt, welche Projekt-IDs du bereitstellst, deine Peer-ID und die Adressen, unter denen du erreichbar bist, nie deinen Code. Verlangt der Koordinator einer Organisation Single Sign-on, meldest du dich bei dem Identitätsanbieter an, den diese Organisation gewählt hat.'],
+      ['Relays',         'Nur wenn du eines nutzt. Ein Relay leitet verschlüsselte Bytes zwischen Peers weiter und sieht, welche Peers verbunden sind, aber nicht, was sie senden.'],
+    ],
+  },
+  {
+    n: '6',
+    title: 'KI-Funktionen',
+    body: `Keine davon ist standardmäßig eingeschaltet.`,
+    table: [
+      ['Knot AI',        'Schreibt Commit-Messages und Zusammenfassungen mit einem Modellserver auf deinem eigenen Rechner oder in deinem Netz, zum Beispiel Ollama oder llama-server. Der Diff verlässt diesen Rechner nicht.'],
+      ['Knot Ask',       'Nutzt ein Cloud-Modell nur, wenn du selbst einen Anbieter hinzufügst (zum Beispiel Anthropic, OpenAI oder eine kompatible API). Deine Frage und der Code, nach dem du fragst, gehen dann an diesen Anbieter, zu dessen Bedingungen.'],
+      ['Coding-Agents',  'Werkzeuge wie Claude Code oder Cursor, die du über den MCP-Server von Knot anbindest, sprechen lokal mit Knot. Was diese Werkzeuge an ihre eigenen Anbieter senden, hängt vom Werkzeug und seinen Einstellungen ab.'],
+    ],
+  },
+  {
+    n: '7',
+    title: 'VS-Code-Erweiterung',
+    body: `Die Knot-Erweiterung wird über den Visual Studio Marketplace von Microsoft installiert; für den Marketplace und für VS Code selbst gelten die Bedingungen von Microsoft. Die Erweiterung enthält keine Telemetrie-Bibliothek und spricht nur mit dem Knot-Daemon auf deinem eigenen Rechner. Ihr Hinweis „Download Knot“ öffnet pointbreaklab.com/knot.`,
+  },
+  {
+    n: '8',
+    title: 'Aufbewahren und Löschen',
+    body: `Alles liegt auf deinen Rechnern, also löschst du es selbst:\n\n• Lösch einen Projektordner, um dieses Projekt von deinem Computer zu entfernen.\n\n• Deinstalliere Knot und lösch seine Ordner (siehe Abschnitt 3), um deine Identität, Einstellungen und Logs zu entfernen.\n\n• Kopien, die deine Peers schon bekommen haben, bleiben bei ihnen. Bitte sie, ihre zu löschen.\n\nPointBreakLab speichert nichts über dich, hier gibt es also nichts zu löschen.`,
+  },
+  {
+    n: '9',
+    title: 'Sicherheit',
+    body: `Der Verkehr zwischen Peers ist verschlüsselt, und deinen Identitätsschlüssel kannst du mit einer Passphrase schützen. Knot ist Pre-Alpha und wurde noch von niemandem außerhalb geprüft.\n\nEine Sicherheitsmeldung erreicht eine einzelne Person unter ${contactEmail}. Bitte schreib, bevor du etwas öffentlich machst, und rechne mit einer langsamen Antwort. Eine Bug-Bounty gibt es nicht.`,
+  },
+  {
+    n: '10',
+    title: 'Deine Rechte',
+    body: `Nach der DSGVO hast du das Recht auf Auskunft, Berichtigung, Löschung und Datenübertragbarkeit. PointBreakLab speichert durch Knot keine personenbezogenen Daten über dich, es gibt hier also nichts, worauf du diese Rechte anwenden könntest. Wenn du Knot für ein Team oder Unternehmen nutzt, ist diese Organisation für die Daten verantwortlich, die in ihren Projekten geteilt werden.`,
+  },
+  {
+    n: '11',
+    title: 'Änderungen dieser Erklärung',
+    body: `Wenn Knot anfängt, etwas Neues von deinem Rechner zu senden, wird diese Seite aktualisiert und das Datum oben ändert sich.`,
+  },
+];
+---
+
+<Base
+  title="Knot Datenschutzerklärung"
+  description="Knot hat keinen Server und kein Konto. Deine Repositorys bleiben auf deinen Rechnern und gehen nur verschlüsselt an die Peers, mit denen du dich koppelst. An PointBreakLab wird nichts gemeldet."
+>
+  <Nav />
+
+  <main class="pt-32 pb-24 px-6">
+    <article class="max-w-3xl mx-auto">
+
+      <header class="section-reveal mb-12 text-center">
+        <span class="inline-block px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono tracking-wider mb-5">
+          Zuletzt aktualisiert: {lastUpdated}
+        </span>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black hyphens-auto break-words text-primary mb-5">Datenschutzerklärung Knot</h1>
+        <p class="text-secondary text-sm leading-relaxed max-w-xl mx-auto mb-5">
+          Diese Übersetzung dient nur dem besseren Verständnis. Rechtlich verbindlich ist die <a href="/knot/privacy/" lang="en" hreflang="en" class="text-accent hover:underline">englische Fassung</a>.
+        </p>
+        <p class="text-secondary leading-relaxed max-w-xl mx-auto">
+          Es gibt keinen Knot-Server. Dein Code bleibt auf deinen Rechnern und geht nur an die Leute, mit denen du dich koppelst, und das verschlüsselt.
+        </p>
+      </header>
+
+      <div class="section-reveal flex items-start gap-3 p-5 rounded-2xl bg-accent/5 border border-accent/30 mb-16">
+        <svg class="shrink-0 mt-0.5 text-accent" width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M11 2L4 5v6c0 4 3 7.5 7 9 4-1.5 7-5 7-9V5l-7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M8 11l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p class="text-secondary text-sm leading-relaxed">
+          Knot meldet nichts an PointBreakLab. Was deinen Rechner verlässt, geht an deine eigenen Peers, an das Tor-Netzwerk oder an einen Dienst, den du selbst eingerichtet hast.
+        </p>
+      </div>
+
+      {sections.map(({ n, title, body, table }) => (
+        <section class="section-reveal mb-12">
+          <div class="flex items-baseline gap-3 mb-4">
+            <span class="shrink-0 w-7 h-7 rounded-full bg-accent text-bg flex items-center justify-center text-xs font-bold font-mono">{n}</span>
+            <h2 class="text-xl md:text-2xl font-bold text-primary">{title}</h2>
+          </div>
+          <div class="text-secondary text-sm md:text-[0.95rem] leading-relaxed whitespace-pre-line pl-10">
+            {body}
+          </div>
+
+          {table && (
+            <div class="pl-10 mt-5">
+              <div class="rounded-xl border border-border bg-surface overflow-hidden text-sm">
+                {table.map(([k, v], i) => (
+                  <div class={`flex flex-col sm:flex-row gap-1 sm:gap-4 px-4 py-3 ${i < table.length - 1 ? 'border-b border-border' : ''}`}>
+                    <span class="shrink-0 sm:w-32 text-hint font-mono text-xs">{k}</span>
+                    <span class="text-secondary text-xs md:text-sm leading-relaxed">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      ))}
+
+      <div class="section-reveal text-center pt-10 border-t border-border">
+        <p class="text-hint text-xs">Diese Erklärung gilt nur für Knot. Siehe auch die Datenschutzerklärungen von <a href="/de/privacy/" class="text-accent hover:underline">Whispr</a> und <a href="/de/heart/privacy/" class="text-accent hover:underline">Heart</a>.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <Footer />
+</Base>

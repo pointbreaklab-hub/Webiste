@@ -24,7 +24,7 @@ const sections = [
     // Mesh relay measured by the owner, n=2: under 5 km in ~1 h and 1 h 25 min.
     // The HOP COUNT on those runs is still unmeasured.
     title: 'Wie eine Nachricht übertragen wird',
-    body: `Nachrichten werden über drei Kanäle direkt zwischen Geräten übertragen:\n\n• Lokales WLAN (LAN): direktes HTTP zwischen Geräten im selben Netzwerk. Jede Nachricht steckt dabei in einer ECIES-Verschlüsselung auf Anwendungsebene, sodass ihr Inhalt für alles andere in diesem Netzwerk unsichtbar ist.\n\n• Bluetooth-LE-Mesh: Weiterleitung über mehrere Hops zwischen Geräten in der Nähe, für Nachrichten ohne Internetverbindung. Die Nutzdaten werden Ende-zu-Ende-verschlüsselt, bevor sie ins Mesh gelangen. Von den drei Kanälen ist dies der unzuverlässigste: Durch Wände hindurch und wenn Menschen sich bewegen, kann ein Hop einfach ausfallen.\n\n• Tor Hidden Services: über das Internet, via das Anonymisierungsnetzwerk Tor. Deine IP-Adresse wird deinem Kontakt nicht offengelegt.\n\nAlle drei Kanäle wenden Ende-zu-Ende-Verschlüsselung mit dem Signal Protocol an (Schlüsselvereinbarung: X3DH, Algorithmus: Double Ratchet), bevor irgendwelche Daten dein Gerät verlassen. PointBreakLab kann deine Nachrichten nicht entschlüsseln, auch dann nicht, wenn es rechtlich dazu gezwungen wird.`,
+    body: `Nachrichten werden über drei Kanäle direkt zwischen Geräten übertragen:\n\n• Lokales WLAN (LAN): direktes HTTP zwischen Geräten im selben Netzwerk. Jede Nachricht steckt dabei in einer ECIES-Verschlüsselung auf Anwendungsebene, sodass ihr Inhalt für alles andere in diesem Netzwerk unsichtbar ist.\n\n• Bluetooth-LE-Mesh: Weiterleitung über mehrere Hops zwischen Geräten in der Nähe, für Nachrichten ohne Internetverbindung. Die Nutzdaten werden Ende-zu-Ende-verschlüsselt, bevor sie ins Mesh gelangen. Von den drei Kanälen ist dies der unzuverlässigste: Durch Wände hindurch und wenn Menschen sich bewegen, kann ein Hop einfach ausfallen.\n\n• Tor-Onion-Dienste: über das Internet, durch das Anonymisierungsnetzwerk Tor. Deine IP-Adresse wird deinem Kontakt nicht offengelegt.\n\nAlle drei Kanäle wenden Ende-zu-Ende-Verschlüsselung mit dem Signal Protocol an (Schlüsselvereinbarung: X3DH, Algorithmus: Double Ratchet), bevor Daten dein Gerät verlassen. PointBreakLab kann deine Nachrichten nicht entschlüsseln, auch dann nicht, wenn es rechtlich dazu gezwungen wird.`,
   },
   {
     n: '4',
@@ -43,13 +43,13 @@ const sections = [
   {
     n: '6',
     title: 'Geräteberechtigungen',
-    body: `Whispr fordert die folgenden Geräteberechtigungen aus den unten genannten Gründen an.\n\nDie Ausnahme von der Akku-Optimierung braucht die meiste Begründung: Android drosselt den Tor-Dienst, sobald der Bildschirm ausgeht, und Whispr hat keinen Server, der eine Nachricht in der Zwischenzeit vorhalten könnte.`,
+    body: `Whispr fordert die folgenden Geräteberechtigungen aus den unten genannten Gründen an.\n\nErklärungsbedürftig ist vor allem die Ausnahme von der Akku-Optimierung: Android drosselt den Tor-Dienst, sobald der Bildschirm ausgeht, und Whispr hat keinen Server, der eine Nachricht in der Zwischenzeit vorhalten könnte.`,
     table: [
       ['Bluetooth',        'Whispr-Kontakte in der Nähe finden und Nachrichten ohne Internet über das BLE-Mesh austauschen.'],
       ['Kamera',           'QR-Codes scannen, um Kontakte hinzuzufügen oder dein Konto wiederherzustellen. Es werden keine Fotos aufgenommen oder gespeichert.'],
       ['Mikrofon',         'Verschlüsselte Sprachnachrichten aufnehmen. Audio wird vor dem Senden lokal verschlüsselt und nie an uns übertragen.'],
       ['Lokales Netzwerk', 'Whispr-Peers im selben WLAN finden, für direkte Nachrichten über das LAN.'],
-      ['Mitteilungen',     'Hinweise auf eingehende Nachrichten lokal anzeigen. Kein Mitteilungsinhalt läuft über einen externen Server.'],
+      ['Benachrichti­gungen', 'Hinweise auf eingehende Nachrichten lokal anzeigen. Kein Benachrichtigungsinhalt läuft über einen externen Server.'],
       ['Akku-Opt.',        'Verhindern, dass Android den Tor-Dienst drosselt, wenn der Bildschirm aus ist.'],
     ],
   },
@@ -66,12 +66,12 @@ const sections = [
   {
     n: '9',
     title: 'Deine Rechte (DSGVO / CCPA)',
-    body: `Nach der DSGVO, dem CCPA und vergleichbaren Gesetzen hast du Rechte in Bezug auf deine personenbezogenen Daten, darunter Auskunft, Berichtigung, Löschung und Datenübertragbarkeit.\n\nPointBreakLab hält keine personenbezogenen Daten über dich vor. Deshalb gibt es auf Betreiberseite nichts, worauf du zugreifen oder was du berichtigen, exportieren oder löschen könntest. Alle solchen Daten liegen in der verschlüsselten Datenbank auf deinem Gerät, wo du direkt darauf zugreifen kannst.\n\nWenn du Fragen hast, schreib uns an ${contactEmail}.`,
+    body: `Nach der DSGVO, dem CCPA und vergleichbaren Gesetzen hast du Rechte in Bezug auf deine personenbezogenen Daten, darunter das Recht auf Auskunft, Berichtigung, Löschung und Datenübertragbarkeit.\n\nPointBreakLab speichert keine personenbezogenen Daten über dich. Deshalb gibt es auf Betreiberseite nichts, worauf du zugreifen oder was du berichtigen, exportieren oder löschen könntest. Alle solchen Daten liegen in der verschlüsselten Datenbank auf deinem Gerät, wo du direkt darauf zugreifen kannst.\n\nWenn du Fragen hast, schreib uns an ${contactEmail}.`,
   },
   {
     n: '10',
     title: 'Sicherheit',
-    body: `• Ende-zu-Ende-Verschlüsselung: X3DH + Double Ratchet (Signal Protocol), AES-256-GCM pro Nachricht.\n\n• Verschlüsselung der gespeicherten Daten: SQLCipher AES-256, Verschlüsselung der gesamten Datenbank auf Mobilgeräten.\n\n• Schlüsselschutz: private Schlüssel liegen in Android Keystore / iOS Keychain, mit hardwaregestütztem Schutz.\n\n• Transport: ECIES-Verschlüsselung auf Anwendungsebene im LAN; Tor Hidden Services für den Transport über das Internet; BLE-Mesh über mehrere Hops für die Weiterleitung ohne Internet.\n\nKein Sicherheitssystem ist perfekt. Whispr wird im vorliegenden Zustand („as is“) und ohne Gewährleistung bereitgestellt. Empfehlungen für den sicheren Umgang findest du im Security Guide in der App.`,
+    body: `• Ende-zu-Ende-Verschlüsselung: X3DH + Double Ratchet (Signal Protocol), AES-256-GCM pro Nachricht.\n\n• Verschlüsselung der gespeicherten Daten: SQLCipher AES-256, Verschlüsselung der gesamten Datenbank auf Mobilgeräten.\n\n• Schlüsselschutz: private Schlüssel liegen im Android Keystore bzw. in der iOS Keychain, mit hardwaregestütztem Schutz.\n\n• Transport: ECIES-Verschlüsselung auf Anwendungsebene im LAN; Tor-Onion-Dienste für den Transport über das Internet; BLE-Mesh über mehrere Hops für die Weiterleitung ohne Internet.\n\nKein Sicherheitssystem ist perfekt. Whispr wird im vorliegenden Zustand („as is“) und ohne Gewährleistung bereitgestellt. Empfehlungen für den sicheren Umgang findest du im Security Guide in der App.`,
   },
   {
     n: '11',
@@ -111,9 +111,9 @@ const dataTable = [
         <span class="inline-block px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono tracking-wider mb-5">
           Zuletzt aktualisiert: {lastUpdated}
         </span>
-        <h1 class="text-4xl md:text-5xl font-black text-primary mb-5">Datenschutzerklärung für Whispr</h1>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black hyphens-auto break-words text-primary mb-5">Datenschutzerklärung für Whispr</h1>
         <p class="text-secondary text-sm leading-relaxed max-w-xl mx-auto mb-5">
-          Dies ist eine Übersetzung zur besseren Verständlichkeit. Rechtlich verbindlich ist die <a href="/privacy/" lang="en" hreflang="en" class="text-accent hover:underline">englische Fassung</a>.
+          Diese Übersetzung dient nur dem besseren Verständnis. Rechtlich verbindlich ist die <a href="/privacy/" lang="en" hreflang="en" class="text-accent hover:underline">englische Fassung</a>.
         </p>
         <p class="text-secondary leading-relaxed max-w-xl mx-auto">
           Es gibt keinen Whispr-Server. Nachrichten gehen per WLAN, Bluetooth oder Tor von Gerät zu Gerät, und die Schlüssel, mit denen man sie entschlüsseln könnte, verlassen dein Handy nie.
@@ -127,7 +127,7 @@ const dataTable = [
           <path d="M8 11l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <p class="text-secondary text-sm leading-relaxed">
-          Die einzige Komponente, die von sich aus das Internet erreicht, ist der mitgelieferte Tor-Daemon, und er erreicht das Tor-Netzwerk, nie eine Adresse von PointBreakLab.
+          Die einzige Komponente, die von sich aus ins Internet geht, ist der mitgelieferte Tor-Daemon, und der verbindet sich mit dem Tor-Netzwerk, nie mit einer Adresse von PointBreakLab.
         </p>
       </div>
 
