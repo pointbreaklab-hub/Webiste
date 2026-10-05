@@ -71,7 +71,7 @@ const faqs: { q: string; a: string; href?: { url: string; text: string } }[] = [
   },
   {
     q: 'Verlassen meine Daten das Handy?',
-    a: 'Nur das, was du selbst verschickst. Jeder Wert wird auf dem Handy berechnet, und Heart hat kein Konto, keinen Server und keine Telemetrie. Die App lädt Kartenkacheln von OpenStreetMap und fragt höchstens alle 12 Stunden bei pointbreaklab.com nach einer neuen Version (eine kleine Versionsdatei; über dich wird dabei nichts gesendet, und du kannst es abschalten). Google-Drive-Backup, der Download des Coach-Modells und die Synchronisierung von Handy zu Handy über WLAN laufen nur, wenn du sie einschaltest.',
+    a: 'Nur das, was du selbst verschickst. Jeder Wert wird auf dem Handy berechnet, und Heart hat kein Konto, keinen Server und keine Telemetrie. Die App lädt Kartenkacheln von OpenStreetMap und fragt höchstens alle 12 Stunden bei pointbreaklab.com nach einer neuen Version (eine kleine Versionsdatei; über dich wird dabei nichts gesendet, und du kannst es abschalten). Google-Drive-Backup und die Synchronisierung von Handy zu Handy über WLAN laufen nur, wenn du sie einschaltest.',
   },
   {
     q: 'Was passiert mit meinen Daten, wenn ich die App deinstalliere oder das Handy wechsle?',
@@ -586,7 +586,7 @@ const faqJsonLd = {
             ['Konto',      'Keins. Es gibt nichts, wofür du dich registrieren müsstest.'],
             ['Server',     'Keiner. Es gibt keinen Heart-Server, an den Daten gehen könnten.'],
             ['Telemetrie', 'Keine. Keine Analytics und keine Werbung.'],
-            ['Netzwerk',   'OpenStreetMap-Kartenkacheln und höchstens alle 12 Stunden eine Abfrage bei pointbreaklab.com nach einer neuen Heart-Version (eine kleine Versionsdatei; in den Einstellungen abschaltbar). Nur wenn du sie einschaltest: Google-Drive-Backup, der Download des Coach-Modells (~806 MB, von Hugging Face) und die Synchronisierung von Handy zu Handy über dein eigenes WLAN.'],
+            ['Netzwerk',   'OpenStreetMap-Kartenkacheln und höchstens alle 12 Stunden eine Abfrage bei pointbreaklab.com nach einer neuen Heart-Version (eine kleine Versionsdatei; in den Einstellungen abschaltbar). Nur wenn du sie einschaltest: Google-Drive-Backup und die Synchronisierung von Handy zu Handy über dein eigenes WLAN.'],
             ['Backups',    'Werden nach Download/Heart auf dem Handy geschrieben. Dieser Ordner bleibt erhalten, wenn Heart deinstalliert wird. Nach einer Neuinstallation wählst du diesen Ordner in Heart aus. Alles, was neuer ist als das letzte Backup, ist verloren.'],
             ['Mathematik', 'Veröffentlichte Formeln, jede mit ihrer Quelle (Liste unten).'],
           ].map(([k, v]) => (
@@ -649,7 +649,7 @@ const faqJsonLd = {
               ['Bereitschaft',     'Lineare exponentielle Glättung nach Holt · Holt · ONR memo 52 · 1957'],
               ['Rhythmus-Hinweis', 'Schwellenwerte auf 4 Merkmalen · pNN50 + CoV(RR) + RMSSD + RR-Spannweite'],
               ['Speicher',         'SharedPreferences + JSONL · App-Sandbox · Backups in Download/Heart'],
-              ['Netzwerk',         'OpenStreetMap-Kacheln · Update-Prüfung (pointbreaklab.com, ≤ alle 12 h) · nur wenn eingeschaltet: Google-Drive-Backup, Download des Coach-Modells, Handy-Sync über WLAN'],
+              ['Netzwerk',         'OpenStreetMap-Kacheln · Update-Prüfung (pointbreaklab.com, ≤ alle 12 h) · nur wenn eingeschaltet: Google-Drive-Backup, Handy-Sync über WLAN'],
               ['Server',           'Keiner'],
             ].map(([key, val]) => (
               <div class="flex flex-col sm:flex-row sm:gap-4 sm:items-baseline font-mono">

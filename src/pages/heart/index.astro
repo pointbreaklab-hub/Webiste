@@ -31,9 +31,9 @@ import '../../styles/global.css';
 
 // Keep this EXACT: GitHub Releases auto-resolves "latest" to the newest asset.
 const APK_URL = 'https://github.com/pointbreaklab-hub/Heart/releases/latest/download/heart-android.apk';
-const VERSION = '1.0.22';
-const APK_SHA256 = 'd56b58f6684e2144b7c687e0d183b93737c494500a9585ebf4aa2f70f281f958';
-const APK_SIZE = '~82 MB';
+const VERSION = '1.0.23';
+const APK_SHA256 = '60a9642360d8de25f5cd137db0e325a76d69f948137f75880d5fc6221eaa4cc4';
+const APK_SIZE = '~103 MB';
 
 // Shared keyboard focus ring (the site had none on this page's controls).
 const focusRing = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg';
@@ -84,7 +84,7 @@ const faqs: { q: string; a: string; href?: { url: string; text: string } }[] = [
   },
   {
     q: 'Does any of my data leave my phone?',
-    a: 'Only what you choose to send. Every score is computed on the phone, and Heart has no account, server or telemetry. The app fetches OpenStreetMap map tiles and checks pointbreaklab.com for a new version at most every 12 hours (a small version file; nothing about you is sent, and you can switch it off). Google Drive backup, the Coach model download and phone-to-phone sync over Wi-Fi only run if you turn them on.',
+    a: 'Only what you choose to send. Every score is computed on the phone, and Heart has no account, server or telemetry. The app fetches OpenStreetMap map tiles and checks pointbreaklab.com for a new version at most every 12 hours (a small version file; nothing about you is sent, and you can switch it off). Google Drive backup and phone-to-phone sync over Wi-Fi only run if you turn them on.',
   },
   {
     q: 'What happens to my data if I uninstall or change phones?',
@@ -624,7 +624,7 @@ const faqJsonLd = {
             ['Account',   'None. There is nothing to sign up for.'],
             ['Server',    'None. There is no Heart server to send data to.'],
             ['Telemetry', 'None. No analytics and no ads.'],
-            ['Network',   'OpenStreetMap map tiles, and a check of pointbreaklab.com for a new Heart version at most every 12 hours (a small version file; switch it off in Settings). Only if you turn them on: Google Drive backup, the Coach model download (~806 MB, from Hugging Face), and phone-to-phone sync over your own Wi-Fi.'],
+            ['Network',   'OpenStreetMap map tiles, and a check of pointbreaklab.com for a new Heart version at most every 12 hours (a small version file; switch it off in Settings). Only if you turn them on: Google Drive backup and phone-to-phone sync over your own Wi-Fi.'],
             ['Backups',   'Written to Download/Heart on the phone, which is kept when Heart is uninstalled. After a reinstall you point Heart at that folder. Anything newer than the last backup is lost.'],
             ['Maths',     'Published formulas, each with its source (list below).'],
           ].map(([k, v]) => (
@@ -689,7 +689,7 @@ const faqJsonLd = {
               ['Readiness',     'Holt linear exponential smoothing · Holt · ONR memo 52 · 1957'],
               ['Rhythm hint',   '4-feature thresholding · pNN50 + CoV(RR) + RMSSD + RR range'],
               ['Storage',       'SharedPreferences + JSONL · app sandbox · backups in Download/Heart'],
-              ['Network',       'OpenStreetMap tiles · update check (pointbreaklab.com, ≤ every 12 h) · opt-in: Google Drive backup, Coach model download, Wi-Fi phone sync'],
+              ['Network',       'OpenStreetMap tiles · update check (pointbreaklab.com, ≤ every 12 h) · opt-in: Google Drive backup, Wi-Fi phone sync'],
               ['Server',        'None'],
             ].map(([key, val]) => (
               <div class="flex flex-col sm:flex-row sm:gap-4 sm:items-baseline font-mono">
